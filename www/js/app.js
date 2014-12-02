@@ -48,11 +48,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
     })
 
-    .state('tab.friends', {
-        url: '/friends',
+    .state('tab.play-screen', {
+        url: '/play-screen',
         views: {
-            'tab-friends': {
-                templateUrl: 'templates/tab-friends.html',
+            'play-screen': {
+                templateUrl: 'templates/play-screen.html',
                 controller: 'FriendsCtrl'
             }
         }
@@ -67,11 +67,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             }
         })
 
-    .state('tab.account', {
-        url: '/account',
+    .state('tab.settings', {
+        url: '/settings',
         views: {
-            'tab-account': {
-                templateUrl: 'templates/tab-account.html',
+            'tab-settings': {
+                templateUrl: 'templates/tab-settings.html',
                 controller: 'AccountCtrl'
             }
         }
