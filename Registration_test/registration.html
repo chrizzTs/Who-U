@@ -11,8 +11,8 @@
         <form ng-controller="regCtrl" name="regForm" novalidate>
             <p>
                 <input type="text" id="user" ng-model="user" required>
-                <span style="color:red" ng-show="regForm.user.$dirty && regForm.user.$invalid">
-                    <span ng-show="regForm.user.$error.required">Username is required.</span>
+                <span style="color:red" ng-show="showWarning">
+                    <span>Username is required.</span>
                 </span>
             </p>
 

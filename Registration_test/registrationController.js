@@ -9,5 +9,7 @@ angular.module('WhoU', [])
         $scope.password1 = '1111';
         $scope.password2 = '1112';
         $scope.EMail = 'email@example.com';
-
+        $scope.$watch('user', function () {
+            $scope.showWarning = $scope.user ? false : true;
+        })
     });
