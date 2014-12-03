@@ -1,0 +1,41 @@
+<html lang="en" ng-app="WhoU">
+
+<head>
+    <title>Registrierung</title>
+    <script src="Angular/angular.js"></script>
+    <script src="registrationController.js"></script>
+</head>
+
+<body>
+    <div>
+        <form ng-controller="regCtrl" name="regForm" novalidate>
+            <p>
+                <input type="text" id="user" ng-model="user" required>
+
+                <span style="color:red" ng-show="regForm.user.$dirty && regForm.user.$invalid">
+                    <span ng-show="regForm.user.$error.required">Username is required.</span>
+                </span>
+            </p>
+
+            <p>
+                <input type="password" id="password1" ng-model="password1" required>
+            </p>
+
+            <p>
+                <input type="password" id="password2" ng-model="password2" required>
+            </p>
+
+            <p>
+                <input type="email" id="EMail" ng-model="EMail" required>
+            </p>
+            <br>
+            <input type="submit" value="Send">
+            <br>
+            <tt>{{2+4+regForm.user}}</tt>
+        </form>
+    </div>
+
+    <br>
+</body>
+
+</html>
