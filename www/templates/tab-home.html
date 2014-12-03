@@ -1,5 +1,18 @@
-<ion-view title="Home">
+<ion-view title="Who-U">
     <ion-content class="padding">
-        <h1>Home</h1>
+
+        <a class="item item-thumbnail-left" href="#">
+            <img src="cover.png">
+            <h2>{{username}}</h2>
+            <p>Points: {{points}}</p>
+        </a>
+
+        <button ng-click="click">Toggle</button>
+
+        <button class="button" ng-click=click() ng-disabled={{buttonDisable}}>
+            <i class="{{buttonType}}"></i> Loading...
+        </button>
+
+        <br>
     </ion-content>
 </ion-view>
