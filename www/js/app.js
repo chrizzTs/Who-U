@@ -57,11 +57,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             }
         }
     })
-        .state('tab.friend-detail', {
-            url: '/friend/:friendId',
+        .state('tab.chat-master', {
+            url: '/chat-master',
             views: {
-                'tab-friends': {
-                    templateUrl: 'templates/friend-detail.html',
+                'tab-chat-master': {
+                    templateUrl: 'templates/tab-chat-master.html',
                     controller: 'FriendDetailCtrl'
                 }
             }

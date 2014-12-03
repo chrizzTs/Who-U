@@ -12,4 +12,9 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope) {
-});
+})
+
+.controller('PlayCtrl', function($scope) {
+    $scope.name = 'Megan';
+});   
+           
