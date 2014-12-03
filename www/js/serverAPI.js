@@ -7,8 +7,6 @@ const host = 'http://localhost'
 const port = 12345
 const newUserPath = '/api/newUser'
 
-var post_options
-
 function createNewUser(username, password, mail) {
     var user = {
         'username': username,
