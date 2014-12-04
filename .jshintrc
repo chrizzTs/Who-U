@@ -17,10 +17,5 @@
   "unused": true,
   "strict": true,
   "trailing": true,
-  "smarttabs": true,
-  "globals": {
-    "angular": false,
-    "cordova": false,
-    "StatusBar": false
-  }
+  "smarttabs": true
 }

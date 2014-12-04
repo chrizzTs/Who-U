@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngAnimate'])
 
 .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -43,7 +43,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         views: {
             'tab-home': {
                 templateUrl: 'templates/tab-home.html',
-                controller: 'DashCtrl'
+                controller: 'HomeCtrl'
             }
         }
     })
@@ -57,11 +57,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             }
         }
     })
-        .state('tab.friend-detail', {
-            url: '/friend/:friendId',
+        .state('tab.chat-master', {
+            url: '/chat-master',
             views: {
-                'tab-friends': {
-                    templateUrl: 'templates/friend-detail.html',
+                'tab-chat-master': {
+                    templateUrl: 'templates/tab-chat-master.html',
                     controller: 'FriendDetailCtrl'
                 }
             }
