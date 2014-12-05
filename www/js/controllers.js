@@ -5,7 +5,8 @@ angular.module('starter.controllers', [])
     $scope.buttonType = "icon ion-search",
     $scope.buttonDisable = false,
     $scope.click = function () {
-        $scope.buttonDisable = true;
+        $scope.buttonDisable = true
+        $scope.buttonType = "icon ion-loading-a"
     };
 
 })

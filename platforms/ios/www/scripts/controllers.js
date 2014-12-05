@@ -2,7 +2,20 @@
 angular.module('WhoU.controllers', [])
 
 .controller('HomeCtrl', function ($scope) {
-    $scope.username = "Chris"
+    $scope.names = [
+        {
+            name: 'Jani',
+            country: 'Norway'
+        },
+        {
+            name: 'Hege',
+            country: 'Sweden'
+        },
+        {
+            name: 'Kai',
+            country: 'Denmark'
+        }
+    ];
 })
 
 .controller('FriendsCtrl', function ($scope, Friends) {
