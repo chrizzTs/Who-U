@@ -36,6 +36,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         templateUrl: "templates/tabs.html"
     })
 
+    .state('login', {
+        url: "/login",
+        templateUrl: "templates/login.html"
+    })
+
     // Each tab has its own nav history stack:
 
     .state('tab.home', {
@@ -43,7 +48,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         views: {
             'tab-home': {
                 templateUrl: 'templates/tab-home.html',
-                controller: 'HomeCtrl'
+                controller: 'homeCtrl'
             }
         }
     })
@@ -51,9 +56,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     .state('tab.play-screen', {
         url: '/play-screen',
         views: {
-            'play-screen': {
+            'tab-home': {
                 templateUrl: 'templates/play-screen.html',
-                controller: 'PlayCtrl'
+                controller: 'playCtrl'
             }
         }
     })
@@ -62,22 +67,32 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             views: {
                 'tab-chat-master': {
                     templateUrl: 'templates/tab-chat-master.html',
-                    controller: 'FriendDetailCtrl'
+                    controller: 'chatMasterCtrl'
                 }
             }
         })
+
+    .state('tab.coins', {
+        url: '/coins',
+        views: {
+            'tab-coins': {
+                templateUrl: 'templates/tab-coins.html',
+                controller: 'chatMasterCtrl'
+            }
+        }
+    })
 
     .state('tab.settings', {
         url: '/settings',
         views: {
             'tab-settings': {
                 templateUrl: 'templates/tab-settings.html',
-                controller: 'AccountCtrl'
+                controller: 'settingsCtrl'
             }
         }
     });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/home');
+    $urlRouterProvider.otherwise('/login');
 
 });
