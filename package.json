@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "jshint": "^2.5.10",
     "request": "^2.49.0"
   },
   "devDependencies": {
