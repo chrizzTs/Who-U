@@ -1,5 +1,4 @@
-'use strict';
-angular.module('WhoU.services', [])
+angular.module('starter.services', [])
 
 /**
  * A simple example service that returns some data.
@@ -23,5 +22,5 @@ angular.module('WhoU.services', [])
       // Simple index lookup
       return friends[friendId];
     }
-  };
+  }
 });

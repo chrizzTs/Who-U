@@ -1,0 +1,16 @@
+<ion-view title="Who-U">
+    <ion-content class="padding">
+
+        <a class="item item-thumbnail-left" href="#">
+            <img src="cover.png">
+            <h2>{{username}}</h2>
+            <p>Points: {{points}}</p>
+        </a>
+
+        <button ng-click="click()" class="button" ng-disabled="buttonDisable">
+            <i class="{{buttonType}}"></i> Search
+        </button>
+
+        <br>
+    </ion-content>
+</ion-view>
