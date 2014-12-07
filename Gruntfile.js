@@ -4,9 +4,7 @@
 var _ = require('lodash');
 var path = require('path');
 var cordovaCli = require('cordova');
-//die Zeile unten funktioniert nicht für Windows
-//var spawn = require('child_process').spawn;
-var spawn = require('win-spawn');
+var spawn = require('child_process').spawn;
 
 module.exports = function (grunt) {
 
