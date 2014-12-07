@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    <title>Login</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular-animate.js"></script>
+    <script src="../scripts/loginController.js"></script>
+    <script src="../scripts/videoAdjustment.js"></script>
+    <link rel="stylesheet" type="text/css" href="../styles/login.css">
+    <link rel="stylesheet" type="text/css" href="../styles/videoAdjustment.css">
+</head>
+
+<body>
+    <div class="vid-container">
+        <video id="Video1" class="bgvid back" autoplay="false" muted="muted" preload="auto" loop>
+            <source src="../Video/App_Intro_MA.mp4" type="video/mp4">
+        </video>
+        <div class="inner-container">
+            <video id="Video2" class="bgvid inner" autoplay="false" muted="muted" preload="auto" loop>
+                <source src="../Video/App_Intro_MA.mp4" type="video/mp4">
+            </video>
+            <div class="box">
+                <h1>Login</h1>
+                <form ng-controller="loginCtrl" name="regForm" ng-click="submit()" class="regForm" novalidate>
+                    <input type="text" id="EMail" ng-model="EMail" placeholder="Username">
+                    <input type="password" id="password" ng-model="password" placeholder="Password">
+                    <button type="submit">Login</button>
+                    <p>
+                        Not a member?
+                        <span><a href="registration.html">Sign Up</a></span>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

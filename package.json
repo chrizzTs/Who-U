@@ -1,9 +1,12 @@
 {
-  "name": "SetUp",
+  "name": "WhoU",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "request": "^2.49.0"
+  },
   "devDependencies": {
+    "ant": "~0.2.0",
     "grunt": "~0.4.1",
     "glob": "~4.0.5",
     "grunt-autoprefixer": "~0.4.0",
@@ -49,17 +52,6 @@
   "cordovaPlugins": [
     "https://github.com/driftyco/ionic-plugins-keyboard.git",
     "org.apache.cordova.statusbar",
-    "org.apache.cordova.console",
-    "org.apache.cordova.device",
-    "org.apache.cordova.network-information",
-    "org.apache.cordova.device-motion",
-    "org.apache.cordova.device-orientation",
-    "org.apache.cordova.geolocation",
-    "org.apache.cordova.camera",
-    "org.apache.cordova.media-capture",
-    "org.apache.cordova.media",
-    "org.apache.cordova.file",
-    "org.apache.cordova.file-transfer",
-    "org.apache.cordova.vibration"
+    "org.apache.cordova.console"
   ]
 }
