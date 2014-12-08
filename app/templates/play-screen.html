@@ -1,11 +1,7 @@
 <ion-view title="Play">
   <ion-content class="padding">
-    <div class="list card">
-
-      <div class="item item-avatar">
-        <h1>{{name}}</h1>
-      </div>
-      <div class="item item-body">
+    <div class="row-60">
+      <div class="col">
         <div class="item item-image">
           <ion-slide-box on-slide-changed="slideHasChanged($index)">
             <ion-slide ng-repeat="slide in slides">
@@ -13,10 +9,22 @@
             </ion-slide>
 
           </ion-slide-box>
-
         </div>
-
+        <h2>{{name}}</h2>
       </div>
+    </div>
+    <div class="row-40">
+      <div class="col">
+        <div class="item item-text-wrap">
+          <h2>Task</h2>
+          {{task}}
+        </div>
+        <a href="#"><i class="icon ion-map"></i></a>
+        <a href="#"><i class="icon ion-chatbubble"></i></a>
+      </div>
+    </div>
+    </div>
+    </div>
   </ion-content>
 </ion-view>
 
