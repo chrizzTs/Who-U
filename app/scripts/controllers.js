@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['home', 'settings', 'chatMaster'])
+angular.module('starter.controllers', ['home', 'play', 'settings', 'chatMaster'])
 
 .animation('.slide-animation', function () {
     return {
