@@ -1,11 +1,11 @@
 <ion-view title="Play">
   <ion-content class="padding">
-    <div class="row-60">
+    <div class="row-55">
       <div class="col">
         <div class="item item-image">
           <ion-slide-box on-slide-changed="slideHasChanged($index)">
             <ion-slide ng-repeat="slide in slides">
-              <img ng-src="{{slide.image}}">
+              <img-wit ng-src="{{slide.image}}" pc="50"></img-wit>
             </ion-slide>
 
           </ion-slide-box>
@@ -13,7 +13,7 @@
         <h2>{{name}}</h2>
       </div>
     </div>
-    <div class="row-40">
+    <div class="row-35">
       <div class="col">
         <div class="item item-text-wrap">
           <h2>Task</h2>
