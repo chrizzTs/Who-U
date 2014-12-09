@@ -3,9 +3,9 @@ angular.module('ServerAPI', [])
 //Error codes:
 //9999 --> Not implemented
 
-const http = require('http')
+/*const http = require('http')
 const querystring = require('querystring')
-const request = require('request')
+const request = require('request') */
 const host = 'http://localhost'
 const port = 12345
 const newUserPath = '/api/newUser'
