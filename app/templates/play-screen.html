@@ -1,29 +1,36 @@
+<link rel="stylesheet" href="../styles/play.css">
+
 <ion-view title="Play">
   <ion-content class="padding">
-    <div class="row-55">
-      <div class="col">
-        <div class="item item-image">
-          <ion-slide-box on-slide-changed="slideHasChanged($index)">
-            <ion-slide ng-repeat="slide in slides">
-              <img-wit ng-src="{{slide.image}}" pc="50"></img-wit>
-            </ion-slide>
+    <div class="card-wrap">
+      <div class="card full-card">
+        <div class="list card">
+          <div class="item item-avatar">
+            <h2>{{name}}</h2>
+          </div>
+          <div id="userPic">
+            <div class="item item-image">
+              <ion-slide-box on-slide-changed="slideHasChanged($index)">
+                <ion-slide ng-repeat="slide in slides">
+                  <item item-image>
+                    <img ng-src="{{slide.image}}"></img>
+                  </item>
+                </ion-slide>
+            </div>
+          </div>
 
           </ion-slide-box>
+          <div class="item item-text-wrap">
+            <h2>Task</h2>
+            {{task}}
+          </div>
+
+          <div class="item tabs tabs-secondary tabs-icon-left">
+            <a class="tab-item" href="#"><i class="icon ion-map"></i></a>
+            <a class="tab-item" href="#"><i class="icon ion-chatbubble"></i></a>
+          </div>
         </div>
-        <h2>{{name}}</h2>
       </div>
-    </div>
-    <div class="row-35">
-      <div class="col">
-        <div class="item item-text-wrap">
-          <h2>Task</h2>
-          {{task}}
-        </div>
-        <a href="#"><i class="icon ion-map"></i></a>
-        <a href="#"><i class="icon ion-chatbubble"></i></a>
-      </div>
-    </div>
-    </div>
     </div>
   </ion-content>
 </ion-view>
