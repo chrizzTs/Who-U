@@ -87,16 +87,11 @@ module.factory('serverAPI', function ($http) {
             return -9999
         },
         testMehtode: function () {
-            request.get(host + ':' + port + searchPartnerToPlayWith), {},
-            function (err, response, body) {
-                if (err) {
-                    console.log(err)
-                    return err
-                }
-                console.log(body)
-                return body;
-            }
-            //   }
+            $http.get('https://whou.sabic.uberspace.de/api/newUser').success(function (data, status, headers, config) {
+                console.log(data)
+            }).error(function (data, status, headers, config) {
+                console.log("Error:" + data)
+            })
         }
 
     }

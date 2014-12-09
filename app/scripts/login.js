@@ -13,9 +13,7 @@ angular.module('login', [])
             loginWithSessionKey($scope.EMail, SessionKey);
         } else {
             $scope.submit = function () {
-                console.log('Submit')
                 serverAPI.testMehtode()
-                // loginWithUsername($scope.EMail, $scope.password);
             };
             //if logIn successfull --> store sessionKey in local storage
         }
