@@ -1,3 +1,5 @@
+angular.module('ServerAPI', [])
+
 //Error codes:
 //9999 --> Not implemented
 const http = require('http')

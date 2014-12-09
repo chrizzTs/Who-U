@@ -2,7 +2,7 @@
 
 var WhoU = angular.module('WhoU', []);
 
-angular.module('WhoU', [])
+angular.module('WhoU', ['ServerAPI'])
     .controller('regCtrl', function ($scope) {
 
         $scope.user;

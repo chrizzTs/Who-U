@@ -1,23 +1,11 @@
-<html>
-
-<head>
-    <title>Login</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular-animate.js"></script>
-    <script src="../scripts/loginController.js"></script>
-    <script src="../scripts/videoAdjustment.js"></script>
-    <link rel="stylesheet" type="text/css" href="../styles/login.css">
-    <link rel="stylesheet" type="text/css" href="../styles/videoAdjustment.css">
-</head>
-
-<body>
+<ion-view title="login">
     <div class="vid-container">
         <video id="Video1" class="bgvid back" autoplay="false" muted="muted" preload="auto" loop>
             <source src="../Video/App_Intro_MA.mp4" type="video/mp4">
         </video>
         <div class="inner-container">
             <video id="Video2" class="bgvid inner" autoplay="false" muted="muted" preload="auto" loop>
-                <source src="../Video/App_Intro_MA.mp4" type="video/mp4">
+                <source src="../Video/App_Intro_MA2.mp4" type="video/mp4">
             </video>
             <div class="box">
                 <h1>Login</h1>
@@ -27,12 +15,15 @@
                     <button type="submit">Login</button>
                     <p>
                         Not a member?
-                        <span><a href="registration.html">Sign Up</a></span>
+                        <button href="#/registration">Sign up!</button>
                     </p>
                 </form>
             </div>
         </div>
     </div>
-</body>
+</ion-view>
 
-</html>
+<script src="../scripts/loginController.js"></script>
+<script src="../scripts/videoAdjustment.js"></script>
+<link rel="stylesheet" type="text/css" href="../styles/login.css">
+<link rel="stylesheet" type="text/css" href="../styles/videoAdjustment.css">
