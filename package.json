@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "http": "0.0.0",
     "jshint": "^2.5.10",
+    "querystring": "^0.2.0",
     "request": "^2.49.0"
   },
   "devDependencies": {

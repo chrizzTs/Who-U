@@ -3,11 +3,11 @@ angular.module('ServerAPI', [])
 //Error codes:
 //9999 --> Not implemented
 
-const http = require('http')
+/*const http = require('http')
 const querystring = require('querystring')
-const request = require('request')
+const request = require('request') */
 const host = 'http://localhost'
-const port = 12345
+const port = 443
 const newUserPath = '/api/newUser'
 const loginWithUsernamePath = '/api/login/username'
 const loginWithSessionKeyPath = '/api/login/sessionkey'
@@ -84,4 +84,16 @@ function searchPartnerToPlayWith(long, lat, userId) {
         return body //username, long, lat, task, picture
     })
     return -9999
+}
+
+function testMethode() {
+    request.get(host + : 'api' + port + searchPartnerToPlayWith), {},
+    function (err, response, body) {
+        if (err) {
+            console.log(err)
+            return err
+        }
+        console.log(body)
+        return body;
+    }
 }
