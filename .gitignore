@@ -10,6 +10,6 @@ plugins
 *.swo
 *.log
 *.DS_Store
-Gruntfile.js
+
 
 app/scripts/config.js
