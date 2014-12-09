@@ -7,7 +7,7 @@ angular.module('ServerAPI', [])
 const querystring = require('querystring')
 const request = require('request') */
 const host = 'http://localhost'
-const port = 12345
+const port = 80
 const newUserPath = '/api/newUser'
 const loginWithUsernamePath = '/api/login/username'
 const loginWithSessionKeyPath = '/api/login/sessionkey'
