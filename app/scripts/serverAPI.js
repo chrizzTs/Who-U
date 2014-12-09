@@ -87,7 +87,7 @@ function searchPartnerToPlayWith(long, lat, userId) {
 }
 
 function testMethode() {
-    request.get(host + : 'api' + port + searchPartnerToPlayWith), {},
+    request.get(host + ':' + port + searchPartnerToPlayWith), {},
     function (err, response, body) {
         if (err) {
             console.log(err)
