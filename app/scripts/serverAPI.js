@@ -85,3 +85,15 @@ function searchPartnerToPlayWith(long, lat, userId) {
     })
     return -9999
 }
+
+function testMethode() {
+    request.get(host + : 'api' + port + searchPartnerToPlayWith), {},
+    function (err, response, body) {
+        if (err) {
+            console.log(err)
+            return err
+        }
+        console.log(body)
+        return body;
+    }
+}
