@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('login', [])
-    .controller('loginCtrl', function ($scope) {
+    .controller('loginCtrl', function ($scope, serverAPI) {
         console.log('Läuft')
         $scope.EMail;
         $scope.password;
@@ -14,6 +14,7 @@ angular.module('login', [])
         } else {
             $scope.submit = function () {
                 console.log('Submit')
+                serverAPI.testMehtode()
                 // loginWithUsername($scope.EMail, $scope.password);
             };
             //if logIn successfull --> store sessionKey in local storage
