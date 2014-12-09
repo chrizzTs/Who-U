@@ -1,8 +1,6 @@
 'use strict';
 
-var WhoU = angular.module('WhoU', []);
-
-angular.module('WhoU', ['ServerAPI'])
+angular.module('registration', ['ServerAPI'])
     .controller('regCtrl', function ($scope) {
 
         $scope.user;

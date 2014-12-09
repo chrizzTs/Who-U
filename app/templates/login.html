@@ -1,4 +1,5 @@
-<ion-view title="login">
+<ion-view>
+
     <div class="vid-container">
         <video id="Video1" class="bgvid back" autoplay="false" muted="muted" preload="auto" loop>
             <source src="../Video/App_Intro_MA.mp4" type="video/mp4">
@@ -9,13 +10,13 @@
             </video>
             <div class="box">
                 <h1>Login</h1>
-                <form ng-controller="loginCtrl" name="regForm" ng-click="submit()" class="regForm" novalidate>
+                <form name="regForm" ng-click="submit()" class="regForm" novalidate>
                     <input type="text" id="EMail" ng-model="EMail" placeholder="Username">
                     <input type="password" id="password" ng-model="password" placeholder="Password">
                     <button type="submit">Login</button>
                     <p>
                         Not a member?
-                        <button href="#/registration">Sign up!</button>
+                        <a class="button" href="#/registration">Sign up!</button>
                     </p>
                 </form>
             </div>

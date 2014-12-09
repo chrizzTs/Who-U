@@ -1,8 +1,6 @@
 'use strict';
 
-var WhoU = angular.module('WhoU', []);
-
-angular.module('WhoU', [])
+angular.module('login', [])
     .controller('loginCtrl', function ($scope) {
 
         $scope.EMail;
@@ -14,8 +12,9 @@ angular.module('WhoU', [])
             loginWithSessionKey($scope.EMail, SessionKey);
         } else {
             $scope.submit = function () {
-                loginWithUsername($scope.EMail, $scope.password);
+                // loginWithUsername($scope.EMail, $scope.password);
             };
             //if logIn successfull --> store sessionKey in local storage
         }
+
     });
