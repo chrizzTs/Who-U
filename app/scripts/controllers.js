@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['home', 'play', 'settings', 'chatMaster', 'angular-wurfl-image-tailor'])
+angular.module('starter.controllers', ['home', 'play', 'settings', 'chatMaster'])
 
 .animation('.slide-animation', function() {
   return {
