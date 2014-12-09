@@ -11,14 +11,14 @@ function makePromise(i, video) {
     }
 }
 // Pause all videos and create the promise array
-$('video').each(function (index) {
+/*$('video').each(function (index) {
     this.pause();
     makePromise(index, this);
-})
+})*/
 
 // Wait for all promises to resolve then start playing
-$.when.apply(null, promises).done(function () {
+/*$.when.apply(null, promises).done(function () {
     $('video').each(function () {
         this.play();
     });
-});
+});*/

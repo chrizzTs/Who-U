@@ -10,11 +10,11 @@ angular.module('home', [])
         $scope.buttonType = "icon ion-loading-a"
 
         //Grap geoLocation        
-        var location = navigator.geolocation.getCurrentPosition(disp);
+        var location = navigator.geolocation.getCurrentPosition(sendToServer);
 
-        function disp(pos) {
-            var latitude = pos.coords.latitude;
-            var longitude = pos.coords.longitude;
+        function sendToServer(pos) {
+            //sendGeoData(pos.coords.latitude, pos.coords.longitude, window.localStorage.getItem("userId"))
+            savePlayerData("sd");
         }
 
         //Ask server for availalble player an get data
@@ -23,8 +23,11 @@ angular.module('home', [])
 
 
         //Link to play-screen
-
         $location.path("/tab/play-screen");
     };
 
 })
+
+function savePlayerData(playerData) {
+    alert("test");
+}
