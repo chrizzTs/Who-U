@@ -2,7 +2,18 @@ angular.module('play', [])
 
 .controller('playCtrl', function($scope, $sce) {
   $scope.name = 'Megan';
-  $scope.task = 'Eat a burger together!';
+  $scope.tasklines = [{
+    line: 'Eat a burger together!'
+  }, {
+    line: 'enumerate 1'
+  }, {
+    line: 'enumerate 2'
+  }, {
+    line: 'enumerate 3'
+  }, {
+    line: 'enumerate 4'
+  }];
+
 
   <!-- Code für den Picture Slider -->
   $scope.slides = [{
@@ -14,9 +25,5 @@ angular.module('play', [])
     }
 
   ];
-
-  console.log(document.body)
-  $scope.height = document.getElementsByTagName('ion-content')[0].clientHeight;
-  $scope.width = document.getElementsByTagName('ion-content')[0].clientWidth;
 
 })
