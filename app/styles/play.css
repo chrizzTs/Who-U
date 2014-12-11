@@ -1,5 +1,13 @@
 
+h2 {
+
+  text-align: center;
+
+}
+
 .scroll {
+
+  width: 95%;
 
   height: 100% !important;
 
@@ -7,9 +15,9 @@
 
 .card {
 
-  width: 100% !important;
+  width: 95% !important;
 
-  height: 95% !important;
+  height: 97% !important;
 
 }
 
@@ -34,12 +42,6 @@
   height: 50% !important;
 
   width: auto;
-
-}
-
-img {
-
-  max-height: 50%;
 
 }
 

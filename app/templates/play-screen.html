@@ -4,7 +4,7 @@
   <ion-content scroll="false">
     <div class="card">
       <div id="name">
-        <div class="item item-avatar">
+        <div class="item">
           <h2>{{name}}</h2>
         </div>
       </div>
@@ -13,7 +13,7 @@
           <ion-slide-box on-slide-changed="slideHasChanged($index)">
             <ion-slide ng-repeat="slide in slides">
               <item item-image>
-                <img-cropped ng-src="{{slide.image}}"></img>
+                <img ng-src="{{slide.image}}"></img>
               </item>
             </ion-slide>
           </ion-slide-box>
@@ -22,9 +22,11 @@
 
       <div id="task">
         <div class="item item-text-wrap">
-          <h2>Task</h2>
-          <div ng-repeat="taskline in tasklines">
-            {{taskline.line}}
+          <ion-scroll>
+            <h2>Task</h2>
+            <div ng-repeat="taskline in tasklines">
+              {{taskline.line}}
+          </ion-scroll>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 angular.module('play', [])
 
 .controller('playCtrl', function($scope, $sce) {
+
   $scope.name = 'Megan';
   $scope.tasklines = [{
     line: 'Eat a burger together!'
@@ -12,7 +13,7 @@ angular.module('play', [])
     line: 'enumerate 3'
   }, {
     line: 'enumerate 4'
-  }];
+  }]
 
 
   <!-- Code für den Picture Slider -->
@@ -26,4 +27,4 @@ angular.module('play', [])
 
   ];
 
-})
+});
