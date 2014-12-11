@@ -12,7 +12,21 @@ angular.module('registration', ['ServerAPI'])
         $scope.submit = function () {
             if ($scope.password1 === $scope.password2) {
                 console.log('Formular wurde abgeschickt');
-                serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail);
+                serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail, function (data) {
+                    var storedCredentials
+                    var newCredentials
+                    if ((storedCredentials = window.localStorage.getItem('Credentials')) != null) {
+                        storedCredentials = JSON.parse(storedCredentials)
+                        storedCredentials['UID'] = data
+                        storedCredentials['SessionKey'] = null
+                        newCredentials = storedCredentials
+                    } else {
+                        newCredentials = {
+                            'UID': data
+                        }
+                    }
+                    window.localStorage.setItem('Credentials', JSON.stringify(newCredentials))
+                });
             } else {
                 console.log('Fehler bei den Passwörtern');
             }

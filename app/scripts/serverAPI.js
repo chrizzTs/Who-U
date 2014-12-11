@@ -17,70 +17,37 @@ const searchPartnerToPlayWithPath = '/api/play'
 
 module.factory('serverAPI', function ($http) {
     return {
-        createNewUser: function (username, password, mail) {
+        createNewUser: function (username, password, mail, callback) {
             var user = {
                 'username': username,
                 'password': password,
                 'mail': mail
             }
-
-            $http.post(host + newUserPath, user).success(function (data, status, headers, config) {
-                console.log(data)
-                return data // -1 for Error on Server otherwise new UserID
-            }).erroe(function (data, status, headers, config) {
-                console.log(data)
-                return -400
-            })
-            return -9999
+            console.log(host + newUserPath)
+            $http.post(host + newUserPath, user).success(callback)
         },
-        loginWithUsername: function (mail, password) {
+        loginWithUsername: function (mail, password, callback) {
             var user = {
                 'mail': mail,
                 'password': password
             }
-
-            $http.get(host + loginWithUsernamePath, user, function (err, response, body) {
-                if (err) {
-                    console.log(err)
-                    return -400
-                } //Connection-Error
-                console.log(response.body.substring(2))
-                return (response.body.substring(2))
-            })
-            return -9999
+            $http.post(host + loginWithUsernamePath, user).success(callback)
         },
-        loginWithSessionKey: function (userId, sessionkey) {
+        loginWithSessionKey: function (userId, sessionkey, callback) {
             var credentials = {
                 '_id': userId,
                 'sessionkey': sessionkey
             }
-            $http.get(host + loginWithSessionKeyPath, credentials, function (err, response, body) {
-                if (err) {
-                    console.log(err)
-                    return -400
-                } //Connection-Error
-                console.log(response.body)
-                return (response.body) //Json with id, username, password, mail and sessionkey
-            })
-            return -9999
+            $http.get(host + loginWithSessionKeyPath, credentials).success(callback)
+
         },
-        searchPartnerToPlayWith: function (long, lat, userId) {
+        searchPartnerToPlayWith: function (long, lat, userId, callback) {
             var searchRequest = {
                 '_id': userId,
                 'longitude': long,
                 'latitude': lat
             }
-            request.post(host + ':' + port + searchPartnerToPlayWithPath, {
-                form: searchRequest
-            }, function (err, response, body) {
-                if (err) {
-                    console.log(err)
-                    return -400 //Connection Error
-                }
-                console.log(body)
-                return body //username, long, lat, task, picture
-            })
-            return -9999
+            $http.post(host + searchPartnerToPlayWithPath, searchRequest).success(callback)
         },
         testMehtode: function () {
             $http.get('https://whou.sabic.uberspace.de/api/newUser').success(function (data, status, headers, config) {
