@@ -8,7 +8,7 @@ var module = angular.module('ServerAPI', [])
 const querystring = require('querystring')
 const request = require('request') */
 
-const host = 'http://localhost'
+const host = 'https://whou.sabic.uberspace.de'
 const port = 443
 const newUserPath = '/api/newUser'
 const loginWithUsernamePath = '/api/login/username'
@@ -24,12 +24,10 @@ module.factory('serverAPI', function ($http) {
                 'mail': mail
             }
 
-            request.post(host + ':' + port + newUserPath, {
-                form: user
-            }, function (err, response, body) {
-                if (err) return -400 //Connection-Error
-                console.log(response.body)
-                return response.body // -1 for Error on Server otherwise new UserID
+            $http.post(host + newUserPath, user, function (data, status, headers, config) {
+                if (status != 200) return -400 //Connection-Error
+                console.log(data)
+                return data // -1 for Error on Server otherwise new UserID
             })
             return -9999
         },
@@ -39,9 +37,7 @@ module.factory('serverAPI', function ($http) {
                 'password': password
             }
 
-            request.get(host + ':' + port + loginWithUsernamePath, {
-                form: user
-            }, function (err, response, body) {
+            $http.get(host + loginWithUsernamePath, user, function (err, response, body) {
                 if (err) {
                     console.log(err)
                     return -400
@@ -56,9 +52,7 @@ module.factory('serverAPI', function ($http) {
                 '_id': userId,
                 'sessionkey': sessionkey
             }
-            request.get(host + ':' + port + loginWithSessionKeyPath, {
-                form: credentials
-            }, function (err, response, body) {
+            $http.get(host + loginWithSessionKeyPath, credentials, function (err, response, body) {
                 if (err) {
                     console.log(err)
                     return -400

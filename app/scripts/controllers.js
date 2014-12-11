@@ -1,1 +1,0 @@
-angular.module('starter.controllers', ['home', 'play', 'settings', 'chatMaster', 'registration', 'login'])
