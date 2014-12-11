@@ -8,7 +8,7 @@ var module = angular.module('ServerAPI', [])
 const querystring = require('querystring')
 const request = require('request') */
 
-const host = 'http://localhost'
+const host = 'https://whou.sabic.uberspace.de'
 const port = 443
 const newUserPath = '/api/newUser'
 const loginWithUsernamePath = '/api/login/username'
@@ -24,9 +24,7 @@ module.factory('serverAPI', function ($http) {
                 'mail': mail
             }
 
-            request.post(host + ':' + port + newUserPath, {
-                form: user
-            }, function (err, response, body) {
+            $http.post(host + newUserPath, user, function (err, response, body) {
                 if (err) return -400 //Connection-Error
                 console.log(response.body)
                 return response.body // -1 for Error on Server otherwise new UserID
