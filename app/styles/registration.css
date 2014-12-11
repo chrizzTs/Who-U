@@ -1,93 +1,68 @@
-/*Form Style*/
-
 .regForm {
-    transition: 1.0s linear all;
-    background: green;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    width: 400px;
+    height: 500px;
+    padding: 30px;
+    border: 10px solid rgba(0, 255, 0, .2);
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background: rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 13px 3px rgba(0, 255, 0, .5);
+    -webkit-box-shadow: 0 0 13px 3px rgba(0, 255, 0, .5);
+    box-shadow: 0 0 13px 3px rgba(0, 255, 0, .5);
+    overflow: hidden;
+    z-index: 3;
 }
 .regForm.ng-invalid {
-    background: red;
-    color: blue;
-}
-#form {
-    text-align: center;
-    font-size: 150%;
+    border: 10px solid rgba(255, 0, 0, .2);
+    -moz-box-shadow: 0 0 13px 3px rgba(255, 0, 0, .5);
+    -webkit-box-shadow: 0 0 13px 3px rgba(255, 0, 0, .5);
+    box-shadow: 0 0 13px 3px rgba(255, 0, 0, .5);
 }
 .animate-show.ng-hide {
     line-height: 0;
     opacity: 0;
     padding: 0 10px;
 }
-/*Therest*/
-
-.inner {
+.full {
     position: absolute;
-}
-.inner-container {
-    width: 400px;
-    height: 800px;
-    position: absolute;
-    top: calc(50vh - 400px);
-    left: calc(50vw - 200px);
-    overflow: hidden;
-}
-.bgvid.inner {
-    top: calc(-50vh + 200px);
-    left: calc(-50vw + 200px);
-    -webkit-filter: blur(10px);
-    -ms-filter: blur(10px);
-    -o-filter: blur(10px);
-    filter: blur(10px);
-}
-.box {
-    position: absolute;
+    margin-top: 0%;
     height: 100%;
     width: 100%;
-    font-family: Helvetica;
-    color: #000000;
-    background: rgba(0, 0, 0, 0.13);
-    padding: 30px 0px;
+    background-image: url(/Video/IntroPic.jpg);
+    z-index: 1;
 }
-.box h1 {
+.regForm h1 {
     text-align: center;
     margin: 30px 0;
     font-size: 30px;
-    color: #000000;
-}
-.box input {
-    display: block;
-    width: 300px;
-    margin: 20px auto;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.2);
-    color: #fff;
-    border: 0;
-}
-.box input:focus,
-.box input:active,
-.box button:focus,
-.box button:active {
-    outline: none;
-}
-.box button {
-    background: #2E8B57;
-    border: 0;
     color: #FFFFFF;
-    padding: 10px;
+}
+.regForm button {
+    padding: 5px;
     font-size: 20px;
     width: 330px;
     margin: 20px auto;
     display: block;
-    cursor: pointer;
 }
-.box button:active {
+.regForm button:active {
     background: #00FFFF;
     color: #000000;
 }
-.box p {
+.regForm p {
     font-size: 14px;
     text-align: center;
+    color: #FFFFFF;
 }
-.box p span {
-    cursor: pointer;
-    color: #666;
+.regForm input {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+a:link {
+    text-decoration: none;
 }

@@ -1,34 +1,24 @@
-<link rel="stylesheet" type="text/css" href="../styles/login.css">
-<link rel="stylesheet" type="text/css" href="../styles/videoAdjustment.css">
-<ion-view>
-    <div class="vid-container" ng-controller="loginCtrl">
-        <video id="Video1" class="bgvid back" autoplay="false" muted="muted" preload="auto" loop>
-            <source src="../Video/App_Intro_MA.mp4" type="video/mp4">
-        </video>
-        <div class="inner-container">
-            <video id="Video2" class="bgvid inner" autoplay="false" muted="muted" preload="auto" loop>
-                <source src="../Video/App_Intro_MA.mp4" type="video/mp4">
-            </video>
-            <div class="box">
-                <h1>Login</h1>
-                <form name="regForm" id="regForm" ng-click="submit()" novalidate>
-                    <label class="item item-input">
-                        <input type="text" placeholder="E-Mail" ng-model="EMail" id="EMail">
-                    </label>
-                    <label class="item item-input">
-                        <input type="password" placeholder="Password" ng-model="password" id="password">
-                    </label>
-                    <button class="button button-balanced" type="submit">Login</button>
-                </form>
-                <p>
-                    Not a member?
-                    <a href="#/registration">
-                        <button class="button button-positive">
-                            Sign Up!
-                        </button>
-                    </a>
-                </p>
-            </div>
+<ion-view title="Login">
+    <div class="full" ng-controller="loginCtrl">
+        <div class="box">
+            <h1>Login</h1>
+            <form name="regForm" id="regForm" ng-click="submit()" novalidate>
+                <label class="item item-input">
+                    <input name="name" class="name" type="text" placeholder="E-Mail" ng-model="EMail" required>
+                </label>
+                <label class="item item-input">
+                    <input name="emailaddress" class="email" type="password" placeholder="Password" ng-model="password" required>
+                </label>
+                <button class="button button-balanced" type="submit">Login</button>
+            </form>
+            <p>
+                Not a member?
+                <a href="#/registration">
+                    <button class="button button-positive">
+                        Sign Up!
+                    </button>
+                </a>
+            </p>
         </div>
     </div>
 </ion-view>
