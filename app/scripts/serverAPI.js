@@ -24,10 +24,12 @@ module.factory('serverAPI', function ($http) {
                 'mail': mail
             }
 
-            $http.post(host + newUserPath, user, function (data, status, headers, config) {
-                if (status != 200) return -400 //Connection-Error
+            $http.post(host + newUserPath, user).success(function (data, status, headers, config) {
                 console.log(data)
                 return data // -1 for Error on Server otherwise new UserID
+            }).erroe(function (data, status, headers, config) {
+                console.log(data)
+                return -400
             })
             return -9999
         },
