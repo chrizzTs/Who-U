@@ -98,6 +98,6 @@ angular.module('starter', ['ionic', 'starter.services', 'ngAnimate', 'home', 'pl
     });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/play-screen');
+    $urlRouterProvider.otherwise('login');
 
 });

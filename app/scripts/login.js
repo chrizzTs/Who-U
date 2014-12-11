@@ -2,7 +2,6 @@
 
 angular.module('login', [])
     .controller('loginCtrl', function ($scope, serverAPI) {
-        console.log('Läuft')
         $scope.EMail;
         $scope.password;
 

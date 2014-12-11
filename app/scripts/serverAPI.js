@@ -27,7 +27,7 @@ module.factory('serverAPI', function ($http) {
             $http.post(host + newUserPath, user).success(function (data, status, headers, config) {
                 console.log(data)
                 return data // -1 for Error on Server otherwise new UserID
-            }).erroe(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
                 console.log(data)
                 return -400
             })
