@@ -5,11 +5,11 @@
 
 }
 
-.list {
+.card {
 
   width: 100% !important;
 
-  height: 100% !important;
+  height: 95% !important;
 
 }
 
@@ -26,6 +26,20 @@
   height: 50% !important;
 
   width: auto;
+
+}
+
+.ion-slide {
+
+  height: 50% !important;
+
+  width: auto;
+
+}
+
+img {
+
+  max-height: 50%;
 
 }
 
