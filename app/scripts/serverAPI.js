@@ -42,16 +42,22 @@ module.factory('serverAPI', function ($http) {
                 'mail': mail,
                 'password': password
             }
-            console.log(user)
-            $http.post(host + loginWithMailPath, user).success(callback)
+            $http({
+                url: host + loginWithMailPath,
+                method: 'GET',
+                params: user
+            }).success(callback)
         },
         loginWithSessionKey: function (userId, sessionkey, callback) {
             var credentials = {
                 '_id': userId,
                 'sessionkey': sessionkey
             }
-            $http.post(host + loginWithSessionKeyPath, credentials).success(callback)
-
+            $http({
+                url: host + loginWithSessionKeyPath,
+                method: "GET",
+                params: credentials
+            }).success(callback)
         },
         searchPartnerToPlayWith: function (long, lat, userId, callback) {
             var searchRequest = {
