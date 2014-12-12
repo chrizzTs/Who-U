@@ -10,6 +10,9 @@
         <button ng-click="click()" class="button button-full button-light" ng-disabled="buttonDisable">
             <i class="{{buttonType}}"></i> Search
         </button>
+        <li class="animate-repeat" ng-repeat="entry in news">
+            [{{$index + 1}}] {{entry.value}} who is {{entry.popup}} years old.
+        </li>
 
         <br>
     </ion-content>

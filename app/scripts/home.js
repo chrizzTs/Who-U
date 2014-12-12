@@ -1,33 +1,44 @@
-angular.module('home', [])
+angular.module('home', ['services'])
 
-.controller('homeCtrl', function ($scope, $location) {
-    $scope.username = "maax",
-    $scope.buttonType = "icon ion-search",
-    $scope.buttonDisable = false,
+.controller('homeCtrl', ['$scope', '$location', 'localStorageService',
+    function ($scope, $location, localStorageService) {
+        $scope.username = "maax",
+        $scope.buttonType = "icon ion-search",
+        $scope.buttonDisable = false,
 
-    $scope.click = function () {
-        $scope.buttonDisable = true
-        $scope.buttonType = "icon ion-loading-a"
+        $scope.click = function () {
+            $scope.buttonDisable = true
+            $scope.buttonType = "icon ion-loading-a"
 
-        //Grap geoLocation        
-        var location = navigator.geolocation.getCurrentPosition(sendToServer);
+            //Grap geoLocation        
+            var location = navigator.geolocation.getCurrentPosition(sendToServer);
 
-        function sendToServer(pos) {
-            //sendGeoData(pos.coords.latitude, pos.coords.longitude, window.localStorage.getItem("userId"))
-            savePlayerData("sd");
-        }
+            function sendToServer(pos) {
+                //sendGeoData(pos.coords.latitude, pos.coords.longitude, window.localStorage.getItem("userId"))
 
-        //Ask server for availalble player an get data
+            }
 
-        //End server request
+            //Ask server for availalble player an get data
+
+            //End server request
 
 
-        //Link to play-screen
-        $location.path("/tab/play-screen");
-    };
+            //Link to play-screen
+            $location.path("/tab/play-screen");
 
-})
+            /* Test für NewsGrid
+            var event = {
+                "id": "neu",
+                "value": "neu",
+                "popup": "neu"
+            }
 
-function savePlayerData(playerData) {
-    alert("test");
-}
+            localStorageService.addEvent(event);
+            var test = localStorageService.getHistory();
+            $scope.news = localStorageService.getHistory();
+
+    */
+
+        };
+
+}])

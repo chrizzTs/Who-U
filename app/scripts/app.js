@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.services', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login'])
+angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login'])
 
 .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -98,6 +98,6 @@ angular.module('starter', ['ionic', 'starter.services', 'ngAnimate', 'home', 'pl
     });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/play-screen');
+    $urlRouterProvider.otherwise('login');
 
 });
