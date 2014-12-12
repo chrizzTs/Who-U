@@ -2,14 +2,14 @@
     <div class="full" ng-controller="loginCtrl">
         <div class="box">
             <h1>Login</h1>
-            <form name="regForm" id="regForm" ng-click="submit()" novalidate>
+            <form name="regForm" id="regForm" novalidate>
                 <label class="item item-input">
                     <input name="name" class="name" type="text" placeholder="E-Mail" ng-model="EMail" required>
                 </label>
                 <label class="item item-input">
                     <input name="emailaddress" class="email" type="password" placeholder="Password" ng-model="password" required>
                 </label>
-                <button class="button button-balanced" type="submit">Login</button>
+                <button class="button button-balanced" ng-click="submit()" type="submit">Login</button>
             </form>
             <p>
                 Not a member?

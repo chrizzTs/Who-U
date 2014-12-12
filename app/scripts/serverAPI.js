@@ -11,7 +11,7 @@ const request = require('request') */
 const host = 'https://whou.sabic.uberspace.de'
 const port = 443
 const newUserPath = '/api/newUser'
-const loginWithUsernamePath = '/api/login/username'
+const loginWithMailPath = '/api/login/mail'
 const loginWithSessionKeyPath = '/api/login/sessionkey'
 const searchPartnerToPlayWithPath = '/api/play'
 
@@ -37,19 +37,20 @@ module.factory('serverAPI', function ($http) {
             $http.post(host + newUserPath, user).success(callback)
 
         },
-        loginWithUsername: function (mail, password, callback) {
+        loginWithMail: function (mail, password, callback) {
             var user = {
                 'mail': mail,
                 'password': password
             }
-            $http.post(host + loginWithUsernamePath, user).success(callback)
+            console.log(user)
+            $http.post(host + loginWithMailPath, user).success(callback)
         },
         loginWithSessionKey: function (userId, sessionkey, callback) {
             var credentials = {
                 '_id': userId,
                 'sessionkey': sessionkey
             }
-            $http.get(host + loginWithSessionKeyPath, credentials).success(callback)
+            $http.post(host + loginWithSessionKeyPath, credentials).success(callback)
 
         },
         searchPartnerToPlayWith: function (long, lat, userId, callback) {

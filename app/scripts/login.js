@@ -24,24 +24,14 @@ angular.module('login', [])
 
         //Method to be called when credentials are inserted
         $scope.submit = function () {
-            serverAPI.loginWithUsername($scope.EMail, $scope.password, function (data) {
-                var sessionKey = parseInt(data.substring(2))
-                if (sessionKey > 0) {
-                    if (credentials != null) {
-                        credentials['SessionKey'] = sessionKey
-                    } else {
-                        credentials = {
-                            'UID': null,
-                            'SessionKey': sessionKey
-                        }
-                    }
-                    window.localStorage.setItem('Credentials', credentials)
+            serverAPI.loginWithMail($scope.EMail, $scope.password, function (data) {
+                console.log(data)
+                var sessionKey = data //parseInt(data.substring(2))
+                if (data instanceof Object) {
+                    window.localStorage.setItem('Credentials', JSON.stringify(data))
                 } else {
                     console.log('Log-In Fehler')
                 }
             })
         }
-        serverAPI.searchPartnerToPlayWith(123, 123, 123, function (data) {
-            console.log(data)
-        })
     })
