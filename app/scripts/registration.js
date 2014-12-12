@@ -26,6 +26,7 @@ angular.module('registration', ['ServerAPI'])
                         }
                     }
                     window.localStorage.setItem('Credentials', JSON.stringify(newCredentials))
+                    window.location = "#/login";
                 });
             } else {
                 console.log('Fehler bei den Passwörtern');

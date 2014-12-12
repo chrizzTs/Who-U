@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('login', [])
-    .controller('loginCtrl', function ($scope, serverAPI) {
+    .controller('loginCtrl', function ($scope, serverAPI, $location) {
         $scope.EMail;
         $scope.password;
         var credentials
@@ -16,7 +16,8 @@ angular.module('login', [])
             //If UID and SessionKey are available autoLogin
             if (sessionKey != null && userId != null)
                 serverAPI.loginWithSessionKey(userId, sessionKey, function (data) {
-                    console.log(data)
+                    console.log(data);
+                    window.location = "#/tab/home";
                 })
         }
 
@@ -28,10 +29,12 @@ angular.module('login', [])
                 console.log(data)
                 var sessionKey = data //parseInt(data.substring(2))
                 if (data instanceof Object) {
-                    window.localStorage.setItem('Credentials', JSON.stringify(data))
+                    window.localStorage.setItem('Credentials', JSON.stringify(data));
+                    window.location = "#/tab/home";
                 } else {
                     console.log('Log-In Fehler')
+                    $scope.loginFailed = true;
                 }
             })
         }
-    })
+    });
