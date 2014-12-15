@@ -10,6 +10,6 @@ plugins
 *.swo
 *.log
 *.DS_Store
-
+resources
 
 app/scripts/config.js
