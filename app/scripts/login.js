@@ -25,6 +25,7 @@ angular.module('login', [])
 
         //Method to be called when credentials are inserted
         $scope.submit = function () {
+            //Login requires callback
             serverAPI.loginWithMail($scope.EMail, $scope.password, function (data) {
                 console.log(data)
                 var sessionKey = data //parseInt(data.substring(2))
