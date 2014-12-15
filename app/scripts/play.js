@@ -2,19 +2,22 @@ angular.module('play', [])
 
 .controller('playCtrl', function($scope, $sce) {
 
+  $scope.storageTasklines = "Eat the following;Burger 1;Burger 2;Doener";
   $scope.name = 'Megan';
-  $scope.tasklines = [{
-    line: 'Eat a burger together!'
-  }, {
-    line: 'enumerate 1'
-  }, {
-    line: 'enumerate 2'
-  }, {
-    line: 'enumerate 3'
-  }, {
-    line: 'enumerate 4'
-  }]
 
+  $scope.isEnumeration = true;
+  $scope.isText = false;
+
+
+  if ($scope.isEnumeration == false) {
+    $scope.tasklines = $scope.storageTasklines;
+
+  } else if ($scope.isEnumeration) {
+    var index = $scope.storageTasklines.indexOf(';');
+    $scope.tasklineOne = $scope.storageTasklines.slice(0, index);
+    var enumerationLines = $scope.storageTasklines.slice(index + 1, $scope.storageTasklines.length);
+    $scope.enumeration = enumerationLines.split(';');
+  }
 
   <!-- Code für den Picture Slider -->
   $scope.slides = [{
@@ -27,4 +30,8 @@ angular.module('play', [])
 
   ];
 
-});
+
+})
+
+
+;

@@ -10,9 +10,14 @@
         <button ng-click="click()" class="button button-full button-light" ng-disabled="buttonDisable">
             <i class="{{buttonType}}"></i> Search
         </button>
-        <li class="animate-repeat" ng-repeat="entry in news">
-            [{{$index + 1}}] {{entry.value}} who is {{entry.popup}} years old.
-        </li>
+        <ul class="animate-repeat" ng-repeat="entry in news">
+
+            <li ng-if="entry.typ == 'message'">[{{$index + 1}}]. <b>{{entry.from}}: </b> {{entry.title}}</li>
+            <li ng-if="entry.typ == 'played'">[{{$index + 1}}]. {{entry.date}}: Played with {{entry.person}}</li>
+
+
+
+        </ul>
 
         <br>
     </ion-content>

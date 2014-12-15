@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="../styles/play.css">
 
 <ion-view title="Play">
-  <ion-content scroll="false">
+  <ion-content>
     <div class="card">
       <div id="name">
         <div class="item">
@@ -24,13 +24,22 @@
         <div class="item item-text-wrap">
           <ion-scroll>
             <h2>Task</h2>
-            <div ng-repeat="taskline in tasklines">
-              {{taskline.line}}
+            <div ng-if="isText">
+              {{tasklines}}
+            </div>
+            <div ng-if="isEnumeration">
+              {{tasklineOne}}
+              <ul class="enumerate">
+                <li ng-repeat="enumerate in enumeration">{{enumerate}}</li>
+              </ul>
+            </div>
+
           </ion-scroll>
-          </div>
         </div>
       </div>
-      <div id="icons" <div class="item tabs tabs-secondary tabs-icon-left">
+    </div>
+    <div id="icons">
+      <div class="item tabs tabs-secondary tabs-icon-left">
         <a class="tab-item" href="#"><i class="icon ion-map"></i></a>
         <a class="tab-item" href="#"><i class="icon ion-chatbubble"></i></a>
       </div>

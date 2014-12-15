@@ -60,3 +60,11 @@ h2 {
   width: auto;
 
 }
+
+ul {
+
+  list-style: disc;
+
+  list-style-type: disc;
+
+}
