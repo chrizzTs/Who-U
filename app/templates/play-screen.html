@@ -1,51 +1,50 @@
-<link rel="stylesheet" href="../styles/play.css">
-
 <ion-view title="Play">
-  <ion-content>
-    <div class="card">
-      <div id="name">
-        <div class="item">
-          <h2>{{name}}</h2>
-        </div>
-      </div>
-      <div id="userPic">
-        <div class="item item-image">
-          <ion-slide-box on-slide-changed="slideHasChanged($index)">
-            <ion-slide ng-repeat="slide in slides">
-              <item item-image>
-                <img ng-src="{{slide.image}}"></img>
-              </item>
-            </ion-slide>
-          </ion-slide-box>
-        </div>
-      </div>
-
-      <div id="task">
-        <div class="item item-text-wrap">
-          <ion-scroll>
-            <h2>Task</h2>
-            <div ng-if="isText">
-              {{tasklines}}
+    <ion-content>
+        <link rel="stylesheet" href="/styles/play.css">
+        <div class="card">
+            <div id="name">
+                <div class="item">
+                    <h2>{{name}}</h2>
+                </div>
             </div>
-            <div ng-if="isEnumeration">
-              {{tasklineOne}}
-              <ul class="enumerate">
-                <li ng-repeat="enumerate in enumeration">{{enumerate}}</li>
-              </ul>
+            <div id="userPic">
+                <div class="item item-image">
+                    <ion-slide-box on-slide-changed="slideHasChanged($index)">
+                        <ion-slide ng-repeat="slide in slides">
+                            <item item-image>
+                                <img ng-src="{{slide.image}}"></img>
+                            </item>
+                        </ion-slide>
+                    </ion-slide-box>
+                </div>
             </div>
 
-          </ion-scroll>
-        </div>
-      </div>
-    </div>
-    <div id="icons">
-      <div class="item tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" href="#"><i class="icon ion-map"></i></a>
-        <a class="tab-item" href="#"><i class="icon ion-chatbubble"></i></a>
-      </div>
-    </div>
-    </div>
+            <div id="task">
+                <div class="item item-text-wrap">
+                    <ion-scroll>
+                        <h2>Task</h2>
+                        <div ng-if="isText">
+                            {{tasklines}}
+                        </div>
+                        <div ng-if="isEnumeration">
+                            {{tasklineOne}}
+                            <ul class="enumerate">
+                                <li ng-repeat="enumerate in enumeration">{{enumerate}}</li>
+                            </ul>
+                        </div>
 
-  </ion-content>
+                    </ion-scroll>
+                </div>
+            </div>
+        </div>
+        <div id="icons">
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" href="#"><i class="icon ion-map"></i></a>
+                <a class="tab-item" href="#"><i class="icon ion-chatbubble"></i></a>
+            </div>
+        </div>
+        </div>
+
+    </ion-content>
 </ion-view>
 
