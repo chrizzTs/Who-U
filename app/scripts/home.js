@@ -1,7 +1,7 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $location, localStorageService) {
+    function ($scope, $location, $state, localStorageService, serverAPI) {
         $scope.username = "maax",
         $scope.buttonType = "icon ion-search",
         $scope.buttonDisable = false,
@@ -15,17 +15,21 @@ angular.module('home', ['services'])
             var location = navigator.geolocation.getCurrentPosition(sendToServer);
 
             function sendToServer(pos) {
-                //sendGeoData(pos.coords.latitude, pos.coords.longitude, window.localStorage.getItem("userId"))
 
+                serverAPI.searchPartnerToPlayWith(pos.coords.longitude, pos.coords.latitude, window.localStorage.getItem("Credentials"), function (data) {
+                    console.log(data);
+                    $state.go('tab.play-screen', {});
+                })
             }
+
+
 
             //Ask server for availalble player an get data
 
             //End server request
 
 
-            //Link to play-screen
-            $location.path("/tab/play-screen");
+
 
             //Test für NewsGrid
             var event = {
