@@ -1,0 +1,61 @@
+.full {
+  position: absolute;
+  margin-top: 0%;
+  height: 100%;
+  width: 100%;
+  background-image: url(/img/IntroPic.jpg);
+  z-index: 1;
+}
+.box {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+  width: 400px;
+  height: 450px;
+  padding: 30px;
+  border: 1px solid rgba(0, 0, 0, .2);
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background: rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 13px 3px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 13px 3px rgba(0, 0, 0, .5);
+  box-shadow: 0 0 13px 3px rgba(0, 0, 0, .5);
+  overflow: hidden;
+  z-index: 3;
+}
+.box h1 {
+  text-align: center;
+  margin: 30px 0;
+  font-size: 30px;
+  color: #FFFFFF;
+}
+.box button {
+  padding: 5px;
+  font-size: 20px;
+  width: 330px;
+  margin: 20px auto;
+  display: block;
+}
+.box button:active {
+  background: #00FFFF;
+  color: #000000;
+}
+.box p {
+  font-size: 14px;
+  text-align: center;
+  color: #FFFFFF;
+}
+.box p span {
+  cursor: pointer;
+  color: #666;
+}
+.box input {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+a:link {
+  text-decoration: none;
+}

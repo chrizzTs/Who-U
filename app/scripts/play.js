@@ -1,9 +1,11 @@
 angular.module('play', [])
 
-.controller('playCtrl', function($scope, $sce) {
+.controller('playCtrl', function($scope, cssInjector) {
+
+  cssInjector.add('styles/play.css');
 
   $scope.storageTasklines = "Eat the following;Burger 1;Burger 2;Doener";
-  $scope.name = localStorageService.getItem("person");
+  $scope.name = "Megan";
   $scope.isEnumeration = true;
   $scope.isText = false;
 
