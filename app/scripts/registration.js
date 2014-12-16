@@ -1,66 +1,68 @@
 'use strict';
 
 angular.module('registration', ['ServerAPI'])
-    .controller('regCtrl', function ($scope, serverAPI) {
+  .controller('regCtrl', function($scope, serverAPI, cssInjector) {
 
-        $scope.user;
-        $scope.password1;
-        $scope.password2;
-        $scope.EMail;
+    cssInjector.add('styles/registration.css');
 
-        //Handling user submit
-        $scope.submit = function () {
-            if ($scope.password1 === $scope.password2) {
-                console.log('Formular wurde abgeschickt');
-                serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail, function (data) {
-                    var storedCredentials
-                    var newCredentials
-                    if ((storedCredentials = window.localStorage.getItem('Credentials')) != null) {
-                        storedCredentials = JSON.parse(storedCredentials)
-                        storedCredentials['UID'] = data
-                        storedCredentials['SessionKey'] = null
-                        newCredentials = storedCredentials
-                    } else {
-                        newCredentials = {
-                            'UID': data
-                        }
-                    }
-                    window.localStorage.setItem('Credentials', JSON.stringify(newCredentials))
-                    window.location = "#/login";
-                });
-            } else {
-                console.log('Fehler bei den Passwörtern');
+    $scope.user;
+    $scope.password1;
+    $scope.password2;
+    $scope.EMail;
+
+    //Handling user submit
+    $scope.submit = function() {
+      if ($scope.password1 === $scope.password2) {
+        console.log('Formular wurde abgeschickt');
+        serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail, function(data) {
+          var storedCredentials
+          var newCredentials
+          if ((storedCredentials = window.localStorage.getItem('Credentials')) != null) {
+            storedCredentials = JSON.parse(storedCredentials)
+            storedCredentials['UID'] = data
+            storedCredentials['SessionKey'] = null
+            newCredentials = storedCredentials
+          } else {
+            newCredentials = {
+              'UID': data
             }
-        };
-
-        //Check if user name has at least 5 characters
-        $scope.$watch('user', function () {
-            $scope.showWarningUser = $scope.user ? false : true;
+          }
+          window.localStorage.setItem('Credentials', JSON.stringify(newCredentials))
+          window.location = "#/login";
         });
+      } else {
+        console.log('Fehler bei den Passwörtern');
+      }
+    };
 
-        //Chek if PW1 is at least 5 characters
-        $scope.$watch('password1', function () {
-            $scope.showWarningPW1 = $scope.password1 ? false : true;
-        });
+    //Check if user name has at least 5 characters
+    $scope.$watch('user', function() {
+      $scope.showWarningUser = $scope.user ? false : true;
+    });
 
-        //Check if user entered same PW two times
-        //Currently errors
-        $scope.$watch('password2', function () {
-            if ($scope.password2 == $scope.password1) {
-                if ($scope.password2 == null) {
-                    $scope.showWarningEmpty = true;
-                }
-                $scope.showWarningPW2 = false;
-            } else {
-                console.log('Sind ungleich');
-                $scope.showWarningEmpty = false;
-                $scope.showWarningPW2 = true;
-            }
+    //Chek if PW1 is at least 5 characters
+    $scope.$watch('password1', function() {
+      $scope.showWarningPW1 = $scope.password1 ? false : true;
+    });
 
-        });
-
-        $scope.$watch('EMail', function () {
-            $scope.showWarningEMail = $scope.EMail ? false : true;
-        });
+    //Check if user entered same PW two times
+    //Currently errors
+    $scope.$watch('password2', function() {
+      if ($scope.password2 == $scope.password1) {
+        if ($scope.password2 == null) {
+          $scope.showWarningEmpty = true;
+        }
+        $scope.showWarningPW2 = false;
+      } else {
+        console.log('Sind ungleich');
+        $scope.showWarningEmpty = false;
+        $scope.showWarningPW2 = true;
+      }
 
     });
+
+    $scope.$watch('EMail', function() {
+      $scope.showWarningEMail = $scope.EMail ? false : true;
+    });
+
+  });
