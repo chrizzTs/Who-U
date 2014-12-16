@@ -9,7 +9,7 @@ h2 {
 
   width: 95%;
 
-  height: 100% !important;
+  height: 95% !important;
 
 }
 
@@ -31,7 +31,7 @@ h2 {
 
 #userPic {
 
-  height: 50% !important;
+  height: 45% !important;
 
   width: auto;
 
@@ -39,7 +39,7 @@ h2 {
 
 .ion-slide {
 
-  height: 50% !important;
+  height: 40% !important;
 
   width: auto;
 
@@ -63,8 +63,24 @@ h2 {
 
 ul {
 
-  list-style: disc;
+  list-style: disc !important;
 
-  list-style-type: disc;
+}
+
+li {
+
+  list-style-type: disc!important;
+
+  margin-left: 30px !important;
+
+  margin-bottom: 10px;
+
+  margin-top: 10px;
+
+}
+
+.slider {
+
+  height: 40%;
 
 }

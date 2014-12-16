@@ -3,8 +3,7 @@ angular.module('play', [])
 .controller('playCtrl', function($scope, $sce) {
 
   $scope.storageTasklines = "Eat the following;Burger 1;Burger 2;Doener";
-  $scope.name = 'Megan';
-
+  $scope.name = localStorageService.getItem("person");
   $scope.isEnumeration = true;
   $scope.isText = false;
 

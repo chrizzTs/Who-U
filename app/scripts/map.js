@@ -1,3 +1,5 @@
+angular.module('map', [])
+
 checkPosition();
 var karte;
 
@@ -105,3 +107,5 @@ function addPin(karte, latlong, titel, inhalt) {
     infoFenster.open(karte);
   });
 };
+
+;

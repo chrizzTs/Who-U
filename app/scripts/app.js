@@ -54,12 +54,23 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
     .state('tab.play-screen', {
         url: '/play-screen',
         views: {
-            'tab-home': {
+            'tab-play': {
                 templateUrl: 'templates/play-screen.html',
                 controller: 'playCtrl'
             }
         }
     })
+
+    .state('tab.map', {
+        url: '/play-screen/map',
+        views: {
+            'tab-map': {
+                templateUrl: 'templates/map.html',
+                controller: 'mapCtrl'
+            }
+        }
+    })
+
         .state('tab.chat-master', {
             url: '/chat-master',
             views: {
