@@ -13,3 +13,5 @@ plugins
 resources
 
 app/scripts/config.js
+
+Gruntfile.js

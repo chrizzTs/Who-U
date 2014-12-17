@@ -6,7 +6,7 @@ angular.module('home', ['services'])
         $scope.buttonType = "icon ion-search",
         $scope.buttonDisable = false,
         $scope.news = localStorageService.getHistory();
-        var UID = window.localStorage.getItem('Credentials');
+        var UID = JSON.parse(window.localStorage['Credentials']);
 
 
         //Request new feedback sheet from server to rate last plays (contat with new persons)
