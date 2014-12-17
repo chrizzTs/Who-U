@@ -3,42 +3,45 @@ angular.module('home', ['services'])
 .controller('homeCtrl',
     function ($scope, $location, $state, localStorageService, serverAPI, $ionicPopup) {
 
+        $scope.buttonType = "icon ion-search";
+        $scope.buttonDisable = false;
+        $scope.text = 'Search';
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         serverAPI.getUserData(UID, function (data) {
             $scope.userName = data.userName;
             $scope.points = data.points;
             $scope.fotoID = data.fotoID;
-            console.log(data)
-        })
+            console.log(data);
+        });
 
         serverAPI.getRecentEvents(UID, function (data) {
             $scope.username = data.username;
             $scope.username = data.points;
             console.log(data);
 
-        })
+        });
 
-        $scope.buttonType = "icon ion-search",
-        $scope.buttonDisable = false,
-
+        serverAPI.requestFeedback(UID, data, requestFeedback);
+        $scope.click = click();
 
 
 
         //Request new feedback sheet from server to rate last plays (contat with new persons)
-        //        serverAPI.requestFeedback(function (UID, data) {
-        //        // Check if there are any new feedback sheets availalbe
-        //        date = 1;
-        //        if (data == 1) {
-        //            $ionicPopup.alert({
-        //                title: 'Feedback',
-        //                template: 'There is a player that you have not rated yet. Please rate the player before you can keep playing.'
-        //            });
-        //            $scope.go('tab.feedback');
-        //        }
-        //    })
+        function requestFeedback(data) {
+            // Check if there are any new feedback sheets availalbe
+            if (data == 1) {
+                $ionicPopup.alert({
+                    title: 'Feedback',
+                    template: 'There is a player that you have not rated yet. Please rate the player before you can keep playing.'
+                });
+                $scope.go('tab.feedback');
+            }
+        };
 
-        $scope.click = function () {
+
+        function click() {
             $scope.buttonDisable = true;
+            $scope.text = 'Searching';
             $scope.buttonType = "icon ion-loading-a";
 
             //Grap geoLocation        
@@ -50,14 +53,13 @@ angular.module('home', ['services'])
                     'latitude': geoData.coords.latitude
                 };
                 window.localStorage.setItem('myPosition', JSON.stringify(myPosition));
-
-                //When GeoLoaction is saved successfully => Send GeoData to Server to receive teammate
+                //If geoloaction is saved successfully => Send geodata to server to receive teammate
                 sendToServer(myPosition);
             }
 
 
+            //Send current location to Server to receive teammate
             function sendToServer(myPosition) {
-
                 serverAPI.searchPartnerToPlayWith(myPosition.longitude, myPosition.latitude, UID, function (data) {
 
                     //No other players around you. Server returns -1 
@@ -79,24 +81,6 @@ angular.module('home', ['services'])
 
                 })
             }
-
-
-
-            //Ask server for availalble player an get data
-
-            //End server request
-
-
-
-
-            //Test für NewsGrid
-            var event = {
-                "typ": "played",
-                "date": new Date(),
-                "person": "Lars Thomas"
-            }
-
-            localStorageService.addEvent(event);
 
         };
 
