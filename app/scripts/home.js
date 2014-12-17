@@ -7,7 +7,8 @@ angular.module('home', ['services'])
         serverAPI.getUserData(UID, function (data) {
             $scope.userName = data.userName;
             $scope.points = data.points;
-            $scop.fotoID = data.fotoID;
+            $scope.fotoID = data.fotoID;
+            console.log(data)
         })
 
         serverAPI.getRecentEvents(UID, function (data) {
