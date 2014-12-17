@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map'])
+angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map', 'coins'])
 
 .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -90,7 +90,7 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
         views: {
             'tab-coins': {
                 templateUrl: 'templates/tab-coins.html',
-                controller: 'chatMasterCtrl'
+                controller: 'coinsCtrl'
             }
         }
     })
