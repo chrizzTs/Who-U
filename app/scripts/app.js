@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector'])
+angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -67,10 +67,11 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
   .state('tab.map', {
     url: '/play-screen/map',
     views: {
-      'tab-map': {
+      'tab-home': {
         templateUrl: 'templates/map.html',
         controller: 'mapCtrl'
       }
+
     }
   })
 

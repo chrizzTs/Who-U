@@ -9,8 +9,10 @@
       <div id="userPic">
         <div class="item item-image">
           <ion-slide-box on-slide-changed="slideHasChanged($index)">
+
             <ion-slide ng-repeat="slide in slides">
               <item item-image>
+
                 <img ng-src="{{slide.image}}"></img>
               </item>
             </ion-slide>
@@ -37,7 +39,7 @@
       </div>
       <div id="icons">
         <div class="item tabs tabs-secondary tabs-icon-left">
-          <a class="tab-item" href="#"><i class="icon ion-map"></i></a>
+          <a class="tab-item" ui-sref="tab.map"><i class="icon ion-map"></i></a>
           <a class="tab-item" href="#"><i class="icon ion-chatbubble"></i></a>
         </div>
       </div>
