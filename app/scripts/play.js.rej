@@ -1,0 +1,12 @@
+diff a/app/scripts/play.js b/app/scripts/play.js	(rejected hunks)
+@@ -32,10 +32,8 @@
+   <!-- Code für den Picture Slider -->
+   $scope.slides = [{
+       image: 'img/Megan_1.jpg',
+-      description: 'Megan 1'
+     }, {
+       image: 'img/Megan_2.jpg',
+-      description: 'Megan 2'
+     }
+ 
+   ];
