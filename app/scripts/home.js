@@ -2,14 +2,26 @@ angular.module('home', ['services'])
 
 .controller('homeCtrl',
     function ($scope, $location, $state, localStorageService, serverAPI, $ionicPopup) {
-        $scope.username = "maax",
+
+        var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+        serverAPI.getUserData(UID, function (data) {
+            $scope.userName = data.userName;
+            $scope.points = data.points;
+            $scop.fotoID = data.fotoID;
+        })
+
+        serverAPI.getRecentEvents(UID, function (data) {
+            $scope.username = data.username;
+            $scope.username = data.points;
+            console.log(data);
+
+        })
+
         $scope.buttonType = "icon ion-search",
         $scope.buttonDisable = false,
-        $scope.news = localStorageService.getHistory();
-        var UID = JSON.parse(window.localStorage['Credentials']).UID;
-        serverAPI.getUserData(UID, function (data) {
-            console.log(data)
-        })
+
+
+
 
         //Request new feedback sheet from server to rate last plays (contat with new persons)
         //        serverAPI.requestFeedback(function (UID, data) {
@@ -29,11 +41,23 @@ angular.module('home', ['services'])
             $scope.buttonType = "icon ion-loading-a";
 
             //Grap geoLocation        
-            var location = navigator.geolocation.getCurrentPosition(sendToServer);
+            var location = navigator.geolocation.getCurrentPosition(saveGeoData);
 
-            function sendToServer(pos) {
+            function saveGeoData(geoData) {
+                var myPosition = {
+                    'longitude': geoData.coords.longitude,
+                    'latitude': geoData.coords.latitude
+                };
+                window.localStorage.setItem('myPosition', JSON.stringify(myPosition));
 
-                serverAPI.searchPartnerToPlayWith(pos.coords.longitude, pos.coords.latitude, UID, function (data) {
+                //When GeoLoaction is saved successfully => Send GeoData to Server to receive teammate
+                sendToServer(myPosition);
+            }
+
+
+            function sendToServer(myPosition) {
+
+                serverAPI.searchPartnerToPlayWith(myPosition.longitude, myPosition.latitude, UID, function (data) {
 
                     //No other players around you. Server returns -1 
                     if (data == -1) {
@@ -42,6 +66,12 @@ angular.module('home', ['services'])
                             template: 'Unfortunateley there are no other players around you. Try it some other time!'
                         });
                     } else {
+
+                        window.localStorage.setItem('teammate', teammate);
+                        window.localStorage.setItem('isEnummeration', isEnummeration);
+                        window.localStorage.setItem('task', task);
+                        windwo.localeCompare.setItem('teammatePosition', teammatePosition);
+
                         $state.go('tab.play-screen');
                     }
 
