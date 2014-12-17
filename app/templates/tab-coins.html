@@ -1,5 +1,16 @@
 <ion-view title="Coins">
-    <ion-content class="padding">
-        <h1>Coins</h1>
+    <ion-content>
+        <div class="row">
+            <div class="col col-75">Your current score is:</div>
+            <div class="col">123 Coins</div>
+        </div>
+        <hr>Anfang Liste
+        <ul class="benefits">
+            <li ng-repeat="benefit in benefits">
+                <span>{{benefits.name}}</span>
+                <span>{{benefits.price}}</span>
+            </li>
+        </ul>
+        Ende Liste
     </ion-content>
 </ion-view>
