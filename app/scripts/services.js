@@ -36,7 +36,13 @@ services.factory('localStorageService', function () {
 
 
             //Pull the history of local storage
-            var history = JSON.parse(localStorage.getItem('history'));
+            var history = localStorage.getItem('history');
+            if (history != null) {
+                history = JSON.parse(history);
+            } else {
+                console.error("No local history saved");
+            }
+
             var date = event.date.getDate();
             var month = event.date.getMonth() + 1;
             var year = event.date.getFullYear();

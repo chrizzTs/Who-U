@@ -104,11 +104,16 @@ module.factory('serverAPI', function ($http) {
             $http.post(host + buyItemPath, buyRequest).success(callback)
         },
         getUserData: function (userId, callback) {
+            var userId = {
+                'UID': userId
+            }
             $http({
                 url: host + userDataPath,
                 method: 'GET',
                 params: userId
-            }).success(callback)
+            }).success(callback).error(function (data, status, headers, config) {
+                console.log(data)
+            })
         },
         getRecentEvents: function (userId, callback) {
             $http({

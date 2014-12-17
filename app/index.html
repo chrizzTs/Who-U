@@ -32,14 +32,11 @@
       Templates are in the /templates folder (but you could also
       have templates inline in this html file if you'd like).
     -->
-    <ion-nav-view></ion-nav-view <!-- Chrome Tools for Emulator -->
-    <script src="http://localhost:8080/target/target-script-min.js#anonymous"></script>
+    <ion-nav-view></ion-nav-view>
 
-
+    <!-- build:js scripts/vendor.js -->
+    <!-- <script src="vendor/someContribJs.js"></script> -->
     <!-- bower:js -->
-    <!-- endbower -->
-    <!-- endbuild -->
-
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular-animate/angular-animate.js"></script>
     <script src="lib/angular-sanitize/angular-sanitize.js"></script>
@@ -53,9 +50,10 @@
     <script src="lib/ngImageEditor/dist/ngImageEditor.js"></script>
     <script src="lib/picturefill/dist/picturefill.js"></script>
     <script src="lib/angular-picture/src/angular-picture.js"></script>
+    <script src="lib/lodash/dist/lodash.compat.js"></script>
+    <script src="lib/angular-google-maps/dist/angular-google-maps.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
-
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -76,5 +74,6 @@
     <script src="scripts/coins.js"></script>
     <!-- endbuild -->
     < /body>
+
 
 </html>
