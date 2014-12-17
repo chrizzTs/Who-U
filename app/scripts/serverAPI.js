@@ -8,12 +8,24 @@ var module = angular.module('ServerAPI', [])
 const querystring = require('querystring')
 const request = require('request') */
 
-const host = 'https://whou.sabic.uberspace.de'
+const host = 'https://whou.sabic.uberspace.de/api'
 const port = 443
-const newUserPath = '/api/newUser'
-const loginWithMailPath = '/api/login/mail'
-const loginWithSessionKeyPath = '/api/login/sessionkey'
-const searchPartnerToPlayWithPath = '/api/play'
+const newUserPath = '/newUser'
+const loginWithMailPath = '/login/mail/'
+const loginWithSessionKeyPath = '/login/sessionkey'
+const searchPartnerToPlayWithPath = '/play'
+const gamesToRatePath = '/play/rating/gamesToRate'
+const insertNewRatingPath = '/play/rating/insertNewRating'
+const allItemsPath = '/benefit/allItems'
+const buyItemPath = '/benefit/buyItem'
+const userDataPath = '/userData/data'
+const recentEventsPath = '/userData/recentEvents'
+const changeModusPath = '/userData/changeModus'
+const updateGPSPath = '/userData/updateGPS'
+const newPhotoPath = '/photo/saveNew'
+const deletePhotoPath = 'photo/delete'
+const logOutPath = '/logout'
+
 
 module.factory('serverAPI', function ($http) {
     return {
@@ -24,16 +36,16 @@ module.factory('serverAPI', function ($http) {
                 'mail': mail
             }
 
-            $http.post(host + newUserPath, user).success(function (data, status, headers, config) {
-                console.log(data)
-                return data // -1 for Error on Server otherwise new UserID
-            }).error(function (data, status, headers, config) {
-                console.log(data)
-                return -400
-            })
-            return -9999
-
-            console.log(host + newUserPath)
+            //            $http.post(host + newUserPath, user).success(function (data, status, headers, config) {
+            //                console.log(data)
+            //                return data // -1 for Error on Server otherwise new UserID
+            //            }).error(function (data, status, headers, config) {
+            //                console.log(data)
+            //                return -400
+            //            })
+            //            return -9999
+            //
+            //            console.log(host + newUserPath)
             $http.post(host + newUserPath, user).success(callback)
 
         },
@@ -67,6 +79,81 @@ module.factory('serverAPI', function ($http) {
             }
             $http.post(host + searchPartnerToPlayWithPath, searchRequest).success(callback)
         },
+        getGamesToRate: function (userId, callback) {
+            $http({
+                url: host + gamesToRatePath,
+                method: 'GET',
+                params: userId
+            }).success(callback)
+        },
+        insertNewRating: function (rating, callback) {
+            $http.post(host + insertNewRatingPath, rating).success(callback)
+        },
+        getAllBenefitItems: function (callback) {
+            $http({
+                url: host + allItemsPath,
+                method: 'GET',
+            }).success(callback)
+        },
+        buyItem: function (userId, benefitId, count, callback) {
+            var buyRequest = {
+                'UID': userId,
+                'BID': benefitId,
+                'count': count
+            }
+            $http.post(host + buyItemPath, buyRequest).success(callback)
+        },
+        getUserData: function (userId, callback) {
+            $http({
+                url: host + userDataPath,
+                method: 'GET',
+                params: userId
+            }).success(callback)
+        },
+        getRecentEvents: function (userId, callback) {
+            $http({
+                url: host + recentEventsPath,
+                method: 'GET',
+                params: userId
+            }).success(callback)
+        },
+        changeModus: function (userId, newModus, callback) {
+            //newModus: 1 visible, 0 invisible
+            var changeModusRequest = {
+                'UID': userId,
+                'newModus': newModus
+            }
+            $http.put(host + changeModusPath, changeModusRequest).success(callback)
+        },
+        updateGPS: function (userId, longitude, latitude, callback) {
+            var userLocationData = {
+                'UID': userId,
+                'longitude': longitude,
+                'latitude': latitude
+            }
+            $http.put(host + updateGPSPath, userLocationData).success(callback)
+        },
+        saveNewPhoto: function (photo) {
+            //??????????
+        },
+        deletePhoto: function (userId, photoId, callback) {
+            var deletePhotoRequest = {
+                'UID': userId,
+                'PID'
+                photoId
+            }
+            $http({
+                path: host + deletePhotoPath,
+                method: 'DELETE',
+                params: deletePhotoRequest
+            }).success(callback)
+        },
+        logout: function (userId, callback) {
+            var logoutRequest: {
+                'UID': userId
+            }
+            $http.put(host + logOutPath, logoutRequest).success(callback)
+        }
         testMehtode: function () {
             $http.get('https://whou.sabic.uberspace.de/api/newUser').success(function (data, status, headers, config) {
                 console.log(data)
