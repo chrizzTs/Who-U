@@ -1,4 +1,12 @@
 
+img {
+
+  height: auto;
+
+  width: 200px;
+
+}
+
 h2 {
 
   text-align: center;
@@ -31,7 +39,7 @@ h2 {
 
 #userPic {
 
-  height: 45% !important;
+  height: 50% !important;
 
   width: auto;
 
@@ -39,7 +47,7 @@ h2 {
 
 .ion-slide {
 
-  height: 40% !important;
+  height: 50% !important;
 
   width: auto;
 
