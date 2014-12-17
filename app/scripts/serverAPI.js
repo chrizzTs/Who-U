@@ -139,8 +139,7 @@ module.factory('serverAPI', function ($http) {
         deletePhoto: function (userId, photoId, callback) {
             var deletePhotoRequest = {
                 'UID': userId,
-                'PID'
-                photoId
+                'PID': photoId
             }
             $http({
                 path: host + deletePhotoPath,
@@ -149,11 +148,11 @@ module.factory('serverAPI', function ($http) {
             }).success(callback)
         },
         logout: function (userId, callback) {
-            var logoutRequest: {
+            var logoutRequest = {
                 'UID': userId
             }
             $http.put(host + logOutPath, logoutRequest).success(callback)
-        }
+        },
         testMehtode: function () {
             $http.get('https://whou.sabic.uberspace.de/api/newUser').success(function (data, status, headers, config) {
                 console.log(data)
