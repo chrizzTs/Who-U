@@ -5,9 +5,9 @@
       <div id="distance">
         <p>Hierhin kommt eine Entfernung nach Rom</p>
       </div>
-      <div id="map">
-        <p>Hierhin kommt die Karte</p>
-      </div>
+      <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+        <ui-gmap-markers models="randomMarkers" coords="'self'" icon="'icon'">
+      </ui-gmap-google-map>
     </div>
   </ion-content>
 </ion-view>

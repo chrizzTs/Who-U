@@ -4,10 +4,17 @@ angular.module('play', [])
 
   cssInjector.add('styles/play.css');
 
-  $scope.storageTasklines = "Eat the following;Burger 1;Burger 2;Doener";
-  $scope.name = window.localStorage.getItem("name");
-  $scope.isEnumeration = true;
+  $scope.storageTasklines = window.localStorage.getItem("task");
+    
+//$scope.teammatePhotos{}
+    
+ //fetch all data from localStorage from tab-home 
+  $scope.name = window.localStorage.getItem("username");
+    
+  $scope.isEnumeration = window.localStorage.getItem("isEnumeration");
+    
   $scope.isText = false;
+    
 
 
 
@@ -25,10 +32,8 @@ angular.module('play', [])
   <!-- Code für den Picture Slider -->
   $scope.slides = [{
       image: 'img/Megan_1.jpg',
-      description: 'Megan 1'
     }, {
       image: 'img/Megan_2.jpg',
-      description: 'Megan 2'
     }
 
   ];
