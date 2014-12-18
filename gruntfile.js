@@ -332,7 +332,7 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/lib/ionic/release/js/ionic-angular.js',
           '<%= yeoman.app %>/lib/angular-mocks/angular-mocks.js',
                     
-            //out Scripts 
+            //our Scripts 
              '<%= yeoman.app %>/lib/angular-css-injector/angular-css-injector.js',
             
                     

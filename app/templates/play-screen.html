@@ -1,20 +1,18 @@
 <ion-view title="Play" name="tab-home">
   <ion-content>
     <div class="card">
-      <div id="name">
+      <div id="name" class="bar-positve">
         <div class="item">
           <h2>{{name}}</h2>
         </div>
       </div>
       <div id="userPic">
-        <div class="item item-image">
+        <div class="item pic-item">
           <ion-slide-box on-slide-changed="slideHasChanged($index)">
 
             <ion-slide ng-repeat="slide in slides">
-              <item item-image>
 
                 <img ng-src="{{slide.image}}"></img>
-              </item>
             </ion-slide>
           </ion-slide-box>
         </div>

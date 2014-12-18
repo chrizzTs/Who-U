@@ -3,6 +3,7 @@ angular.module('play', [])
 .controller('playCtrl', ['$scope', 'cssInjector',  function($scope, cssInjector) {
 
 
+    cssInjector.add("styles/play.css");
     
     //fetch all data from localStorage from tab-home 
     $scope.fetchDataFromLocalStorage = function (){
@@ -16,9 +17,9 @@ angular.module('play', [])
     }
     
      $scope.slides = [{
-      image: 'img/Megan_1.jpg',
+      image: 'img/picture_1.jpg',
     }, {
-      image: 'img/Megan_2.jpg',
+      image: 'img/picture_2.jpg',
     }
 
   ];
