@@ -44,22 +44,29 @@ angular.module('home', ['services'])
             $scope.text = 'Searching';
             $scope.buttonType = 'icon ion-loading-a';
 
+
             //Grap geoLocation        
             var location = navigator.geolocation.getCurrentPosition(saveGeoData);
+
+            function onError(error) {
+                alert('code: ' + error.code + '\n' +
+                    'message: ' + error.message + '\n');
+            };
 
             function saveGeoData(geoData) {
                 var myPosition = {
                     'longitude': geoData.coords.longitude,
                     'latitude': geoData.coords.latitude
                 };
+
                 window.localStorage.setItem('myPosition', JSON.stringify(myPosition));
                 //If geoloaction is saved successfully => Send geodata to server to receive teammate
                 sendToServer(myPosition);
-            }
+            };
 
 
             //Send current location to Server to receive teammate
-            var sendToServer = function (myPosition) {
+            function sendToServer(myPosition) {
                 serverAPI.searchPartnerToPlayWith(myPosition.longitude, myPosition.latitude, UID, function (data) {
 
                     //No other players around you. Server returns -1 
@@ -84,7 +91,6 @@ angular.module('home', ['services'])
 
                 })
             }
-
         };
 
     })
