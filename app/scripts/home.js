@@ -1,7 +1,7 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $location, $state, localStorageService, serverAPI, $ionicPopup) {
+    function ($scope, $location, $state, serverAPI, $ionicPopup) {
 
         $scope.buttonType = "icon ion-search";
         $scope.buttonDisable = false;
@@ -10,24 +10,23 @@ angular.module('home', ['services'])
         serverAPI.getUserData(UID, function (data) {
             $scope.userName = data.userName;
             $scope.points = data.points;
-            $scope.fotoID = data.fotoID;
+            $scope.fotoId = data.fotoId;
             console.log(data);
         });
 
-        serverAPI.getRecentEvents(UID, function (data) {
-            $scope.username = data.username;
-            $scope.username = data.points;
-            console.log(data);
-
-        });
-
-        serverAPI.requestFeedback(UID, data, requestFeedback);
-        $scope.click = click();
+        //        serverAPI.getRecentEvents(UID, function (data) {
+        //
+        //            $scope.username = data.username;
+        //            $scope.username = data.points;
+        //            console.log(data);
+        //
+        //        });
+        //        serverAPI.getGamesToRate(UID, getGamesToRate);
 
 
 
         //Request new feedback sheet from server to rate last plays (contat with new persons)
-        function requestFeedback(data) {
+        var getGamesToRate = function (data) {
             // Check if there are any new feedback sheets availalbe
             if (data == 1) {
                 $ionicPopup.alert({
@@ -39,10 +38,11 @@ angular.module('home', ['services'])
         };
 
 
-        function click() {
+
+        $scope.click = function () {
             $scope.buttonDisable = true;
             $scope.text = 'Searching';
-            $scope.buttonType = "icon ion-loading-a";
+            $scope.buttonType = 'icon ion-loading-a';
 
             //Grap geoLocation        
             var location = navigator.geolocation.getCurrentPosition(saveGeoData);
@@ -59,7 +59,7 @@ angular.module('home', ['services'])
 
 
             //Send current location to Server to receive teammate
-            function sendToServer(myPosition) {
+            var sendToServer = function (myPosition) {
                 serverAPI.searchPartnerToPlayWith(myPosition.longitude, myPosition.latitude, UID, function (data) {
 
                     //No other players around you. Server returns -1 
@@ -69,12 +69,15 @@ angular.module('home', ['services'])
                             template: 'Unfortunateley there are no other players around you. Try it some other time!'
                         });
                     } else {
-
-                        window.localStorage.setItem('teammate', teammate);
-                        window.localStorage.setItem('isEnummeration', isEnummeration);
-                        window.localStorage.setItem('task', task);
-                        windwo.localeCompare.setItem('teammatePosition', teammatePosition);
-
+                        window.localStorage.setItem('teammate', data.username);
+                        window.localStorage.setItem('isEnummeration', data.taskType);
+                        window.localStorage.setItem('task', data.task);
+                        var teammatePosition = {
+                            'longitude': data.longitude,
+                            'latitude': data.latitude
+                        };
+                        window.localStorage.setItem('teammatePosition', teammatePosition);
+                        //TODO: data.fotoId => request foto from server
                         $state.go('tab.play-screen');
                     }
 
