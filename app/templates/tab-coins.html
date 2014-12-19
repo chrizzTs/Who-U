@@ -4,13 +4,23 @@
             <div class="col col-75">Your current score is:</div>
             <div class="col">123 Coins</div>
         </div>
-        <hr>Anfang Liste
+        <hr>
         <ul class="benefits">
-            <li ng-repeat="benefit in benefits">
-                <span>{{benefits.name}}</span>
-                <span>{{benefits.price}}</span>
-            </li>
+            <div class="card">
+                <li ng-repeat="benefit in benefits">
+                    <div class="item item-text-wrap">
+                        <div class="row">
+                            <div class="col col-75">
+                                <div class="item item-divider">
+                                    <b>{{benefit.name}}</b>
+                                </div>
+                                <br>{{benefit.description}}
+                            </div>
+                            <div class="col">{{benefit.price}}</div>
+                        </div>
+                    </div>
+                </li>
+            </div>
         </ul>
-        Ende Liste
     </ion-content>
 </ion-view>

@@ -5,17 +5,25 @@ angular.module('coins', ['ServerAPI'])
 
         console.log('angebunden');
 
-        $scope.benefits[{
-            'name': 'Skip a selected user, before starting a game',
+        $scope.benefits = [{
+            'id': 1,
+            'name': 'Skip user',
+            'description': 'Skip a selected user and see another one, before starting the game.',
             'price': 40
         }, {
-            'name': 'Send 25 more messages in chat',
+            'id': 2,
+            'name': 'More chat messages',
+            'description': 'Send 25 more messages in chat, to any of your contacts.',
             'price': 15
         }, {
-            'name': 'Filter (currently disabled due the lack of Facebook integration)',
+            'id': 3,
+            'name': 'Filter',
+            'description': 'Currently disabled due the lack of Facebook integration.',
             'price': 60
         }, {
-            'name': 'Gather more points per game for 3 days',
+            'id': 4,
+            'name': 'More coins per game',
+            'description': 'Gather more credits per game. This feature will be active during the next 3 days.',
             'price': 50
         }];
 
