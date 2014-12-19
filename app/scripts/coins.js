@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coins', ['ServerAPI'])
+angular.module('coins', ['serverAPI'])
     .controller('coinsCtrl', function ($scope, serverAPI, cssInjector) {
 
         console.log('angebunden');

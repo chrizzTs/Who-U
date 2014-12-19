@@ -1,4 +1,4 @@
-var module = angular.module('ServerAPI', [])
+var module = angular.module('serverAPI', [])
 
 //Error codes:
 //OneNote
