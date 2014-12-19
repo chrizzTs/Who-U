@@ -3,7 +3,7 @@
 angular.module('coins', ['serverAPI'])
     .controller('coinsCtrl', function ($scope, serverAPI, cssInjector) {
 
-        console.log('angebunden');
+        $scope.coins = 100;
 
         $scope.benefits = [{
             'id': 1,
@@ -27,5 +27,19 @@ angular.module('coins', ['serverAPI'])
             'price': 50
         }];
 
+        $scope.buy = function (x) {
+
+            var price = 0;
+
+            //Search for the right element in "benefits" and storing its price in an external variable
+            for (var i = 0; i < $scope.benefits.length; i++) {
+                if ($scope.benefits[i].id == x) {
+                    price = $scope.benefits[i].price;
+                }
+            }
+
+            //Checking if purchase is possible and updating the new coins value
+            $scope.coins = $scope.coins - price;
+        }
 
     });

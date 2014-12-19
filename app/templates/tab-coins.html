@@ -2,7 +2,7 @@
     <ion-content>
         <div class="row">
             <div class="col col-75">Your current score is:</div>
-            <div class="col">123 Coins</div>
+            <div class="col">{{coins}}</div>
         </div>
         <hr>
         <ul class="benefits">
@@ -16,9 +16,12 @@
                                 </div>
                                 <br>{{benefit.description}}
                             </div>
-                            <div class="col">{{benefit.price}}</div>
+                            <div class="col">
+                                <button class="button button-positive" ng-click="buy(benefit.id)">Buy ({{benefit.price}} coins)</button>
+                            </div>
                         </div>
                     </div>
+                    <br>
                 </li>
             </div>
         </ul>
