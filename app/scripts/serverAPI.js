@@ -151,7 +151,7 @@ module.factory('serverAPI', function ($http) {
         },
         logout: function (userId, callback) {
             var logoutRequest = {
-                'UID': userId
+                '_id': userId
             }
             $http.put(host + logOutPath, logoutRequest).success(callback)
         },
