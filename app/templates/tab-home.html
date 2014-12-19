@@ -6,13 +6,11 @@
             <h2>{{username}}</h2>
             <p>Points: {{points}}</p>
         </a>
-
         <button ng-click="click()" class="button button-full button-positive" ng-disabled="{{buttonDisable}}">
             <i class='{{buttonType}}'></i>{{text}}
         </button>
-        {{buttonDisable}}
-        <ul class="animate-repeat" ng-repeat="entry in news">
 
+        <ul class="animate-repeat" ng-repeat="entry in news">
             <li ng-if="entry.typ == 'message '">[{{$index + 1}}]. <b>{{entry.from}}: </b> {{entry.title}}</li>
             <li ng-if="entry.typ == 'played '">[{{$index + 1}}]. {{entry.date}}: Played with {{entry.person}}</li>
 
