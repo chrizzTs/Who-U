@@ -14,16 +14,20 @@ angular.module('home', ['services'])
             console.log(data);
         });
 
-        //        serverAPI.getRecentEvents(UID, function (data) {
-        //
-        //            $scope.username = data.username;
-        //            $scope.username = data.points;
-        //            console.log(data);
-        //
-        //        });
-        //        serverAPI.getGamesToRate(UID, getGamesToRate);
 
+        serverAPI.getRecentEvents(UID, function (data) {
+            console.log(data)
 
+            //        serverAPI.getRecentEvents(UID, function (data) {
+            //
+            //            $scope.username = data.username;
+            //            $scope.username = data.points;
+            //            console.log(data);
+            //
+            //        });
+            //        serverAPI.getGamesToRate(UID, getGamesToRate);
+
+        })
 
         //Request new feedback sheet from server to rate last plays (contat with new persons)
         var getGamesToRate = function (data) {
@@ -91,6 +95,5 @@ angular.module('home', ['services'])
 
                 })
             }
-        };
-
+        }
     })

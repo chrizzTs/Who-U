@@ -36,16 +36,6 @@ module.factory('serverAPI', function ($http) {
                 'mail': mail
             }
 
-            //            $http.post(host + newUserPath, user).success(function (data, status, headers, config) {
-            //                console.log(data)
-            //                return data // -1 for Error on Server otherwise new UserID
-            //            }).error(function (data, status, headers, config) {
-            //                console.log(data)
-            //                return -400
-            //            })
-            //            return -9999
-            //
-            //            console.log(host + newUserPath)
             $http.post(host + newUserPath, user).success(callback)
 
         },
@@ -86,8 +76,12 @@ module.factory('serverAPI', function ($http) {
                 params: userId
             }).success(callback)
         },
-        insertNewRating: function (rating, callback) {
-            $http.post(host + insertNewRatingPath, rating).success(callback)
+        insertNewRating: function (userId, coinsToAdd, callback) {
+            var coinAddRequest = {
+                _id: userId,
+                coins: coinsToAdd
+            }
+            $http.put(host + insertNewRatingPath, coinAddRequest).success(callback)
         },
         getAllBenefitItems: function (callback) {
             $http({
@@ -116,6 +110,9 @@ module.factory('serverAPI', function ($http) {
             })
         },
         getRecentEvents: function (userId, callback) {
+            var userId = {
+                'UID': userId
+            }
             $http({
                 url: host + recentEventsPath,
                 method: 'GET',
