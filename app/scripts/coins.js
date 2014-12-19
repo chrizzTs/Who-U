@@ -39,7 +39,13 @@ angular.module('coins', ['serverAPI'])
             }
 
             //Checking if purchase is possible and updating the new coins value
-            $scope.coins = $scope.coins - price;
+            if ($scope.coins >= price) {
+                //Aufruf der serverAPI, kann ich die Transaktion sichern, dass nur bei positiver Response die Punkte abgezogen werden?
+                $scope.coins = $scope.coins - price;
+            } else {
+                console.log('Preis zu hoch');
+                //Fehlermeldung über ng-show wäre echt cool; wirft das dann wieder Fehler aus?
+            }
         }
 
     });
