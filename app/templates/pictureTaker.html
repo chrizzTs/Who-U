@@ -1,7 +1,14 @@
 <ion-view title="Photos">
     <ion-content class="padding">
-<div class="imgCropSpace" ng-Click="getPhoto()">
-    <img id="profilePicture" ng-src="img/picture_1.jpg">
-</div>
+<div class="imgCropSpace">
+    <img id="profilePicture" ng-src="{{cameraPic}}">
+</div>          
+        <div>{{errormessage}}</div>
+          <button class='button button-positive' ng-click="getCameraPhoto()">
+            Take Photo
+          </button> 
+    <button class= 'button button-positive' ng-click="getLibraryPhoto()">Load Photo From Gallery</button>
+        <button class= 'button button-positive' ng-click="getAlbumPhoto()">Load Photo From Gallery</button>
+      
     </ion-content>
 </ion-view>
