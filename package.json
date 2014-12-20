@@ -5,6 +5,7 @@
   "dependencies": {
     "http": "0.0.0",
     "jshint": "^2.5.10",
+    "q": "^1.1.2",
     "querystring": "^0.2.0",
     "request": "^2.49.0"
   },
@@ -62,6 +63,7 @@
     "org.apache.cordova.statusbar",
     "org.apache.cordova.console",
     "org.apache.cordova.geolocation",
-    "https://github.com/apache/cordova-plugin-geolocation.git"
+    "https://github.com/apache/cordova-plugin-geolocation.git",
+    "org.apache.cordova.camera"
   ]
 }

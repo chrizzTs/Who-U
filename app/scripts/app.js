@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map', 'coins'])
+angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map', 'coins', 'pictureTaker'])
 
 .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -59,7 +59,17 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
         views: {
             'tab-home': {
                 templateUrl: 'templates/play-screen.html',
-                controller: 'playCtrl',
+                controller: 'playCtrl'
+            }
+        }
+    })
+    
+    .state('tab.photos', {
+        url: '/photos',
+        views: {
+            'tab-home': {
+                templateUrl: 'templates/pictureTaker.html',
+                controller: 'CameraCtrl'
             }
         }
     })
