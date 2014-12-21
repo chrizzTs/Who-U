@@ -29,7 +29,7 @@ const logOutPath = '/logout'
 
 module.factory('serverAPI', function ($http) {
     return {
-        createNewUser: function (username, password, mail, longitude, latitude callback) {
+        createNewUser: function (username, password, mail, longitude, latitude, callback) {
             var user = {
                 'username': username,
                 'password': password,

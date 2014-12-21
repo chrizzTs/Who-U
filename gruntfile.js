@@ -5,8 +5,8 @@ var _ = require('lodash');
 var path = require('path');
 var cordovaCli = require('cordova');
 //die Zeile unten funktioniert nicht für Windows
-var spawn = require('child_process').spawn;
-//var spawn = require('win-spawn');
+//var spawn = require('child_process').spawn;
+var spawn = require('win-spawn');
 
 module.exports = function (grunt) {
 
@@ -322,7 +322,7 @@ module.exports = function (grunt) {
         karma: {
             options: {
                 basePath: '',
-                frameworks: ['jasmine', 'chai', 'mocha'],
+                frameworks: ['mocha', 'chai'],
                 files: [
           '<%= yeoman.app %>/lib/angular/angular.js',
           '<%= yeoman.app %>/lib/angular-animate/angular-animate.js',
@@ -331,17 +331,11 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/lib/ionic/release/js/ionic.js',
           '<%= yeoman.app %>/lib/ionic/release/js/ionic-angular.js',
           '<%= yeoman.app %>/lib/angular-mocks/angular-mocks.js',
-
-            //our Scripts 
-             '<%= yeoman.app %>/lib/angular-css-injector/angular-css-injector.js',
-
-
-
           '<%= yeoman.app %>/<%= yeoman.scripts %>/**/*.js',
           'test/mock/**/*.js',
           'test/spec/**/*.js'
         ],
-                autoWatch: true,
+                autoWatch: false,
                 reporters: ['dots', 'coverage'],
                 port: 8080,
                 singleRun: false,
@@ -362,7 +356,7 @@ module.exports = function (grunt) {
                 // Change this to 'Chrome', 'Firefox', etc. Note that you will need
                 // to install a karma launcher plugin for browsers other than Chrome.
                 browsers: ['PhantomJS'],
-                background: false
+                background: true
             },
             continuous: {
                 browsers: ['PhantomJS'],
@@ -528,8 +522,4 @@ module.exports = function (grunt) {
     'karma:continuous',
     'compress'
   ]);
-
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
-    grunt.loadNpmTasks('grunt-karma');
-    grunt.registerTask('default', ['karma']);
 };
