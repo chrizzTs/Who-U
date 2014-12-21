@@ -14,7 +14,18 @@ angular.module('registration', ['serverAPI'])
         $scope.submit = function () {
             if ($scope.password1 === $scope.password2) {
                 console.log('Formular wurde abgeschickt');
-                serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail, function (data) {
+                //Catch GeoData to initialize useres position and to grant access to GPS.
+                //Grap geoLocation
+                var myPosition;
+                var location = navigator.geolocation.getCurrentPosition(function (geoData) {
+                    myPosition = {
+                        'longitude': geoData.coords.longitude,
+                        'latitude': geoData.coords.latitude
+                    };
+                });
+
+
+                serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail, myPosition.latitude, myPosition.longitude, function (data) {
                     var storedCredentials
                     var newCredentials
                     if ((storedCredentials = window.localStorage.getItem('Credentials')) != null) {
