@@ -1,63 +1,85 @@
-//'use strict'
+'use strict'
 var services = angular.module('services', [])
-    //
-    //
-    ////Init the history array
-    //
-    //var data2 = {
-    //    "typ": "message",
-    //    "from": "Max",
-    //    "title": "Hallo neue Kontakt"
-    //};
-    //
-    //var data1 = {
-    //    "typ": "played",
-    //    "date": "04-21-2014",
-    //    "person": "Tim Federmann"
-    //};
-    //
-    //var arrayData = {
-    //    'array': [
-    //            data1,
-    //            data2
-    //                ]
-    //}
-    //
-    //localStorage.setItem('history', JSON.stringify(arrayData));
-    //
-    ////End init
-    //
-    //
-    ////Create a hitsotry of Events to see the recent Events
-    //
-    //services.factory('localStorageService', function () {
-    //    return {
-    //        addEvent: function (event) {
-    //
-    //
-    //            //Pull the history of local storage
-    //            var history = localStorage.getItem('history');
-    //            if (history != null) {
-    //                history = JSON.parse(history);
-    //            } else {
-    //                console.error("No local history saved");
-    //            }
-    //
-    //            var date = event.date.getDate();
-    //            var month = event.date.getMonth() + 1;
-    //            var year = event.date.getFullYear();
-    //
-    //            event.date = month.toString() + '-' + date.toString() + '-' + year.toString();
-    //
-    //            history.array.unshift(event);
-    //
-    //            localStorage.setItem('history', JSON.stringify(history));
-    //
-    //        },
-    //
-    //        getHistory: function () {
-    //            return JSON.parse(localStorage.getItem('history')).array;
-    //        }
-    //
-    //    }
-    //});
+
+services.factory('services', function (serverAPI) {
+    var bgGeo;
+
+    return {
+        startBackgroundGps: function () {
+            if (window.cordova) {
+                bgGeo.start();
+            }
+        },
+
+        initBackgroundGps: function () {
+            if (window.cordova) {
+
+
+                bgGeo = window.plugins.backgroundGeoLocation;
+
+
+                /**
+                 * This would be your own callback for Ajax-requests after POSTing background geolocation to your server.
+                 */
+                var callBackUpdateGPS = function (response) {
+                    ////
+                    // IMPORTANT:  You must execute the #finish method here to inform the native plugin that you're finished,
+                    //  and the background-task may be completed.  You must do this regardless if your HTTP request is successful or not.
+                    // IF YOU DON'T, ios will CRASH YOUR APP for spending too much time in the background.
+                    //
+                    //
+
+                    bgGeo.finish();
+                };
+
+                /**
+                 * This callback will be executed every time a geolocation is recorded in the background.
+                 */
+                var callbackFn = function (location) {
+
+                    serverAPI.updateGPS(JSON.parse(window.localStorage.getItem('Credentials')).UID, location.longitude, location.latitude, callBackUpdateGPS);
+                    // Do your HTTP request here to POST location to your server.
+                    //
+                    //
+                    yourAjaxCallback.call(this);
+                };
+
+                var failureFn = function (error) {
+                    console.log('BackgroundGeoLocation error');
+                }
+
+                // BackgroundGeoLocation is highly configurable.
+                bgGeo.configure(callbackFn, failureFn, {
+                    //                url: 'http://only.for.android.com/update_location.json', // <-- Android ONLY:  your server url to send locations to
+                    //                params: {
+                    //                    auth_token: 'user_secret_auth_token', //  <-- Android ONLY:  HTTP POST params sent to your server when persisting locations.
+                    //                    foo: 'bar' //  <-- Android ONLY:  HTTP POST params sent to your server when persisting locations.
+                    //                },
+                    //                headers: { // <-- Android ONLY:  Optional HTTP headers sent to your configured #url when persisting locations
+                    //                    "X-Foo": "BAR"
+                    //                },
+                    desiredAccuracy: 10,
+                    stationaryRadius: 20,
+                    distanceFilter: 30,
+                    notificationTitle: 'Background tracking', // <-- android only, customize the title of the notification
+                    notificationText: 'ENABLED', // <-- android only, customize the text of the notification
+                    activityType: 'CLActivityTypeOther',
+                    debug: false, // <-- enable this hear sounds for background-geolocation life-cycle.
+                    stopOnTerminate: false // <-- enable this to clear background location settings when the app terminates
+                });
+
+
+
+            }
+        },
+        endBackgroundGps: function () {
+            if (window.cordova) {
+                bgGeo.stop()
+            }
+
+        }
+
+
+
+    }
+});

@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('map', ['uiGmapgoogle-maps'])
 
 //ensures, that angular-google-maps does not begin processing until all of the Google Maps SDK is fully ready
@@ -6,15 +8,15 @@ angular.module('map', ['uiGmapgoogle-maps'])
     //    key: 'your api key',
     v: '3.17',
     libraries: 'weather,geometry,visualization',
-      china: true
+    china: true
   });
 })
 
 
 .controller('mapCtrl', function($scope, uiGmapGoogleMapApi, uiGmapIsReady, cssInjector) {
 
-    //Map Styles hinzufügen
-    cssInjector.add('styles/map.css');
+  //Map Styles hinzufügen
+  cssInjector.add('styles/map.css');
 
   //Directive needs to be ready to be used
   // Do stuff with your $scope.
@@ -25,21 +27,21 @@ angular.module('map', ['uiGmapgoogle-maps'])
   // The "then" callback function provides the google.maps object.
 
   uiGmapGoogleMapApi.then(function(maps) {
-      
-      //fetch data from local Storage from tab-home
-      
+
+    //fetch data from local Storage from tab-home
+
     $scope.myPosition = JSON.parse(window.localStorage.getItem("myPosition"));
-    
+
     $scope.teammatePosition = JSON.parse(window.localStorage.getItem("teammatePosition"));
-      
+
     $scope.map = {
-        center: {
-            latitude: 45,
-            longitude: -73 
-        },
-        zoom: 8
+      center: {
+        latitude: 45,
+        longitude: -73
+      },
+      zoom: 8
     };
-      
+
     $scope.myPosition = {
       latitude: 41.89020210802678,
       longitude: 12.491927146911621
@@ -47,13 +49,8 @@ angular.module('map', ['uiGmapgoogle-maps'])
     $map.zoomLevel = 10;
   });
 
-  checkPosition();
-  var karte;
 
-  function checkPosition() {
-    navigator.geolocation.getCurrentPosition(showPosition, showError);
-  }
-
+  <!--
   function showPosition(position) {
     var otherPlayerCoordinates = {
       latitude: 41.89020210802678,
@@ -154,7 +151,7 @@ angular.module('map', ['uiGmapgoogle-maps'])
       infoFenster.open(karte);
     });
   };
-
+  -->
 
 
 });

@@ -5,7 +5,7 @@
     padding-bottom: 0px;
 }
 
-.item{
+div.card .item{
     height: 100% !important;
 }
     
@@ -59,7 +59,7 @@ h2 {
 
 #userPic {
 
-  height: 60% !important;
+  height: 50% !important;
 
   width: 100% !important;
 

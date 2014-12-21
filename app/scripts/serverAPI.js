@@ -29,11 +29,13 @@ const logOutPath = '/logout'
 
 module.factory('serverAPI', function ($http) {
     return {
-        createNewUser: function (username, password, mail, callback) {
+        createNewUser: function (username, password, mail, longitude, latitude callback) {
             var user = {
                 'username': username,
                 'password': password,
-                'mail': mail
+                'mail': mail,
+                'longitude': longitude,
+                'latitude': latitude
             }
 
             $http.post(host + newUserPath, user).success(callback)
@@ -135,8 +137,12 @@ module.factory('serverAPI', function ($http) {
             }
             $http.put(host + updateGPSPath, userLocationData).success(callback)
         },
-        saveNewPhoto: function (photo) {
-            //??????????
+        saveNewPhoto: function (userId, photoString, callback) {
+            var photoData = {
+                '_id': userId,
+                'photo': photoString,
+            }
+            $http.post(host + newPhotoPath, photoData).success(callback)
         },
         deletePhoto: function (userId, photoId, callback) {
             var deletePhotoRequest = {

@@ -1,3 +1,4 @@
+'use strict'
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
@@ -16,16 +17,17 @@ angular.module('home', ['services'])
 
 
         serverAPI.getRecentEvents(UID, function (data) {
-            console.log(data)
+            serverAPI.getRecentEvents(UID, function (data) {
 
-            //        serverAPI.getRecentEvents(UID, function (data) {
-            //
-            //            $scope.username = data.username;
-            //            $scope.username = data.points;
-            //            console.log(data);
-            //
-            //        });
-            //        serverAPI.getGamesToRate(UID, getGamesToRate);
+                $scope.user = data.user;
+                $scope.from = data.from;
+                $scope.date = data.date;
+                $scope.type = data.type;
+                $scope.message = data.message;
+                $scope.teammate = data.teammate;
+
+            });
+            serverAPI.getGamesToRate(UID, getGamesToRate);
 
         })
 
@@ -42,20 +44,31 @@ angular.module('home', ['services'])
         };
 
 
+        $scope.geo = function () {
 
+            navigator.geolocation.getCurrentPosition(function (geoData) {
+                alert(geoData.coords.longitude);
+                alert(geoData.coords.latitude);
+            });
+
+        }
         $scope.click = function () {
+            console.log($scope.buttonDisable);
             $scope.buttonDisable = true;
+            console.log($scope.buttonDisable);
+
+            console.log($scope.text);
             $scope.text = 'Searching';
+            console.log($scope.text);
+
+            console.log($scope.buttonType);
             $scope.buttonType = 'icon ion-loading-a';
+            console.log($scope.buttonType);
+
 
 
             //Grap geoLocation        
             var location = navigator.geolocation.getCurrentPosition(saveGeoData);
-
-            function onError(error) {
-                alert('code: ' + error.code + '\n' +
-                    'message: ' + error.message + '\n');
-            };
 
             function saveGeoData(geoData) {
                 var myPosition = {
@@ -67,7 +80,6 @@ angular.module('home', ['services'])
                 //If geoloaction is saved successfully => Send geodata to server to receive teammate
                 sendToServer(myPosition);
             };
-
 
             //Send current location to Server to receive teammate
             function sendToServer(myPosition) {

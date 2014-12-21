@@ -1,0 +1,19 @@
+.imgCropSpace {
+    width: 80%;
+    height: 60%;
+    
+}
+
+#profilePicture{
+  height: 100%;
+    width: 100%;
+}
+
+img{
+    height: 100%;
+    width: 100%;
+}
+
+i{
+    font-size: 20em;  
+}

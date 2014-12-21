@@ -1,7 +1,8 @@
-angular.module('settings', ['serverAPI'])
+angular.module('settings', ['services'])
 
-.controller('settingsCtrl', function ($scope, serverAPI) {
+.controller('settingsCtrl', function ($scope, serverAPI, services) {
 
+<<<<<<< HEAD
     var visible = window.localStorage.getItem('visible');
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
 
@@ -31,6 +32,16 @@ angular.module('settings', ['serverAPI'])
         }
     };
 
+=======
+    $scope.visible = true;
+    $scope.changeVisibility = function () {
+        if (this.visible) {
+            services.startBackgroundGps();
+        } else {
+            services.endBackgroundGps();
+        }
+    };
+>>>>>>> dba56cba138fa6c9f02e469d72ede9283de8cfb1
     $scope.logout = function () {
 
         var credentials = JSON.parse(window.localStorage.getItem('Credentials'));
@@ -44,4 +55,4 @@ angular.module('settings', ['serverAPI'])
         }
     };
 
-})
+});
