@@ -4,19 +4,14 @@
             <div class="col col-75">Bild</div>
             <div class="col">Anzeigename</div>
         </div>
-        <hr>
-        <ul class="list">
-            <li class="item item-toggle">
+        <div class="item item-divider"></div>
+        <div class="list">
+            <ion-toggle ng-model="visibleStatus.mode" ng-change="changeVisibility()">
                 Become invisible
-                <label class="toggle toggle-positive">
-                    <input type="checkbox">
-                    <div class="track">
-                        <div class="handle"></div>
-                    </div>
-                </label>
-            </li>
-        </ul>
-        <hr>
+            </ion-toggle>
+        </div>
+        <div class="item item-divider"></div>
+        <br>
         <center>
             <button class="button button-assertive" ng-click="logout()">Logout</button>
         </center>

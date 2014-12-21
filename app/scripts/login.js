@@ -18,6 +18,7 @@ angular.module('login', ['serverAPI'])
             if (sessionKey != null && userId != null)
                 serverAPI.loginWithSessionKey(userId, sessionKey, function (data) {
                     console.log(data);
+                    window.localStorage.setItem('visible', true);
                     window.location = "#/tab/home";
                 })
         }
@@ -32,6 +33,7 @@ angular.module('login', ['serverAPI'])
                 var sessionKey = data //parseInt(data.substring(2))
                 if (data instanceof Object) {
                     window.localStorage.setItem('Credentials', JSON.stringify(data));
+                    window.localStorage.setItem('visible', true);
                     window.location = "#/tab/home";
                 } else {
                     console.log('Log-In Fehler')
