@@ -5,4 +5,4 @@ The app helps breaking the ice by giving a hook for a conversation or an activit
 
 #Getting started
 This app is a cross-platform app build with phonegap and ionic.
-It is build by using the yeoman generator:ionic ([click here for more information]) (https://github.com/diegonetto/generator-ionic)
+It is build by using the yeoman generator:ionic ([click here for more information] (https://github.com/diegonetto/generator-ionic))
