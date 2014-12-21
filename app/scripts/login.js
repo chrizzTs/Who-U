@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('login', ['serverAPI'])
-    .controller('loginCtrl', function ($scope, serverAPI, $location, cssInjector) {
+angular.module('login', [])
+    .controller('loginCtrl', function ($scope, serverAPI, $location, cssInjector, services) {
         cssInjector.add("styles/login.css");
         $scope.EMail;
         $scope.password;
@@ -19,6 +19,8 @@ angular.module('login', ['serverAPI'])
                 serverAPI.loginWithSessionKey(userId, sessionKey, function (data) {
                     console.log(data);
                     window.location = "#/tab/home";
+                    services.initBackgroundGps();
+                    services.startBackgroundGps();
                 })
         }
 
@@ -33,6 +35,8 @@ angular.module('login', ['serverAPI'])
                 if (data instanceof Object) {
                     window.localStorage.setItem('Credentials', JSON.stringify(data));
                     window.location = "#/tab/home";
+                    services.initBackgroundGps();
+                    services.startBackgroundGps();
                 } else {
                     console.log('Log-In Fehler')
                     $scope.loginFailed = true;
