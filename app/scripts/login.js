@@ -13,15 +13,21 @@ angular.module('login', [])
         if ((credentials = window.localStorage['Credentials']) != null) {
             var sessionKey = JSON.parse(window.localStorage['Credentials'])['SessionKey']
             var userId = JSON.parse(window.localStorage['Credentials'])['UID']
+            var visible = window.localStorage.getItem('visible');
 
             //If UID and SessionKey are available autoLogin
             if (sessionKey != null && userId != null)
                 serverAPI.loginWithSessionKey(userId, sessionKey, function (data) {
                     console.log(data);
-                    window.localStorage.setItem('visible', true);
+                    //visible == null means, the app is starting for the first time, or the local storage was deleted by the user
+                    //In case there is no "visible" available, BackgroundGps starts and the user is available for any games
+                    //If there is a "visible" status available, we have to respect the users choice to keep off any games
+                    if (visible == null) {
+                        window.localStorage.setItem('visible', true);
+                        services.initBackgroundGps();
+                        services.startBackgroundGps();
+                    }
                     window.location = "#/tab/home";
-                    services.initBackgroundGps();
-                    services.startBackgroundGps();
                 })
         }
 
