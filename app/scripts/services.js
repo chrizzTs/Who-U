@@ -6,29 +6,22 @@ services.factory('services', function (serverAPI) {
 
     return {
         startBackgroundGps: function () {
+            //Check if it is running in the browser or on a phone (background geo catching can only be performed on the phone)
             if (window.cordova) {
                 bgGeo.start();
             }
         },
 
         initBackgroundGps: function () {
+            //Check if it is running in the browser or on a phone (background geo catching can only be performed on the phone)
             if (window.cordova) {
-
-
                 bgGeo = window.plugins.backgroundGeoLocation;
 
 
-                /**
-                 * This would be your own callback for Ajax-requests after POSTing background geolocation to your server.
+                /** Server Callback function after GPS data is pushed to the server
                  */
                 var callBackUpdateGPS = function (response) {
-                    ////
-                    // IMPORTANT:  You must execute the #finish method here to inform the native plugin that you're finished,
-                    //  and the background-task may be completed.  You must do this regardless if your HTTP request is successful or not.
-                    // IF YOU DON'T, ios will CRASH YOUR APP for spending too much time in the background.
-                    //
-                    //
-
+                    // Inform that the background-task is completed. Call funish () even if the server request was not successful, otherwise ios will crash the APP for spending too much time in the background.
                     bgGeo.finish();
                 };
 
@@ -37,27 +30,25 @@ services.factory('services', function (serverAPI) {
                  */
                 var callbackFn = function (location) {
 
+                    //Push all information to the server.
                     serverAPI.updateGPS(JSON.parse(window.localStorage.getItem('Credentials')).UID, location.longitude, location.latitude, callBackUpdateGPS);
-                    // Do your HTTP request here to POST location to your server.
-                    //
-                    //
-                    yourAjaxCallback.call(this);
+
                 };
 
                 var failureFn = function (error) {
                     console.log('BackgroundGeoLocation error');
                 }
 
-                // BackgroundGeoLocation is highly configurable.
+                // BackgroundGeoLocation
                 bgGeo.configure(callbackFn, failureFn, {
-                    //                url: 'http://only.for.android.com/update_location.json', // <-- Android ONLY:  your server url to send locations to
-                    //                params: {
-                    //                    auth_token: 'user_secret_auth_token', //  <-- Android ONLY:  HTTP POST params sent to your server when persisting locations.
-                    //                    foo: 'bar' //  <-- Android ONLY:  HTTP POST params sent to your server when persisting locations.
-                    //                },
-                    //                headers: { // <-- Android ONLY:  Optional HTTP headers sent to your configured #url when persisting locations
-                    //                    "X-Foo": "BAR"
-                    //                },
+                                    url: 'http://only.for.android.com/update_location.json', // <-- Android ONLY:  your server url to send locations to
+                                    params: {
+                                        auth_token: 'user_secret_auth_token', //  <-- Android ONLY:  HTTP POST params sent to your server when persisting locations.
+                                        foo: 'bar' //  <-- Android ONLY:  HTTP POST params sent to your server when persisting locations.
+                                    },
+                                    headers: { // <-- Android ONLY:  Optional HTTP headers sent to your configured #url when persisting locations
+                                        "X-Foo": "BAR"
+                                    },
                     desiredAccuracy: 10,
                     stationaryRadius: 20,
                     distanceFilter: 30,

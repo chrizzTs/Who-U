@@ -14,7 +14,7 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
     });
 })
 
-.config(function ($stateProvider, $urlRouterProvider, cssInjectorProvider) {
+.config(function ($stateProvider, $urlRouterProvider, cssInjectorProvider, $compileProvider) {
 
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
