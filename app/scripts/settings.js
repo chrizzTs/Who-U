@@ -39,9 +39,10 @@ angular.module('settings', ['services'])
         if (credentials != null) {
             console.log(credentials.UID);
             if (credentials.UID != null && credentials.UID != '') {
-                serverAPI.logout(credentials.UID);
-                window.localStorage.removeItem('Credentials');
-                window.location = '#/login';
+                serverAPI.logout(credentials.UID, function (data) {
+                    window.localStorage.removeItem('Credentials');
+                    window.location = '#/login';
+                });
             }
         }
     };
