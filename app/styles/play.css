@@ -5,16 +5,20 @@
     padding-bottom: 0px;
 }
 
-div.card .item{
+div.player-card .item{
+    height: 100% !important;
+}
+
+#task .item{
     height: 100% !important;
 }
     
-.slider{
+div.player-card .slider{
     height: 100% !important;
     width: 100%;
 }
 
-img{
+div.player-card img{
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -27,13 +31,13 @@ img{
 
 
 
-h2 {
+div.player-card h2 {
 
   text-align: center;
 
 }
 
-.scroll {
+.play-content .scroll {
 
   width: 95%;
 
@@ -89,13 +93,13 @@ h2 {
 
 }
 
-ul {
+div.player-card ul {
 
   list-style: disc !important;
 
 }
 
-li {
+div.player-card li {
 
   list-style-type: disc!important;
 

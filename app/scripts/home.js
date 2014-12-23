@@ -2,7 +2,9 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $location, $state, serverAPI, $ionicPopup) {
+    function ($scope, $location, $state, serverAPI, $ionicPopup, cssInjector) {
+    
+        cssInjector.removeAll();
 
         $scope.buttonType = "icon ion-search";
         $scope.buttonDisable = false;
