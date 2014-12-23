@@ -16,7 +16,6 @@ angular.module('home', ['services'])
             $scope.userName = data.userName;
             $scope.coins = data.coins;
             $scope.fotoId = data.fotoId;
-            console.log(data);
         });
 
 

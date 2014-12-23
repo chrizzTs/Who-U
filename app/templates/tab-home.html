@@ -10,8 +10,8 @@
             <i class='{{buttonType}}'></i>{{text}}
         </button>
 
-        <ul class="animate-repeat" ng-repeat="entry in events">
-            <li ng-if="entry.type == 'message'">
+        <ion-scroll direction='y' style="height: 500px">
+            <ul class="animate-repeat" ng-repeat="entry in events">
                 <li ng-if="entry.type == 'message'">
                     <div class="item item-avatar">
                         <img src="img/cover.png">
@@ -27,6 +27,8 @@
                         <p>{{entry.date | date : 'MMMM dd, yyyy'}}</p>
                     </div>
                 </li>
-        </ul>
+            </ul>
+        </ion-scroll>
+
     </ion-content>
 </ion-view>
