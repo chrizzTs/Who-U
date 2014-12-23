@@ -9,24 +9,20 @@ angular.module('home', ['services'])
         $scope.buttonType = "icon ion-search";
         $scope.buttonDisable = false;
         $scope.text = 'Search';
+
+
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         serverAPI.getUserData(UID, function (data) {
             $scope.userName = data.userName;
-            $scope.points = data.points;
+            $scope.coins = data.coins;
             $scope.fotoId = data.fotoId;
             console.log(data);
         });
 
 
         serverAPI.getRecentEvents(UID, function (data) {
-
+            $scope.events = data;
             console.log(data);
-            $scope.user = data.user;
-            $scope.from = data.from;
-            $scope.date = data.date;
-            $scope.type = data.type;
-            $scope.message = data.message;
-            $scope.teammate = data.teammate;
 
         });
 
