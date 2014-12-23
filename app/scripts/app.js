@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map', 'coins', 'pictureTaker'])
+angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map', 'coins', 'pictureTaker', 'feedback'])
 
 .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -32,6 +32,7 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
     .state('login', {
         url: "/login",
         templateUrl: "templates/login.html",
+        controller: 'loginCtrl',
         data: {
             css: 'styles/login.css'
         }
@@ -40,6 +41,7 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
     .state('registration', {
         url: "/registration",
         templateUrl: "templates/registration.html",
+        controller: 'regCtrl',
     })
 
     // Each tab has its own nav history stack:
@@ -63,7 +65,7 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
             }
         }
     })
-    
+
     .state('tab.photos', {
         url: '/photos',
         views: {
@@ -113,6 +115,12 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
                 controller: 'settingsCtrl'
             }
         }
+    })
+
+    .state('feedback', {
+        url: "/feedback",
+        templateUrl: "templates/feedback.html",
+        controller: 'feedbackCtrl'
     });
 
     // if none of the above states are matched, use this as the fallback
