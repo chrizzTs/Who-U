@@ -21,26 +21,27 @@ angular.module('registration', ['serverAPI'])
                     myPosition = {
                         'longitude': geoData.coords.longitude,
                         'latitude': geoData.coords.latitude
-                    };
-                });
-
-
-                serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail, myPosition.latitude, myPosition.longitude, function (data) {
-                    var storedCredentials
-                    var newCredentials
-                    if ((storedCredentials = window.localStorage.getItem('Credentials')) != null) {
-                        storedCredentials = JSON.parse(storedCredentials)
-                        storedCredentials['UID'] = data
-                        storedCredentials['SessionKey'] = null
-                        newCredentials = storedCredentials
-                    } else {
-                        newCredentials = {
-                            'UID': data
-                        }
                     }
-                    window.localStorage.setItem('Credentials', JSON.stringify(newCredentials))
-                    window.location = "#/tab/home";
+                    serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail, myPosition.latitude, myPosition.longitude, function (data) {
+                        var storedCredentials
+                        var newCredentials
+                        if ((storedCredentials = window.localStorage.getItem('Credentials')) != null) {
+                            storedCredentials = JSON.parse(storedCredentials)
+                            storedCredentials['UID'] = data
+                            storedCredentials['SessionKey'] = null
+                            newCredentials = storedCredentials
+                        } else {
+                            newCredentials = {
+                                'UID': data
+                            }
+                        }
+                        window.localStorage.setItem('Credentials', JSON.stringify(newCredentials))
+                        window.location = "#/tab/home";
+                    });
                 });
+
+
+
             } else {
                 console.log('Fehler bei den Passwörtern');
             }
