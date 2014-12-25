@@ -1,15 +1,31 @@
-<ion-view title="Photos">
+<ion-view title="New Photo">
     <ion-content class="padding">
-<div class="imgCropSpace">
-    <img id="profilePicture" ng-src="{{cameraPic}}" ng-if="hasPicture">
-    <i class="icon profilePicture ion-plus-circled" ng-if="hasPicture==false"></i>
-</div>          
-       {{errormessage}}
-          <button class='button button-positive' ng-click="getCameraPhoto()">
+
+   
+<button class='button button-positive' ng-click="getCameraPhoto()">
             Take Photo
           </button> 
-    <button class= 'button button-positive' ng-click="getLibraryPhoto()">Load Photo From Library</button>
         <button class= 'button button-positive' ng-click="getAlbumPhoto()">Load Photo From Gallery</button>
-      
+<img ng-src='{{userImage}}' ng-if='hasPicture'></img>      
+<img ng-src='{{croppedUserImage}}' ng-if='hasPicture'></img>          
+<div class="imgCropSpace" ng-if='isCurrentlyCropping'>
+    <img-crop image="userImage"
+                area-type="square"
+                result-image="croppedUserImage"
+                result-image-size="360"></img-crop>
+</div> 
+<button class='button button-positive' ng-if='hasPicture' ng-click='startCropping()'>
+            Crop Image
+          </button> 
+    <button class='button button-positive' ng-if='isCurrentlyCropping' ng-click='endCropping()'>
+            Crop
+          </button> 
+    <button class='button button-positive' ng-if='hasPicture'>
+            Save Image
+          </button> 
+<button class='button button-positive' ng-if='hasPicture'>
+            Discard Image
+          </button> 
+        
     </ion-content>
 </ion-view>

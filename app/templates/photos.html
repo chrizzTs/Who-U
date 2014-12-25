@@ -1,0 +1,12 @@
+<ion-view title="Your Photos">
+    <ion-content class="padding">
+        <div id="gallery">
+            <ion-scroll direction="x" class="wide-as-needed">
+                <div class="image-list"><img ng-repeat="img in images" src="{{img}}" ng-click="setHero(img)"></div></ion-scroll>
+    <div class="hero-image"><img src="{{selection}}"></div>
+  </div>
+    <button class="button button-positive" ui-sref="tab.pictureTaker">
+  New Photo
+</button>
+    </ion-content>
+</ion-view>
