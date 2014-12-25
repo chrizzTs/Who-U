@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pictureTaker', ['ngImgCrop', 'ngDialog'])
+angular.module('pictureTaker', ['ngImgCrop'])
 
 
 .factory('PhoneCamera', ['$q', 
@@ -51,9 +51,9 @@ angular.module('pictureTaker', ['ngImgCrop', 'ngDialog'])
   }])
 
 
-.controller('CameraCtrl', ['$scope', 'PhoneCamera', 'PhoneAlbum', 'cssInjector', 'ngDialog',
+.controller('CameraCtrl', ['$scope', 'PhoneCamera', 'PhoneAlbum', 'cssInjector', '$ionicModal',
 
-  function($scope, PhoneCamera,PhoneAlbum, cssInjector, ngDialog) {
+  function($scope, PhoneCamera,PhoneAlbum, cssInjector, $ionicModal) {
       
  
 
@@ -104,7 +104,7 @@ angular.module('pictureTaker', ['ngImgCrop', 'ngDialog'])
       
    $scope.startCropping = function(){
         $scope.isCurrentlyCropping = true;
-       ngDialog.open({ template: 'imageCrop', scope: $scope});
+       $scope.openModal();
    };
 
    $scope.endCropping = function(){
@@ -112,6 +112,25 @@ angular.module('pictureTaker', ['ngImgCrop', 'ngDialog'])
        $scope.pictureCropped = true;
        console.log($scope.croppedUserImage);
    };
+     
+    $ionicModal.fromTemplateUrl('imageCrop', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal
+  })  
+      
+    $scope.openModal = function() {
+    $scope.modal.show()
+  }
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
       
     
 
@@ -120,21 +139,11 @@ angular.module('pictureTaker', ['ngImgCrop', 'ngDialog'])
 ])
     
 
-                             .config(function($compileProvider, ngDialogProvider){
+                             .config(function($compileProvider){
  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|img|content):|data:image\//);
 $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|file|tel):/);
 
-    ngDialogProvider.setDefaults({
-				className: 'ngdialog-theme-default',
-				plain: false,
-				showClose: true,
-				closeByDocument: true,
-				closeByEscape: true,
-				appendTo: false,
-				preCloseCallback: function () {
-					console.log('default pre-close callback');
-				}
-			});
+  
     
 })
 
