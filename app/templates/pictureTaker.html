@@ -42,21 +42,20 @@
     </ion-content>
 
     <script type='text/ng-template' id='imageCrop'>
-        < div class = 'imgCropSpace' >
-            < img - crop image = "userImage"
-        area - type = "square"
-        result - image = "croppedUserImage"
-        result - image - size = "360" > < /img-crop>
+        <div class = 'imgCropSpace'>
+            <img-crop image = "userImage"
+        area-type = "square"
+        result-image = "croppedUserImage"
+        result-image - size = "360" > < /img-crop>
 </div >
-            < button class = 'button button-positive'
-        ng - click = "endCropping()"
-        ng -
-        if = 'isCurrentlyCropping' >
-            Crop < /button> 
+            <button class = 'button button-positive'
+        ng-click = "endCropping()"
+        ng-if = 'isCurrentlyCropping' >
+            Crop </button> 
 
 <button class='button button-positive' ng-click="closeThisDialog('1')" ng-if='isCurrentlyCropping==false'>
            Close
-          </button >
+          </button>
     </script>
 </ion-view>
 
