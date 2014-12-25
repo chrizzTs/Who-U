@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pictureTaker', ['ngImgCrop'])
+angular.module('pictureTaker', ['ngImgCrop', 'ngDialog'])
 
 
 .factory('PhoneCamera', ['$q', 
@@ -51,9 +51,9 @@ angular.module('pictureTaker', ['ngImgCrop'])
   }])
 
 
-.controller('CameraCtrl', ['$scope', 'PhoneCamera', 'PhoneAlbum', 'cssInjector',
+.controller('CameraCtrl', ['$scope', 'PhoneCamera', 'PhoneAlbum', 'cssInjector', 'ngDialog',
 
-  function($scope, PhoneCamera,PhoneAlbum, cssInjector) {
+  function($scope, PhoneCamera,PhoneAlbum, cssInjector, ngDialog) {
       
  
 
@@ -62,9 +62,11 @@ angular.module('pictureTaker', ['ngImgCrop'])
     cssInjector.add('styles/pictureTaker.css');
 
      //image cropping
-      $scope.croppedUserImage =  '';
-   $scope.userImage ='';
+      $scope.userImage = '';
+      $scope.croppedUserImage =  'data:image/jpeg;base64,';
       $scope.isCurrentlyCropping=false;
+      $scope.cropSpace = '';
+      $scope.shownImage = '';
 
     //initialize Source-Variable of Image
       $scope.hasPicture = false;
@@ -74,6 +76,7 @@ angular.module('pictureTaker', ['ngImgCrop'])
       $scope.getCameraPhoto = function() {
     PhoneCamera.getPicture().then(function(imageURI) {
         $scope.userImage = 'data:image/jpeg;base64,' + imageURI;
+        $scope.shownImage = 'data:image/jpeg;base64,' + imageURI;
         $scope.hasPicture = true;
         
       console.log(imageURI);
@@ -87,9 +90,9 @@ angular.module('pictureTaker', ['ngImgCrop'])
  
       
        $scope.getAlbumPhoto = function() {
-    PhoneAlbum.getPicture().then(function(imageURI) {
-      //  $scope.cameraPic =  'data:image/jpeg;base64,' + imageURI;
+   PhoneAlbum.getPicture().then(function(imageURI) {
          $scope.userImage = 'data:image/jpeg;base64,' + imageURI;
+        $scope.shownImage = 'data:image/jpeg;base64,' + imageURI;
         $scope.hasPicture = true;
     
     }, function(err) {
@@ -101,13 +104,14 @@ angular.module('pictureTaker', ['ngImgCrop'])
       
    $scope.startCropping = function(){
         $scope.isCurrentlyCropping = true;
-        $scope.hasPicture = false;
-   }
+       ngDialog.open({ template: 'imageCrop', scope: $scope});
+   };
 
    $scope.endCropping = function(){
        $scope.isCurrentlyCropping=false;
        $scope.pictureCropped = true;
-   }
+       console.log($scope.croppedUserImage);
+   };
       
     
 
@@ -116,10 +120,22 @@ angular.module('pictureTaker', ['ngImgCrop'])
 ])
     
 
-                             .config(function($compileProvider){
+                             .config(function($compileProvider, ngDialogProvider){
  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|img|content):|data:image\//);
 $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|file|tel):/);
 
+    ngDialogProvider.setDefaults({
+				className: 'ngdialog-theme-default',
+				plain: false,
+				showClose: true,
+				closeByDocument: true,
+				closeByEscape: true,
+				appendTo: false,
+				preCloseCallback: function () {
+					console.log('default pre-close callback');
+				}
+			});
+    
 })
 
 ;

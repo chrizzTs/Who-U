@@ -4,16 +4,16 @@
     overflow: hidden;
 }
 
-#profilePicture{
-  height: 100%;
+.imageHolder {
+    height: 50%;
     width: 100%;
 }
 
-img{
+.imageHolder > img {
     height: 100%;
-    width: 100%;
-}
-
-i{
-    font-size: 20em;  
+     text-align: center;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }

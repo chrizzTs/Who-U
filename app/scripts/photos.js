@@ -7,7 +7,7 @@
 angular.module('photos', [])
 
 .controller('photosCtrl', ['$scope', 'cssInjector', function ($scope, cssInjector) {
-    
+
 cssInjector.removeAll();
     
  cssInjector.add('styles/photos.css');
@@ -28,4 +28,6 @@ cssInjector.removeAll();
   }
   
   $scope.loaded = true;
-}]);
+
+                         
+                         }]);
