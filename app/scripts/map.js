@@ -32,21 +32,17 @@ angular.module('map', ['uiGmapgoogle-maps'])
 
     $scope.myPosition = JSON.parse(window.localStorage.getItem("myPosition"));
 
-    $scope.teammatePosition = JSON.parse(window.localStorage.getItem("teammatePosition"));
-
+  //  $scope.teammatePosition = JSON.parse(window.localStorage.getItem("teammatePosition"));
+      $scope.teammatePosition = {
+      latitude: $scope.myPosition.latitude - 0.0005,
+      longitude: $scope.myPosition.longitude + 0.0005
+    };
+      
     $scope.map = {
-      center: {
-        latitude: 45,
-        longitude: -73
-      },
-      zoom: 8
+      center: angular.copy($scope.myPosition),
+      zoom: 17
     };
 
-    $scope.myPosition = {
-      latitude: 41.89020210802678,
-      longitude: 12.491927146911621
-    };
-    $map.zoomLevel = 10;
   });
 
 
