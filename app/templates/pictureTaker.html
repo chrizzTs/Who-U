@@ -2,12 +2,12 @@
     <ion-content class="padding">
         <div class="row" ng-if='hasPicture==false'>
             <div class="col">
-                <button class='button button-positive' ng-click="getCameraPhoto()">
+                <button class='button button-full button-positive' ng-click="getCameraPhoto()">
                     Take Photo
                 </button>
             </div>
             <div class="col">
-                <button class='button button-positive' ng-click="getAlbumPhoto()">Load Photo From Gallery</button>
+                <button class='button button-full button-positive' ng-click="getAlbumPhoto()">Load Photo From Gallery</button>
             </div>
         </div>
             <div class="row">
@@ -17,17 +17,17 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <button class='button button-positive' ng-if='hasPicture' ng-click='startCropping()'>
+                    <button class='button button-full button-positive' ng-if='hasPicture' ng-click='startCropping()'>
                         Crop Image
                     </button>
                 </div>
                 <div class="col">
-                    <button class='button button-positive' ng-if='hasPicture'>
+                    <button class='button button-full button-positive' ng-if='hasPicture'>
                         Save Image
                     </button>
                 </div>
                 <div class="col">
-                    <button class='button button-positive' ng-if='hasPicture'>
+                    <button class='button button-full button-positive' ng-if='hasPicture'>
                         Discard Image
                     </button>
                 </div>

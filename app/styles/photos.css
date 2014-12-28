@@ -18,7 +18,6 @@ h1 {
 }
 #gallery {
   max-width: 50em;
-  margin: 1em auto;
   background: #2980b9;
   padding: 1em;
 }
@@ -44,12 +43,13 @@ h1 {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
-  max-width: 33%;
-  width: 100%;
+    
+  width: auto;
 }
 .image-list > img:hover {
   opacity: 0.8;
 }
+
 .hero-image > img {
   height: auto;
   width: 100%;
@@ -75,4 +75,14 @@ h1 {
 }
 .scroll { 
   min-width: 100%;
+    padding-top: 0.5em;
+
+}
+
+.newPhotoBtn {
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5em;
 }
