@@ -4,15 +4,22 @@
     overflow: hidden;
 }
 
+.scroll {
+    height: 100%;
+    width: 100%;
+}
+
 .imageHolder {
     height: 50%;
     width: 100%;
 }
 
+
+
 .imageHolder > img {
-    height: 100%;
      text-align: center;
-    width: auto;
+    width: 90%;
+    height: auto;
     margin-left: auto;
     margin-right: auto;
     display: block;

@@ -7,7 +7,7 @@
        box-sizing: border-box;
 }
 body {
-  background: #2980b9;
+  background: white;
   font-family: sans-serif;
 }
 h1 {
@@ -18,7 +18,7 @@ h1 {
 }
 #gallery {
   max-width: 50em;
-  background: #2980b9;
+  background: white;
   padding: 1em;
 }
 .image-list {
@@ -45,6 +45,7 @@ h1 {
           justify-content: center;
     
   width: auto;
+    padding-right: 1em;
 }
 .image-list > img:hover {
   opacity: 0.8;

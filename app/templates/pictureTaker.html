@@ -1,13 +1,13 @@
 <ion-view title="New Photo">
     <ion-content class="padding">
-        <div class="row" ng-if='hasPicture==false'>
+        <div class="row">
             <div class="col">
                 <button class='button button-full button-positive' ng-click="getCameraPhoto()">
                     Take Photo
                 </button>
             </div>
             <div class="col">
-                <button class='button button-full button-positive' ng-click="getAlbumPhoto()">Load Photo From Gallery</button>
+                <button class='button button-full button-positive' ng-click="getAlbumPhoto()">Gallery Photo</button>
             </div>
         </div>
             <div class="row">
@@ -27,7 +27,7 @@
                     </button>
                 </div>
                 <div class="col">
-                    <button class='button button-full button-positive' ng-if='hasPicture'>
+                    <button class='button button-full button-positive' ng-if='hasPicture' ng-click="discardImage()">
                         Discard Image
                     </button>
                 </div>
@@ -51,14 +51,15 @@
                 <img-crop image = "userImage"
             area-type = "square"
             result-image = "croppedUserImage"
-            result-image - size = "360" > < /img-crop>
+            result-image-size = "360"
+            on-change="changeImage($dataURI)"
+            result-image-format = "image/jpeg"
+        > </img-crop>
     </div >
                 <button class = 'button button-positive'
             ng-click = "endCropping()"
             ng-if = 'isCurrentlyCropping' >
                 Crop </button> 
-
-    <button class='button button-positive' ng-click="closeModal()" ng-if='isCurrentlyCropping==false'>
                Close
               </button>
             </ion-content>

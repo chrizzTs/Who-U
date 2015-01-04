@@ -16,9 +16,11 @@ angular.module('pictureTaker', ['ngImgCrop'])
           q.resolve(result);
         }, function(err) {
           q.reject(err);
-        }, {quality: 50,
+        }, { quality: 50,
+            encodingType: Camera.EncodingType.JPEG,
             destinationType: Camera.DestinationType.DATA_URL,
-           sourceType: Camera.PictureSourceType.CAMERA});
+           sourceType: Camera.PictureSourceType.CAMERA,
+           correctOrientation: true});
           
         return q.promise;
       
@@ -27,8 +29,8 @@ angular.module('pictureTaker', ['ngImgCrop'])
   }])
 
 
-.factory('PhoneAlbum', ['$q', 
-  function($q) {
+.factory('PhoneAlbum', ['$q', 'serverAPI',
+  function($q, serverAPI) {
     
       
     return {
@@ -40,7 +42,8 @@ angular.module('pictureTaker', ['ngImgCrop'])
           q.resolve(result);
         }, function(err) {
           q.reject(err);
-        }, {quality: 100,
+        }, {quality: 50,
+            encodingType: Camera.EncodingType.JPEG,
            destinationType: Camera.DestinationType.DATA_URL,
            sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM});
           
@@ -56,7 +59,10 @@ angular.module('pictureTaker', ['ngImgCrop'])
   function($scope, PhoneCamera,PhoneAlbum, cssInjector, $ionicModal) {
       
  
-
+      //fetch Data from local Storage
+      
+      $scope.userID = window.localStorage.getItem('UID');
+      
     //add Styles
       cssInjector.removeAll();
     cssInjector.add('styles/pictureTaker.css');
@@ -66,7 +72,8 @@ angular.module('pictureTaker', ['ngImgCrop'])
       $scope.croppedUserImage =  'data:image/jpeg;base64,';
       $scope.isCurrentlyCropping=false;
       $scope.cropSpace = '';
-      $scope.shownImage = '';
+     // $scope.shownImage = '';
+      $scope.newImage = 'data:image/jpeg;base64,';
 
     //initialize Source-Variable of Image
       $scope.hasPicture = false;
@@ -108,9 +115,11 @@ angular.module('pictureTaker', ['ngImgCrop'])
    };
 
    $scope.endCropping = function(){
+       $scope.shownImage = $scope.newImage;
+       $scope.userImage = $scope.newImage;
        $scope.isCurrentlyCropping=false;
        $scope.pictureCropped = true;
-       console.log($scope.croppedUserImage);
+       $scope.closeModal();
    };
      
     $ionicModal.fromTemplateUrl('imageCrop', {
@@ -132,8 +141,19 @@ angular.module('pictureTaker', ['ngImgCrop'])
     $scope.modal.remove();
   });
       
-    
+    $scope.saveImage = function() {
+        serverAPI.saveNewPhoto(userID, $scope.shownImage);
+    };
+      
+    $scope.discardImage = function() {
+        $scope.hasPicture = false;
+        $scope.shownImage = '';
+    };        
 
+      $scope.changeImage = function(dataUrl) {
+          if ((dataUrl != 'data:image/jpeg;base64,') && (dataUrl != $scope.userImage))
+          {$scope.newImage = dataUrl; }
+      };
 
   }
 ])
