@@ -140,13 +140,13 @@ module.factory('serverAPI', function ($http) {
         saveNewPhoto: function (userId, photoString, callback) {
             var photoData = {
                 '_id': userId,
-                'photo': photoString,
+                'photoString': photoString,
             }
             $http.post(host + newPhotoPath, photoData).success(callback)
         },
         deletePhoto: function (userId, photoId, callback) {
             var deletePhotoRequest = {
-                'UID': userId,
+                '_id': userId,
                 'PID': photoId
             }
             $http({
