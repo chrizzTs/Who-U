@@ -1,8 +1,10 @@
 <ion-view title="Coins">
     <ion-content class="padding">
         <div class=" row ">
-            <div class="col col-75 ">Your current score is:</div>
-            <div class="col ">{{coins}} Coins</div>
+            <div class="col col-50">Your current score is:</div>
+            <div class="col col-50">
+                <b>{{coins}} Coins</b>
+            </div>
         </div>
         <div class="item item-divider "></div>
         <ul class="benefits ">
@@ -10,15 +12,16 @@
                 <li ng-repeat="benefit in benefits ">
                     <div class="item item-text-wrap ">
                         <div class="row ">
-                            <div class="col col-75 ">
-                                <div class="item item-divider ">
-                                    <b>{{benefit.name}} ({{benefit.price}} coins)</b>
-                                </div>
-                                <br>{{benefit.description}}
-                            </div>
-                            <div class="col ">
-                                <button class="button button-positive " ng-click="buy(benefit.id) ">Buy</button>
-                            </div>
+                            <b>{{benefit.name}}</b>
+                        </div>
+                        <div class="row">
+                            {{benefit.description}}
+                        </div>
+                        <br>
+                        <div class="row">
+                            <button class="button button-full button-positive" ng-click="buy(benefit.id)" ng-disabled="checkBudget(benefit.price)">
+                                Buy ({{benefit.price}} coins)
+                            </button>
                         </div>
                     </div>
                     <br>
@@ -28,7 +31,7 @@
         <div class="item item-divider "></div>
         <center>
             <br>
-            <button class="button button-positive ">Buy 40 more coins for €2,99</button>
+            <button class="button button-full button-positive ">Buy 40 more coins for €2,99</button>
         </center>
     </ion-content>
 </ion-view>

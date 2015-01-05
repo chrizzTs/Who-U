@@ -8,7 +8,7 @@ angular.module('coins', ['serverAPI'])
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
 
         //Receive from server
-        $scope.benefits = [{
+        /*$scope.benefits = [{
             'id': 1,
             'name': 'Skip user',
             'description': 'Skip a selected user and see another one, before starting the game.',
@@ -29,6 +29,10 @@ angular.module('coins', ['serverAPI'])
             'description': 'Gather more credits per game. This feature will be active during the next 3 days.',
             'price': 50
         }];
+        */
+
+        var benefits = serverAPI.getAllBenefitItems();
+        console.log('funktion aufgerufen');
 
         $scope.buy = function (x) {
 
@@ -45,10 +49,14 @@ angular.module('coins', ['serverAPI'])
             if ($scope.coins >= price) {
                 //serverAPI.buyItem(UID, x, 1);
                 $scope.coins = $scope.coins - price;
-            } else {
-                console.log('Preis zu hoch');
-                //Fehlermeldung über ng-show wäre echt cool; wirft das dann wieder Fehler aus?
             }
         }
 
+        $scope.checkBudget = function (x) {
+            if ($scope.coins >= x) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     });
