@@ -40,8 +40,6 @@ angular.module('registration', ['serverAPI'])
                     });
                 });
 
-
-
             } else {
                 console.log('Fehler bei den Passwörtern');
             }

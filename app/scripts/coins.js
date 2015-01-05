@@ -3,8 +3,11 @@
 angular.module('coins', ['serverAPI'])
     .controller('coinsCtrl', function ($scope, serverAPI, cssInjector) {
 
+        //Receive coins from server (via UID?)
         $scope.coins = 100;
+        var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
 
+        //Receive from server
         $scope.benefits = [{
             'id': 1,
             'name': 'Skip user',
@@ -40,7 +43,7 @@ angular.module('coins', ['serverAPI'])
 
             //Checking if purchase is possible and updating the new coins value
             if ($scope.coins >= price) {
-                //Aufruf der serverAPI, kann ich die Transaktion sichern, dass nur bei positiver Response die Punkte abgezogen werden?
+                //serverAPI.buyItem(UID, x, 1);
                 $scope.coins = $scope.coins - price;
             } else {
                 console.log('Preis zu hoch');

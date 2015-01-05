@@ -1,7 +1,49 @@
 <ion-view title="Feedback">
     <ion-content class="padding">
-
-        <h1>Aufgerufen</h1>
-
+        <div class="card">
+            <h2>Rate your last game</h2>
+            <h5>There is an not yet rated game with {{ratedName}}. Please provide feedback:</h5>
+            <div class="item item-divider"></div>
+            <div class="row">
+                <div class="col col-50">Did {{ratedName}} contact you?</div>
+                <div class="col col-25">
+                    <button class="button button-balanced" ng-click="contacted()">Yes</button>
+                </div>
+                <div class="col col-25">
+                    <button class="button button-assertive" ng-click="notContacted()">No</button>
+                </div>
+            </div>
+            <div ng-show="showForm">
+                <div class="row">
+                    <div class="col col-50">Was the profile picture up to date?</div>
+                    <div class="col col-50">
+                        <div class="stars">
+                            <form>
+                                <input ng-model="formData.question2" value="1" type="radio" name="star" class="star-1" id="star-1">
+                                <input ng-model="formData.question2" value="2" type="radio" name="star" class="star-2" id="star-2">
+                                <input ng-model="formData.question2" value="3" type="radio" name="star" class="star-3" id="star-3">
+                                <input ng-model="formData.question2" value="4" type="radio" name="star" class="star-4" id="star-4">
+                                <input ng-model="formData.question2" value="5" type="radio" name="star" class="star-5" id="star-5">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-50">How did you like the contact at all?</div>
+                    <div class="col col-50">
+                        <div class="stars">
+                            <form>
+                                <input ng-model="formData.question3" value="1" type="radio" name="star" class="star-1" id="star-1">
+                                <input ng-model="formData.question3" value="2" type="radio" name="star" class="star-2" id="star-2">
+                                <input ng-model="formData.question3" value="3" type="radio" name="star" class="star-3" id="star-3">
+                                <input ng-model="formData.question3" value="4" type="radio" name="star" class="star-4" id="star-4">
+                                <input ng-model="formData.question3" value="5" type="radio" name="star" class="star-5" id="star-5">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <button class="button button-full button-positive" ng-click="submit(formData.question2, formData.question3)">Submit Rating</button>
+            </div>
+        </div>
     </ion-content>
 </ion-view>

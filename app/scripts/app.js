@@ -120,7 +120,10 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
     .state('feedback', {
         url: "/feedback",
         templateUrl: "templates/feedback.html",
-        controller: 'feedbackCtrl'
+        controller: 'feedbackCtrl',
+        data: {
+            css: 'styles/feedback.css'
+        }
     });
 
     // if none of the above states are matched, use this as the fallback
