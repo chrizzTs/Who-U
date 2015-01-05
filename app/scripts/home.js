@@ -3,38 +3,32 @@ angular.module('home', ['services'])
 
 .controller('homeCtrl',
     function ($scope, $location, $state, serverAPI, $ionicPopup, cssInjector) {
-    
+
         cssInjector.removeAll();
 
         $scope.buttonType = "icon ion-search";
         $scope.buttonDisable = false;
         $scope.text = 'Search';
+
+
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         serverAPI.getUserData(UID, function (data) {
             $scope.userName = data.userName;
-            $scope.points = data.points;
+            $scope.coins = data.coins;
             $scope.fotoId = data.fotoId;
-            console.log(data);
         });
 
 
         serverAPI.getRecentEvents(UID, function (data) {
-            serverAPI.getRecentEvents(UID, function (data) {
+            $scope.events = data;
+            console.log(data);
 
-                $scope.user = data.user;
-                $scope.from = data.from;
-                $scope.date = data.date;
-                $scope.type = data.type;
-                $scope.message = data.message;
-                $scope.teammate = data.teammate;
+        });
 
-            });
-            serverAPI.getGamesToRate(UID, getGamesToRate);
-
-        })
+        serverAPI.getGamesToRate(UID, getGamesToRate);
 
         //Request new feedback sheet from server to rate last plays (contat with new persons)
-        var getGamesToRate = function (data) {
+        function getGamesToRate(data) {
             // Check if there are any new feedback sheets availalbe
             if (data == 1) {
                 $ionicPopup.alert({

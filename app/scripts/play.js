@@ -14,7 +14,7 @@ angular.module('play', [])
 
       //$scope.teammatePhotos{}
 
-      $scope.name = window.localStorage.getItem('username');
+      $scope.name = window.localStorage.getItem('teammate');
 
       $scope.isEnumeration = window.localStorage.getItem('isEnumeration');
     };

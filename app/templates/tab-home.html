@@ -3,17 +3,32 @@
 
         <a class="item item-thumbnail-left" ui-sref="tab.photos">
             <img src="img/cover.png">
-            <h2>{{username}}</h2>
-            <p>Points: {{points}}</p>
+            <h2>{{userName}}</h2>
+            <p>Points: {{coins}}</p>
         </a>
         <button ng-click="click()" class="button button-full button-positive" ng-disabled="{{buttonDisable}}">
             <i class='{{buttonType}}'></i>{{text}}
         </button>
 
-        <ul class="animate-repeat" ng-repeat="entry in news">
-            <li ng-if="entry.typ == 'message '">[{{$index + 1}}]. <b>{{entry.from}}: </b> {{entry.title}}</li>
-            <li ng-if="entry.typ == 'played '">[{{$index + 1}}]. {{entry.date}}: Played with {{entry.person}}</li>
+        <ion-scroll direction='y' style="height: 500px">
+            <ul class="animate-repeat" ng-repeat="entry in events">
+                <li ng-if="entry.type == 'message'">
+                    <div class="item item-avatar">
+                        <img src="img/cover.png">
+                        <h2>Message from {{entry.from}}</h2>
+                        <p>{{entry.message}}</p>
+                    </div>
+                </li>
 
-        </ul>
+                <li ng-if="entry.type == 'played'">
+                    <div class="item item-avatar">
+                        <img src="img/cover.png">
+                        <h2>Played with {{entry.user}}</h2>
+                        <p>{{entry.date | date : 'MMMM dd, yyyy'}}</p>
+                    </div>
+                </li>
+            </ul>
+        </ion-scroll>
+
     </ion-content>
 </ion-view>

@@ -1,15 +1,67 @@
-<ion-view title="Photos">
+<ion-view title="New Photo">
     <ion-content class="padding">
-<div class="imgCropSpace">
-    <img id="profilePicture" ng-src="{{cameraPic}}" ng-if="hasPicture">
-    <i class="icon profilePicture ion-plus-circled" ng-if="hasPicture==false"></i>
-</div>          
-       {{errormessage}}
-          <button class='button button-positive' ng-click="getCameraPhoto()">
-            Take Photo
-          </button> 
-    <button class= 'button button-positive' ng-click="getLibraryPhoto()">Load Photo From Library</button>
-        <button class= 'button button-positive' ng-click="getAlbumPhoto()">Load Photo From Gallery</button>
-      
+        <div class="row">
+            <div class="col">
+                <button class='button button-full button-positive' ng-click="getCameraPhoto()">
+                    Take Photo
+                </button>
+            </div>
+            <div class="col">
+                <button class='button button-full button-positive' ng-click="getAlbumPhoto()">Gallery Photo</button>
+            </div>
+        </div>
+            <div class="row">
+                <div class="imageHolder">
+                <img ng-src='{{shownImage}}' ng-if='hasPicture'></img>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class='button button-full button-positive' ng-if='hasPicture' ng-click='startCropping()'>
+                        Crop Image
+                    </button>
+                </div>
+                <div class="col">
+                    <button class='button button-full button-positive' ng-if='hasPicture'>
+                        Save Image
+                    </button>
+                </div>
+                <div class="col">
+                    <button class='button button-full button-positive' ng-if='hasPicture' ng-click="discardImage()">
+                        Discard Image
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
     </ion-content>
+
+    <script type='text/ng-template' id='imageCrop'>
+    <ion-header-bar class="bar-positive">
+        <h1 class="title">Crop Image</h1>
+    </ion-header-bar>
+    <div class="modal">
+        <ion-content>
+            <div class = 'imageHolder'>
+                <img-crop image = "userImage"
+                    area-type = "square"
+                    result-image = "croppedUserImage"
+                    result-image-size = "360"
+                    on-change="changeImage($dataURI)"
+                    result-image-format = "image/jpeg"
+                > </img-crop>
+            </div >
+                <button class = 'button button-positive button-full'
+            ng-click = "endCropping()"
+            ng-if = 'isCurrentlyCropping' >
+                Crop </button> 
+            </ion-content>
+        </div>
+    </script>
 </ion-view>
+

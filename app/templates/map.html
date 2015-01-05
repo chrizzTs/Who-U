@@ -3,10 +3,20 @@
     <div id="content">
       <div id="position"></div>
       <div id="distance">
-        <p>Hierhin kommt eine Entfernung nach Rom</p>
       </div>
       <ui-gmap-google-map center='map.center' zoom='map.zoom'>
-        <ui-gmap-markers models="randomMarkers" coords="'self'" icon="'icon'">
+        <ui-gmap-marker
+            idKey= '1'
+            coords = 'myPosition'
+            options= '{title: "You",
+                      labelContent: "You"}'
+           >
+        <ui-gmap-marker
+            idKey= '2'
+            coords = 'teammatePosition'
+            options= '{title: "Other Player",
+                       labelContent: "Other Player"}'
+        >
       </ui-gmap-google-map>
     </div>
   </ion-content>

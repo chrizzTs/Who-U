@@ -1,0 +1,89 @@
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+}
+body {
+  background: white;
+  font-family: sans-serif;
+}
+h1 {
+  color: rgba(255,255,255,0.8);
+  font-size: 3em;
+  text-align: center;
+  margin: 1em;
+}
+#gallery {
+  max-width: 50em;
+  background: white;
+  padding: 1em;
+}
+.image-list {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 1em;
+}
+.image-list > img {
+  cursor: pointer;
+  display: block;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-flex-shrink: 0;
+      -ms-flex-negative: 0;
+          flex-shrink: 0;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  max-height: 7em;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+    
+  width: auto;
+    padding-right: 1em;
+}
+.image-list > img:hover {
+  opacity: 0.8;
+}
+
+.hero-image > img {
+  height: auto;
+  width: 100%;
+}
+.hero-image > img.ng-enter {
+  -webkit-transform: translateY(-100px);
+      -ms-transform: translateY(-100px);
+          transform: translateY(-100px);
+  -webkit-transition: all 0.3s;
+          transition: all 0.3s;
+  opacity: 0;
+}
+.hero-image > img.ng-enter.ng-active {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+          transform: translateY(0);
+}
+
+.wide-as-needed {
+  overflow: scroll;
+  white-space: nowrap;
+}
+.scroll { 
+  min-width: 100%;
+    padding-top: 0.5em;
+
+}
+
+.newPhotoBtn {
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5em;
+}

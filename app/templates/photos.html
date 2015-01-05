@@ -1,0 +1,13 @@
+<ion-view title="Your Photos">
+    <ion-nav-buttons side="right">
+  <button class="button button-clear icon icon-left ion-plus-circled" ui-sref="tab.pictureTaker"></button>
+ </ion-nav-buttons>
+    <ion-content>
+        <div id="gallery">
+            <ion-scroll direction="x" class="wide-as-needed">
+                <div class="image-list"><img ng-repeat="img in images" ng-src="{{img}}" ng-click="setHero(img)"></div></ion-scroll>
+    <div class="hero-image"><img ng-src="{{selection}}"></div>
+            <button class="button button-full button-positive">Delete Photo</button>
+  </div>
+    </ion-content>
+</ion-view>
