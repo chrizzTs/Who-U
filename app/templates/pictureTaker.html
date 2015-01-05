@@ -47,21 +47,19 @@
     </ion-header-bar>
     <div class="modal">
         <ion-content>
-            <div class = 'imgCropSpace'>
+            <div class = 'imageHolder'>
                 <img-crop image = "userImage"
-            area-type = "square"
-            result-image = "croppedUserImage"
-            result-image-size = "360"
-            on-change="changeImage($dataURI)"
-            result-image-format = "image/jpeg"
-        > </img-crop>
-    </div >
-                <button class = 'button button-positive'
+                    area-type = "square"
+                    result-image = "croppedUserImage"
+                    result-image-size = "360"
+                    on-change="changeImage($dataURI)"
+                    result-image-format = "image/jpeg"
+                > </img-crop>
+            </div >
+                <button class = 'button button-positive button-full'
             ng-click = "endCropping()"
             ng-if = 'isCurrentlyCropping' >
                 Crop </button> 
-               Close
-              </button>
             </ion-content>
         </div>
     </script>
