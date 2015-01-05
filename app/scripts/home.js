@@ -21,14 +21,20 @@ angular.module('home', ['services'])
 
         serverAPI.getRecentEvents(UID, function (data) {
             $scope.events = data;
-            console.log(data);
 
         });
 
         serverAPI.getGamesToRate(UID, getGamesToRate);
 
         //Request new feedback sheet from server to rate last plays (contat with new persons)
+
+        function onError(error) {
+            alert('code: ' + error.code + '\n' +
+                'message: ' + error.message + '\n');
+        }
+
         function getGamesToRate(data) {
+            console.log(data);
             // Check if there are any new feedback sheets availalbe
             if (data == 1) {
                 $ionicPopup.alert({
@@ -40,14 +46,8 @@ angular.module('home', ['services'])
         };
 
 
-        $scope.geo = function () {
 
-            navigator.geolocation.getCurrentPosition(function (geoData) {
-                alert(geoData.coords.longitude);
-                alert(geoData.coords.latitude);
-            });
 
-        }
         $scope.click = function () {
             console.log($scope.buttonDisable);
             $scope.buttonDisable = true;
@@ -63,10 +63,14 @@ angular.module('home', ['services'])
 
 
 
-            //Grap geoLocation        
+            //Grap geoLocation    
             var location = navigator.geolocation.getCurrentPosition(saveGeoData);
 
+
+
             function saveGeoData(geoData) {
+
+                alert(geoData);
                 var myPosition = {
                     'longitude': geoData.coords.longitude,
                     'latitude': geoData.coords.latitude
