@@ -22,7 +22,7 @@ const userDataPath = '/userData/data'
 const recentEventsPath = '/userData/recentEvents'
 const changeModusPath = '/userData/changeModus'
 const updateGPSPath = '/userData/updateGPS'
-const newPhotoPath = '/photo/saveNew'
+const newPhotoPath = '/photo/saveNewPhoto'
 const deletePhotoPath = 'photo/delete'
 const logOutPath = '/logout'
 
@@ -72,10 +72,13 @@ module.factory('serverAPI', function ($http) {
             $http.post(host + searchPartnerToPlayWithPath, searchRequest).success(callback)
         },
         getGamesToRate: function (userId, callback) {
+            var gamesToRateRequest = {
+                _id: userId
+            }
             $http({
                 url: host + gamesToRatePath,
                 method: 'GET',
-                params: userId
+                params: gamesToRateRequest
             }).success(callback)
         },
         insertNewRating: function (userId, coinsToAdd, callback) {
@@ -93,7 +96,7 @@ module.factory('serverAPI', function ($http) {
         },
         buyItem: function (userId, benefitId, count, callback) {
             var buyRequest = {
-                'UID': userId,
+                '_id': userId,
                 'BID': benefitId,
                 'count': count
             }
@@ -101,7 +104,7 @@ module.factory('serverAPI', function ($http) {
         },
         getUserData: function (userId, callback) {
             var userId = {
-                'UID': userId
+                '_id': userId
             }
             $http({
                 url: host + userDataPath,
@@ -113,7 +116,7 @@ module.factory('serverAPI', function ($http) {
         },
         getRecentEvents: function (userId, callback) {
             var userId = {
-                'UID': userId
+                '_id': userId
             }
             $http({
                 url: host + recentEventsPath,
@@ -124,14 +127,14 @@ module.factory('serverAPI', function ($http) {
         changeModus: function (userId, newModus, callback) {
             //newModus: 1 visible, 0 invisible
             var changeModusRequest = {
-                'UID': userId,
+                '_id': userId,
                 'newModus': newModus
             }
             $http.put(host + changeModusPath, changeModusRequest).success(callback)
         },
         updateGPS: function (userId, longitude, latitude, callback) {
             var userLocationData = {
-                'UID': userId,
+                '_id': userId,
                 'longitude': longitude,
                 'latitude': latitude
             }
