@@ -6,6 +6,12 @@ angular.module('coins', ['serverAPI'])
         //Receive coins from server (via UID?)
         $scope.coins = 100;
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+        console.log(UID);
+
+        serverAPI.getUserData(UID, function (data) {
+            console.log(data);
+        });
+
 
         //Receive from server
         /*$scope.benefits = [{
@@ -31,8 +37,8 @@ angular.module('coins', ['serverAPI'])
         }];
         */
 
-        var benefits = serverAPI.getAllBenefitItems();
-        console.log('funktion aufgerufen');
+        //var benefits = serverAPI.getAllBenefitItems();
+        //console.log('funktion aufgerufen');
 
         $scope.buy = function (x) {
 
