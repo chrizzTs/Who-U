@@ -4,7 +4,7 @@
             <h1>Login</h1>
             <form name="loginForm" id="loginForm" novalidate>
                 <label class="item item-input">
-                    <input name="name" class="name" type="text" placeholder="E-Mail" ng-model="EMail" required>
+                    <input name="name" class="name" type="email" placeholder="E-Mail" ng-model="EMail" required>
                 </label>
                 <label class="item item-input">
                     <input name="password" class="email" type="password" placeholder="Password" ng-model="password" required>
@@ -20,9 +20,11 @@
                 </a>
             </p>
             <p>
-                <span style="color:white" ng-hide="LoginFailed">
-                            <span>The login has failed.</span>
-                </span>
+                <div ng-show="loginFailed">
+                    <center style="color:white">
+                        E-Mail or password incorrect
+                    </center>
+                </div>
             </p>
         </div>
     </div>

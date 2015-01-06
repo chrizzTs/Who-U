@@ -19,32 +19,20 @@
                 <div class="row">
                     <div class="col col-50">Was the profile picture up to date?</div>
                     <div class="col col-50">
-                        <div class="stars">
-                            <form>
-                                <input ng-model="formData.question2" value="1" type="radio" name="star" class="star-1" id="star-1">
-                                <input ng-model="formData.question2" value="2" type="radio" name="star" class="star-2" id="star-2">
-                                <input ng-model="formData.question2" value="3" type="radio" name="star" class="star-3" id="star-3">
-                                <input ng-model="formData.question2" value="4" type="radio" name="star" class="star-4" id="star-4">
-                                <input ng-model="formData.question2" value="5" type="radio" name="star" class="star-5" id="star-5">
-                            </form>
-                        </div>
+                        <span ng-repeat="star in starsQuestion2">
+                            <i class="{{star.icon}}" ng-click="{{star.action}}"></i>
+                        </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col col-50">How did you like the contact at all?</div>
                     <div class="col col-50">
-                        <div class="stars">
-                            <form>
-                                <input ng-model="formData.question3" value="1" type="radio" name="star" class="star-1" id="star-1">
-                                <input ng-model="formData.question3" value="2" type="radio" name="star" class="star-2" id="star-2">
-                                <input ng-model="formData.question3" value="3" type="radio" name="star" class="star-3" id="star-3">
-                                <input ng-model="formData.question3" value="4" type="radio" name="star" class="star-4" id="star-4">
-                                <input ng-model="formData.question3" value="5" type="radio" name="star" class="star-5" id="star-5">
-                            </form>
-                        </div>
+                        <span ng-repeat="star in starsQuestion3">
+                            <i class="{{star.icon}}" ng-click="{{star.action}}"></i>
+                        </span>
                     </div>
                 </div>
-                <button class="button button-full button-positive" ng-click="submit(formData.question2, formData.question3)" ng-disabled="checkForm()">
+                <button class="button button-full button-positive" ng-click="evaluate()" ng-disabled="enableSubmit()">
                     Submit Rating
                 </button>
             </div>

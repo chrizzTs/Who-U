@@ -46,7 +46,6 @@ angular.module('login', [])
                     services.initBackgroundGps();
                     services.startBackgroundGps();
                 } else {
-                    console.log('Log-In Fehler')
                     $scope.loginFailed = true;
                 }
             })
