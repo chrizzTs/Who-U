@@ -37,8 +37,11 @@ angular.module('coins', ['serverAPI'])
         }];
         */
 
-        //var benefits = serverAPI.getAllBenefitItems();
-        //console.log('funktion aufgerufen');
+
+        var benefits = serverAPI.getAllBenefitItems(function (data) {
+            console.log(data)
+        });
+        console.log('funktion aufgerufen');
 
         $scope.buy = function (x) {
 

@@ -19,15 +19,17 @@ angular.module('settings', ['services'])
     $scope.changeVisibility = function () {
 
         if (visible == 'true') {
-            //console.log(UID);
             services.startBackgroundGps();
-            serverAPI.changeModus(UID, 0);
+            serverAPI.changeModus(UID, 0, function (data) {
+                console.log(data)
+            });
             window.localStorage.setItem('visible', false);
             console.log('You are invisible');
         } else if (visible == 'false') {
-            //console.log(UID);
             services.endBackgroundGps();
-            serverAPI.changeModus(UID, 1);
+            serverAPI.changeModus(UID, 1, function (data) {
+                console.log(data)
+            });
             window.localStorage.setItem('visible', true);
             console.log('You are visible');
         }

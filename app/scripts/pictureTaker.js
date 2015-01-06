@@ -29,8 +29,8 @@ angular.module('pictureTaker', ['ngImgCrop'])
   }])
 
 
-.factory('PhoneAlbum', ['$q', 'serverAPI',
-  function($q, serverAPI) {
+.factory('PhoneAlbum', ['$q',
+  function($q) {
     
       
     return {
@@ -54,14 +54,14 @@ angular.module('pictureTaker', ['ngImgCrop'])
   }])
 
 
-.controller('CameraCtrl', ['$scope', 'PhoneCamera', 'PhoneAlbum', 'cssInjector', '$ionicModal',
+.controller('CameraCtrl', ['$scope', 'PhoneCamera', 'PhoneAlbum', 'cssInjector', '$ionicModal', 'serverAPI',
 
-  function($scope, PhoneCamera,PhoneAlbum, cssInjector, $ionicModal) {
+  function($scope, PhoneCamera,PhoneAlbum, cssInjector, $ionicModal, serverAPI) {
       
  
       //fetch Data from local Storage
       
-      $scope.userID = window.localStorage.getItem('UID');
+      $scope.userID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
       
     //add Styles
       cssInjector.removeAll();
@@ -142,7 +142,8 @@ angular.module('pictureTaker', ['ngImgCrop'])
   });
       
     $scope.saveImage = function() {
-        serverAPI.saveNewPhoto(userID, $scope.shownImage);
+        console.log($scope.userID);
+        serverAPI.saveNewPhoto($scope.userID, $scope.shownImage, function(data){console.log(data)});
     };
       
     $scope.discardImage = function() {
