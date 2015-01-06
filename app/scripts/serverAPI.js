@@ -23,6 +23,7 @@ const recentEventsPath = '/userData/recentEvents'
 const changeModusPath = '/userData/changeModus'
 const updateGPSPath = '/userData/updateGPS'
 const newPhotoPath = '/photo/saveNew'
+const getPhotoPath = '/photo/get'
 const deletePhotoPath = 'photo/delete'
 const logOutPath = '/logout'
 
@@ -110,9 +111,7 @@ module.factory('serverAPI', function ($http) {
                 url: host + userDataPath,
                 method: 'GET',
                 params: userId
-            }).success(callback).error(function (data, status, headers, config) {
-                console.log(data)
-            })
+            }).success(callback)
         },
         getRecentEvents: function (userId, callback) {
             var userId = {
@@ -170,6 +169,17 @@ module.factory('serverAPI', function ($http) {
             }).error(function (data, status, headers, config) {
                 console.log("Error:" + data)
             })
+        },
+        getPhoto: function (userId, photoId, callback) {
+            var photoRequest = {
+                _id: userId,
+                photoId: photoId
+            }
+            $http.get({
+                path: host + getPhotoPath,
+                method: 'GET',
+                params: imageRequest
+            }).success(callback)
         }
 
     }
