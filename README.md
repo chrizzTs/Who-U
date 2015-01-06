@@ -23,8 +23,17 @@ The app starts the index.html site. The index page is the main container, where 
 **The main container:**
 
 If an hyperlink is clicked, the website will not change, but it will inject different html code into this container.
+The pages that are injected in there always contain the same footer (only adjusted by which tab is selected) which is profided by the `templates/tabs.html`
 ```html
  <ion-nav-view></ion-nav-view>
 ```
+
+**Routing:**
+The routing between different pages is performed by the angular framework. For more details see: http://ionicframework.com/docs/api/directive/ionNavView/
+
+The routing rules are managed by `scripts/app.js`
+
+
+ 
 
 

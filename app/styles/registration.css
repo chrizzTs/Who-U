@@ -2,8 +2,8 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 10%;
-    width: 400px;
-    height: 530px;
+    width: 98%;
+    height: 100%px;
     padding: 30px;
     border: 10px solid rgba(0, 255, 0, .2);
     -moz-border-radius: 0px;
@@ -35,7 +35,7 @@
     margin-top: 0%;
     height: 100%;
     width: 100%;
-    background-image: url(/img/IntroPic.jpg);
+    background-image: url(../img/IntroPic.jpg);
     z-index: 1;
 }
 .regForm h1 {
@@ -47,7 +47,7 @@
 .regForm button {
     padding: 5px;
     font-size: 20px;
-    width: 330px;
+    width: 100%;
     margin: 20px auto;
     display: block;
 }
