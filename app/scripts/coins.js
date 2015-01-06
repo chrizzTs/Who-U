@@ -31,8 +31,9 @@ angular.module('coins', ['serverAPI'])
 
             //Checking if purchase is possible and updating the new coins value
             if ($scope.coins >= price) {
-                //serverAPI.buyItem(UID, x, 1);
-                $scope.coins = $scope.coins - price;
+                serverAPI.buyItem(UID, x, 1, function (data) {
+                    console.log(data);
+                })
             }
         }
 
