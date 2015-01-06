@@ -4,12 +4,10 @@ angular.module('coins', ['serverAPI'])
     .controller('coinsCtrl', function ($scope, serverAPI, cssInjector) {
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
-        console.log(UID);
 
         serverAPI.getUserData(UID, function (data) {
             $scope.coins = data.coins;
         });
-        console.log($scope.coins);
 
         $scope.benefits = [];
         var tmp = serverAPI.getAllBenefitItems(function (data) {
@@ -17,6 +15,7 @@ angular.module('coins', ['serverAPI'])
                 $scope.benefits[i] = data[i];
             }
         });
+        $scope.orderProp = 'price';
 
         $scope.buy = function (x) {
 
@@ -32,8 +31,10 @@ angular.module('coins', ['serverAPI'])
             //Checking if purchase is possible and updating the new coins value
             if ($scope.coins >= price) {
                 serverAPI.buyItem(UID, x, 1, function (data) {
-                    console.log(data);
-                })
+                    serverAPI.getUserData(UID, function (data) {
+                        $scope.coins = data.coins;
+                    });
+                });
             }
         }
 

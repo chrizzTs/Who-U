@@ -9,7 +9,7 @@
         <div class="item item-divider "></div>
         <ul class="benefits ">
             <div class="card ">
-                <li ng-repeat="benefit in benefits ">
+                <li ng-repeat="benefit in benefits | orderBy:orderProp">
                     <div class="item item-text-wrap ">
                         <div class="row ">
                             <b>{{benefit.name}}</b>
