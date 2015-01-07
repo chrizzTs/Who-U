@@ -142,8 +142,21 @@ angular.module('pictureTaker', ['ngImgCrop'])
   });
       
     $scope.saveImage = function() {
-        console.log($scope.userID);
-        serverAPI.saveNewPhoto($scope.userID, $scope.shownImage, function(data){console.log(data)});
+        var pictureAlreadySaved = false;
+        $scope.images = JSON.parse(window.localStorage.getItem('userPhotos'));
+        for (var i=0; i < images.length; i++){
+            if ($scope.images[i].equals($scope.shownImage)){
+                pictureAlreadySaved = true;
+            }
+        }
+    }
+        if ($scope.pictureAlreadySaved){
+            $scope.showAlert = function(){
+                var alertPopup = $ionicPopup.alert({
+                    title : 'Picture already saved',
+                    template : 'You already saved this picture for your profile!'});
+            }} else {
+                serverAPI.saveNewPhoto($scope.userID, $scope.shownImage, function(data){console.log(data)});
     };
       
     $scope.discardImage = function() {
@@ -156,8 +169,8 @@ angular.module('pictureTaker', ['ngImgCrop'])
           {$scope.newImage = dataUrl; }
       };
 
-  }
-])
+  }])
+
     
 
                              .config(function($compileProvider){
@@ -166,6 +179,6 @@ $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|file|tel):/);
 
   
     
-})
+});
 
-;
+
