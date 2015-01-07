@@ -22,7 +22,7 @@ angular.module('login', [])
                     //visible == null means, the app is starting for the first time, or the local storage was deleted by the user
                     //In case there is no "visible" available, BackgroundGps starts and the user is available for any games
                     //If there is a "visible" status available, we have to respect the users choice to keep off any games
-                    if (visible == null) {
+                    if (visible == null || visible == true) {
                         window.localStorage.setItem('visible', true);
                         services.initBackgroundGps();
                         services.startBackgroundGps();
