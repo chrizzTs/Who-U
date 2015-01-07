@@ -6,7 +6,7 @@
 
 angular.module('photos', [])
 
-.controller('photosCtrl', ['$scope', 'cssInjector', function ($scope, cssInjector) {
+.controller('photosCtrl', ['$scope', 'cssInjector', 'serverAPI', function ($scope, cssInjector, serverAPI) {
 
 cssInjector.removeAll();
     
@@ -16,12 +16,25 @@ cssInjector.removeAll();
     
   $scope.loaded = false;
   
-  $scope.images = [
+    $scope.photoIds = 
+     JSON.parse(window.localStorage.getItem('photoIds'));
+    
+    console.log($scope.photoIds);
+    
+    
+    $scope.images = new Array();
+    
+    for(var i=0; i < $scope.photoIds.length; i++){
+        serverAPI.getPhoto($scope.userID, $scope.photoIds[i], function(data)
+                           {$scope.images.push(data)});
+    }
+    
+/*  $scope.images = [
     'img/picture_1.jpg',
     'img/picture_2.jpg',
     'img/Megan_2.jpg',
       'img/Megan_1.jpg'
-  ];
+  ];*/
     
     
   

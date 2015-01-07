@@ -178,7 +178,7 @@ module.factory('serverAPI', function ($http) {
             $http.get({
                 path: host + getPhotoPath,
                 method: 'GET',
-                params: imageRequest
+                params: photoRequest
             }).success(callback)
         }
 

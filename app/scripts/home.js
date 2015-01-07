@@ -15,7 +15,7 @@ angular.module('home', ['services'])
         serverAPI.getUserData(UID, function (data) {
             $scope.userName = data.userName;
             $scope.coins = data.coins;
-            $scope.fotoId = data.fotoId;
+            window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
         });
 
 
