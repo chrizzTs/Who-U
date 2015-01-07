@@ -34,14 +34,19 @@ angular.module('home', ['services'])
         }
 
         function getGamesToRate(data) {
-            console.log(data);
             // Check if there are any new feedback sheets availalbe
-            if (data == 1) {
-                $ionicPopup.alert({
+            if (data == -10) {} else {
+                var alertPopup = $ionicPopup.alert({
                     title: 'Feedback',
-                    template: 'There is a player that you have not rated yet. Please rate the player before you can keep playing.'
+                    template: 'There is a player that has not been rated yet. Please rate the player before you keep playing.'
                 });
-                $scope.go('tab.feedback');
+
+
+                alertPopup.then(function (res) {
+                    $state.go('feedback');
+                });
+
+
             }
         };
 
@@ -69,6 +74,7 @@ angular.module('home', ['services'])
 
 
             function saveGeoData(geoData) {
+                alert(geoData);
                 var myPosition = {
                     'longitude': geoData.coords.longitude,
                     'latitude': geoData.coords.latitude
