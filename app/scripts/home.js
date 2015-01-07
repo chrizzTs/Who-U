@@ -24,7 +24,7 @@ angular.module('home', ['services'])
 
         });
 
-        serverAPI.getGamesToRate(UID, getGamesToRate);
+       // serverAPI.getGamesToRate(UID, getGamesToRate);
 
         //Request new feedback sheet from server to rate last plays (contat with new persons)
 
@@ -64,7 +64,6 @@ angular.module('home', ['services'])
 
             console.log($scope.buttonType);
             $scope.buttonType = 'icon ion-loading-a';
-            console.log($scope.buttonType);
 
 
 

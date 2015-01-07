@@ -17,18 +17,16 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <button class='button button-outline icon-left button-full button-positive icon ion-crop' ng-if='hasPicture' ng-click='startCropping()'>
-                        Crop
+                    <button class='button button-outline button-full button-positive icon ion-ios-crop-strong' ng-if='hasPicture' ng-click='startCropping()'>
+                        
                     </button>
                 </div>
                 <div class="col">
-                    <button class='button button-outline icon-left button-full button-positive icon ion-checkmark' ng-if='hasPicture' ng-click="saveImage()">
-                        Save
+                    <button class='button button-outline button-full button-positive icon ion-close-circled' ng-if='hasPicture' ng-click="discardImage()">
                     </button>
                 </div>
                 <div class="col">
-                    <button class='button button-outline icon-left button-full button-positive icon ion-close-circled' ng-if='hasPicture' ng-click="discardImage()">
-                        Discard
+                    <button class='button button-outline button-full button-positive icon ion-checkmark' ng-if='hasPicture' ng-click="saveImage()">
                     </button>
                 </div>
 
