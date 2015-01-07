@@ -10,7 +10,6 @@ angular.module('settings', ['services'])
     };
 
 
-
     $scope.changeVisibility = function () {
 
         if (visible == true) {
