@@ -124,6 +124,8 @@ angular.module('feedback', ['serverAPI'])
         var finalScore = scoreQuestion1 + scoreQuestion2 + scoreQuestion3;
         console.log(finalScore);
 
-        //serverAPI.insertNewRating(UID, finalScore);
+        serverAPI.insertNewRating(ratedUID, finalScore, function (data) {
+            console.log(data);
+        });
     }
 })
