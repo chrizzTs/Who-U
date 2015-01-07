@@ -2,12 +2,12 @@
     <ion-content class="padding">
         <div class="row">
             <div class="col">
-                <button class='button button-full button-positive' ng-click="getCameraPhoto()">
+                <button class='button button-outline icon-left button-full button-positive icon ion-camera' ng-click="getCameraPhoto()">
                     Take Photo
                 </button>
             </div>
             <div class="col">
-                <button class='button button-full button-positive' ng-click="getAlbumPhoto()">Gallery Photo</button>
+                <button class='button button-outline icon-left button-full button-positive icon ion-images' ng-click="getAlbumPhoto()">Gallery Photo</button>
             </div>
         </div>
             <div class="row">
@@ -17,18 +17,18 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <button class='button button-full button-positive' ng-if='hasPicture' ng-click='startCropping()'>
-                        Crop Image
+                    <button class='button button-outline icon-left button-full button-positive icon ion-crop' ng-if='hasPicture' ng-click='startCropping()'>
+                        Crop
                     </button>
                 </div>
                 <div class="col">
-                    <button class='button button-full button-positive' ng-if='hasPicture' ng-click="saveImage()">
-                        Save Image
+                    <button class='button button-outline icon-left button-full button-positive icon ion-checkmark' ng-if='hasPicture' ng-click="saveImage()">
+                        Save
                     </button>
                 </div>
                 <div class="col">
-                    <button class='button button-full button-positive' ng-if='hasPicture' ng-click="discardImage()">
-                        Discard Image
+                    <button class='button button-outline icon-left button-full button-positive icon ion-close-circled' ng-if='hasPicture' ng-click="discardImage()">
+                        Discard
                     </button>
                 </div>
 

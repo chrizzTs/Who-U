@@ -10,6 +10,8 @@ angular.module('photos', [])
 
 cssInjector.removeAll();
     
+ $scope.userID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+    
  cssInjector.add('styles/photos.css');
     
   $scope.loaded = false;
@@ -20,6 +22,8 @@ cssInjector.removeAll();
     'img/Megan_2.jpg',
       'img/Megan_1.jpg'
   ];
+    
+    
   
   $scope.selection = $scope.images[0];
   
