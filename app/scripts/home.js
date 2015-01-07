@@ -24,7 +24,7 @@ angular.module('home', ['services'])
 
         });
 
-        // serverAPI.getGamesToRate(UID, getGamesToRate);
+        serverAPI.getGamesToRate(UID, getGamesToRate);
 
         //Request new feedback sheet from server to rate last plays (contat with new persons)
 
@@ -106,7 +106,7 @@ angular.module('home', ['services'])
                             'longitude': data.longitude,
                             'latitude': data.latitude
                         };
-                        window.localStorage.setItem('teammatePosition', teammatePosition);
+                        window.localStorage.setItem('teammatePosition', JSON.stringify(teammatePosition));
                         //TODO: data.fotoId => request foto from server
                         $state.go('tab.play-screen');
                     }
