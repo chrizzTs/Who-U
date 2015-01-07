@@ -73,7 +73,7 @@ angular.module('home', ['services'])
 
 
             function saveGeoData(geoData) {
-                alert(geoData);
+                console.log(geoData);
                 var myPosition = {
                     'longitude': geoData.coords.longitude,
                     'latitude': geoData.coords.latitude
@@ -81,7 +81,11 @@ angular.module('home', ['services'])
 
                 window.localStorage.setItem('myPosition', JSON.stringify(myPosition));
                 //If geoloaction is saved successfully => Send geodata to server to receive teammate
-                serverAPI.updateGPS(myPosition);
+                serverAPI.updateGPS(UID, myPosition.longitude, myPosition.latitude, function (data) {
+                    if (data == 1) {
+                        sendToServer(myPosition);
+                    }
+                });
             };
 
             //Send current location to Server to receive teammate

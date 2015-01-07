@@ -3,26 +3,37 @@ angular.module('settings', ['services'])
 .controller('settingsCtrl', function ($scope, serverAPI, services) {
 
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+    $scope.visibleStatus;
 
-    $scope.visible = window.localStorage.getItem('visible');
+    var visible = window.localStorage.getItem('visible');
+
+    if (visible == 'true') {
+        $scope.visibleStatus = {
+            mode: true
+        };
+    } else if (visible == 'false') {
+        $scope.visibleStatus = {
+            mode: false
+        };
+    }
 
     $scope.changeVisibility = function () {
 
-        if ($scope.visible == true) {
-            $scope.visible = false;
+        if (visible == 'true') {
+            visible = 'false';
             services.endBackgroundGps();
             serverAPI.changeModus(UID, 0, function (data) {
                 console.log(data)
             });
-            window.localStorage.setItem('visible', false);
+            window.localStorage.setItem('visible', 'false');
             console.log('You are invisible');
         } else {
-            $scope.visible = true;
+            visible = 'true';
             services.startBackgroundGps();
             serverAPI.changeModus(UID, 1, function (data) {
                 console.log(data)
             });
-            window.localStorage.setItem('visible', true);
+            window.localStorage.setItem('visible', 'true');
             console.log('You are visible');
         }
     };
