@@ -105,7 +105,12 @@
                             "count": 2
                         }
                     ],
-                    "NSLocationAlwaysUsageDescription": [],
+                    "NSLocationAlwaysUsageDescription": [
+                        {
+                            "xml": "<string>This app requires background location tracking</string>",
+                            "count": 1
+                        }
+                    ],
                     "UIBackgroundModes": [
                         {
                             "xml": "<array><string>location</string></array>",
