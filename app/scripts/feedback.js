@@ -16,63 +16,60 @@ angular.module('feedback', ['serverAPI'])
     $scope.openGames = [];
     serverAPI.getGamesToRate($scope.UID, function (data) {
         console.log(data);
-        if (data.length > 0) {
-            for (var i = 0; i < data.length; i++) {
-                $scope.openGames[i] = data[i];
-            }
-
-            serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
-                $scope.ratedName = data.userName;
-            });
+        for (var i = 0; i < data.length; i++) {
+            $scope.openGames[i] = data[i];
         }
-    });
 
+        serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
+            $scope.ratedName = data.userName;
+        });
+    });
 
     $scope.starsQuestion2 = [
         {
             id: 0,
             action: 'rateQuestion2(1)',
             icon: 'icon ion-android-star'
-        }, {
+       }, {
             id: 1,
             action: 'rateQuestion2(2)',
             icon: 'icon ion-android-star'
-        }, {
+       }, {
             id: 2,
             action: 'rateQuestion2(3)',
             icon: 'icon ion-android-star'
-        }, {
+       }, {
             id: 3,
             action: 'rateQuestion2(4)',
             icon: 'icon ion-android-star'
-        }, {
+       }, {
             id: 4,
             action: 'rateQuestion2(5)',
             icon: 'icon ion-android-star'
-        }]
+       }]
 
     $scope.starsQuestion3 = [
         {
             id: 0,
             action: 'rateQuestion3(1)',
             icon: 'icon ion-android-star'
-        }, {
+       }, {
             id: 1,
             action: 'rateQuestion3(2)',
             icon: 'icon ion-android-star'
-        }, {
+       }, {
             id: 2,
             action: 'rateQuestion3(3)',
             icon: 'icon ion-android-star'
-        }, {
+       }, {
             id: 3,
             action: 'rateQuestion3(4)',
             icon: 'icon ion-android-star'
-        }, {
+       }, {
             id: 4,
             action: 'rateQuestion3(5)',
             icon: 'icon ion-android-star'
-        }]
+       }]
 
     $scope.contacted = function () {
         $scope.showChoice = false;
@@ -91,7 +88,7 @@ angular.module('feedback', ['serverAPI'])
 
     $scope.rateQuestion2 = function (x) {
         for (var i = 0; i < $scope.starsQuestion2.length; i++) {
-            $scope.starsQuestion2[i].icon = 'icon ion-android-star';
+            $scope.starsQuestion2[i].icon = 'ion-android-star';
         }
 
         $scope.question2 = x;
@@ -100,7 +97,7 @@ angular.module('feedback', ['serverAPI'])
 
         for (var i = 0; i < $scope.starsQuestion2.length; i++) {
             if ($scope.starsQuestion2[i].id <= selected) {
-                $scope.starsQuestion2[i].icon = 'icon ion-asterisk';
+                $scope.starsQuestion2[i].icon = 'ion-asterisk';
             }
         }
     }
