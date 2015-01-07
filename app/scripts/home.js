@@ -34,14 +34,19 @@ angular.module('home', ['services'])
         }
 
         function getGamesToRate(data) {
-            console.log(data);
             // Check if there are any new feedback sheets availalbe
             if (data == -10) {} else {
-                $ionicPopup.alert({
+                var alertPopup = $ionicPopup.alert({
                     title: 'Feedback',
-                    template: 'There is a player that you have not rated yet. Please rate the player before you can keep playing.'
+                    template: 'There is a player that has not been rated yet. Please rate the player before you keep playing.'
                 });
-                $scope.go('tab.feedback');
+
+
+                alertPopup.then(function (res) {
+                    $state.go('feedback');
+                });
+
+
             }
         };
 
