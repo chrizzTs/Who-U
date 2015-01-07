@@ -7,33 +7,46 @@
 angular.module('photos', [])
 
 .controller('photosCtrl', ['$scope', 'cssInjector', 'serverAPI',
-    function ($scope, cssInjector, serverAPI) {
+  function($scope, cssInjector, serverAPI) {
 
-        cssInjector.removeAll();
+    $scope.hasPictures = false;
+      
+    cssInjector.removeAll();
 
-        $scope.userID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+              var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+        serverAPI.getUserData(UID, function (data) {
+            $scope.userName = data.userName;
+            $scope.coins = data.coins;
+            window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
+        });
+      
+    $scope.userID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
 
-        cssInjector.add('styles/photos.css');
+    cssInjector.add('styles/photos.css');
 
-        $scope.loaded = false;
+    $scope.loaded = false;
 
-        $scope.photoIds =
-            JSON.parse(window.localStorage.getItem('photoIds'));
+    $scope.photoIds =
+      JSON.parse(window.localStorage.getItem('photoIds'));
 
-        console.log($scope.photoIds);
+      if ($scope.photoIds.isDefined == true){
+          $scope.hasPictures = true;
+      }
+
+    $scope.images = new Array();
+
+    for (var i = 0; i < $scope.photoIds.length; i++) {
+      serverAPI.getPhoto($scope.userID, $scope.photoIds[i], function(data) {
+        console.log(data);
+        console.log(data.length)
+        $scope.images.push(data);
+      });
+    }
+
+    JSON.stringify(window.localStorage.setItem('userPhotos', $scope.images));
 
 
-        $scope.images = new Array();
-
-        for (var i = 0; i < $scope.photoIds.length; i++) {
-            serverAPI.getPhoto($scope.userID, $scope.photoIds[i], function (data) {
-                console.log(data);
-                console.log(data.length)
-                $scope.images.push(data);
-            });
-        }
-
-        /*  $scope.images = [
+    /*  $scope.images = [
     'img/picture_1.jpg',
     'img/picture_2.jpg',
     'img/Megan_2.jpg',
@@ -42,13 +55,16 @@ angular.module('photos', [])
 
 
 
-        $scope.selection = $scope.images[0];
+    $scope.selection = $scope.images[0];
 
-        $scope.setHero = function (img) {
-            $scope.selection = img;
-        }
+    $scope.setHero = function(img) {
+      $scope.selection = img;
+    }
 
-        $scope.loaded = true;
+    $scope.loaded = true;
+    
+    
 
 
-                         }]);
+  }
+]);
