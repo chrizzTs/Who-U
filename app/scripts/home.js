@@ -24,7 +24,7 @@ angular.module('home', ['services'])
 
         });
 
-       // serverAPI.getGamesToRate(UID, getGamesToRate);
+        // serverAPI.getGamesToRate(UID, getGamesToRate);
 
         //Request new feedback sheet from server to rate last plays (contat with new persons)
 
@@ -34,8 +34,7 @@ angular.module('home', ['services'])
         }
 
         function getGamesToRate(data) {
-            Check
-            if there are any new feedback sheets availalbe
+            //Check if there are any new feedback sheets availalbe
             if (data == -10) {} else {
                 var alertPopup = $ionicPopup.alert({
                     title: 'Feedback',
