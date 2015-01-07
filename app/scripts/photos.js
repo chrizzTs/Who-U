@@ -9,7 +9,8 @@ angular.module('photos', [])
 .controller('photosCtrl', ['$scope', 'cssInjector', 'serverAPI',
   function($scope, cssInjector, serverAPI) {
 
-    $scope.hasPictures = false;
+    $scope.userHasPictures = false;
+window.localStorage.setItem('userHasPictures', '0');      
       
     cssInjector.removeAll();
 
@@ -29,9 +30,10 @@ angular.module('photos', [])
     $scope.photoIds =
       JSON.parse(window.localStorage.getItem('photoIds'));
 
-      if ($scope.photoIds.isDefined == true){
-          $scope.hasPictures = true;
-      }
+      if ($scope.photoIds.length > 0){
+          $scope.userHasPictures = 1;
+          window.localStorage.setItem('userHasPictures', '1');
+      
 
     $scope.images = new Array();
 
@@ -66,5 +68,6 @@ angular.module('photos', [])
     
 
 
+  }
   }
 ]);

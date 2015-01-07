@@ -60,7 +60,7 @@ angular.module('pictureTaker', ['ngImgCrop'])
       
  
       //fetch Data from local Storage
-      
+      $scope.userHasPictures = window.localStorage.getItem('userHasPictures');
       $scope.userID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
       
     //add Styles
@@ -143,21 +143,27 @@ angular.module('pictureTaker', ['ngImgCrop'])
       
     $scope.saveImage = function() {
         var pictureAlreadySaved = false;
+        if ($scope.userHasPictures == 1){
         $scope.images = JSON.parse(window.localStorage.getItem('userPhotos'));
         for (var i=0; i < images.length; i++){
             if ($scope.images[i].equals($scope.shownImage)){
                 pictureAlreadySaved = true;
             }
         }
-    }
+        }
+    
         if ($scope.pictureAlreadySaved){
             $scope.showAlert = function(){
                 var alertPopup = $ionicPopup.alert({
                     title : 'Picture already saved',
                     template : 'You already saved this picture for your profile!'});
-            }} else {
+                
+            }
+        $state.go('tab.home');
+        } else {
                 serverAPI.saveNewPhoto($scope.userID, $scope.shownImage, function(data){console.log(data)});
-    };
+                $state.go('tab.photos');
+    }};
       
     $scope.discardImage = function() {
         $scope.hasPicture = false;

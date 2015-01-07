@@ -66,6 +66,7 @@
     "https://github.com/apache/cordova-plugin-geolocation.git",
     "https://github.com/apache/cordova-plugin-camera",
     "org.apache.cordova.geolocation",
-    "org.transistorsoft.cordova.background-geolocation"
+    "org.transistorsoft.cordova.background-geolocation",
+    "org.apache.cordova.dialogs"
   ]
 }
