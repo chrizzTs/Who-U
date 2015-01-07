@@ -1,13 +1,11 @@
 angular.module('feedback', ['serverAPI'])
 
-.controller('feedbackCtrl', function ($scope, cssInjector) {
+.controller('feedbackCtrl', function ($scope, cssInjector, serverAPI) {
+
+    //Counter for counting in array with not yet rated games
+    $scope.counter = 0;
 
     $scope.UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
-    //Communicated from server
-    $scope.ratedUID = 123456789;
-    //Dummy name due the lack of internet connection
-    $scope.ratedName = "Hansi";
-    //$scope.ratedCoins=?;
 
     $scope.showChoice = true;
     $scope.question1;
@@ -15,12 +13,21 @@ angular.module('feedback', ['serverAPI'])
     $scope.question3 = 0;
     $scope.formData = {};
 
-    //REAL IMPLEMENTATION BELOW:
-    //serverAPI.getUserData(UID, function (data) {
-    //$scope.ratedName = data.userName;
-    //$scope.ratedFotoId = data.fotoId;
-    //console.log(data);
-    //});
+    $scope.openGames = [];
+    var tmp = serverAPI.getGamesToRate($scope.UID, function (data) {
+        console.log(data);
+        for (var i = 0; i < data.length; i++) {
+            $scope.openGames[i] = data[i];
+        }
+
+        $scope.ratedUID = $scope.openGames[$scope.counter].userPlayedWithId;
+        $scope.gameID = $scope.openGames[$scope.counter].gameId;
+
+        serverAPI.getUserData($scope.ratedUID, function (data) {
+            console.log(data);
+            $scope.ratedName = data.userName;
+        });
+    });
 
     $scope.starsQuestion2 = [
         {
@@ -75,6 +82,10 @@ angular.module('feedback', ['serverAPI'])
     }
 
     $scope.notContacted = function () {
+        serverAPI.insertNewRating($scope.ratedUID, 0, $scope.gameID, function (data) {
+            console.log(data);
+        });
+
         console.log("No contact");
         window.location = "#/tab/home";
     }
@@ -124,8 +135,15 @@ angular.module('feedback', ['serverAPI'])
         var finalScore = scoreQuestion1 + scoreQuestion2 + scoreQuestion3;
         console.log(finalScore);
 
-        serverAPI.insertNewRating(ratedUID, finalScore, function (data) {
+        serverAPI.insertNewRating($scope.ratedUID, finalScore, $scope.gameID, function (data) {
             console.log(data);
         });
+
+        $scope.counter++;
+        if ($scope.counter < $scope.openGames.length) {
+            console.log($scope.counter);
+        } else {
+            window.location = "#/tab/home";
+        }
     }
 })
