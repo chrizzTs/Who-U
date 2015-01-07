@@ -35,7 +35,8 @@ angular.module('registration', ['serverAPI'])
                                 'UID': data
                             }
                         }
-                        window.localStorage.setItem('Credentials', JSON.stringify(newCredentials))
+                        window.localStorage.setItem('Credentials', JSON.stringify(newCredentials));
+                        window.localStorage.setItem('visible', true);
                         window.location = "#/tab/home";
                     });
                 });
