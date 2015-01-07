@@ -82,10 +82,11 @@ module.factory('serverAPI', function ($http) {
                 params: gamesToRateRequest
             }).success(callback)
         },
-        insertNewRating: function (userId, coinsToAdd, callback) {
+        insertNewRating: function (userId, coinsToAdd, gameId, callback) {
             var coinAddRequest = {
                 _id: userId,
-                coins: coinsToAdd
+                coins: coinsToAdd,
+                gameId: gameId
             }
             $http.put(host + insertNewRatingPath, coinAddRequest).success(callback)
         },
