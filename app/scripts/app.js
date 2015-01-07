@@ -75,7 +75,7 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
             }
         }
     })
-    
+
     .state('tab.pictureTaker', {
         url: '/pictureTaker',
         views: {
@@ -106,6 +106,17 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
             }
         }
     })
+
+    .state('tab.chat-detail', {
+        url: '/chat-detail',
+        views: {
+            'tab-chat-master': {
+                templateUrl: 'templates/chat-detail.html',
+                controller: 'chatMasterCtrl'
+            }
+        }
+    })
+
 
     .state('tab.coins', {
         url: '/coins',
