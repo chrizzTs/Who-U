@@ -2,27 +2,22 @@ angular.module('settings', ['services'])
 
 .controller('settingsCtrl', function ($scope, serverAPI, services) {
 
-    var visible = window.localStorage.getItem('visible');
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
 
-    $scope.visibleStatus = {
-        mode: visible
-    };
-
-
+    $scope.visible = window.localStorage.getItem('visible');
 
     $scope.changeVisibility = function () {
 
-        if (visible == true) {
-            visible = false;
+        if ($scope.visible == true) {
+            $scope.visible = false;
             services.endBackgroundGps();
             serverAPI.changeModus(UID, 0, function (data) {
                 console.log(data)
             });
-            window.localStorage.setItem('invisible', true);
+            window.localStorage.setItem('visible', false);
             console.log('You are invisible');
         } else {
-            visible = true;
+            $scope.visible = true;
             services.startBackgroundGps();
             serverAPI.changeModus(UID, 1, function (data) {
                 console.log(data)

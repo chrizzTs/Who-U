@@ -16,14 +16,17 @@ angular.module('feedback', ['serverAPI'])
     $scope.openGames = [];
     serverAPI.getGamesToRate($scope.UID, function (data) {
         console.log(data);
-        for (var i = 0; i < data.length; i++) {
-            $scope.openGames[i] = data[i];
-        }
+        if (data.length > 0) {
+            for (var i = 0; i < data.length; i++) {
+                $scope.openGames[i] = data[i];
+            }
 
-        serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
-            $scope.ratedName = data.userName;
-        });
+            serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
+                $scope.ratedName = data.userName;
+            });
+        }
     });
+
 
     $scope.starsQuestion2 = [
         {
@@ -88,7 +91,7 @@ angular.module('feedback', ['serverAPI'])
 
     $scope.rateQuestion2 = function (x) {
         for (var i = 0; i < $scope.starsQuestion2.length; i++) {
-            $scope.starsQuestion2[i].icon = 'ion-android-star';
+            $scope.starsQuestion2[i].icon = 'icon ion-android-star';
         }
 
         $scope.question2 = x;
@@ -97,7 +100,7 @@ angular.module('feedback', ['serverAPI'])
 
         for (var i = 0; i < $scope.starsQuestion2.length; i++) {
             if ($scope.starsQuestion2[i].id <= selected) {
-                $scope.starsQuestion2[i].icon = 'ion-asterisk';
+                $scope.starsQuestion2[i].icon = 'icon ion-asterisk';
             }
         }
     }

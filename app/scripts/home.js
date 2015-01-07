@@ -34,15 +34,20 @@ angular.module('home', ['services'])
         }
 
         function getGamesToRate(data) {
-            console.log(data);
             // Check if there are any new feedback sheets availalbe
-            if (data == 1) {
-                $ionicPopup.alert({
-                    title: 'Feedback',
-                    template: 'There is a player that you have not rated yet. Please rate the player before you can keep playing.'
-                });
-                $scope.go('tab.feedback');
-            }
+            //            if (data == -10) {} else {
+            //                var alertPopup = $ionicPopup.alert({
+            //                    title: 'Feedback',
+            //                    template: 'There is a player that has not been rated yet. Please rate the player before you keep playing.'
+            //                });
+            //
+            //
+            //                alertPopup.then(function (res) {
+            //                    $state.go('feedback');
+            //                });
+
+
+            //   }
         };
 
 
@@ -69,6 +74,7 @@ angular.module('home', ['services'])
 
 
             function saveGeoData(geoData) {
+                alert(geoData);
                 var myPosition = {
                     'longitude': geoData.coords.longitude,
                     'latitude': geoData.coords.latitude
@@ -76,7 +82,7 @@ angular.module('home', ['services'])
 
                 window.localStorage.setItem('myPosition', JSON.stringify(myPosition));
                 //If geoloaction is saved successfully => Send geodata to server to receive teammate
-                sendToServer(myPosition);
+                serverAPI.updateGPS(myPosition);
             };
 
             //Send current location to Server to receive teammate
