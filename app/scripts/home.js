@@ -69,8 +69,6 @@ angular.module('home', ['services'])
 
 
             function saveGeoData(geoData) {
-
-                alert(geoData);
                 var myPosition = {
                     'longitude': geoData.coords.longitude,
                     'latitude': geoData.coords.latitude
