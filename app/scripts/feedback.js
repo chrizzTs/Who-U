@@ -133,13 +133,13 @@ angular.module('feedback', ['serverAPI'])
 
         serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, finalScore, $scope.openGames[$scope.counter].gameId, function (data) {
             console.log(data);
-        });
 
-        $scope.counter++;
-        if ($scope.counter < $scope.openGames.length) {
-            console.log($scope.counter);
-        } else {
-            window.location = "#/tab/home";
-        }
+            $scope.counter++;
+            if ($scope.counter < $scope.openGames.length) {
+                console.log($scope.counter);
+            } else {
+                window.location = "#/tab/home";
+            }
+        });
     }
 })
