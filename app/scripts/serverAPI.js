@@ -152,7 +152,7 @@ module.factory('serverAPI', function ($http) {
                 'PID': photoId
             }
             $http({
-                path: host + deletePhotoPath,
+                url: host + deletePhotoPath,
                 method: 'DELETE',
                 params: deletePhotoRequest
             }).success(callback)
@@ -172,13 +172,13 @@ module.factory('serverAPI', function ($http) {
         },
         getPhoto: function (userId, photoId, callback) {
             var photoRequest = {
-                _id: userId,
-                photoId: photoId
+                '_id': userId,
+                'photoId': photoId
             }
-            $http.get({
-                path: host + getPhotoPath,
+            $http({
+                url: host + getPhotoPath,
                 method: 'GET',
-                params: imageRequest
+                params: photoRequest
             }).success(callback)
         }
 

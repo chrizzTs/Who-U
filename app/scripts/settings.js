@@ -5,27 +5,24 @@ angular.module('settings', ['services'])
     var visible = window.localStorage.getItem('visible');
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
 
-    //Meanins have to be inverted due the opposide meaning of the toggle (-->INvisible)
-    if (visible == 'true') {
-        $scope.visibleStatus = {
-            mode: false
-        };
-    } else if (visible == 'false') {
-        $scope.visibleStatus = {
-            mode: true
-        };
-    }
+    $scope.visibleStatus = {
+        mode: visible
+    };
+
+
 
     $scope.changeVisibility = function () {
 
-        if (visible == 'true') {
+        if (visible == true) {
+            visible = false;
             services.endBackgroundGps();
             serverAPI.changeModus(UID, 0, function (data) {
                 console.log(data)
             });
-            window.localStorage.setItem('visible', false);
+            window.localStorage.setItem('invisible', true);
             console.log('You are invisible');
-        } else if (visible == 'false') {
+        } else {
+            visible = true;
             services.startBackgroundGps();
             serverAPI.changeModus(UID, 1, function (data) {
                 console.log(data)

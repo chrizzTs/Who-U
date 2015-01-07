@@ -15,7 +15,7 @@ angular.module('home', ['services'])
         serverAPI.getUserData(UID, function (data) {
             $scope.userName = data.userName;
             $scope.coins = data.coins;
-            $scope.fotoId = data.fotoId;
+            window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
         });
 
 
@@ -69,8 +69,6 @@ angular.module('home', ['services'])
 
 
             function saveGeoData(geoData) {
-
-                alert(geoData);
                 var myPosition = {
                     'longitude': geoData.coords.longitude,
                     'latitude': geoData.coords.latitude
