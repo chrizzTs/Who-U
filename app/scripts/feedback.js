@@ -14,19 +14,14 @@ angular.module('feedback', ['serverAPI'])
     $scope.formData = {};
 
     $scope.openGames = [];
-    var tmp = serverAPI.getGamesToRate($scope.UID, function (data) {
+    serverAPI.getGamesToRate($scope.UID, function (data) {
         console.log(data);
         if (data.length > 0) {
             for (var i = 0; i < data.length; i++) {
                 $scope.openGames[i] = data[i];
             }
 
-            $scope.notRatedGames = $scope.openGames.length;
-            $scope.ratedUID = $scope.openGames[$scope.counter].userPlayedWithId;
-            $scope.gameID = $scope.openGames[$scope.counter].gameId;
-
-            serverAPI.getUserData($scope.ratedUID, function (data) {
-                console.log(data);
+            serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
                 $scope.ratedName = data.userName;
             });
         }
@@ -86,7 +81,7 @@ angular.module('feedback', ['serverAPI'])
     }
 
     $scope.notContacted = function () {
-        serverAPI.insertNewRating($scope.ratedUID, 0, $scope.gameID, function (data) {
+        serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, 0, $scope.openGames[$scope.counter].gameId, function (data) {
             console.log(data);
         });
 
@@ -139,26 +134,15 @@ angular.module('feedback', ['serverAPI'])
         var finalScore = scoreQuestion1 + scoreQuestion2 + scoreQuestion3;
         console.log(finalScore);
 
-        serverAPI.insertNewRating($scope.ratedUID, finalScore, $scope.gameID, function (data) {
+        serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, finalScore, $scope.openGames[$scope.counter].gameId, function (data) {
             console.log(data);
         });
 
         $scope.counter++;
-        console.log('Counter: ' + $scope.counter);
-        $scope.notRatedGames--;
-
-        if ($scope.counter >= $scope.openGames.length) {
+        if ($scope.counter < $scope.openGames.length) {
+            console.log($scope.counter);
+        } else {
             window.location = "#/tab/home";
         }
-
-        for (var i = 0; i < $scope.starsQuestion2.length; i++) {
-            $scope.starsQuestion2[i].icon = 'icon ion-android-star';
-        }
-
-        for (var i = 0; i < $scope.starsQuestion3.length; i++) {
-            $scope.starsQuestion3[i].icon = 'icon ion-android-star';
-        }
-
-        $scope.enableSubmit();
     }
 })
