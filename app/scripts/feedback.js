@@ -139,8 +139,8 @@ angular.module('feedback', ['serverAPI'])
             console.log(data);
         });
 
+        $scope.counter++;
         if ($scope.counter < $scope.openGames.length) {
-            $scope.counter++;
             console.log($scope.counter);
         } else {
             window.location = "#/tab/home";
