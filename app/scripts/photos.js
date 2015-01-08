@@ -6,49 +6,66 @@
 
 angular.module('photos', [])
 
+
+
 .controller('photosCtrl', ['$scope', 'cssInjector', 'serverAPI',
   function($scope, cssInjector, serverAPI) {
 
-    $scope.userHasPictures = false;
-window.localStorage.setItem('userHasPictures', '0');      
+      $scope.images = new Array();
       
+    $scope.userHasPictures = false;
+    window.localStorage.setItem('userHasPictures', '0');
+
     cssInjector.removeAll();
 
-              var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
-        serverAPI.getUserData(UID, function (data) {
-            $scope.userName = data.userName;
-            $scope.coins = data.coins;
-            window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
-        });
+      $scope.selection;
       
-    $scope.userID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+    var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+    serverAPI.getUserData(UID, function(data) {
+        $scope.userName = data.userName;
+        $scope.coins = data.coins;
+        $scope.photoIds = data.photoIds;
+        window.localStorage.setItem('photoIds', $scope.photoIds);
 
-    cssInjector.add('styles/photos.css');
-
-    $scope.loaded = false;
-
-    $scope.photoIds =
-      JSON.parse(window.localStorage.getItem('photoIds'));
-
-      if ($scope.photoIds.length > 0){
+        if ($scope.photoIds.length != 0) {
           $scope.userHasPictures = 1;
           window.localStorage.setItem('userHasPictures', '1');
+        }
+        
+        
+        for (var i = 0; i < $scope.photoIds.length; i++) {
+            
+        serverAPI.getPhoto($scope.userID, $scope.photoIds[i], function(data) {
+        var entry  = {
+            "id" : $scope.photoIds[i],
+            "image" : data
+        };
+            
+          $scope.images.push(entry);
+          if (i == $scope.photoIds.length) {
+            window.localStorage.setItem('userPhotos', JSON.stringify($scope.images));
+          }
+            
+        $scope.selection = $scope.images[0].image;
+        });
+        }
+        
+      })
+
+      $scope.userID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+
+      cssInjector.add('styles/photos.css');
+
+      $scope.loaded = false;
+
+
+
+
+      
       
 
-    $scope.images = new Array();
 
-    for (var i = 0; i < $scope.photoIds.length; i++) {
-      serverAPI.getPhoto($scope.userID, $scope.photoIds[i], function(data) {
-        console.log(data);
-        console.log(data.length)
-        $scope.images.push(data);
-      });
-    }
-
-    JSON.stringify(window.localStorage.setItem('userPhotos', $scope.images));
-
-
-    /*  $scope.images = [
+      /*  $scope.images = [
     'img/picture_1.jpg',
     'img/picture_2.jpg',
     'img/Megan_2.jpg',
@@ -56,18 +73,15 @@ window.localStorage.setItem('userHasPictures', '0');
   ];*/
 
 
+      $scope.setHero = function(img) {
+        $scope.selection = img.image;
+      }
 
-    $scope.selection = $scope.images[0];
+      $scope.loaded = true;
 
-    $scope.setHero = function(img) {
-      $scope.selection = img;
+
+
+
     }
 
-    $scope.loaded = true;
-    
-    
-
-
-  }
-  }
 ]);

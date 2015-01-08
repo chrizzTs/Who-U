@@ -54,9 +54,9 @@ angular.module('pictureTaker', ['ngImgCrop'])
   }])
 
 
-.controller('CameraCtrl', ['$scope', 'PhoneCamera', 'PhoneAlbum', 'cssInjector', '$ionicModal', 'serverAPI',
+.controller('CameraCtrl', ['$scope', 'PhoneCamera', 'PhoneAlbum', 'cssInjector', '$ionicModal', 'serverAPI', '$state',
 
-  function($scope, PhoneCamera,PhoneAlbum, cssInjector, $ionicModal, serverAPI) {
+  function($scope, PhoneCamera,PhoneAlbum, cssInjector, $ionicModal, serverAPI, $state) {
       
  
       //fetch Data from local Storage
@@ -74,6 +74,7 @@ angular.module('pictureTaker', ['ngImgCrop'])
       $scope.cropSpace = '';
      // $scope.shownImage = '';
       $scope.newImage = 'data:image/jpeg;base64,';
+      
 
     //initialize Source-Variable of Image
       $scope.hasPicture = false;
@@ -145,8 +146,8 @@ angular.module('pictureTaker', ['ngImgCrop'])
         var pictureAlreadySaved = false;
         if ($scope.userHasPictures == 1){
         $scope.images = JSON.parse(window.localStorage.getItem('userPhotos'));
-        for (var i=0; i < images.length; i++){
-            if ($scope.images[i].equals($scope.shownImage)){
+        for (var i=0; i < $scope.images.length; i++){
+            if ($scope.images[i].image == $scope.shownImage){
                 pictureAlreadySaved = true;
             }
         }
@@ -159,7 +160,6 @@ angular.module('pictureTaker', ['ngImgCrop'])
                     template : 'You already saved this picture for your profile!'});
                 
             }
-        $state.go('tab.home');
         } else {
                 serverAPI.saveNewPhoto($scope.userID, $scope.shownImage, function(data){console.log(data)});
                 $state.go('tab.photos');
