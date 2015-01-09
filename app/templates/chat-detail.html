@@ -57,7 +57,7 @@
             <textarea msd-elastic ng-model="input.message" value="" placeholder="Send {{toUser.username}} a message..." required minlength="1" maxlength="1500">
             </textarea>
         </label>
-        <button class="button button-icon icon ion-android-send" type="submit" ng-disabled="!input.message || input.message === ''">
+        <button class="button-clear ion-ios-send" type="submit" ng-disabled="!input.message || input.message === ''">Send
         </button>
     </ion-footer-bar>
 </form>

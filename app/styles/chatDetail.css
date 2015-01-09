@@ -12,6 +12,7 @@ body {
     height: auto;
     max-height: 200px;
 }
+
 .bar-footer textarea {
     resize: none;
     max-height: 200px;
@@ -22,6 +23,11 @@ body {
 button.ion-android-send {
     padding-top: 2px;
 }
+.button-clear.button-clear:enabled{
+    color: #007AFF;
+    font-weight: bold;
+}
+
 img.profile-pic {
     width: 40px;
     height: 40px;
