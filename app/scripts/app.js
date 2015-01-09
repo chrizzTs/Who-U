@@ -14,19 +14,23 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
     });
 })
 
+
+
 .config(function ($stateProvider, $urlRouterProvider, cssInjectorProvider, $compileProvider) {
 
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
     // Set up the various states which the app can be in.
     // Each state's controller can be found in controllers.js
-    $stateProvider
 
+
+    $stateProvider
     // setup an abstract state for the tabs directive
     .state('tab', {
         url: "/tab",
         abstract: true,
-        templateUrl: "templates/tabs.html"
+        templateUrl: "templates/tabs.html",
+        controller: 'tabsCtrl'
     })
 
     .state('login', {
@@ -99,6 +103,7 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
 
     .state('tab.chat-master', {
         url: '/chat-master',
+        footerClass: "tabs-icon-top",
         views: {
             'tab-chat-master': {
                 templateUrl: 'templates/tab-chat-master.html',
@@ -107,13 +112,15 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
         }
     })
 
-    .state('chat-detail', {
-        url: '/tab/chat-detail',
-        templateUrl: 'templates/chat-detail.html',
-        controller: 'chatDetailCtrl'
-
+    .state('tab.chat-detail', {
+        url: '/chat-detail',
+        views: {
+            'tab-chat-master': {
+                templateUrl: 'templates/chat-detail.html',
+                controller: 'chatDetailCtrl'
+            }
+        }
     })
-
 
     .state('tab.coins', {
         url: '/coins',
@@ -149,4 +156,20 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
 
     //After a page change all injected CSS files are removed
     cssInjectorProvider.setSinglePageMode(true);
-});
+
+})
+
+.controller('tabsCtrl',
+    function ($state, $scope, $rootScope, services) {
+    
+     $rootScope.$watch('hideFooter', function (newValue, oldValue) {
+         console.log("change hideStatus")
+         if($rootScope.hideFooter){
+             $scope.footerClass="tabs-item-hide"
+         }else{
+             $scope.footerClass=""
+         }
+      
+        });
+    
+    })

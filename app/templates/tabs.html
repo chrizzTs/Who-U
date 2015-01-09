@@ -3,8 +3,9 @@
   Each tab's child <ion-nav-view> directive will have its own 
   navigation history that also transitions its views in and out,
 -->
-<ion-tabs class="tabs-icon-top">
 
+
+<ion-tabs class="tabs-icon-top {{footerClass}}">
 
     <!-- Home Tab -->
     <ion-tab title=" Home " icon="icon ion-home " href="#/tab/home ">
@@ -26,5 +27,4 @@
     <ion-tab title="Settings " icon="icon ion-ios7-gear " href="#/tab/settings ">
         <ion-nav-view name="tab-settings "></ion-nav-view>
     </ion-tab>
-
 </ion-tabs>

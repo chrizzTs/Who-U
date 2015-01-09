@@ -1,12 +1,12 @@
 angular.module('chatMaster', ['chatDetail'])
 
-.controller('chatMasterCtrl', function ($scope, $state, chatDetail) {
+.controller('chatMasterCtrl', function ($scope, $state, chatDetail, cssInjector) {
 
-
-    //Redirect to chatDetauk and pass all needed Chatinformation to chatDetail
+    cssInjector.removeAll();
+    //Redirects to chatDetail and passes all needed Chatinformation to chatDetail
     $scope.clicked = function (partner) {
         chatDetail.initChat(partner);
-        $state.go('chat-detail');
+        $state.go('tab.chat-detail');
     }
 
 

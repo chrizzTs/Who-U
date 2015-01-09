@@ -69,8 +69,5 @@ services.factory('services', function () {
             }
 
         }
-
-
-
     }
-});
+})

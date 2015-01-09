@@ -7,7 +7,13 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         $ionicActionSheet, $ionicScrollDelegate, $timeout, $interval, cssInjector) {
 
         cssInjector.add('styles/chatDetail.css')
-
+        $rootScope.hideFooter = true;
+        
+        $scope.$on("$destroy", function(){
+ $rootScope.hideFooter = false;
+});
+      
+      
         // Chatpartners User Data
         $scope.toUser = {
             _id: '534b8e5aaa5e7afc1b23e69b',
