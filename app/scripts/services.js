@@ -1,7 +1,7 @@
 'use strict'
 var services = angular.module('services', [])
 
-services.factory('services', function (serverAPI) {
+services.factory('services', function () {
     var bgGeo;
 
     return {
@@ -41,14 +41,14 @@ services.factory('services', function (serverAPI) {
 
                 // BackgroundGeoLocation
                 bgGeo.configure(callbackFn, failureFn, {
-                                    url: 'http://only.for.android.com/update_location.json', // <-- Android ONLY:  your server url to send locations to
-                                    params: {
-                                        auth_token: 'user_secret_auth_token', //  <-- Android ONLY:  HTTP POST params sent to your server when persisting locations.
-                                        foo: 'bar' //  <-- Android ONLY:  HTTP POST params sent to your server when persisting locations.
-                                    },
-                                    headers: { // <-- Android ONLY:  Optional HTTP headers sent to your configured #url when persisting locations
-                                        "X-Foo": "BAR"
-                                    },
+                    url: 'http://only.for.android.com/update_location.json', // <-- Android ONLY:  your server url to send locations to
+                    params: {
+                        auth_token: 'user_secret_auth_token', //  <-- Android ONLY:  HTTP POST params sent to your server when persisting locations.
+                        foo: 'bar' //  <-- Android ONLY:  HTTP POST params sent to your server when persisting locations.
+                    },
+                    headers: { // <-- Android ONLY:  Optional HTTP headers sent to your configured #url when persisting locations
+                        "X-Foo": "BAR"
+                    },
                     desiredAccuracy: 10,
                     stationaryRadius: 20,
                     distanceFilter: 30,

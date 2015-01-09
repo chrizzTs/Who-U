@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map', 'coins', 'pictureTaker', 'feedback', 'photos'])
+angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map', 'coins', 'pictureTaker', 'feedback', 'photos', 'chatDetail'])
 
 .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -107,14 +107,11 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
         }
     })
 
-    .state('tab.chat-detail', {
-        url: '/chat-detail',
-        views: {
-            'tab-chat-master': {
-                templateUrl: 'templates/chat-detail.html',
-                controller: 'chatMasterCtrl'
-            }
-        }
+    .state('chat-detail', {
+        url: '/tab/chat-detail',
+        templateUrl: 'templates/chat-detail.html',
+        controller: 'chatDetailCtrl'
+
     })
 
 
