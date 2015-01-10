@@ -5,10 +5,7 @@
             <i class="item item-avatar" ng-click="clicked({{partner}})">
                 <img src="img/cover.png">
                 <h2>{{partner.name}}</h2>
-                <p ng-if="partner.message.length<=40">{{partner.message}}</p>
-                <p ng-if="partner.message.length>40">{{partner.message.substring(0,40)}}...</p>
-            </i>
-
-
+                <p>{{partner.message}}</p>
+            </i> 
     </ion-content>
 </ion-view>
