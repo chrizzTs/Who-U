@@ -18,15 +18,6 @@ describe('Controller: CameraCtrl', function() {
       $controller = _$controller_;
   }));
     
-    
-it("uploads an image from a Base64-String", function() {
-        
-        //inject Scope and Controller
-        var $scope = {};
-        var controller = $controller('CameraCtrl', {$scope: $scope });
-        
-            
-    });
         
 
 });

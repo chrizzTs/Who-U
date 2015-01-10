@@ -100,7 +100,7 @@ angular.module('home', ['services'])
                         });
                     } else {
                         window.localStorage.setItem('teammate', data.username);
-                        window.localStorage.setItem('isEnummeration', data.taskType);
+                        window.localStorage.setItem('isEnumeration', data.taskType);
                         window.localStorage.setItem('task', data.task);
                         var teammatePosition = {
                             'longitude': data.longitude,

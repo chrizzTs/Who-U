@@ -19,11 +19,16 @@ angular.module('photos', [])
     cssInjector.removeAll();
 
       $scope.selection;
+      $scope.selectionPhotoId;
       
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
     serverAPI.getUserData(UID, function(data) {
         $scope.userName = data.userName;
         $scope.coins = data.coins;
+        $scope.photoIds = window.localStorage.getItem('photoIds');
+        
+        
+        if (($scope.photoIds != data.photoIds) || (window.localStorage.getItem('userPhotos') === null)){
         $scope.photoIds = data.photoIds;
         window.localStorage.setItem('photoIds', $scope.photoIds);
 
@@ -37,10 +42,10 @@ angular.module('photos', [])
             
         serverAPI.getPhoto($scope.userID, $scope.photoIds[i], function(data) {
         var entry  = {
-            "id" : $scope.photoIds[i],
+            "photoId" : $scope.photoIds[i],
             "image" : data
         };
-            
+             
           $scope.images.push(entry);
           if (i == $scope.photoIds.length) {
             window.localStorage.setItem('userPhotos', JSON.stringify($scope.images));
@@ -49,7 +54,13 @@ angular.module('photos', [])
         $scope.selection = $scope.images[0].image;
         });
         }
-        
+        }else {
+                      $scope.userHasPictures = 1;
+          window.localStorage.setItem('userHasPictures', '1');
+         $scope.images = JSON.parse(window.localStorage.getItem('userPhotos'));
+        $scope.selection = $scope.images[0].image;
+            $scope.selectionPhotoId = $scope.images[0].photoId;
+        }
       })
 
       $scope.userID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
@@ -62,24 +73,19 @@ angular.module('photos', [])
 
 
       
-      
-
-
-      /*  $scope.images = [
-    'img/picture_1.jpg',
-    'img/picture_2.jpg',
-    'img/Megan_2.jpg',
-      'img/Megan_1.jpg'
-  ];*/
+    
 
 
       $scope.setHero = function(img) {
         $scope.selection = img.image;
+        $scope.selectionPhotoId = img.photoId;
       }
 
       $scope.loaded = true;
 
-
+      $scope.deletePhoto = function(){
+           serverAPI.deletePhoto($scope.userID, $scope.shownImage, function(data){console.log(data)});
+      }
 
 
     }

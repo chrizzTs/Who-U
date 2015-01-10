@@ -8,15 +8,17 @@ angular.module('play', [])
 
     cssInjector.add('styles/play.css');
 
+      $scope.task;
     //fetch all data from localStorage from tab-home
     $scope.fetchDataFromLocalStorage = function() {
-      $scope.task = window.localStorage.getItem('task');
 
       //$scope.teammatePhotos{}
 
       $scope.name = window.localStorage.getItem('teammate');
 
       $scope.isEnumeration = window.localStorage.getItem('isEnumeration');
+      
+        $scope.task = window.localStorage.getItem('task');
     };
 
     $scope.slides = [{
@@ -29,13 +31,13 @@ angular.module('play', [])
 
 
 
-    //check if task is a enumeration and split it if it is
+    //check if task is a enumeration and split it if is
 
     $scope.checkEnumeration = function() {
-      if ($scope.isEnumeration === false) {
+      if ($scope.isEnumeration == 0) {
         $scope.tasklines = $scope.task;
 
-      } else if ($scope.isEnumeration === true) {
+      } else if ($scope.isEnumeration == 1) {
         var index = $scope.task.indexOf(';');
         $scope.tasklineOne = $scope.task.slice(0, index);
         var enumerationLines = $scope.task.slice(index + 1, $scope.task.length);
