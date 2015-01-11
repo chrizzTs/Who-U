@@ -26,6 +26,13 @@ const newPhotoPath = '/photo/saveNew'
 const getPhotoPath = '/photo/get'
 const deletePhotoPath = 'photo/delete'
 const logOutPath = '/logout'
+const usersCurrentlyPlayedWithPath = '/chat/list'
+const previousMessagesPath = '/chat/previousMessages'
+const messagesLeftPath = '/chat/messagesLeftPath'
+const upgradeMessagesRequest = '/chat/upgradeMessages'
+const sendMessagePath = '/chat/sendMessage'
+const searchStartedPushPath = '/chat/searchStartedPush'
+const sendStandardMessagePath = '/chat/sendStandardMessage'
 
 
 module.factory('serverAPI', function ($http) {
@@ -181,7 +188,65 @@ module.factory('serverAPI', function ($http) {
                 method: 'GET',
                 params: photoRequest
             }).success(callback)
+        },
+        getUsersCurrentlyPlayedWith: function (userId, callback) {
+            var user = {
+                '_id': userId
+            }
+            $http({
+                url: host + usersCurrentlyPlayedWithPath,
+                method: 'GET',
+                params: user
+            }).success(callback)
+        },
+        pushSearchStarted(userId, callback) {
+            var user = {
+                '_id': userId
+            }
+            $http.post(host + searchStartedPushPath, user).success(callback)
+        },
+        pushStandardMessage(userId, callback) {
+            var user = {
+                '_id': userId
+            }
+            $http.post(host + sendStandardMessagePath, user).success(callback)
+        },
+        getPreviousMessages(userId, otherUserId, callback) {
+            var previousMessageRequest = {
+                '_id': userId,
+                'otherUser': otherUserId
+            }
+            $http({
+                url: host + previousMessagesPath,
+                method: 'GET',
+                params: previousMessageRequest
+            }).success(callback)
+        },
+        sendMessage(userId, otherUserId, message, callback) {
+            var messageRequest = {
+                '_id': userId,
+                'otherUser': otherUserId,
+                'message': message
+            }
+            $http.post(host + sendMessagePath, messageRequest)
+        },
+        getMessagesLeft(userId, otherUserId, callback) {
+            var messagesLeftRequest = {
+                '_id': userId,
+                'otherUser': otherUserId,
+            }
+            $http({
+                url: host + messagesLeftPath,
+                method: 'GET',
+                params: messagesLeftRequest
+            }).success(callback)
+        },
+        upgradeMessagesLeftCount(userId, otherUserId, callback) {
+            var upgradeMessagesRequest = {
+                '_id': userId,
+                'otherUser': otherUserId
+            }
+            $http.put(host + upgradeMessagesPath, upgradeMessagesRequest).success(callback)
         }
-
     }
 })
