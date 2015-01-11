@@ -26,6 +26,13 @@ const newPhotoPath = '/photo/saveNew'
 const getPhotoPath = '/photo/get'
 const deletePhotoPath = 'photo/delete'
 const logOutPath = '/logout'
+const usersCurrentlyPlayedWithPath = '/chat/list'
+const previousMessagesPath = '/chat/previousMessages'
+const messagesLeftPath = '/chat/messagesLeftPath'
+const upgradeMessagesPath = '/chat/upgradeMessages'
+const sendMessagePath = '/chat/sendMessage'
+const searchStartedPushPath = '/chat/searchStartedPush'
+const sendStandardMessagePath = '/chat/sendStandardMessage'
 
 
 module.factory('serverAPI', function ($http) {
@@ -39,7 +46,9 @@ module.factory('serverAPI', function ($http) {
                 'latitude': latitude
             }
 
-            $http.post(host + newUserPath, user).success(callback)
+            $http.post(host + newUserPath, user).success(callback).error(function (err) {
+                console.log(err)
+            })
 
         },
         loginWithMail: function (mail, password, callback) {
@@ -51,7 +60,9 @@ module.factory('serverAPI', function ($http) {
                 url: host + loginWithMailPath,
                 method: 'GET',
                 params: user
-            }).success(callback)
+            }).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         loginWithSessionKey: function (userId, sessionkey, callback) {
             var credentials = {
@@ -62,15 +73,20 @@ module.factory('serverAPI', function ($http) {
                 url: host + loginWithSessionKeyPath,
                 method: "GET",
                 params: credentials
-            }).success(callback)
+            }).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         searchPartnerToPlayWith: function (long, lat, userId, callback) {
+            console.log('called')
             var searchRequest = {
                 '_id': userId,
                 'longitude': long,
                 'latitude': lat
             }
-            $http.post(host + searchPartnerToPlayWithPath, searchRequest).success(callback)
+            $http.post(host + searchPartnerToPlayWithPath, searchRequest).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         getGamesToRate: function (userId, callback) {
             var gamesToRateRequest = {
@@ -80,7 +96,9 @@ module.factory('serverAPI', function ($http) {
                 url: host + gamesToRatePath,
                 method: 'GET',
                 params: gamesToRateRequest
-            }).success(callback)
+            }).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         insertNewRating: function (userId, coinsToAdd, gameId, callback) {
             var coinAddRequest = {
@@ -88,13 +106,17 @@ module.factory('serverAPI', function ($http) {
                 coins: coinsToAdd,
                 gameId: gameId
             }
-            $http.put(host + insertNewRatingPath, coinAddRequest).success(callback)
+            $http.put(host + insertNewRatingPath, coinAddRequest).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         getAllBenefitItems: function (callback) {
             $http({
                 url: host + allItemsPath,
                 method: 'GET',
-            }).success(callback)
+            }).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         buyItem: function (userId, benefitId, count, callback) {
             var buyRequest = {
@@ -102,7 +124,9 @@ module.factory('serverAPI', function ($http) {
                 'BID': benefitId,
                 'count': count
             }
-            $http.post(host + buyItemPath, buyRequest).success(callback)
+            $http.post(host + buyItemPath, buyRequest).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         getUserData: function (userId, callback) {
             var userId = {
@@ -112,7 +136,9 @@ module.factory('serverAPI', function ($http) {
                 url: host + userDataPath,
                 method: 'GET',
                 params: userId
-            }).success(callback)
+            }).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         getRecentEvents: function (userId, callback) {
             var userId = {
@@ -122,7 +148,9 @@ module.factory('serverAPI', function ($http) {
                 url: host + recentEventsPath,
                 method: 'GET',
                 params: userId
-            }).success(callback)
+            }).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         changeModus: function (userId, newModus, callback) {
             //newModus: 1 visible, 0 invisible
@@ -130,7 +158,9 @@ module.factory('serverAPI', function ($http) {
                 '_id': userId,
                 'newModus': newModus
             }
-            $http.put(host + changeModusPath, changeModusRequest).success(callback)
+            $http.put(host + changeModusPath, changeModusRequest).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         updateGPS: function (userId, longitude, latitude, callback) {
             var userLocationData = {
@@ -138,14 +168,18 @@ module.factory('serverAPI', function ($http) {
                 'longitude': longitude,
                 'latitude': latitude
             }
-            $http.put(host + updateGPSPath, userLocationData).success(callback)
+            $http.put(host + updateGPSPath, userLocationData).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         saveNewPhoto: function (userId, photoString, callback) {
             var photoData = {
                 '_id': userId,
                 'photoString': photoString,
             }
-            $http.post(host + newPhotoPath, photoData).success(callback)
+            $http.post(host + newPhotoPath, photoData).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         deletePhoto: function (userId, photoId, callback) {
             var deletePhotoRequest = {
@@ -156,19 +190,23 @@ module.factory('serverAPI', function ($http) {
                 url: host + deletePhotoPath,
                 method: 'DELETE',
                 params: deletePhotoRequest
-            }).success(callback)
+            }).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         logout: function (userId, callback) {
             var logoutRequest = {
                 '_id': userId
             }
-            $http.put(host + logOutPath, logoutRequest).success(callback)
+            $http.put(host + logOutPath, logoutRequest).success(callback).error(function (err) {
+                console.log(err)
+            })
         },
         testMehtode: function () {
             $http.get('https://whou.sabic.uberspace.de/api/newUser').success(function (data, status, headers, config) {
                 console.log(data)
-            }).error(function (data, status, headers, config) {
-                console.log("Error:" + data)
+            }).error(function (err) {
+                console.log(err)
             })
         },
         getPhoto: function (userId, photoId, callback) {
@@ -180,8 +218,82 @@ module.factory('serverAPI', function ($http) {
                 url: host + getPhotoPath,
                 method: 'GET',
                 params: photoRequest
-            }).success(callback)
+            }).success(callback).error(function (err) {
+                console.log(err)
+            })
+        },
+        getUsersCurrentlyPlayedWith: function (userId, callback) {
+            var user = {
+                '_id': userId
+            }
+            $http({
+                url: host + usersCurrentlyPlayedWithPath,
+                method: 'GET',
+                params: user
+            }).success(callback).error(function (err) {
+                console.log(err)
+            })
+        },
+        pushSearchStarted: function (userId, callback) {
+            var user = {
+                '_id': userId
+            }
+            $http.post(host + searchStartedPushPath, user).success(callback).error(function (err) {
+                console.log(err)
+            })
+        },
+        pushStandardMessage: function (userId, callback) {
+            var user = {
+                '_id': userId
+            }
+            $http.post(host + sendStandardMessagePath, user).success(callback).error(function (err) {
+                console.log(err)
+            })
+        },
+        getPreviousMessages: function (userId, otherUserId, callback) {
+            var previousMessageRequest = {
+                '_id': userId,
+                'otherUser': otherUserId
+            }
+            $http({
+                url: host + previousMessagesPath,
+                method: 'GET',
+                params: previousMessageRequest
+            }).success(callback).error(function (err) {
+                console.log(err)
+            })
+        },
+        sendMessage: function (userId, otherUserId, message, callback) {
+            var messageRequest = {
+                '_id': userId,
+                'otherUser': otherUserId,
+                'message': message
+            }
+            $http.post(host + sendMessagePath, messageRequest).success(callback).error(function (err) {
+                console.log(err)
+            })
+        },
+        getMessagesLeft: function (userId, otherUserId, callback) {
+            var messagesLeftRequest = {
+                '_id': userId,
+                'otherUser': otherUserId,
+            }
+            $http({
+                url: host + messagesLeftPath,
+                method: 'GET',
+                params: messagesLeftRequest
+            }).success(callback).error(function (err) {
+                console.log(err)
+            })
+        },
+        upgradeMessagesLeftCount: function (userId, otherUserId, callback) {
+            var upgradeMessagesRequest = {
+                '_id': userId,
+                'otherUser': otherUserId
+            }
+            $http.put(host + upgradeMessagesPath, upgradeMessagesRequest).success(callback).error(function (err) {
+                console.log(err)
+            })
         }
-
     }
 })

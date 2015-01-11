@@ -161,8 +161,9 @@ angular.module('pictureTaker', ['ngImgCrop'])
                 
             }
         } else {
-                serverAPI.saveNewPhoto($scope.userID, $scope.shownImage, function(data){console.log(data)});
-                $state.go('tab.photos');
+                serverAPI.saveNewPhoto($scope.userID, $scope.shownImage, function(data){
+                    $state.go('tab.photos');
+                });
     }};
       
     $scope.discardImage = function() {

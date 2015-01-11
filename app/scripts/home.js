@@ -17,6 +17,13 @@ angular.module('home', ['services'])
             $scope.coins = data.coins;
             window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
         });
+    
+    
+        //getProfile Picture
+        serverAPI.getPhoto(UID, 0, function(data) {
+            $scope.profilePicture = data;
+        });
+    
 
 
         serverAPI.getRecentEvents(UID, function (data) {
@@ -54,6 +61,7 @@ angular.module('home', ['services'])
 
 
         $scope.click = function () {
+            alert("Mattest stinkt!")
             console.log($scope.buttonDisable);
             $scope.buttonDisable = true;
             console.log($scope.buttonDisable);
@@ -100,7 +108,7 @@ angular.module('home', ['services'])
                         });
                     } else {
                         window.localStorage.setItem('teammate', data.username);
-                        window.localStorage.setItem('isEnummeration', data.taskType);
+                        window.localStorage.setItem('isEnumeration', data.taskType);
                         window.localStorage.setItem('task', data.task);
                         var teammatePosition = {
                             'longitude': data.longitude,
