@@ -22,7 +22,7 @@
                     <div class="col col-50">Was the profile picture up to date?</div>
                     <div class="col col-50">
                         <span ng-repeat="star in starsQuestion2">
-                            <i class="{{star.icon}}" ng-click="{{star.action}}"></i>
+                             <img ng-src="img/ionicons-2.0.0/png/512/{{star.icon}}.png" ng-click="{{star.action}}">
                         </span>
                     </div>
                 </div>
@@ -30,14 +30,19 @@
                     <div class="col col-50">How did you like the contact at all?</div>
                     <div class="col col-50">
                         <span ng-repeat="star in starsQuestion3">
-                            <i class="{{star.icon}}" ng-click="{{star.action}}"></i>
+                            <img ng-src="img/ionicons-2.0.0/png/512/{{star.icon}}.png" ng-click="{{star.action}}">
                         </span>
                     </div>
                 </div>
+                <div class="item item-divider"></div>
+                <ion-toggle ng-model="userChoiceContact.mode" ng-change="changeUserChoiceContact()">
+                    Stay in touch with {{ratedName}}?
+                </ion-toggle>
                 <button class="button button-full button-positive" ng-click="evaluate()" ng-disabled="enableSubmit()">
                     Submit Rating
                 </button>
             </div>
+        </div>
         </div>
     </ion-content>
 </ion-view>
