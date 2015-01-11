@@ -10,25 +10,31 @@ angular.module('photos', [])
 
 .controller('photosCtrl', ['$scope', 'cssInjector', 'serverAPI',
   function($scope, cssInjector, serverAPI) {
-
-      $scope.images = new Array();
       
+      //remove all injected CSS Designs
+      cssInjector.removeAll();
+    
+      //default: user has no Pictures. Variable gets used to decide whether to display a gallery
     $scope.userHasPictures = false;
     window.localStorage.setItem('userHasPictures', '0');
-
-    cssInjector.removeAll();
-
+     
+      //initialize the selection photo and the selected photoId
       $scope.selection;
       $scope.selectionPhotoId;
       
-    var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
-    serverAPI.getUserData(UID, function(data) {
-        $scope.userName = data.userName;
-        $scope.coins = data.coins;
+      //initialize the array in which images of the user will be stored
+      $scope.images = new Array();
+      
+      //get user ID from Server
+        var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+
+      //get User Data from Server. Everything depends on this data so every single method has to be written into the callback
+        serverAPI.getUserData(UID, function(data) {
         $scope.photoIds = window.localStorage.getItem('photoIds');
         
-        
+        //check if the wished photos are already in localStorage. 
         if (($scope.photoIds != data.photoIds) || (window.localStorage.getItem('userPhotos') === null)){
+        //if server photoIds are newer than the localStorage photoIds, the photoIds are set to the ones from the server
         $scope.photoIds = data.photoIds;
         window.localStorage.setItem('photoIds', $scope.photoIds);
 
