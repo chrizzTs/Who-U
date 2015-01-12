@@ -38,29 +38,38 @@ angular.module('photos', [])
         $scope.photoIds = data.photoIds;
         window.localStorage.setItem('photoIds', $scope.photoIds);
 
+        //check if user has any Photos at all
         if ($scope.photoIds.length != 0) {
           $scope.userHasPictures = 1;
           window.localStorage.setItem('userHasPictures', '1');
         }
         
-        
+        //loop for getting the image data of every photo
         for (var i = 0; i < $scope.photoIds.length; i++) {
             
-        serverAPI.getPhoto($scope.userID, $scope.photoIds[i], function(data) {
+        //get the image data of every photo, everything has to be in the callback because it is dependend on the photo
+        serverAPI.getPhoto(UID, $scope.photoIds[i], function(data) {
+            
+        $scope.imageJson = data;
+            
+            
+        //array of JSONs with the photoId and data is pushed into localStorage
         var entry  = {
-            "photoId" : $scope.photoIds[i],
-            "image" : data
+            "photoId" : $scope.imageJson.id,
+            "image" : $scope.imageJson.data
         };
              
           $scope.images.push(entry);
           if (i == $scope.photoIds.length) {
             window.localStorage.setItem('userPhotos', JSON.stringify($scope.images));
           }
-            
-        $scope.selection = $scope.images[0].image;
+        
+        //Selection of the gallery is set to the firwst image by default
+             $scope.selection = $scope.images[0].image;
         });
         }
         }else {
+            
                       $scope.userHasPictures = 1;
           window.localStorage.setItem('userHasPictures', '1');
          $scope.images = JSON.parse(window.localStorage.getItem('userPhotos'));
@@ -69,31 +78,26 @@ angular.module('photos', [])
         }
       })
 
-      $scope.userID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
-
+        //add CSS styles
       cssInjector.add('styles/photos.css');
 
-      $scope.loaded = false;
-
-
-
-
-      
-    
-
-
+      //if an image is clicked it gets displayed in big mode
       $scope.setHero = function(img) {
         $scope.selection = img.image;
         $scope.selectionPhotoId = img.photoId;
       }
 
-      $scope.loaded = true;
+      $scope.userId = UID;
 
+      $scope.loaded = false;
+      
       $scope.deletePhoto = function(){
            serverAPI.deletePhoto($scope.userID, $scope.shownImage, function(data){console.log(data)});
       }
 
+      $scope.loaded = true;
 
     }
+                           
 
 ]);
