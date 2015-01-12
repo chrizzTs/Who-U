@@ -24,6 +24,7 @@ angular.module('home', ['services'])
                 console.log(data.profilePhotoId);
                 console.log(data.data)
                 $scope.profilePicture = data.data;
+                window.localStorage.setItem('myProfilePicture', data.data);
             });
         });
 
