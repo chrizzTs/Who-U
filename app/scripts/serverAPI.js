@@ -22,6 +22,7 @@ const userDataPath = '/userData/data'
 const recentEventsPath = '/userData/recentEvents'
 const changeModusPath = '/userData/changeModus'
 const updateGPSPath = '/userData/updateGPS'
+const insertPushIdPath = '/userData/pushId'
 const newPhotoPath = '/photo/saveNew'
 const getPhotoPath = '/photo/get'
 const updateProfilPhotoPath = '/photo/profilPhoto'
@@ -170,6 +171,15 @@ module.factory('serverAPI', function ($http) {
                 'latitude': latitude
             }
             $http.put(host + updateGPSPath, userLocationData).success(callback).error(function (err) {
+                console.log(err)
+            })
+        },
+        insertPushId: function (userId, pushId, callback) {
+            var insertPushIdRequest = {
+                '_id': userId,
+                'pushId': pushId
+            }
+            $http.put(host + insertPushIdPath, insertPushIdRequest).success(callback).error(function (err) {
                 console.log(err)
             })
         },
