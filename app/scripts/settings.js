@@ -6,6 +6,7 @@ angular.module('settings', ['services'])
     $scope.visibleStatus;
 
     var visible = window.localStorage.getItem('visible');
+    var pushNotifications = window.localStorage.getItem('pushNotifications');
 
     if (visible == 'true') {
         $scope.visibleStatus = {
@@ -13,6 +14,16 @@ angular.module('settings', ['services'])
         };
     } else if (visible == 'false') {
         $scope.visibleStatus = {
+            mode: false
+        };
+    }
+
+    if (pushNotifications == 'true') {
+        $scope.pushNotificationStatus = {
+            mode: true
+        };
+    } else if (pushNotifications == 'false') {
+        $scope.pushNotificationStatus = {
             mode: false
         };
     }
@@ -37,6 +48,15 @@ angular.module('settings', ['services'])
             console.log('You are visible');
         }
     };
+
+    $scope.changePushNotifications = function () {
+        if (pushNotifications = 'true') {
+            pushNotifications = 'false';
+        } else if (pushNotifications = 'false') {
+            pushNotifications = 'true';
+            console.log('Ya like us');
+        }
+    }
 
     $scope.logout = function () {
 

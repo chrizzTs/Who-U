@@ -5,7 +5,9 @@
             <h5>You have {{notRatedGames}} feedbacks to submit</h5>
             <br>
             <h5>How did you like the game with <b>{{ratedName}}</b>?. Please provide feedback:</h5>
+            <br>
             <div class="item item-divider"></div>
+            <br>
             <div ng-show="showChoice">
                 <div class="row">
                     <div class="col col-50">Did <b>{{ratedName}}</b> contact you?</div>
@@ -18,23 +20,29 @@
                 </div>
             </div>
             <div ng-show="showForm">
-                <div class="row">
-                    <div class="col col-50">Was the profile picture up to date?</div>
-                    <div class="col col-50">
+                Was the profile picture up to date?
+                <br>
+                <p>
+                    <center>
                         <span ng-repeat="star in starsQuestion2">
-                             <img ng-src="img/ionicons-2.0.0/png/512/{{star.icon}}.png" ng-click="{{star.action}}">
-                        </span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-50">How did you like the contact at all?</div>
-                    <div class="col col-50">
-                        <span ng-repeat="star in starsQuestion3">
-                            <img ng-src="img/ionicons-2.0.0/png/512/{{star.icon}}.png" ng-click="{{star.action}}">
-                        </span>
-                    </div>
-                </div>
+                        <img ng-src="img/ionicons-2.0.0/png/512/{{star.icon}}.png" ng-click="{{star.action}}">
+                    </span>
+                    </center>
+                </p>
+                <br>
                 <div class="item item-divider"></div>
+                <br>How did you like the contact at all?
+                <br>
+                <p>
+                    <center>
+                        <span ng-repeat="star in starsQuestion3">
+                        <img ng-src="img/ionicons-2.0.0/png/512/{{star.icon}}.png" ng-click="{{star.action}}">
+                    </span>
+                    </center>
+                </p>
+                <br>
+                <div class="item item-divider"></div>
+                <br>
                 <ion-toggle ng-model="userChoiceContact.mode" ng-change="changeUserChoiceContact()">
                     Stay in touch with {{ratedName}}?
                 </ion-toggle>
@@ -42,7 +50,6 @@
                     Submit Rating
                 </button>
             </div>
-        </div>
         </div>
     </ion-content>
 </ion-view>
