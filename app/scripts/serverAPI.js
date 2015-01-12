@@ -24,7 +24,8 @@ const changeModusPath = '/userData/changeModus'
 const updateGPSPath = '/userData/updateGPS'
 const newPhotoPath = '/photo/saveNew'
 const getPhotoPath = '/photo/get'
-const deletePhotoPath = 'photo/delete'
+const updateProfilPhotoPath = '/photo/profilPhoto'
+const deletePhotoPath = '/photo/delete'
 const logOutPath = '/logout'
 const usersCurrentlyPlayedWithPath = '/chat/list'
 const previousMessagesPath = '/chat/previousMessages'
@@ -191,6 +192,15 @@ module.factory('serverAPI', function ($http) {
                 method: 'DELETE',
                 params: deletePhotoRequest
             }).success(callback).error(function (err) {
+                console.log(err)
+            })
+        },
+        updateProfilPhoto: function (userId, photoId, callback) {
+            var changeProfilPhotoRequest = {
+                '_id': userId,
+                'photoId': photoId
+            }
+            $http.put(host + updateProfilPhotoPath, changeProfilPhotoRequest).success(callback).error(function (err) {
                 console.log(err)
             })
         },
