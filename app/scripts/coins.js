@@ -28,6 +28,20 @@ angular.module('coins', ['serverAPI'])
                 }
             }
 
+            if (x == 1) {
+                //Skip user
+                console.log('ID = 1');
+            } else if (x == 2) {
+                //More chat messages
+                console.log('ID = 2');
+            } else if (x == 3) {
+                //Filter
+
+            } else if (x == 4) {
+                //More poins per game
+
+            }
+
             //Checking if purchase is possible and updating the new coins value
             if ($scope.coins >= price) {
                 serverAPI.buyItem(UID, x, 1, function (data) {
