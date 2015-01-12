@@ -2,7 +2,7 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $location, $state, serverAPI, services, $ionicPopup, cssInjector) {
+    function ($scope, $location, $state, serverAPI, $ionicPopup, cssInjector) {
 
         cssInjector.removeAll();
 
@@ -15,15 +15,16 @@ angular.module('home', ['services'])
         serverAPI.getUserData(UID, function (data) {
             $scope.userName = data.userName;
             $scope.coins = data.coins;
+            $scope.profilePhotoId = data.profilePhotoId;
             window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
         });
-
-
+    
+    
         //getProfile Picture
-        serverAPI.getPhoto(UID, 0, function (data) {
-            $scope.profilePicture = data;
+        serverAPI.getPhoto(UID, $scope.profilePhotoId, function(data) {
+            $scope.profilePicture = data.data;
         });
-
+    
 
 
         serverAPI.getRecentEvents(UID, function (data) {
@@ -122,7 +123,4 @@ angular.module('home', ['services'])
                 })
             }
         }
-
-        services.enablePushNotification();
-
     })

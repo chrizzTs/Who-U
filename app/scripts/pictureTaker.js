@@ -2,7 +2,8 @@
 
 angular.module('pictureTaker', ['ngImgCrop'])
 
-
+//this factory loads the picture ansynchronously from the Camera
+//it sets the properties of the camera
 .factory('PhoneCamera', ['$q', 
   function($q) {
     
@@ -28,7 +29,7 @@ angular.module('pictureTaker', ['ngImgCrop'])
   }
   }])
 
-
+//same as phoneCamera, but with phoneAlbum
 .factory('PhoneAlbum', ['$q',
   function($q) {
     
@@ -71,6 +72,7 @@ angular.module('pictureTaker', ['ngImgCrop'])
       $scope.userImage = '';
       $scope.croppedUserImage =  'data:image/jpeg;base64,';
       $scope.isCurrentlyCropping=false;
+      $scope.pictureCropped = false;
       $scope.cropSpace = '';
      // $scope.shownImage = '';
       $scope.newImage = 'data:image/jpeg;base64,';
@@ -86,6 +88,7 @@ angular.module('pictureTaker', ['ngImgCrop'])
         $scope.userImage = 'data:image/jpeg;base64,' + imageURI;
         $scope.shownImage = 'data:image/jpeg;base64,' + imageURI;
         $scope.hasPicture = true;
+        $scope.pictureCropped = false;
         $scope.startCropping();
         
       console.log(imageURI);
@@ -177,6 +180,12 @@ angular.module('pictureTaker', ['ngImgCrop'])
           {$scope.newImage = dataUrl; }
       };
 
+      //downscale Image
+      
+      
+      
+      
+      
   }])
 
     

@@ -20,6 +20,26 @@ angular.module('play', [])
       
         $scope.task = window.localStorage.getItem('task');
     };
+      
+      $scope.slides = new Array();
+    
+     /* serverAPI.getPhoto(UID, $scope.photoIds[i], function(data) {
+            
+        $scope.imageJson = data;
+            
+        //array of JSONs with the photoId and data is pushed into localStorage
+        var entry  = {
+            "photoId" : $scope.imageJson.id,
+            "image" : $scope.imageJson.data
+        };
+             
+          $scope.slides.push(entry);
+          if (i == $scope.photoIds.length) {
+            window.localStorage.setItem('userPhotos', JSON.stringify($scope.slides));
+          }
+        
+*/
+/*
 
     $scope.slides = [{
         image: 'img/picture_1.jpg',
@@ -28,7 +48,7 @@ angular.module('play', [])
       }
 
     ];
-
+*/
 
 
     //check if task is a enumeration and split it if is
