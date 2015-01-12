@@ -86,6 +86,7 @@ angular.module('pictureTaker', ['ngImgCrop'])
         $scope.userImage = 'data:image/jpeg;base64,' + imageURI;
         $scope.shownImage = 'data:image/jpeg;base64,' + imageURI;
         $scope.hasPicture = true;
+        $scope.startCropping();
         
       console.log(imageURI);
     }, function(err) {
@@ -102,7 +103,7 @@ angular.module('pictureTaker', ['ngImgCrop'])
          $scope.userImage = 'data:image/jpeg;base64,' + imageURI;
         $scope.shownImage = 'data:image/jpeg;base64,' + imageURI;
         $scope.hasPicture = true;
-    
+        $scope.startCropping();
     }, function(err) {
       console.err(err);
         $scope.errorMessage= err;
