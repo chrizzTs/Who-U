@@ -61,7 +61,6 @@ angular.module('home', ['services'])
 
 
         $scope.click = function () {
-            alert("Mattest stinkt!")
             console.log($scope.buttonDisable);
             $scope.buttonDisable = true;
             console.log($scope.buttonDisable);
