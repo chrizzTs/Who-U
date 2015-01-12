@@ -10,6 +10,7 @@ angular.module('home', ['services'])
         $scope.buttonDisable = false;
         $scope.text = 'Search';
 
+        $scope.profilePhotoId;
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         serverAPI.getUserData(UID, function (data) {
