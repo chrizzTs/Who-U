@@ -14,13 +14,13 @@ angular.module('chatMaster', ['chatDetail', 'serverAPI'])
         for (var i= 0; i<data.length; i++){
             serverAPI.getUserData(data[i], function(userData){
             var picture;
-            console.log(userData.profilePhotoId);
-            serverAPI.getPhoto(data[i], userData.profilePhotoId, function(photoData){
-            picture = photoData.data;    
+            serverAPI.getPhoto(userData.UID, userData.profilePhotoId, function(photoData){
+            picture = photoData.data;   
+                console.log(userData)
             
                 console.log(picture);
                 var tempPlayer = {
-                    "id:": data[i],
+                    "id:": userData.UID,
                     "name": userData.userName,
                     "picture": picture
                 }
