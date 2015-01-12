@@ -8,6 +8,10 @@ angular.module('play', [])
 
     cssInjector.add('styles/play.css');
 
+      $scope.skipUser = false;
+      
+     // $scope.skipUser = window.localStorage.getItem('skipUser');
+      
       $scope.task;
     //fetch all data from localStorage from tab-home
     $scope.fetchDataFromLocalStorage = function() {
