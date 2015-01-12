@@ -102,11 +102,12 @@ module.factory('serverAPI', function ($http) {
                 console.log(err)
             })
         },
-        insertNewRating: function (userId, coinsToAdd, gameId, callback) {
+        insertNewRating: function (userId, coinsToAdd, gameId, stayInContact, callback) {
             var coinAddRequest = {
                 _id: userId,
                 coins: coinsToAdd,
-                gameId: gameId
+                gameId: gameId,
+                stayInContact: stayInContact
             }
             $http.put(host + insertNewRatingPath, coinAddRequest).success(callback).error(function (err) {
                 console.log(err)
