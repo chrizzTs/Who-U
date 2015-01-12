@@ -7,6 +7,7 @@ angular.module('feedback', ['serverAPI'])
     //Counter for counting in array with not yet rated games
     $scope.counter = 0;
     var stayInTouch = 'true';
+    var sendStayInTouch = 1;
 
     $scope.UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
 
@@ -91,7 +92,8 @@ angular.module('feedback', ['serverAPI'])
     }
 
     $scope.notContacted = function () {
-        serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, 0, $scope.openGames[$scope.counter].gameId, function (data) {
+        //stayInTouch=1: keep contact; stayInTouch=0: no further contact
+        serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, 0, $scope.openGames[$scope.counter].gameId, 0, function (data) {
             console.log('Insert new rating:' + data);
         });
 
@@ -141,7 +143,7 @@ angular.module('feedback', ['serverAPI'])
         if (stayInTouch == 'true') {
             console.log('user hat keinen Bock auf dich');
             stayInTouch = 'false';
-        } else {
+        } else if (stayInTouch == 'false') {
             console.log('user steht auf dich');
             stayInTouch = 'true';
         }
@@ -155,7 +157,14 @@ angular.module('feedback', ['serverAPI'])
         var finalScore = scoreQuestion1 + scoreQuestion2 + scoreQuestion3;
         console.log(finalScore);
 
-        serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, finalScore, $scope.openGames[$scope.counter].gameId, function (data) {
+        if (stayInTouch == 'true') {
+            sendStayInTouch = 1;
+        } else if (stayInTouch == 'false') {
+            sendStayInTouch = 0;
+        }
+
+        //stayInTouch=1: keep contact; stayInTouch=0: no further contact
+        serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, finalScore, $scope.openGames[$scope.counter].gameId, sendStayInTouch, function (data) {
             console.log('Insert new rating: ' + data);
 
             $scope.counter++;

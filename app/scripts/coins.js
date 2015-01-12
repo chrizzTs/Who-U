@@ -31,6 +31,7 @@ angular.module('coins', ['serverAPI'])
             if (x == 1) {
                 //Skip user
                 console.log('ID = 1');
+                window.localStorage.setItem('skipUser', 'true');
             } else if (x == 2) {
                 //More chat messages
                 console.log('ID = 2');
