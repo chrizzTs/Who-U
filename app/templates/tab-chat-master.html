@@ -1,4 +1,12 @@
 <ion-view title="Chat">
+    
+      <div class="loader-center" ng-if="!doneLoading">
+        <div class="loader">
+            <i class="icon ion-loading-c"></i>
+        </div>
+    </div>
+    
+    
     <ion-content class="padding">
 
         <i class="list" ng-repeat="partner in chatPartner">
