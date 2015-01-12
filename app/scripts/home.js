@@ -110,9 +110,11 @@ angular.module('home', ['services'])
                             template: 'Unfortunateley there are no other players around you. Try it some other time!'
                         });
                     } else {
+                        console.log(data);
                         window.localStorage.setItem('teammate', data.username);
                         window.localStorage.setItem('isEnumeration', data.taskType);
                         window.localStorage.setItem('task', data.task);
+                        window.localStorage.setItem('teammateUID', data.teammateUID);
                         var teammatePosition = {
                             'longitude': data.longitude,
                             'latitude': data.latitude

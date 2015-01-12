@@ -1,8 +1,37 @@
-angular.module('chatMaster', ['chatDetail'])
+angular.module('chatMaster', ['chatDetail', 'serverAPI'])
 
-.controller('chatMasterCtrl', function ($scope, $state, chatDetail, cssInjector) {
+.controller('chatMasterCtrl', function ($scope, serverAPI, $state, chatDetail, cssInjector) {
 
     cssInjector.removeAll();
+    
+    //Retrive Chatpartner from Server
+    var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+    $scope.chatPartner = new Array();
+    serverAPI.getUsersCurrentlyPlayedWith(UID, function(data){
+        console.log(data);
+        
+         
+        for (var i= 0; i<data.length; i++){
+            serverAPI.getUserData(data[i], function(userData){
+            var picture;
+            console.log(userData.profilePhotoId);
+            serverAPI.getPhoto(data[i], userData.profilePhotoId, function(photoData){
+            picture = photoData.data;    
+            
+                console.log(picture);
+                var tempPlayer = {
+                    "id:": data[i],
+                    "name": userData.userName,
+                    "picture": picture
+                }
+                   $scope.chatPartner.push(tempPlayer);
+                }
+                              )
+            }
+        )
+    }
+    })
+    
     //Redirects to chatDetail and passes all needed Chatinformation to chatDetail
     $scope.clicked = function (partner) {
         chatDetail.initChat(partner);
@@ -10,27 +39,5 @@ angular.module('chatMaster', ['chatDetail'])
     }
 
 
-    //TEST DATA
-    var data = [{
-            "id": "12345",
-            "name": "Max",
-            "fotoID": "534b8fb2aa5e7afc1b23e69c",
-            "message": "Hallo Maxodsjdsdpsdsökddfjsdufdsjfsuffujsdfsdfsdfojifodsjdfsosdfjsdfdsfjidsfijidsjfjodfsdfsiojdfsodfsijifdsjofdsjfdjodsojsdfdssdfjsdfijdfsfdsdfsijsdfipodfssdoffdsijsdfijo"
-        }, {
-            "id": "5655",
-            "name": "Tom",
-            "fotoID": "534b8fb2aa5e7afc1b23e69c"
-        },
-        {
-            "id": "12345433245",
-            "name": "Anna",
-            "fotoID": "534b8fb2aa5e7afc1b23e69c"
-        }, {
-            "id": "232356",
-            "name": "Tim",
-            "fotoID": "534b8fb2aa5e7afc1b23e69c"
-        }]
-
-    $scope.chatPartner = data;
 
 })
