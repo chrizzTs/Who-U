@@ -19,6 +19,7 @@ angular.module('home', ['services'])
             $scope.coins = data.coins;
             $scope.profilePhotoId = data.profilePhotoId;
             window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
+            window.localStorage.setItem('myUsername', $scope.userName);
               //getProfile Picture
             serverAPI.getPhoto(UID, data.profilePhotoId, function (data) {
                 console.log(data.profilePhotoId);
