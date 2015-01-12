@@ -10,21 +10,23 @@ angular.module('home', ['services'])
         $scope.buttonDisable = false;
         $scope.text = 'Search';
 
-        $scope.profilePhotoId;
+        $scope.profilePhotoId, $scope.profilePicture;
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         serverAPI.getUserData(UID, function (data) {
+            console.log(data);
             $scope.userName = data.userName;
             $scope.coins = data.coins;
             $scope.profilePhotoId = data.profilePhotoId;
             window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
+              //getProfile Picture
+            serverAPI.getPhoto(UID, data.profilePhotoId, function (data) {
+                console.log(data.profilePhotoId);
+                console.log(data.data)
+                $scope.profilePicture = data.data;
+            });
         });
 
-
-        //getProfile Picture
-        serverAPI.getPhoto(UID, $scope.profilePhotoId, function (data) {
-            $scope.profilePicture = data.data;
-        });
 
 
 

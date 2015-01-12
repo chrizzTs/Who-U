@@ -2,8 +2,8 @@
 
 angular.module('play', [])
 
-.controller('playCtrl', ['$scope', 'cssInjector',
-  function($scope, cssInjector) {
+.controller('playCtrl', ['$scope', 'cssInjector', 'serverAPI',
+  function($scope, cssInjector, serverAPI) {
 
 
     cssInjector.add('styles/play.css');
@@ -27,7 +27,7 @@ angular.module('play', [])
       
       $scope.slides = new Array();
     
-     /* serverAPI.getPhoto(UID, $scope.photoIds[i], function(data) {
+      serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), $scope.photoIds[i], function(data) {
             
         $scope.imageJson = data;
             
@@ -41,8 +41,8 @@ angular.module('play', [])
           if (i == $scope.photoIds.length) {
             window.localStorage.setItem('userPhotos', JSON.stringify($scope.slides));
           }
-        
-*/
+      });
+
 /*
 
     $scope.slides = [{
