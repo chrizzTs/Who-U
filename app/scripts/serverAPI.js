@@ -35,6 +35,7 @@ const upgradeMessagesPath = '/chat/upgradeMessages'
 const sendMessagePath = '/chat/sendMessage'
 const searchStartedPushPath = '/chat/searchStartedPush'
 const sendStandardMessagePath = '/chat/sendStandardMessage'
+const openSSEConnectionPath = '/chat/openSSEConnection'
 
 
 module.factory('serverAPI', function ($http) {
@@ -313,6 +314,18 @@ module.factory('serverAPI', function ($http) {
                 'otherUser': otherUserId
             }
             $http.put(host + upgradeMessagesPath, upgradeMessagesRequest).success(callback).error(function (err) {
+                console.log(err)
+            })
+        },
+        establishSSEConnection: function (userId, callback) {
+            var user = {
+                '_id': userId
+            }
+            $http({
+                url: host + openSSEConnectionPath,
+                method: 'GET',
+                params: user
+            }).success(callback).error(function (err) {
                 console.log(err)
             })
         }
