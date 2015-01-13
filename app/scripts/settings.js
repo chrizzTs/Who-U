@@ -7,6 +7,7 @@ angular.module('settings', ['services'])
 
     var visible = window.localStorage.getItem('visible');
     var pushNotifications = window.localStorage.getItem('pushNotifications');
+    var saveData = window.localStorage.getItem('saveData');
 
     if (visible == 'true') {
         $scope.visibleStatus = {
@@ -24,6 +25,16 @@ angular.module('settings', ['services'])
         };
     } else if (pushNotifications == 'false') {
         $scope.pushNotificationStatus = {
+            mode: false
+        };
+    }
+
+    if (saveData == 'true') {
+        $scope.loadJustOneImage = {
+            mode: true
+        };
+    } else if (saveData == 'false') {
+        $scope.loadJustOneImage = {
             mode: false
         };
     }
@@ -51,17 +62,30 @@ angular.module('settings', ['services'])
 
     $scope.changePushNotifications = function () {
         if (pushNotifications = 'true') {
+            //Code
             pushNotifications = 'false';
             window.localStorage.setItem('pushNotifications', 'false');
         } else if (pushNotifications = 'false') {
+            //Code
             pushNotifications = 'true';
             window.localStorage.setItem('pushNotifications', 'true');
             console.log('Ya like us');
         }
     }
 
-    $scope.logout = function () {
+    $scope.changeLoadJustOneImage = function () {
+        if (saveData == 'true') {
+            //Code
+            saveData = 'false';
+            window.localStorage.setItem('saveData', 'false');
+        } else if (saveData == 'false') {
+            //Code
+            saveData = 'true';
+            window.localStorage.setItem('saveData', 'true');
+        }
+    }
 
+    $scope.logout = function () {
         var credentials = JSON.parse(window.localStorage.getItem('Credentials'));
         if (credentials != null) {
             console.log(credentials.UID);
