@@ -69,26 +69,31 @@ services.factory('services', function () {
 
         },
         enablePushNotification: function () {
-            if (window.cordova === true) {
+            document.addEventListener("deviceready", function(){
                 console.log("running on phone")
                 var pushNotification = window.plugins.pushNotification;
-                pushNotification.register(app.successHandler, app.errorHandler, {
+                pushNotification.register(successHandler, errorHandler, {
                     "senderID": "168615009802",
-                    "ecb": "app.onNotificationGCM"
-                })
+                    "ecb": "onNotificationGCM"
+                }
+                console.log("done registration function")
+                
+                                         )
 
                 // callback if serverRequest was successfull 
                 function successHandler(result) {
-                    alert('Callback Success! Result = ' + result)
+                    console.log('Callback Success! Result = ' + result)
                 };
 
                 function errorHandler(error) {
-                    alert(error);
+                    console.log("Error callback EnablePush")
+                    console.log(error);
                 };
 
-            }
+            }, false)
         },
         onNotificationGCM: function (e) {
+            console.log("receive push from Server")
             switch (e.event) {
             case 'registered':
                 if (e.regid.length > 0) {
