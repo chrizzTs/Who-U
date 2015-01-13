@@ -76,9 +76,8 @@ services.factory('services', function () {
                     "senderID": "168615009802",
                     "ecb": "onNotificationGCM"
                 }
-                console.log("done registration function")
-                
                                          )
+                   console.log("done registration function")
 
                 // callback if serverRequest was successfull 
                 function successHandler(result) {
