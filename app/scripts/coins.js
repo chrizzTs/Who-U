@@ -4,6 +4,7 @@ angular.module('coins', ['serverAPI'])
     .controller('coinsCtrl', function ($scope, serverAPI, cssInjector) {
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+    window.localStorage.setItem('skipUser', 'true');
 
         serverAPI.getUserData(UID, function (data) {
             $scope.coins = data.coins;
