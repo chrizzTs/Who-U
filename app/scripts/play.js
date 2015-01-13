@@ -1,14 +1,23 @@
 'use strict';
 
-angular.module('play', [])
+angular.module('play', ['home'])
 
 .controller('playCtrl', ['$scope', 'cssInjector',
-  function($scope, cssInjector) {
+  function($scope, cssInjector, home) {
 
 
-    cssInjector.add('styles/play.css');
-
-      $scope.skipUser = false;
+      cssInjector.add('styles/play.css');
+      $scope.skipUser=window.localStorage.getItem('skipUser');
+      console.log('SkipUser='+$scope.skipUser);
+      
+      if($scope.skipUser==null || $scope.skipUser=='false'){
+          $scope.skipUser=false;
+         console.log('Skip User wurde nicht gekauft');
+        }else if($scope.skipUser=='true'){
+            $scope.skipUser=true;
+            console.log('Skip User wurde gekauft und ist aktiv');
+        }
+      
       
      // $scope.skipUser = window.localStorage.getItem('skipUser');
       
@@ -74,7 +83,12 @@ angular.module('play', [])
     $scope.fetchDataFromLocalStorage();
     $scope.checkEnumeration();
 
-
+      $scope.doSkipUser=function(){
+       
+          home.sendTo
+          window.localStorage.setItem('skipUser', 'false');
+          
+      }
   }
 ])
 
