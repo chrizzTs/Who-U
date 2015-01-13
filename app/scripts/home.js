@@ -10,21 +10,25 @@ angular.module('home', ['services'])
         $scope.buttonDisable = false;
         $scope.text = 'Search';
 
-        $scope.profilePhotoId;
+        $scope.profilePhotoId, $scope.profilePicture;
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         serverAPI.getUserData(UID, function (data) {
+            console.log(data);
             $scope.userName = data.userName;
             $scope.coins = data.coins;
             $scope.profilePhotoId = data.profilePhotoId;
             window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
+            window.localStorage.setItem('myUsername', $scope.userName);
+              //getProfile Picture
+            serverAPI.getPhoto(UID, data.profilePhotoId, function (data) {
+                console.log(data.profilePhotoId);
+                console.log(data.data)
+                $scope.profilePicture = data.data;
+                window.localStorage.setItem('myProfilePicture', data.data);
+            });
         });
 
-
-        //getProfile Picture
-        serverAPI.getPhoto(UID, $scope.profilePhotoId, function (data) {
-            $scope.profilePicture = data.data;
-        });
 
 
 
@@ -108,9 +112,11 @@ angular.module('home', ['services'])
                             template: 'Unfortunateley there are no other players around you. Try it some other time!'
                         });
                     } else {
+                        console.log(data);
                         window.localStorage.setItem('teammate', data.username);
                         window.localStorage.setItem('isEnumeration', data.taskType);
                         window.localStorage.setItem('task', data.task);
+                        window.localStorage.setItem('teammateUID', data.teammateUID);
                         var teammatePosition = {
                             'longitude': data.longitude,
                             'latitude': data.latitude
