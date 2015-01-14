@@ -9,6 +9,8 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         cssInjector.add('styles/chatDetail.css')
         $rootScope.hideFooter = true;
         
+      //scroll down to button
+       $ionicScrollDelegate.scrollBottom();
         $scope.$on("$destroy", function(){
  $rootScope.hideFooter = false;
 });
@@ -116,7 +118,7 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
               $scope.messages = messages;
               })   
           $ionicScrollDelegate.scrollBottom();
-          }, 3000);
+          }, 1000);
           
       }
       

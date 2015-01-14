@@ -2,7 +2,8 @@ angular.module('chatMaster', ['chatDetail', 'serverAPI'])
 
 .controller('chatMasterCtrl', function ($scope, serverAPI, $state, chatDetail, cssInjector) {
 
-    
+   cssInjector.removeAll();
+
     
     //Retrive Chatpartner from Server
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
