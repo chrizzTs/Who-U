@@ -66,14 +66,19 @@ angular.module('pictureTaker', ['ngImgCrop'])
       
     //add Styles
       cssInjector.removeAll();
-    cssInjector.add('styles/pictureTaker.css');
+      cssInjector.add('styles/pictureTaker.css');
 
-     //image cropping
+     //image cropping, initialize Variables
+      //userImage is the variable used in the image Cropper, on wich cropping square is displayed
       $scope.userImage = '';
+      //croppedUserImage is the return of the imageCropper, the part of the picture in the square
       $scope.croppedUserImage =  'data:image/jpeg;base64,';
+      //check if user is cropping
       $scope.isCurrentlyCropping=false;
+      //used to check if picture is cropped and user can save it therefor
       $scope.pictureCropped = false;
       $scope.cropSpace = '';
+      
      // $scope.shownImage = '';
       $scope.newImage = 'data:image/jpeg;base64,';
       
@@ -82,9 +87,9 @@ angular.module('pictureTaker', ['ngImgCrop'])
       $scope.hasPicture = false;
       $scope.pictureCropped = false;
     
-
+      //get a Photo of user's camera
       $scope.getCameraPhoto = function() {
-    PhoneCamera.getPicture().then(function(imageURI) {
+        PhoneCamera.getPicture().then(function(imageURI) {
         $scope.userImage = 'data:image/jpeg;base64,' + imageURI;
         $scope.shownImage = 'data:image/jpeg;base64,' + imageURI;
         $scope.hasPicture = true;

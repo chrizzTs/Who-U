@@ -51,27 +51,27 @@ angular.module('login', [])
             })
         }
         
-        $scope.loginWithFacebook();
-        //Facebook Login
-        $scope.loginWithFacebook = function (){
-            //inject Facebook SDK
-            window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '339615032892277',
-          xfbml      : true,
-          version    : 'v2.1'
-        });
-      };
+    $scope.fbOptions = 
+        {fbId: '{339615032892277}',
+    permissions: 'email,user_photos',
+    fields: 'email,user_photos',
+    success: function (data) {
+        console.log('Basic public user data returned by Facebook', data);
+    },
+    error: function (error) {
+        console.log('An error occurred.', error);
+    }};
 
-      (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "//connect.facebook.net/en_US/sdk.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));
-        }
-        
-
+    /*    $.fblogin({
+    fbId: '{339615032892277}',
+    permissions: 'email,user_photos',
+    fields: 'email,user_photos',
+    success: function (data) {
+        console.log('Basic public user data returned by Facebook', data);
+    },
+    error: function (error) {
+        console.log('An error occurred.', error);
+    }
+});*/
         
     });

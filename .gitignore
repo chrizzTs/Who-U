@@ -3,6 +3,7 @@ www
 .tmp
 .sass-cache
 app/lib
+app/img/ionicons-2.0.0
 coverage
 platforms
 *.swp
