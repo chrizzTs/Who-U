@@ -244,8 +244,9 @@ module.factory('serverAPI', function ($http) {
         },
         getUsersCurrentlyPlayedWith: function (userId, callback) {
             var user = {
-                '_id': userId
+                '_id': userId,
             }
+            console.log(user)
             $http({
                 url: host + usersCurrentlyPlayedWithPath,
                 method: 'GET',
