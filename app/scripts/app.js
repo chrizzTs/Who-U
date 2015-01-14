@@ -12,12 +12,15 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
             StatusBar.styleDefault();
         }
     });
+    
+   // OpenFB.init('339615032892277', 'https://www.facebook.com/connect/login_success.html');
 })
 
 
 
 .config(function ($stateProvider, $urlRouterProvider, cssInjectorProvider, $compileProvider) {
 
+    openFB.init({appId: '339615032892277'});
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
     // Set up the various states which the app can be in.

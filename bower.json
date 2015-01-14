@@ -13,7 +13,10 @@
     "angular-moment": "~0.8.3",
     "angular-elastic": "~2.4.2",
     "Autolinker": "https://github.com/gregjacobs/Autolinker.js",
-    "Autolinker.js": "~0.15.2"
+    "Autolinker.js": "~0.15.2",
+    "angular-fblogin": "*",
+    "angular-openfb": "*",
+    "openfb": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.17",

@@ -29,7 +29,6 @@ angular.module('play', [])
       $scope.slides = new Array();
 
       serverAPI.getUserData(window.localStorage.getItem('teammateUID'), function(data) {
-          $scope.photoIds = window.localStorage.getItem('photoIds');
 
           $scope.photoIds = data.photoIds;
 
