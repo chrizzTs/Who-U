@@ -2,7 +2,7 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
+    function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
 
         cssInjector.removeAll();    
     
@@ -29,6 +29,7 @@ angular.module('home', ['services'])
      $scope.useFacebookPhoto();
     
         $scope.buttonType = "icon ion-search";
+<<<<<<< HEAD
         $scope.buttonDisable;
         
             var searchButtonStatus=window.localStorage.getItem('searchButton');
@@ -67,6 +68,9 @@ angular.module('home', ['services'])
             }
         });
         
+=======
+        $rootScope.buttonDisable;
+>>>>>>> 42d12a5daf718602439b811b00b99f15d72a1059
         $scope.text = 'Search';
 
         $scope.profilePhotoId, $scope.profilePicture;
@@ -94,9 +98,6 @@ if ($scope.isFacebookUser == false) {
     $scope.user = JSON.parse(window.localStorage.getItem('user'));
        $scope.profilePicture = 'http://graph.facebook.com/' + $scope.user.id + '/picture?width=270&height=270';
 }
-
-
-
 
         serverAPI.getRecentEvents(UID, function (data) {
             $scope.events = data;
@@ -131,23 +132,14 @@ if ($scope.isFacebookUser == false) {
 
 
         $scope.click = function () {
-            //console.log($scope.buttonDisable);
-            //disables search button on home.js. (skipUser Benefit)
-            $scope.buttonDisable = true;
-            //$scope.change='disable searchButton';
-            window.localStorage.setItem('searchButton', 'false');
+            $rootScope.buttonDisable=true;
             $scope.text='Disabled for 10s';
-            //enables search button on home.js
-            var timer=$interval(function(){
-                console.log('in der Intervallfunktion');
-                //$scope.change='enable search button';
-                $scope.changeButton();
-                console.log('buttonDisable: '+$scope.buttonDisable);
-                //window.clearInterval();
-                window.localStorage.setItem('searchButton', 'true');
-                $interval.cancel(timer);
+        
+            $scope.enabler=$interval(function(){
+                $rootScope.buttonDisable=false;
+                $interval.cancel($scope.enabler);
             }, 10000);
-            console.log('Timer läuft (15s)');
+            
             console.log('Button disable: '+$scope.buttonDisable);
 
             console.log($scope.text);
@@ -197,7 +189,8 @@ if ($scope.isFacebookUser == false) {
 
                         //Reset Button to start state
                         $scope.text = 'Search';
-                        //$scope.buttonDisable = false;
+                        $scope.buttonDisable = false;
+                        window.localStorage.setItem('disableSearchButton', 'false');
                         $scope.buttonType = "icon ion-search"
 
                     } else {
