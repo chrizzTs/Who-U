@@ -175,7 +175,6 @@ angular.module('home', ['services'])
         }
     enablePushNotification();
     
-    
     function enablePushNotification() {
             document.addEventListener("deviceready", function () {
                 var pushNotification = window.plugins.pushNotification.register(function(result){
@@ -202,6 +201,9 @@ angular.module('home', ['services'])
                 {
                     console.log("Regid " + e.regid);
                     alert('registration id = '+e.regid);
+                    serverAPI.insertPushId(UID, e.regid, function(result){
+                        console.log("transmitted regid to Serve successfully")
+                    })
                 }
             break;
  
