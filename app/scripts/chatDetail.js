@@ -16,18 +16,28 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
       
         // Chatpartners User Data
         $scope.toUser = $rootScope.toUser;
-      console.log($scope.toUser)
+      serverAPI.getUserData($scope.toUser.id, function(userData){
+          serverAPI.getPhoto($scope.toUser.id, userData.profilePhotoId, function(pic){
+              //No picture set => set to avatar  
+              if(pic ==-8){
+                    pic= 'img/cover.png'
+                }
             
+               $scope.toUser.picture= pic
+               
+          })
+      })
+    
+      
+
         //My Own data
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         var pictue = window.localStorage.getItem('myProfilePicture')
-        if(pictue = ''){
-            
-        }
+      
         $scope.user = {
             id: UID,
             picture: window.localStorage.getItem('myProfilePicture'),
-            name: window.localStorage.getItem('myname')
+            name: window.localStorage.getItem('myUsername')
         };
       
 
@@ -102,7 +112,6 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
           setInterval(function () {
             console.log("loading Messages")
           serverAPI.getPreviousMessages(UID,  $scope.toUser.id, function(messages){
-              console.log(messages);
               $scope.messages = messages;
               })    
           }, 3000);
@@ -123,7 +132,10 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             keepKeyboardOpen();
 //            message.picture = $scope.user.picture;
 
-            $scope.messages.push({'message':$scope.input.message, 'timeStamp': new Date(), 'userSent': $scope.toUser.id});
+            $scope.messages.push({'message':$scope.input.message, 'timeStamp': new Date(), 'userSent': UID});
+            
+            console.log("UID" + $scope.user.id)
+            console.log("Message SENT ID" + $scope.user.id)
 
             $timeout(function () {
                 keepKeyboardOpen();
@@ -259,7 +271,7 @@ moment.locale('en', {
     relativeTime: {
         future: "in %s",
         past: "%s ago",
-        s: "%d sec",
+        s: "a moment",
         m: "a minute",
         mm: "%d minutes",
         h: "an hour",
