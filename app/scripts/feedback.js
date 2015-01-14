@@ -91,16 +91,6 @@ angular.module('feedback', ['serverAPI'])
         $scope.question1 = true;
     }
 
-    $scope.notContacted = function () {
-        //stayInTouch=1: keep contact; stayInTouch=0: no further contact
-        serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, 0, $scope.openGames[$scope.counter].gameId, 0, function (data) {
-            console.log('Insert new rating:' + data);
-        });
-
-        console.log("No contact");
-        window.location = "#/tab/home";
-    }
-
     $scope.rateQuestion2 = function (x) {
         for (var i = 0; i < $scope.starsQuestion2.length; i++) {
             $scope.starsQuestion2[i].icon = 'ios7-star-outline';
@@ -169,7 +159,21 @@ angular.module('feedback', ['serverAPI'])
 
             $scope.counter++;
             if ($scope.counter < $scope.openGames.length) {
-                console.log($scope.counter);
+                console.log('Counter für games: ' + $scope.counter);
+            } else {
+                window.location = "#/tab/home";
+            }
+        });
+    }
+
+    $scope.notContacted = function () {
+        //stayInTouch=1: keep contact; stayInTouch=0: no further contact
+        serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, 0, $scope.openGames[$scope.counter].gameId, sendStayInTouch, function (data) {
+            console.log('No Contact, Score=0: ' + data);
+
+            $scope.counter++;
+            if ($scope.counter < $scope.openGames.length) {
+                console.log('Counter für games: ' + $scope.counter);
             } else {
                 window.location = "#/tab/home";
             }
