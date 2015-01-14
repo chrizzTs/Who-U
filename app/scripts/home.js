@@ -2,48 +2,12 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
+    function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
 
         cssInjector.removeAll();
 
         $scope.buttonType = "icon ion-search";
-        $scope.buttonDisable;
-        
-            var searchButtonStatus=window.localStorage.getItem('searchButton');
-            console.log('SearchButtonStatus: '+searchButtonStatus);
-            if(searchButtonStatus=='true'){
-                $scope.buttonDisable=false;
-            }else if(searchButtonStatus=='false'){
-                $scope.buttonDisable=true;
-            }
-        console.log('$scope.buttonDisable: '+$scope.buttonDisable);
-    
-        /*$scope.change;
-        $scope.buttonDisable;
-        if($scope.change=='disable searchButton'){
-            $scope.buttonDisable=true;
-        }else{
-            $scope.buttonDisable=false;
-        }
-        */
-    
-        $scope.changeButton=function(){
-            $scope.buttonDisable=false;
-        }
-        
-        
-         $scope.$watch('$scope.buttonDisable', function () {
-            $scope.disableSearch=function(){
-                if($scope.buttonDisable==true){
-                    return true;
-                    console.log('im Watch im if');
-                }else{
-                    return false;
-                    console.log('im Watch im else');
-                }
-            }
-        });
-        
+        $rootScope.buttonDisable;
         $scope.text = 'Search';
 
         $scope.profilePhotoId, $scope.profilePicture;
@@ -67,9 +31,6 @@ angular.module('home', ['services'])
                 window.localStorage.setItem('myProfilePicture', $scope.profilePicture);
             });
         });
-
-
-
 
         serverAPI.getRecentEvents(UID, function (data) {
             $scope.events = data;
@@ -104,23 +65,14 @@ angular.module('home', ['services'])
 
 
         $scope.click = function () {
-            //console.log($scope.buttonDisable);
-            //disables search button on home.js. (skipUser Benefit)
-            $scope.buttonDisable = true;
-            //$scope.change='disable searchButton';
-            window.localStorage.setItem('searchButton', 'false');
+            $rootScope.buttonDisable=true;
             $scope.text='Disabled for 10s';
-            //enables search button on home.js
-            var timer=$interval(function(){
-                console.log('in der Intervallfunktion');
-                //$scope.change='enable search button';
-                $scope.changeButton();
-                console.log('buttonDisable: '+$scope.buttonDisable);
-                //window.clearInterval();
-                window.localStorage.setItem('searchButton', 'true');
-                $interval.cancel(timer);
+        
+            $scope.enabler=$interval(function(){
+                $rootScope.buttonDisable=false;
+                $interval.cancel($scope.enabler);
             }, 10000);
-            console.log('Timer läuft (15s)');
+            
             console.log('Button disable: '+$scope.buttonDisable);
 
             console.log($scope.text);
@@ -167,7 +119,8 @@ angular.module('home', ['services'])
 
                         //Reset Button to start state
                         $scope.text = 'Search';
-                        //$scope.buttonDisable = false;
+                        $scope.buttonDisable = false;
+                        window.localStorage.setItem('disableSearchButton', 'false');
                         $scope.buttonType = "icon ion-search"
 
                     } else {
