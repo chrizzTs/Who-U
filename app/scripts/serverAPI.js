@@ -18,6 +18,7 @@ const gamesToRatePath = '/play/rating/gamesToRate'
 const insertNewRatingPath = '/play/rating/insertNewRating'
 const allItemsPath = '/benefit/allItems'
 const buyItemPath = '/benefit/buyItem'
+const skipUserPath = '/benefit/skipUser'
 const userDataPath = '/userData/data'
 const recentEventsPath = '/userData/recentEvents'
 const changeModusPath = '/userData/changeModus'
@@ -199,11 +200,8 @@ module.factory('serverAPI', function ($http) {
                 '_id': userId,
                 'PID': photoId
             }
-            $http({
-                url: host + deletePhotoPath,
-                method: 'DELETE',
-                params: deletePhotoRequest
-            }).success(callback).error(function (err) {
+            console.log(deletePhotoRequest)
+            $http.post(host + deletePhotoPath, deletePhotoRequest).success(callback).error(function (err) {
                 console.log(err)
             })
         },
@@ -246,8 +244,9 @@ module.factory('serverAPI', function ($http) {
         },
         getUsersCurrentlyPlayedWith: function (userId, callback) {
             var user = {
-                '_id': userId
+                '_id': userId,
             }
+            console.log(user)
             $http({
                 url: host + usersCurrentlyPlayedWithPath,
                 method: 'GET',
@@ -285,11 +284,12 @@ module.factory('serverAPI', function ($http) {
                 console.log(err)
             })
         },
-        sendMessage: function (userId, otherUserId, message, callback) {
+        sendMessage: function (userId, otherUserId, message, timeStamp, callback) {
             var messageRequest = {
                 '_id': userId,
                 'otherUser': otherUserId,
-                'message': message
+                'message': message,
+                'timeStamp': timeStamp
             }
             $http.post(host + sendMessagePath, messageRequest).success(callback).error(function (err) {
                 console.log(err)
@@ -326,6 +326,15 @@ module.factory('serverAPI', function ($http) {
                 method: 'GET',
                 params: user
             }).success(callback).error(function (err) {
+                console.log(err)
+            })
+        },
+        skipUser: function (userId, gameId, callback) {
+            var skipUserRequest = {
+                '_id': userId,
+                'gameId': gameId
+            }
+            $http.put(host + skipUserPath, skipUserRequest).success(callback).error(function (err) {
                 console.log(err)
             })
         }
