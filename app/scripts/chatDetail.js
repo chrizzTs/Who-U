@@ -108,12 +108,14 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
                 
                 
     $scope.doneLoading = true;
+      var retriveMessagesIntervall
       function getMessages(){
-          setInterval(function () {
+         retriveMessagesIntervall=  setInterval(function () {
             console.log("loading Messages")
           serverAPI.getPreviousMessages(UID,  $scope.toUser.id, function(messages){
               $scope.messages = messages;
-              })    
+              })   
+          $ionicScrollDelegate.scrollBottom();
           }, 3000);
           
       }
@@ -210,6 +212,12 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             footerBar.style.height = newFooterHeight + 'px';
             scroller.style.bottom = newFooterHeight + 'px';
         });
+      
+      
+      //End intervall to retrive new messages when leaving ChatDetail
+         $scope.$on("$destroy", function(){
+        clearInterval(retriveMessagesIntervall);
+    });
 
 }])
 
