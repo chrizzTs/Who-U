@@ -2,9 +2,9 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
 
 
 .controller('chatDetailCtrl', ['$scope', '$rootScope', '$state',
-  '$stateParams', 'MockService', '$ionicActionSheet', '$ionicScrollDelegate', '$timeout', '$interval', 'cssInjector',
+  '$stateParams', 'MockService', '$ionicActionSheet', '$ionicScrollDelegate', '$timeout', '$interval', 'cssInjector', 'serverAPI',
   function ($scope, $rootScope, $state, $stateParams, MockService,
-        $ionicActionSheet, $ionicScrollDelegate, $timeout, $interval, cssInjector) {
+        $ionicActionSheet, $ionicScrollDelegate, $timeout, $interval, cssInjector, serverAPI) {
 
         cssInjector.add('styles/chatDetail.css')
         $rootScope.hideFooter = true;
@@ -16,6 +16,7 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
       
         // Chatpartners User Data
         $scope.toUser = $rootScope.toUser;
+      console.log($scope.toUser)
             
 //            {
 //            id: '534b8e5aaa5e7afc1b23e69b',
@@ -30,8 +31,7 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             picture: window.localStorage.getItem('myProfilePicture'),
             name: window.localStorage.getItem('myname')
         };
-
-      console.log(UID)
+      
 
         //Saving typed messages that have not been sent to local storage and to initialize them when the chat is reopened.
         $scope.input = {
@@ -80,19 +80,45 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
 
 
         //Retrive Messages from Server
-        function getMessages() {
-            // the service is mock but you would probably pass the toUser's GUID here
-            MockService.getUserMessages({
-                toUserId: $scope.toUser.id
-            }).then(function (data) {
-                $scope.doneLoading = true;
-                $scope.messages = data.messages;
-
-                $timeout(function () {
-                    viewScroll.scrollBottom();
-                }, 0);
-            });
-        }
+//
+//     $scope.$watch('messages', function (newValue, oldValue) {
+//         console.log("change messages from undefined")
+//         
+//         
+//         if($scope.message != undefined ){
+//             console.log("messages is not undefined")
+//            $scope.doneLoading = true;
+//         }
+//      
+//        });
+//      
+      
+    $scope.doneLoading = true;
+      function getMessages(){
+          setInterval(function () {
+            console.log("loading Messages")
+          serverAPI.getPreviousMessages(UID,  $scope.toUser.id, function(messages){
+              console.log(messages);
+              $scope.messages = messages;
+              })    
+          }, 3000);
+          
+      }
+      
+      
+//        function getMessages() {
+//            // the service is mock but you would probably pass the toUser's GUID here
+//            MockService.getUserMessages({
+//                toUserId: $scope.toUser.id
+//            }).then(function (data) {
+//                $scope.doneLoading = true;
+//                $scope.messages = data.messages;
+//
+//                $timeout(function () {
+//                    viewScroll.scrollBottom();
+//                }, 0);
+//            });
+//        }
 
         //Saving input Message to local Storage
         $scope.$watch('input.message', function (newValue, oldValue) {
@@ -102,21 +128,9 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
 
         //Send message to Server
         $scope.sendMessage = function (sendMessageForm) {
-            var message = {
-                toId: $scope.toUser.id,
-                text: $scope.input.message
-            };
-
+         
             keepKeyboardOpen();
-
-            //MockService.sendMessage(message).then(function(data) {
-            $scope.input.message = '';
-
-            message.id = new Date().getTime(); // :~)
-            message.date = new Date();
-            message.name = $scope.user.name;
-            message.userId = $scope.user.id;
-            message.picture = $scope.user.picture;
+//            message.picture = $scope.user.picture;
 
             $scope.messages.push(message);
 
@@ -125,13 +139,16 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
                 viewScroll.scrollBottom(true);
             }, 0);
 
-            $timeout(function () {
-                $scope.messages.push(MockService.getMockMessage());
-                keepKeyboardOpen();
-                viewScroll.scrollBottom(true);
-            }, 2000);
+            
+            console.log("eigene UID:" + UID);
+            console.log("Partner UID" + $scope.toUser.id)
+            
+            serverAPI.sendMessage(UID,  $scope.toUser.id, $scope.input.message,  new Date(), function(result){
+                console.log("send Message Callback" + result);
+            })
+                 $scope.input.message = '';
 
-            //});
+
         };
 
         // this keeps the keyboard open on a device only after sending a message, it is non obtrusive
@@ -282,9 +299,7 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
   }
 ])
 
-function onProfilePicError(ele) {
-    this.ele.src = ''; // set a fallback
-}
+
 
 function getMockMessages() {
     return {

@@ -39,7 +39,7 @@ angular.module('home', ['services'])
             $scope.profilePhotoId = data.profilePhotoId;
             window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
             window.localStorage.setItem('myUsername', $scope.userName);
-              //getProfile Picture
+            //getProfile Picture
             serverAPI.getPhoto(UID, data.profilePhotoId, function (data) {
                 console.log(data.profilePhotoId);
                 console.log(data.data)
@@ -142,6 +142,12 @@ angular.module('home', ['services'])
                             title: 'Too bad :(',
                             template: 'Unfortunateley there are no other players around you. Try it some other time!'
                         });
+
+                        //Reset Button to start state
+                        $scope.text = 'Search';
+                        $scope.buttonDisable = false;
+                        $scope.buttonType = "icon ion-search"
+
                     } else {
                         window.localStorage.setItem('teammate', data.username);
                         window.localStorage.setItem('isEnumeration', data.taskType);
@@ -151,16 +157,70 @@ angular.module('home', ['services'])
                         console.log(data)
                         var teammatePosition = {
                             'longitude': data.longitude,
-                            'latitude': data.latitude
+                            'latitude ': data.latitude
                         };
                         window.localStorage.setItem('teammatePosition', JSON.stringify(teammatePosition));
                         //TODO: data.fotoId => request foto from server
-                        $state.go('tab.play-screen');
+                        $state.go('tab.play - screen');
                     }
 
 
                 })
             }
         }
-        services.enablePushNotification();
+    enablePushNotification();
+    
+    
+    function enablePushNotification() {
+            document.addEventListener("deviceready", function () {
+                var pushNotification = window.plugins.pushNotification.register(function(result){
+                      alert('Callback Success! Result = ' + result)
+                }, function(error){
+                              alert("ErrorHandler");
+            alert(error);
+                }, {
+                    "senderID": "168615009802",
+                    "ecb": "onNotificationGCM"
+                });
+          }
+                                      
+           , false)
+        }
+        
+       window.onNotificationGCM = function (e) {
+            alert("onNotification extra factory")
+            
+                switch( e.event )
+        {
+            case 'registered':
+                if ( e.regid.length > 0 )
+                {
+                    console.log("Regid " + e.regid);
+                    alert('registration id = '+e.regid);
+                }
+            break;
+ 
+            case 'message':
+              // this is the actual push notification. its format depends on the data model from the push server
+              alert('message = '+e.message+' msgcnt = '+e.msgcnt);
+            break;
+ 
+            case 'error':
+              alert('GCM error = '+e.msg);
+            break;
+ 
+            default:
+              alert('An unknown GCM event has occurred');
+              break;
+        }
+         
+        }
+    
+    
+    
+    
+    
+    
+    
+    
     })

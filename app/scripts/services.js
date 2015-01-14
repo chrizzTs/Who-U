@@ -1,6 +1,6 @@
 var services = angular.module('services', [])
 
-services.factory('services', function () {
+services.factory('services', function ($window) {
     var bgGeo;
 
     return {
@@ -67,58 +67,8 @@ services.factory('services', function () {
                 bgGeo.stop()
             }
 
-        },
-        enablePushNotification: function () {
-            document.addEventListener("deviceready", function(){
-                console.log("running on phone")
-                var pushNotification = window.plugins.pushNotification;
-                pushNotification.register(successHandler, errorHandler, {
-                    "senderID": "168615009802",
-                    "ecb": "onNotificationGCM"
-                }
-                                         )
-                   console.log("done registration function")
-
-                // callback if serverRequest was successfull 
-                function successHandler(result) {
-                    console.log('Callback Success! Result = ' + result)
-                };
-
-                function errorHandler(error) {
-                    console.log("Error callback EnablePush")
-                    console.log(error);
-                };
-
-            }, false)
-        },
-        onNotificationGCM: function (e) {
-            console.log("receive push from Server")
-            switch (e.event) {
-            case 'registered':
-                if (e.regid.length > 0) {
-                    console.log("Regid " + e.regid);
-                    alert('registration id = ' + e.regid);
-
-                    serverAPI.insertPushId(JSON.parse(window.localStorage.getItem('Credentials')).UID, e.regid, function () {
-                        console.log("Übergabe registration ID successfull");
-                        window.localStorage.setItem('pushNotifications', 'true');
-                    })
-                }
-                break;
-
-            case 'message':
-                // this is the actual push notification. its format depends on the data model from the push server
-                alert('message = ' + e.message + ' msgcnt = ' + e.msgcnt);
-                break;
-
-            case 'error':
-                alert('GCM error = ' + e.msg);
-                break;
-
-            default:
-                alert('An unknown GCM event has occurred');
-                break;
-            }
         }
+        
+
     }
 })
