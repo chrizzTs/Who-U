@@ -9,9 +9,9 @@ angular.module('play', [])
       cssInjector.removeAll();
       cssInjector.add('styles/play.css');
 
-      $scope.skipUser = false;
-
-      // $scope.skipUser = window.localStorage.getItem('skipUser');
+      $scope.skipUser = 'false';
+      $scope.skipUser = window.localStorage.getItem('skipUser');
+        console.log('SkipUser ist: '+$scope.skipUser);
 
       $scope.task;
       //fetch all data from localStorage from tab-home
@@ -80,6 +80,14 @@ angular.module('play', [])
         //executeFunctions
         $scope.fetchDataFromLocalStorage(); $scope.checkEnumeration();
 
+        $scope.doSkipUser=function(){
+         console.log('User wird übersprungen');
+            $scope.skipUser='false';
+            window.localStorage.setItem('skipUser', 'false');
+            
+            //Problem: wenn User übersprungen wird, ist die GameID auf dem Server noch offen. Macht es Sinn die "insertNewRating" zu verwenden?
+            
+        }
 
       }
       ])

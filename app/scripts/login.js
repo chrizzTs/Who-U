@@ -27,6 +27,7 @@ angular.module('login', [])
                         services.initBackgroundGps();
                         services.startBackgroundGps();
                     }
+                    window.localStorage.setItem('searchButton', 'true');
                     window.location = "#/tab/home";
                 })
         }
@@ -42,6 +43,7 @@ angular.module('login', [])
                 if (data instanceof Object) {
                     window.localStorage.setItem('Credentials', JSON.stringify(data));
                     window.localStorage.setItem('visible', true);
+                    window.localStorage.setItem('searchButton', 'true');
                     window.location = "#/tab/home";
                     services.initBackgroundGps();
                     services.startBackgroundGps();

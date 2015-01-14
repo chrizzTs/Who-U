@@ -168,7 +168,7 @@ angular.module('feedback', ['serverAPI'])
 
     $scope.notContacted = function () {
         //stayInTouch=1: keep contact; stayInTouch=0: no further contact
-        serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, 0, $scope.openGames[$scope.counter].gameId, sendStayInTouch, function (data) {
+        serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, 0, $scope.openGames[$scope.counter].gameId, 0, function (data) {
             console.log('No Contact, Score=0: ' + data);
 
             $scope.counter++;

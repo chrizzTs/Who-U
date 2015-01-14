@@ -57,7 +57,6 @@ angular.module('registration', ['serverAPI'])
         });
 
         //Check if user entered same PW two times
-        //Currently errors
         $scope.$watch('password2', function () {
             if ($scope.password2 == $scope.password1) {
                 if ($scope.password2 == null) {

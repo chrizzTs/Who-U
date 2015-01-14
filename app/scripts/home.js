@@ -2,12 +2,31 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
+    function ($scope, $rootScope, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
 
         cssInjector.removeAll();
 
         $scope.buttonType = "icon ion-search";
-        $scope.buttonDisable = false;
+        
+        //$scope.buttonDisable;
+        //$scope.$watch(function(){return window.localStorage.getItem('searchButton')}, function(){
+            var searchButtonStatus=window.localStorage.getItem('searchButton');
+            if(searchButtonStatus=='true'){
+                $scope.buttonDisable=false;
+            }else if(searchButtonStatus=='false'){
+                $scope.buttonDisable=true;
+            }
+        //})
+    
+        /*$scope.change;
+        $scope.buttonDisable;
+        if($scope.change=='disable searchButton'){
+            $scope.buttonDisable=true;
+        }else{
+            $scope.buttonDisable=false;
+        }
+        */
+    
         $scope.text = 'Search';
 
         $scope.profilePhotoId, $scope.profilePicture;
@@ -64,15 +83,27 @@ angular.module('home', ['services'])
         };
 
 
-
-
         $scope.click = function () {
-            console.log($scope.buttonDisable);
+            //console.log($scope.buttonDisable);
+            //disables search button on home.js. (skipUser Benefit)
             $scope.buttonDisable = true;
-            console.log($scope.buttonDisable);
+            //$scope.change='disable searchButton';
+            window.localStorage.setItem('searchButton', 'false');
+            $scope.text='Disabled for 10s';
+            //enables search button on home.js
+            setInterval(function(){
+                //$scope.change='enable search button';
+                $scope.buttonDisable=false;
+                window.clearInterval();
+                window.localStorage.setItem('searchButton', 'true');
+                window.location.reload();
+                console.log('in der Intervallfunktion');
+            }, 15000);
+            console.log('Timer läuft (15s)');
+            console.log('Button disable: '+$scope.buttonDisable);
 
             console.log($scope.text);
-            $scope.text = 'Searching';
+            //$scope.text = 'Searching';
             console.log($scope.text);
 
             console.log($scope.buttonType);
