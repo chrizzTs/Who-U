@@ -20,7 +20,7 @@ angular.module('photos', [])
      
       //initialize the selection photo and the selected photoId
       $scope.selection;
-      $scope.selectionPhotoId;
+      $scope.selectionPhotoId = 0;
       
       //initialize the array in which images of the user will be stored
       $scope.images = new Array();
@@ -92,7 +92,9 @@ angular.module('photos', [])
       $scope.loaded = false;
       
       $scope.deletePhoto = function(){
-           serverAPI.deletePhoto($scope.userID, $scope.selectionPhotoId, function(data){console.log(data)});
+          console.log('userId: ' + $scope.userId);
+          console.log('selectionPhotoId: ' + $scope.selectionPhotoId);
+           serverAPI.deletePhoto($scope.userId, $scope.selectionPhotoId, function(data){console.log(data)});
       }
 
       $scope.loaded = true;

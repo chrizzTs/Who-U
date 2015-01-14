@@ -34,7 +34,7 @@ angular.module('home', ['services'])
 
         serverAPI.getRecentEvents(UID, function (data) {
             $scope.events = data;
-
+            console.log(data);    
         });
 
         serverAPI.getGamesToRate(UID, getGamesToRate);
