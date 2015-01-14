@@ -46,6 +46,7 @@ angular.module('login', [])
                     window.localStorage.setItem('Credentials', JSON.stringify(data));
                     window.localStorage.setItem('visible', true);
                     window.localStorage.setItem('searchButton', 'true');
+                    window.localStorage.setItem('Facebook', false);
                     window.location = "#/tab/home";
                     services.initBackgroundGps();
                     services.startBackgroundGps();
@@ -87,7 +88,8 @@ angular.module('login', [])
         success: function(user) {
             $scope.$apply(function() {
                 $scope.user = user;
-                window.localStorage.setItem('user', user);
+                window.localStorage.setItem('user', JSON.stringify(user));
+                window.localStorage.setItem('facebook', true);
                 console.log(user);
             });
             serverAPI.loginWithMail($scope.user.id, 'facebook', function (data) {

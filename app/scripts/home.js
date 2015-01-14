@@ -4,8 +4,30 @@ angular.module('home', ['services'])
 .controller('homeCtrl',
     function ($scope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
 
-        cssInjector.removeAll();
-
+        cssInjector.removeAll();    
+    
+   $scope.isFacebookUser = window.localStorage.getItem('Facebook');
+   /* 
+    $scope.useFacebookPhoto = function(){
+                //Grap geoLocation
+                    
+             openFB.api({
+        path: '/me/picture',
+        params: {fields: 'redirect, url'},
+        success: function(picture) {
+            $scope.$apply(function() {
+                console.log(picture);
+            });
+            
+        },
+        error: function(error) {
+            alert('Facebook error: ' + error.error_description);
+        }
+    });   
+            };
+    
+     $scope.useFacebookPhoto();
+    
         $scope.buttonType = "icon ion-search";
         $scope.buttonDisable;
         
@@ -16,6 +38,7 @@ angular.module('home', ['services'])
             }else if(searchButtonStatus=='false'){
                 $scope.buttonDisable=true;
             }
+        */
         console.log('$scope.buttonDisable: '+$scope.buttonDisable);
     
         /*$scope.change;
@@ -47,7 +70,7 @@ angular.module('home', ['services'])
         $scope.text = 'Search';
 
         $scope.profilePhotoId, $scope.profilePicture;
-
+if ($scope.isFacebookUser == false) {
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         serverAPI.getUserData(UID, function (data) {
             console.log(data);
@@ -67,6 +90,10 @@ angular.module('home', ['services'])
                 window.localStorage.setItem('myProfilePicture', $scope.profilePicture);
             });
         });
+} else {
+    $scope.user = JSON.parse(window.localStorage.getItem('user'));
+       $scope.profilePicture = 'http://graph.facebook.com/' + $scope.user.id + '/picture?width=270&height=270';
+}
 
 
 
@@ -153,6 +180,9 @@ angular.module('home', ['services'])
                 });
             };
 
+        
+            
+            
             //Send current location to Server to receive teammate
             function sendToServer(myPosition) {
                 serverAPI.searchPartnerToPlayWith(myPosition.longitude, myPosition.latitude, UID, function (data) {
