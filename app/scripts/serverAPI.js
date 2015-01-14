@@ -199,6 +199,7 @@ module.factory('serverAPI', function ($http) {
                 '_id': userId,
                 'PID': photoId
             }
+            console.log(deletePhotoRequest)
             $http({
                 url: host + deletePhotoPath,
                 method: 'DELETE',
