@@ -46,9 +46,6 @@ angular.module('play', [])
               };
 
               $scope.slides.push(entry);
-              if (i == $scope.photoIds.length) {
-                window.localStorage.setItem('userPhotos', JSON.stringify($scope.slides));
-              }
             })
           }
         })
