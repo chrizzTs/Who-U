@@ -68,8 +68,6 @@
     "org.apache.cordova.geolocation",
     "org.apache.cordova.dialogs",
     "https://github.com/christocracy/cordova-plugin-background-geolocation.git",
-    "http://github.com/phonegap-build/PushPlugin.git",
-    "org.transistorsoft.cordova.background-geolocation",
-    "com.ionic.keyboard"
+    "org.apache.cordova.inappbrowser"
   ]
 }

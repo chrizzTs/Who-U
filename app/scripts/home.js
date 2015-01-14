@@ -2,7 +2,7 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $rootScope, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
+    function ($scope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
 
         cssInjector.removeAll();
 
@@ -94,14 +94,14 @@ angular.module('home', ['services'])
             window.localStorage.setItem('searchButton', 'false');
             $scope.text='Disabled for 10s';
             //enables search button on home.js
-            setInterval(function(){
+            $interval(function(){
+                console.log('in der Intervallfunktion');
                 //$scope.change='enable search button';
                 $scope.buttonDisable=false;
                 window.clearInterval();
                 window.localStorage.setItem('searchButton', 'true');
-                window.location.reload();
-                console.log('in der Intervallfunktion');
-            }, 15000);
+                //window.location.reload();
+            }, 10000);
             console.log('Timer läuft (15s)');
             console.log('Button disable: '+$scope.buttonDisable);
 
@@ -138,6 +138,7 @@ angular.module('home', ['services'])
             //Send current location to Server to receive teammate
             function sendToServer(myPosition) {
                 serverAPI.searchPartnerToPlayWith(myPosition.longitude, myPosition.latitude, UID, function (data) {
+                    console.log('searchPartnerToPlayWith: '+data);
 
                     //No other players around you. Server returns -1 
                     if (data == -1) {
@@ -156,6 +157,7 @@ angular.module('home', ['services'])
                         window.localStorage.setItem('isEnumeration', data.taskType);
                         window.localStorage.setItem('task', data.task);
                         window.localStorage.setItem('teammateUID', data.otherUserId);
+                        window.localStorage.setItem('gameId', data.gameId);
                         console.log("Teammate Data")
                         console.log(data)
                         var teammatePosition = {

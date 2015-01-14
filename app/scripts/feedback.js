@@ -26,9 +26,17 @@ angular.module('feedback', ['serverAPI'])
         serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
             $scope.ratedName = data.userName;
         });
+        
+        if($scope.ratedName=='user deleted'){
+            $scope.counter++;
+            if ($scope.counter < $scope.openGames.length) {
+                console.log('Counter für games: ' + $scope.counter);
+            } else {
+                window.location = "#/tab/home";
+            }
+        }
     });
 
-    //Doesn't work for now...why?!?
     if (stayInTouch == 'true') {
         $scope.userChoiceContact = {
             mode: true

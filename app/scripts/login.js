@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('login', [])
-    .controller('loginCtrl', function ($scope, serverAPI, $location, cssInjector, services) {
+    .controller('loginCtrl', function ($scope, serverAPI, $location, cssInjector, services,  $state) {
         cssInjector.add("styles/login.css");
         $scope.EMail;
         $scope.password;
+        $scope.user;
         var credentials
         var sessionKey
         var userId
@@ -52,7 +53,87 @@ angular.module('login', [])
                 }
             })
         }
+    
+    
+     $scope.facebookLogin = function () {
+
         
+         openFB.login(
+        function(response) {
+            if (response.status === 'connected') {
+                console.log('Facebook login succeeded');
+                $scope.goToHome();
+                $scope.closeLogin();
+            } else {
+                alert('Facebook login failed');
+            }
+        },
+        {scope: 'email, user_photos'});
+         
+     }
+     
+     
+     
+         $scope.goToHome = function(){
+             
+               //Catch GeoData to initialize useres position and to grant access to GPS.
+                //Grap geoLocation
+                var myPosition;
+                var location = navigator.geolocation.getCurrentPosition(function (geoData) {
+                    myPosition = {
+                        'longitude': geoData.coords.longitude,
+                        'latitude': geoData.coords.latitude
+                    }
+                });
+                    
+             openFB.api({
+        path: '/me',
+        params: {fields: 'id,name, email'},
+        success: function(user) {
+            $scope.$apply(function() {
+                $scope.user = user;
+            });
+            console.log($scope.user.name);
+            console.log($scope.user.email);
+            $scope.createFacebookUser();
+        },
+        error: function(error) {
+            alert('Facebook error: ' + error.error_description);
+        }
+    });
+         $scope.createFacebookUser = function(){
+                    console.log($scope.user.name);
+             console.log($scope.user.email);
+             /*
+                    serverAPI.createNewUser($scope.user.name, null, $scope.user.email, myPosition.longitude, myPosition.latitude, function (data) {
+                        var storedCredentials
+                        var newCredentials
+                        if ((storedCredentials = window.localStorage.getItem('Credentials')) != null) {
+                            storedCredentials = JSON.parse(storedCredentials)
+                            storedCredentials['UID'] = data
+                            storedCredentials['SessionKey'] = null
+                            newCredentials = storedCredentials
+                        } else {
+                            newCredentials = {
+                                'UID': data
+                            }
+                        }
+                        window.localStorage.setItem('Credentials', JSON.stringify(newCredentials));
+                        window.localStorage.setItem('visible', true);
+                        window.location = "#/tab/home";
+                    });
+             */
+                };
+
+             
+         }
+               
+         
+    
+    
+    
+    /*
+    
     $scope.fbOptions = 
         {fbId: '{339615032892277}',
     permissions: 'email,user_photos',
@@ -64,7 +145,9 @@ angular.module('login', [])
         console.log('An error occurred.', error);
     }};
 
-    /*    $.fblogin({
+    
+    
+        $.fblogin({
     fbId: '{339615032892277}',
     permissions: 'email,user_photos',
     fields: 'email,user_photos',
