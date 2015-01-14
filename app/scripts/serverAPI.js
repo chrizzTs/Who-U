@@ -200,13 +200,16 @@ module.factory('serverAPI', function ($http) {
                 'PID': photoId
             }
             console.log(deletePhotoRequest)
-            $http({
-                url: host + deletePhotoPath,
-                method: 'DELETE',
-                params: deletePhotoRequest
-            }).success(callback).error(function (err) {
+            $http.delete(host + deletePhotoPath, deletePhotoRequest).success(callback).error(function (err) {
                 console.log(err)
             })
+            //            $http({
+            //                url: host + deletePhotoPath,
+            //                method: 'DELETE',
+            //                params: deletePhotoRequest
+            //            }).success(callback).error(function (err) {
+            //                console.log(err)
+            //            })
         },
         updateProfilPhoto: function (userId, photoId, callback) {
             var changeProfilPhotoRequest = {
