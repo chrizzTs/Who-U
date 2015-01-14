@@ -87,10 +87,11 @@ angular.module('login', [])
         success: function(user) {
             $scope.$apply(function() {
                 $scope.user = user;
+                window.localStorage.setItem('user', user);
                 console.log(user);
             });
             serverAPI.loginWithMail($scope.user.id, 'facebook', function (data) {
-                if (data != 3){
+                if (data != '3'){
                 console.log(data)
                 var sessionKey = data //parseInt(data.substring(2))
                 if (data instanceof Object) {
