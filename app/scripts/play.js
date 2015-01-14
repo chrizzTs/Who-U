@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('play', [])
+angular.module('play', ['serverAPI'])
 
 .controller('playCtrl', ['$scope', 'cssInjector', 'serverAPI',
     function($scope, cssInjector, serverAPI) {
@@ -85,7 +85,11 @@ angular.module('play', [])
             $scope.skipUser='false';
             window.localStorage.setItem('skipUser', 'false');
             
-            //Problem: wenn User übersprungen wird, ist die GameID auf dem Server noch offen. Macht es Sinn die "insertNewRating" zu verwenden?
+            var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+            var GID = window.localStorage.getItem('gameId');
+            serverAPI.skipUser(UID, GID, function(data){
+                console.log('serverAPI.skipUser: ');
+            });
             
         }
 
