@@ -164,7 +164,7 @@ angular.module('home', ['services'])
                         };
                         window.localStorage.setItem('teammatePosition', JSON.stringify(teammatePosition));
                         //TODO: data.fotoId => request foto from server
-                        $state.go('tab.play - screen');
+                        $state.go('tab.play-screen');
                     }
 
 
