@@ -7,16 +7,16 @@ angular.module('home', ['services'])
         cssInjector.removeAll();
 
         $scope.buttonType = "icon ion-search";
+        $scope.buttonDisable;
         
-        //$scope.buttonDisable;
-        //$scope.$watch(function(){return window.localStorage.getItem('searchButton')}, function(){
             var searchButtonStatus=window.localStorage.getItem('searchButton');
+            console.log('SearchButtonStatus: '+searchButtonStatus);
             if(searchButtonStatus=='true'){
                 $scope.buttonDisable=false;
             }else if(searchButtonStatus=='false'){
                 $scope.buttonDisable=true;
             }
-        //})
+        console.log('$scope.buttonDisable: '+$scope.buttonDisable);
     
         /*$scope.change;
         $scope.buttonDisable;
@@ -27,6 +27,23 @@ angular.module('home', ['services'])
         }
         */
     
+        $scope.changeButton=function(){
+            $scope.buttonDisable=false;
+        }
+        
+        
+         $scope.$watch('$scope.buttonDisable', function () {
+            $scope.disableSearch=function(){
+                if($scope.buttonDisable==true){
+                    return true;
+                    console.log('im Watch im if');
+                }else{
+                    return false;
+                    console.log('im Watch im else');
+                }
+            }
+        });
+        
         $scope.text = 'Search';
 
         $scope.profilePhotoId, $scope.profilePicture;
@@ -94,13 +111,14 @@ angular.module('home', ['services'])
             window.localStorage.setItem('searchButton', 'false');
             $scope.text='Disabled for 10s';
             //enables search button on home.js
-            $interval(function(){
+            var timer=$interval(function(){
                 console.log('in der Intervallfunktion');
                 //$scope.change='enable search button';
-                $scope.buttonDisable=false;
-                window.clearInterval();
+                $scope.changeButton();
+                console.log('buttonDisable: '+$scope.buttonDisable);
+                //window.clearInterval();
                 window.localStorage.setItem('searchButton', 'true');
-                //window.location.reload();
+                $interval.cancel(timer);
             }, 10000);
             console.log('Timer läuft (15s)');
             console.log('Button disable: '+$scope.buttonDisable);
@@ -149,7 +167,7 @@ angular.module('home', ['services'])
 
                         //Reset Button to start state
                         $scope.text = 'Search';
-                        $scope.buttonDisable = false;
+                        //$scope.buttonDisable = false;
                         $scope.buttonType = "icon ion-search"
 
                     } else {
