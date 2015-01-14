@@ -21,6 +21,8 @@ angular.module('home', ['services'])
         $scope.text = 'Search';
 
         $scope.profilePhotoId, $scope.profilePicture;
+$scope.isFacebookUser = window.localStorage.getItem('Facebook');
+if ($scope.isFacebookUser == false) {
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         serverAPI.getUserData(UID, function (data) {
@@ -42,6 +44,10 @@ angular.module('home', ['services'])
             });
         });
 
+} else {
+    $scope.user = JSON.parse(window.localStorage.getItem('user'));
+       $scope.profilePicture = 'http://graph.facebook.com/' + $scope.user.id + '/picture?width=270&height=270';
+}
 
         serverAPI.getRecentEvents(UID, function (data) {
             $scope.events = data;
