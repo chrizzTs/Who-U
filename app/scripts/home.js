@@ -41,10 +41,13 @@ angular.module('home', ['services'])
             window.localStorage.setItem('myUsername', $scope.userName);
             //getProfile Picture
             serverAPI.getPhoto(UID, data.profilePhotoId, function (data) {
-                console.log(data.profilePhotoId);
-                console.log(data.data)
-                $scope.profilePicture = data.data;
-                window.localStorage.setItem('myProfilePicture', data.data);
+                if(data == -8){
+                    console.log("No image uploaden: set to avatar")
+                    $scope.profilePicture = 'img/cover.png'
+                }else{
+                      $scope.profilePicture = data.data;
+                }
+                window.localStorage.setItem('myProfilePicture', $scope.profilePicture);
             });
         });
 
