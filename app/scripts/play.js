@@ -86,8 +86,9 @@ angular.module('play', ['serverAPI'])
             
             var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
             var GID = window.localStorage.getItem('gameId');
+            console.log(UID+'<<<>>>'+GID);
             serverAPI.skipUser(UID, GID, function(data){
-                console.log('serverAPI.skipUser: ');
+                console.log('serverAPI.skipUser: '+data);
             });
             
         }
