@@ -41,7 +41,7 @@ angular.module('coins', ['serverAPI'])
 
             } else if (x == 4) {
                 //More poins per game
-
+                //Implementation of this feature is on server site. Identification via Benefit-ID
             }
 
             //Checking if purchase is possible and updating the new coins value
