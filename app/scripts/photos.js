@@ -92,7 +92,7 @@ angular.module('photos', [])
       $scope.loaded = false;
       
       $scope.deletePhoto = function(){
-           serverAPI.deletePhoto($scope.userID, $scope.shownImage, function(data){console.log(data)});
+           serverAPI.deletePhoto($scope.userID, $scope.selectionPhotoId, function(data){console.log(data)});
       }
 
       $scope.loaded = true;

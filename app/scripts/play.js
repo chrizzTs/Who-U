@@ -5,7 +5,8 @@ angular.module('play', [])
 .controller('playCtrl', ['$scope', 'cssInjector', 'serverAPI',
     function($scope, cssInjector, serverAPI) {
 
-
+      //add Styles
+      cssInjector.removeAll();
       cssInjector.add('styles/play.css');
 
       $scope.skipUser = false;
