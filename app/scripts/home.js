@@ -24,7 +24,7 @@ angular.module('home', ['services'])
 
         $scope.profilePhotoId, $scope.profilePicture;
 $scope.isFacebookUser = window.localStorage.getItem('Facebook');
-if ($scope.isFacebookUser == false) {
+
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         serverAPI.getUserData(UID, function (data) {
@@ -36,6 +36,7 @@ if ($scope.isFacebookUser == false) {
             window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
             window.localStorage.setItem('myUsername', $scope.userName);
             //getProfile Picture
+            if ($scope.isFacebookUser == false) {
             serverAPI.getPhoto(UID, data.profilePhotoId, function (data) {
                 if(data == -8){
                     console.log("No image uploaden: set to avatar")
@@ -45,12 +46,13 @@ if ($scope.isFacebookUser == false) {
                 }
                 window.localStorage.setItem('myProfilePicture', $scope.profilePicture);
             });
-        });
+        
 
 } else {
     $scope.user = JSON.parse(window.localStorage.getItem('user'));
        $scope.profilePicture = 'http://graph.facebook.com/' + $scope.user.id + '/picture?width=270&height=270';
 }
+            });
 
         serverAPI.getRecentEvents(UID, function (data) {
             $scope.events = data;
