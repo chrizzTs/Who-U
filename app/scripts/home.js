@@ -7,74 +7,21 @@ angular.module('home', ['services'])
         cssInjector.removeAll();    
     
    $scope.isFacebookUser = window.localStorage.getItem('Facebook');
-   /* 
-    $scope.useFacebookPhoto = function(){
-                //Grap geoLocation
-                    
-             openFB.api({
-        path: '/me/picture',
-        params: {fields: 'redirect, url'},
-        success: function(picture) {
-            $scope.$apply(function() {
-                console.log(picture);
-            });
-            
-        },
-        error: function(error) {
-            alert('Facebook error: ' + error.error_description);
-        }
-    });   
-            };
+   
     
-     $scope.useFacebookPhoto();
+
     
         $scope.buttonType = "icon ion-search";
-<<<<<<< HEAD
-        $scope.buttonDisable;
-        
-            var searchButtonStatus=window.localStorage.getItem('searchButton');
-            console.log('SearchButtonStatus: '+searchButtonStatus);
-            if(searchButtonStatus=='true'){
-                $scope.buttonDisable=false;
-            }else if(searchButtonStatus=='false'){
-                $scope.buttonDisable=true;
-            }
-        */
-        console.log('$scope.buttonDisable: '+$scope.buttonDisable);
     
-        /*$scope.change;
-        $scope.buttonDisable;
-        if($scope.change=='disable searchButton'){
-            $scope.buttonDisable=true;
-        }else{
-            $scope.buttonDisable=false;
-        }
-        */
+        
     
-        $scope.changeButton=function(){
-            $scope.buttonDisable=false;
-        }
-        
-        
-         $scope.$watch('$scope.buttonDisable', function () {
-            $scope.disableSearch=function(){
-                if($scope.buttonDisable==true){
-                    return true;
-                    console.log('im Watch im if');
-                }else{
-                    return false;
-                    console.log('im Watch im else');
-                }
-            }
-        });
-        
-=======
+
         $rootScope.buttonDisable;
->>>>>>> 42d12a5daf718602439b811b00b99f15d72a1059
+
         $scope.text = 'Search';
 
         $scope.profilePhotoId, $scope.profilePicture;
-if ($scope.isFacebookUser == false) {
+
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         serverAPI.getUserData(UID, function (data) {
             console.log(data);
@@ -94,10 +41,7 @@ if ($scope.isFacebookUser == false) {
                 window.localStorage.setItem('myProfilePicture', $scope.profilePicture);
             });
         });
-} else {
-    $scope.user = JSON.parse(window.localStorage.getItem('user'));
-       $scope.profilePicture = 'http://graph.facebook.com/' + $scope.user.id + '/picture?width=270&height=270';
-}
+
 
         serverAPI.getRecentEvents(UID, function (data) {
             $scope.events = data;
