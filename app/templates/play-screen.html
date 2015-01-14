@@ -1,6 +1,6 @@
 <ion-view title="Play" right-buttons="Done">
 <ion-nav-buttons side="right">
-  <button class="button button-clear" ui-sref="tab.home">Done</button>
+  <button class="button button-clear" ng-click="done()">Done</button>
  </ion-nav-buttons>
 
   <ion-content class="play-content">
@@ -42,7 +42,7 @@
       <div id="icons">
         <div class="item tabs tabs-secondary tabs-icon-left">
           <a class="tab-item" ui-sref="tab.map"><i class="icon ion-map"></i></a>
-          <a class="tab-item" href="#"><i class="icon ion-chatbubble"></i></a>
+          <a class="tab-item" ng-disabled=buttonDisable ng-click="pushToOtherUser()"><i class="icon ion-chatbubble"></i></a>
           <a class="tab-item" ng-if="skipUser=='true'" ng-click="doSkipUser()"><i class="icon ion-chevron-right"></i></a>
         </div>
       </div>

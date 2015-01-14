@@ -5,6 +5,10 @@ angular.module('home', ['services'])
     function ($scope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
 
         cssInjector.removeAll();
+    
+        //Init Data so User does not have to wait till callback
+        $scope.coins = 0;
+        $scope.profilePicture = 'img/cover.png'
 
         $scope.buttonType = "icon ion-search";
         
@@ -34,6 +38,7 @@ angular.module('home', ['services'])
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         serverAPI.getUserData(UID, function (data) {
             console.log(data);
+            $scope.pushId = data.pushId;
             $scope.userName = data.userName;
             $scope.coins = data.coins;
             $scope.profilePhotoId = data.profilePhotoId;
@@ -167,18 +172,30 @@ angular.module('home', ['services'])
                         window.localStorage.setItem('teammatePosition', JSON.stringify(teammatePosition));
                         //TODO: data.fotoId => request foto from server
                         $state.go('tab.play-screen');
+                        //Notify player that somebody is looking for him
+                        serverAPI.pushSearchStarted(UID, function(result){
+                            console.log("Push started send to serve:" + result)
+                        })
                     }
 
 
                 })
             }
         }
+        
+/************************************************************************************
+        PUSH-NOTIFICATION
+                                */
+        
+    //Register Notification at Goolge Server only if it has not been registered yet.
+    if($scope.pushId != undefined){
     enablePushNotification();
+    }
     
     function enablePushNotification() {
             document.addEventListener("deviceready", function () {
                 var pushNotification = window.plugins.pushNotification.register(function(result){
-                      alert('Callback Success! Result = ' + result)
+                      console.log('Callback Success! Result = ' + result)
                 }, function(error){
                               alert("ErrorHandler");
             alert(error);
@@ -191,16 +208,14 @@ angular.module('home', ['services'])
            , false)
         }
         
-       window.onNotificationGCM = function (e) {
-            alert("onNotification extra factory")
-            
+       window.onNotificationGCM = function (e) { 
+           console.log(e)
                 switch( e.event )
         {
             case 'registered':
                 if ( e.regid.length > 0 )
                 {
                     console.log("Regid " + e.regid);
-                    alert('registration id = '+e.regid);
                     serverAPI.insertPushId(UID, e.regid, function(result){
                         console.log("transmitted regid to Serve successfully")
                     })
@@ -208,8 +223,11 @@ angular.module('home', ['services'])
             break;
  
             case 'message':
-              // this is the actual push notification. its format depends on the data model from the push server
-              alert('message = '+e.message+' msgcnt = '+e.msgcnt);
+            conso.log("is message")
+            if(e.payload.isMessage){
+            $rootScope.toUser = e.payload.userId
+             $state.go('tab.chat-detail')  
+            }
             break;
  
             case 'error':
@@ -223,10 +241,7 @@ angular.module('home', ['services'])
          
         }
     
-    
-    
-    
-    
+    /*END PUSH NOTIFICATION */
     
     
     

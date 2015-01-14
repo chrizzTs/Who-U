@@ -12,20 +12,10 @@
 
         <ion-scroll direction='y' style="height: 500px">
             <ul class="animate-repeat" ng-repeat="entry in events">
-                <li ng-if="entry.type == 'message'">
-                    <div class="item item-avatar">
-                        <img src="img/cover.png">
-                        <h2>Message from {{entry.from}}</h2>
-                        <p>{{entry.message}}</p>
-                    </div>
-                </li>
-
-                <li ng-if="entry.type == 'played'">
-                    <div class="item item-avatar">
+                <li class="item item-avatar">
                         <img src="img/cover.png">
                         <h2>Played with {{entry.user}}</h2>
                         <p>{{entry.date | date : 'MMMM dd, yyyy'}}</p>
-                    </div>
                 </li>
             </ul>
         </ion-scroll>

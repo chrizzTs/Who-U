@@ -26,6 +26,7 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
                 }
             
                $scope.toUser.picture= pic
+               $scope.toUser.name = userData.userName
                
           })
       })

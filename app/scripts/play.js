@@ -2,12 +2,18 @@
 
 angular.module('play', ['serverAPI'])
 
-.controller('playCtrl', ['$scope', 'cssInjector', 'serverAPI',
-    function($scope, cssInjector, serverAPI) {
+.controller('playCtrl', ['$scope', 'cssInjector', 'serverAPI', '$ionicPopup' , '$state',
+    function($scope, cssInjector, serverAPI, $ionicPopup, $state) {
 
       //add Styles
       cssInjector.removeAll();
       cssInjector.add('styles/play.css');
+        
+    var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+    var GID = window.localStorage.getItem('gameId');
+        
+
+        //Init Data
 
       $scope.skipUser = 'false';
       $scope.skipUser = window.localStorage.getItem('skipUser');
@@ -78,14 +84,33 @@ angular.module('play', ['serverAPI'])
 
         //executeFunctions
         $scope.fetchDataFromLocalStorage(); $scope.checkEnumeration();
+        //Handling the Push sending to other User. 
+        $scope.pushToOtherUser = function(){
+         $scope.buttonDisable=true;
+        serverAPI.pushStandardMessage(window.localStorage.getItem('teammateUID'), function(result){
+                console.log("Callback PushToOtherUSer" + result)
+            } )
+       
+        }
+        
+    $scope.done = function() {
+   var confirmPopup = $ionicPopup.confirm({
+     title: 'Attention!',
+     template: 'Are you sure you want to finish this game?'
+   });
+   confirmPopup.then(function(res) {
+     if(res) {
+       $state.go('home');
+     } 
+
+   });
+ };
 
         $scope.doSkipUser=function(){
          console.log('User wird übersprungen');
             $scope.skipUser='false';
             window.localStorage.setItem('skipUser', 'false');
-            
-            var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
-            var GID = window.localStorage.getItem('gameId');
+        
             serverAPI.skipUser(UID, GID, function(data){
                 console.log('serverAPI.skipUser: ');
             });
