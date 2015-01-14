@@ -55,7 +55,7 @@ angular.module('login', [])
                 }
             })
         }
-<<<<<<< HEAD
+
     
     
      $scope.facebookLogin = function () {
@@ -119,84 +119,11 @@ angular.module('login', [])
     });
          }
              
-             
-         $scope.createFacebookUser = function(){
-                    console.log($scope.user.name);
-             console.log($scope.user.email);
-             console.log($scope.user.id);
-              var myPosition;
-                var location = navigator.geolocation.getCurrentPosition(function (geoData) {
-                    myPosition = {
-                        'longitude': geoData.coords.longitude,
-                        'latitude': geoData.coords.latitude
-=======
-
-
-        $scope.facebookLogin = function () {
-
-
-            openFB.login(
-                function (response) {
-                    if (response.status === 'connected') {
-                        console.log('Facebook login succeeded');
-                        //   console.log(response.grantedScopes);
-                        $scope.goToHome();
-                        $scope.closeLogin();
-                    } else {
-                        alert('Facebook login failed');
->>>>>>> origin/master
-                    }
-                }, {
-                    scope: 'email, user_photos',
-                    return_scopes: true
-                });
-
-        }
 
 
 
-        $scope.goToHome = function () {
-            //Catch GeoData to initialize useres position and to grant access to GPS.
-            //Grap geoLocation
 
-            openFB.api({
-                path: '/me',
-                params: {
-                    fields: 'id,name, first_name'
-                },
-                success: function (user) {
-                    $scope.$apply(function () {
-                        $scope.user = user;
-                        window.localStorage.setItem('user', user);
-                        console.log(user);
-                    });
-                    serverAPI.loginWithMail($scope.user.id, 'facebook', function (data) {
-                        if (data != '-3') {
-                            console.log(data)
-                            var sessionKey = data //parseInt(data.substring(2))
-                            if (data instanceof Object) {
-                                window.localStorage.setItem('Credentials', JSON.stringify(data));
-                                window.localStorage.setItem('visible', true);
-                                window.localStorage.setItem('searchButton', 'true');
-                                window.location = "#/tab/home";
-                                services.initBackgroundGps();
-                                services.startBackgroundGps();
-                            } else {
-                                $scope.loginFailed = true;
-                            }
-                        } else {
-                            $scope.createFacebookUser();
-                        }
-                    })
-
-                },
-                error: function (error) {
-                    alert('Facebook error: ' + error.error_description);
-                }
-            });
-        }
-
-
+       
         $scope.createFacebookUser = function () {
             console.log($scope.user.name);
             console.log($scope.user.email);
