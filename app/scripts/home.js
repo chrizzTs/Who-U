@@ -55,7 +55,9 @@ $scope.isFacebookUser = window.localStorage.getItem('Facebook');
             });
 
         serverAPI.getRecentEvents(UID, function (data) {
-            $scope.events = data;
+            if(typeof data==='object'){
+                 $scope.events = data; 
+            }
             console.log(data);    
         });
 

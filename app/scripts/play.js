@@ -100,7 +100,7 @@ angular.module('play', ['serverAPI'])
    });
    confirmPopup.then(function(res) {
      if(res) {
-       $state.go('home');
+       $state.go('tab.home');
      } 
 
    });
