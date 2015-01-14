@@ -49,7 +49,6 @@ module.factory('serverAPI', function ($http) {
                 'longitude': longitude,
                 'latitude': latitude
             }
-            console.log(user)
             $http.post(host + newUserPath, user).success(callback).error(function (err) {
                 console.log(err)
             })

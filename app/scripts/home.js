@@ -2,38 +2,29 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
+    function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
+
 
         cssInjector.removeAll();
+       $scope.isFacebookUser = window.localStorage.getItem('Facebook');
     
         //Init Data so User does not have to wait till callback
         $scope.coins = 0;
         $scope.profilePicture = 'img/cover.png'
 
+    
         $scope.buttonType = "icon ion-search";
+    
         
-        //$scope.buttonDisable;
-        //$scope.$watch(function(){return window.localStorage.getItem('searchButton')}, function(){
-            var searchButtonStatus=window.localStorage.getItem('searchButton');
-            if(searchButtonStatus=='true'){
-                $scope.buttonDisable=false;
-            }else if(searchButtonStatus=='false'){
-                $scope.buttonDisable=true;
-            }
-        //})
     
-        /*$scope.change;
-        $scope.buttonDisable;
-        if($scope.change=='disable searchButton'){
-            $scope.buttonDisable=true;
-        }else{
-            $scope.buttonDisable=false;
-        }
-        */
-    
+
+        $rootScope.buttonDisable;
+
         $scope.text = 'Search';
 
         $scope.profilePhotoId, $scope.profilePicture;
+$scope.isFacebookUser = window.localStorage.getItem('Facebook');
+if ($scope.isFacebookUser == false) {
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         serverAPI.getUserData(UID, function (data) {
@@ -56,8 +47,10 @@ angular.module('home', ['services'])
             });
         });
 
-
-
+} else {
+    $scope.user = JSON.parse(window.localStorage.getItem('user'));
+       $scope.profilePicture = 'http://graph.facebook.com/' + $scope.user.id + '/picture?width=270&height=270';
+}
 
         serverAPI.getRecentEvents(UID, function (data) {
             $scope.events = data;
@@ -92,22 +85,14 @@ angular.module('home', ['services'])
 
 
         $scope.click = function () {
-            //console.log($scope.buttonDisable);
-            //disables search button on home.js. (skipUser Benefit)
-            $scope.buttonDisable = true;
-            //$scope.change='disable searchButton';
-            window.localStorage.setItem('searchButton', 'false');
+            $rootScope.buttonDisable=true;
             $scope.text='Disabled for 10s';
-            //enables search button on home.js
-            $interval(function(){
-                console.log('in der Intervallfunktion');
-                //$scope.change='enable search button';
-                $scope.buttonDisable=false;
-                window.clearInterval();
-                window.localStorage.setItem('searchButton', 'true');
-                //window.location.reload();
+        
+            $scope.enabler=$interval(function(){
+                $rootScope.buttonDisable=false;
+                $interval.cancel($scope.enabler);
             }, 10000);
-            console.log('Timer läuft (15s)');
+            
             console.log('Button disable: '+$scope.buttonDisable);
 
             console.log($scope.text);
@@ -140,6 +125,9 @@ angular.module('home', ['services'])
                 });
             };
 
+        
+            
+            
             //Send current location to Server to receive teammate
             function sendToServer(myPosition) {
                 serverAPI.searchPartnerToPlayWith(myPosition.longitude, myPosition.latitude, UID, function (data) {
@@ -155,6 +143,7 @@ angular.module('home', ['services'])
                         //Reset Button to start state
                         $scope.text = 'Search';
                         $scope.buttonDisable = false;
+                        window.localStorage.setItem('disableSearchButton', 'false');
                         $scope.buttonType = "icon ion-search"
 
                     } else {

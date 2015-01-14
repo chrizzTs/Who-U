@@ -110,9 +110,8 @@ angular.module('play', ['serverAPI'])
          console.log('User wird übersprungen');
             $scope.skipUser='false';
             window.localStorage.setItem('skipUser', 'false');
-        
             serverAPI.skipUser(UID, GID, function(data){
-                console.log('serverAPI.skipUser: ');
+                console.log('serverAPI.skipUser: '+data);
             });
             
         }
