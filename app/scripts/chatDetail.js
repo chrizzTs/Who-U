@@ -2,9 +2,9 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
 
 
 .controller('chatDetailCtrl', ['$scope', '$rootScope', '$state',
-  '$stateParams', 'MockService', '$ionicActionSheet', '$ionicScrollDelegate', '$timeout', '$interval', 'cssInjector',
-  function ($scope, $rootScope, $state, $stateParams, MockService,
-        $ionicActionSheet, $ionicScrollDelegate, $timeout, $interval, cssInjector) {
+  '$stateParams', '$ionicActionSheet', '$ionicScrollDelegate', '$timeout', '$interval', 'cssInjector', 'serverAPI',
+  function ($scope, $rootScope, $state, $stateParams,
+        $ionicActionSheet, $ionicScrollDelegate, $timeout, $interval, cssInjector, serverAPI) {
 
         cssInjector.add('styles/chatDetail.css')
         $rootScope.hideFooter = true;
@@ -16,22 +16,30 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
       
         // Chatpartners User Data
         $scope.toUser = $rootScope.toUser;
+      serverAPI.getUserData($scope.toUser.id, function(userData){
+          serverAPI.getPhoto($scope.toUser.id, userData.profilePhotoId, function(pic){
+              //No picture set => set to avatar  
+              if(pic ==-8){
+                    pic= 'img/cover.png'
+                }
             
-//            {
-//            id: '534b8e5aaa5e7afc1b23e69b',
-//            picture: 'http://ionicframework.com/img/docs/venkman.jpg',
-//            name: 'Venkman'
-//        }
+               $scope.toUser.picture= pic
+               
+          })
+      })
+    
+      
 
         //My Own data
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+        var pictue = window.localStorage.getItem('myProfilePicture')
+      
         $scope.user = {
             id: UID,
             picture: window.localStorage.getItem('myProfilePicture'),
-            name: window.localStorage.getItem('myname')
+            name: window.localStorage.getItem('myUsername')
         };
-
-      console.log(UID)
+      
 
         //Saving typed messages that have not been sent to local storage and to initialize them when the chat is reopened.
         $scope.input = {
@@ -80,19 +88,37 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
 
 
         //Retrive Messages from Server
-        function getMessages() {
-            // the service is mock but you would probably pass the toUser's GUID here
-            MockService.getUserMessages({
-                toUserId: $scope.toUser.id
-            }).then(function (data) {
-                $scope.doneLoading = true;
-                $scope.messages = data.messages;
+//
+//     $scope.$watch('messages', function (newValue, oldValue) {
+//         console.log("change messages from undefined")
+//         
+//         
+//         if($scope.message != undefined ){
+//             console.log("messages is not undefined")
+//            $scope.doneLoading = true;
+//         }
+//      
+//        });
+//      
+      
+    //Init get messages  
+    serverAPI.getPreviousMessages(UID,  $scope.toUser.id, function(messages){
+              $scope.messages = messages;
+              })
+                
+                
+    $scope.doneLoading = true;
+      function getMessages(){
+          setInterval(function () {
+            console.log("loading Messages")
+          serverAPI.getPreviousMessages(UID,  $scope.toUser.id, function(messages){
+              $scope.messages = messages;
+              })    
+          }, 3000);
+          
+      }
+      
 
-                $timeout(function () {
-                    viewScroll.scrollBottom();
-                }, 0);
-            });
-        }
 
         //Saving input Message to local Storage
         $scope.$watch('input.message', function (newValue, oldValue) {
@@ -102,36 +128,30 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
 
         //Send message to Server
         $scope.sendMessage = function (sendMessageForm) {
-            var message = {
-                toId: $scope.toUser.id,
-                text: $scope.input.message
-            };
-
+         
             keepKeyboardOpen();
+//            message.picture = $scope.user.picture;
 
-            //MockService.sendMessage(message).then(function(data) {
-            $scope.input.message = '';
-
-            message.id = new Date().getTime(); // :~)
-            message.date = new Date();
-            message.name = $scope.user.name;
-            message.userId = $scope.user.id;
-            message.picture = $scope.user.picture;
-
-            $scope.messages.push(message);
+            $scope.messages.push({'message':$scope.input.message, 'timeStamp': new Date(), 'userSent': UID});
+            
+            console.log("UID" + $scope.user.id)
+            console.log("Message SENT ID" + $scope.user.id)
 
             $timeout(function () {
                 keepKeyboardOpen();
                 viewScroll.scrollBottom(true);
             }, 0);
 
-            $timeout(function () {
-                $scope.messages.push(MockService.getMockMessage());
-                keepKeyboardOpen();
-                viewScroll.scrollBottom(true);
-            }, 2000);
+            
+            console.log("eigene UID:" + UID);
+            console.log("Partner UID" + $scope.toUser.id)
+            
+            serverAPI.sendMessage(UID,  $scope.toUser.id, $scope.input.message,  new Date(), function(result){
+                console.log("send Message Callback" + result);
+            })
+                 $scope.input.message = '';
 
-            //});
+
         };
 
         // this keeps the keyboard open on a device only after sending a message, it is non obtrusive
@@ -193,42 +213,6 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
 
 }])
 
-// services
-.factory('MockService', ['$http', '$q',
-  function ($http, $q) {
-        var me = {};
-
-        me.getUserMessages = function (d) {
-            /*
-      var endpoint =
-        'http://www.mocky.io/v2/547cf341501c337f0c9a63fd?callback=JSON_CALLBACK';
-      return $http.jsonp(endpoint).then(function(response) {
-        return response.data;
-      }, function(err) {
-        console.log('get user messages error, err: ' + JSON.stringify(
-          err, null, 2));
-      });
-      */
-            var deferred = $q.defer();
-
-            setTimeout(function () {
-                deferred.resolve(getMockMessages());
-            }, 1500);
-
-            return deferred.promise;
-        };
-
-        me.getMockMessage = function () {
-            return {
-                userId: '534b8e5aaa5e7afc1b23e69b',
-                date: new Date(),
-                text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-            };
-        }
-
-        return me;
-  }
-])
 
 // fitlers
 .filter('nl2br', ['$filter',
@@ -282,93 +266,12 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
   }
 ])
 
-function onProfilePicError(ele) {
-    this.ele.src = ''; // set a fallback
-}
-
-function getMockMessages() {
-    return {
-        "messages": [{
-            "id": "535d625f898df4e80e2a125e",
-            "text": "Ionic has changed the game for hybrid app development.",
-            "userId": "54b3dd32011aa47a60e65238",
-            "date": "2014-04-27T20:02:39.082Z",
-            "read": true,
-            "readDate": "2014-12-01T06:27:37.944Z"
-        }, {
-            "id": "535f13ffee3b2a68112b9fc0",
-            "text": "I like Ionic better than ice cream!",
-            "userId": "534b8e5aaa5e7afc1b23e69b",
-            "date": "2014-04-29T02:52:47.706Z",
-            "read": true,
-            "readDate": "2014-12-01T06:27:37.944Z"
-        }, {
-            "id": "546a5843fd4c5d581efa263a",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            "userId": "54b3dd32011aa47a60e65238",
-            "date": "2014-11-17T20:19:15.289Z",
-            "read": true,
-            "readDate": "2014-12-01T06:27:38.328Z"
-        }, {
-            "id": "54764399ab43d1d4113abfd1",
-            "text": "Am I dreaming?",
-            "userId": "534b8e5aaa5e7afc1b23e69b",
-            "date": "2014-11-26T21:18:17.591Z",
-            "read": true,
-            "readDate": "2014-12-01T06:27:38.337Z"
-        }, {
-            "id": "547643aeab43d1d4113abfd2",
-            "text": "Is this magic?",
-            "userId": "54b3dd32011aa47a60e65238",
-            "date": "2014-11-26T21:18:38.549Z",
-            "read": true,
-            "readDate": "2014-12-01T06:27:38.338Z"
-        }, {
-            "id": "547815dbab43d1d4113abfef",
-            "text": "Gee wiz, this is something special.",
-            "userId": "534b8e5aaa5e7afc1b23e69b",
-            "date": "2014-11-28T06:27:40.001Z",
-            "read": true,
-            "readDate": "2014-12-01T06:27:38.338Z"
-        }, {
-            "id": "54781c69ab43d1d4113abff0",
-            "text": "I think I like Ionic more than I like ice cream!",
-            "userId": "54b3dd32011aa47a60e65238",
-            "date": "2014-11-28T06:55:37.350Z",
-            "read": true,
-            "readDate": "2014-12-01T06:27:38.338Z"
-        }, {
-            "id": "54781ca4ab43d1d4113abff1",
-            "text": "Yea, it's pretty sweet",
-            "userId": "534b8e5aaa5e7afc1b23e69b",
-            "date": "2014-11-28T06:56:36.472Z",
-            "read": true,
-            "readDate": "2014-12-01T06:27:38.338Z"
-        }, {
-            "id": "5478df86ab43d1d4113abff4",
-            "text": "Wow, this is really something huh?",
-            "userId": "54b3dd32011aa47a60e65238",
-            "date": "2014-11-28T20:48:06.572Z",
-            "read": true,
-            "readDate": "2014-12-01T06:27:38.339Z"
-        }, {
-            "id": "54781ca4ab43d1d4113abff1",
-            "text": "Create amazing apps - ionicframework.com",
-            "userId": "534b8e5aaa5e7afc1b23e69b",
-            "date": "2014-11-29T06:56:36.472Z",
-            "read": true,
-            "readDate": "2014-12-01T06:27:38.338Z"
-        }],
-        "unread": 0
-    };
-}
-
 // configure moment relative time
 moment.locale('en', {
     relativeTime: {
         future: "in %s",
         past: "%s ago",
-        s: "%d sec",
+        s: "a moment",
         m: "a minute",
         mm: "%d minutes",
         h: "an hour",

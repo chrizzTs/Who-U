@@ -91,7 +91,7 @@ angular.module('settings', ['services'])
             console.log(credentials.UID);
             if (credentials.UID != null && credentials.UID != '') {
                 serverAPI.logout(credentials.UID, function (data) {
-                    window.localStorage.removeItem('Credentials');
+                    localStorage.clear();
                     window.location = '#/login';
                 });
             }

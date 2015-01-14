@@ -4,7 +4,8 @@ angular.module('coins', ['serverAPI'])
     .controller('coinsCtrl', function ($scope, serverAPI, cssInjector) {
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
-    window.localStorage.setItem('skipUser', 'true');
+        window.localStorage.setItem('skipUser', 'true');
+        console.log('Für Testing: skipUser-Benefit wurde gekauft');
 
         serverAPI.getUserData(UID, function (data) {
             $scope.coins = data.coins;

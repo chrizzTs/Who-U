@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('play', [])
+angular.module('play', ['serverAPI'])
 
 .controller('playCtrl', ['$scope', 'cssInjector', 'serverAPI',
     function($scope, cssInjector, serverAPI) {
@@ -9,9 +9,9 @@ angular.module('play', [])
       cssInjector.removeAll();
       cssInjector.add('styles/play.css');
 
-      $scope.skipUser = false;
-
-      // $scope.skipUser = window.localStorage.getItem('skipUser');
+      $scope.skipUser = 'false';
+      $scope.skipUser = window.localStorage.getItem('skipUser');
+        console.log('SkipUser ist: '+$scope.skipUser);
 
       $scope.task;
       //fetch all data from localStorage from tab-home
@@ -79,6 +79,18 @@ angular.module('play', [])
         //executeFunctions
         $scope.fetchDataFromLocalStorage(); $scope.checkEnumeration();
 
+        $scope.doSkipUser=function(){
+         console.log('User wird übersprungen');
+            $scope.skipUser='false';
+            window.localStorage.setItem('skipUser', 'false');
+            
+            var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+            var GID = window.localStorage.getItem('gameId');
+            serverAPI.skipUser(UID, GID, function(data){
+                console.log('serverAPI.skipUser: ');
+            });
+            
+        }
 
       }
       ])

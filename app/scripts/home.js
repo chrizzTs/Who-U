@@ -2,12 +2,31 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
+    function ($scope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
 
         cssInjector.removeAll();
 
         $scope.buttonType = "icon ion-search";
-        $scope.buttonDisable = false;
+        
+        //$scope.buttonDisable;
+        //$scope.$watch(function(){return window.localStorage.getItem('searchButton')}, function(){
+            var searchButtonStatus=window.localStorage.getItem('searchButton');
+            if(searchButtonStatus=='true'){
+                $scope.buttonDisable=false;
+            }else if(searchButtonStatus=='false'){
+                $scope.buttonDisable=true;
+            }
+        //})
+    
+        /*$scope.change;
+        $scope.buttonDisable;
+        if($scope.change=='disable searchButton'){
+            $scope.buttonDisable=true;
+        }else{
+            $scope.buttonDisable=false;
+        }
+        */
+    
         $scope.text = 'Search';
 
         $scope.profilePhotoId, $scope.profilePicture;
@@ -20,12 +39,15 @@ angular.module('home', ['services'])
             $scope.profilePhotoId = data.profilePhotoId;
             window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
             window.localStorage.setItem('myUsername', $scope.userName);
-              //getProfile Picture
+            //getProfile Picture
             serverAPI.getPhoto(UID, data.profilePhotoId, function (data) {
-                console.log(data.profilePhotoId);
-                console.log(data.data)
-                $scope.profilePicture = data.data;
-                window.localStorage.setItem('myProfilePicture', data.data);
+                if(data == -8){
+                    console.log("No image uploaden: set to avatar")
+                    $scope.profilePicture = 'img/cover.png'
+                }else{
+                      $scope.profilePicture = data.data;
+                }
+                window.localStorage.setItem('myProfilePicture', $scope.profilePicture);
             });
         });
 
@@ -64,15 +86,27 @@ angular.module('home', ['services'])
         };
 
 
-
-
         $scope.click = function () {
-            console.log($scope.buttonDisable);
+            //console.log($scope.buttonDisable);
+            //disables search button on home.js. (skipUser Benefit)
             $scope.buttonDisable = true;
-            console.log($scope.buttonDisable);
+            //$scope.change='disable searchButton';
+            window.localStorage.setItem('searchButton', 'false');
+            $scope.text='Disabled for 10s';
+            //enables search button on home.js
+            $interval(function(){
+                console.log('in der Intervallfunktion');
+                //$scope.change='enable search button';
+                $scope.buttonDisable=false;
+                window.clearInterval();
+                window.localStorage.setItem('searchButton', 'true');
+                //window.location.reload();
+            }, 10000);
+            console.log('Timer läuft (15s)');
+            console.log('Button disable: '+$scope.buttonDisable);
 
             console.log($scope.text);
-            $scope.text = 'Searching';
+            //$scope.text = 'Searching';
             console.log($scope.text);
 
             console.log($scope.buttonType);
@@ -104,6 +138,7 @@ angular.module('home', ['services'])
             //Send current location to Server to receive teammate
             function sendToServer(myPosition) {
                 serverAPI.searchPartnerToPlayWith(myPosition.longitude, myPosition.latitude, UID, function (data) {
+                    console.log('searchPartnerToPlayWith: '+data);
 
                     //No other players around you. Server returns -1 
                     if (data == -1) {
@@ -111,16 +146,23 @@ angular.module('home', ['services'])
                             title: 'Too bad :(',
                             template: 'Unfortunateley there are no other players around you. Try it some other time!'
                         });
+
+                        //Reset Button to start state
+                        $scope.text = 'Search';
+                        $scope.buttonDisable = false;
+                        $scope.buttonType = "icon ion-search"
+
                     } else {
                         window.localStorage.setItem('teammate', data.username);
                         window.localStorage.setItem('isEnumeration', data.taskType);
                         window.localStorage.setItem('task', data.task);
                         window.localStorage.setItem('teammateUID', data.otherUserId);
+                        window.localStorage.setItem('gameId', data.gameId);
                         console.log("Teammate Data")
                         console.log(data)
                         var teammatePosition = {
                             'longitude': data.longitude,
-                            'latitude': data.latitude
+                            'latitude ': data.latitude
                         };
                         window.localStorage.setItem('teammatePosition', JSON.stringify(teammatePosition));
                         //TODO: data.fotoId => request foto from server
@@ -131,5 +173,59 @@ angular.module('home', ['services'])
                 })
             }
         }
-        services.enablePushNotification();
+    enablePushNotification();
+    
+    
+    function enablePushNotification() {
+            document.addEventListener("deviceready", function () {
+                var pushNotification = window.plugins.pushNotification.register(function(result){
+                      alert('Callback Success! Result = ' + result)
+                }, function(error){
+                              alert("ErrorHandler");
+            alert(error);
+                }, {
+                    "senderID": "168615009802",
+                    "ecb": "onNotificationGCM"
+                });
+          }
+                                      
+           , false)
+        }
+        
+       window.onNotificationGCM = function (e) {
+            alert("onNotification extra factory")
+            
+                switch( e.event )
+        {
+            case 'registered':
+                if ( e.regid.length > 0 )
+                {
+                    console.log("Regid " + e.regid);
+                    alert('registration id = '+e.regid);
+                }
+            break;
+ 
+            case 'message':
+              // this is the actual push notification. its format depends on the data model from the push server
+              alert('message = '+e.message+' msgcnt = '+e.msgcnt);
+            break;
+ 
+            case 'error':
+              alert('GCM error = '+e.msg);
+            break;
+ 
+            default:
+              alert('An unknown GCM event has occurred');
+              break;
+        }
+         
+        }
+    
+    
+    
+    
+    
+    
+    
+    
     })

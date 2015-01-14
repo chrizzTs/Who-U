@@ -26,9 +26,17 @@ angular.module('feedback', ['serverAPI'])
         serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
             $scope.ratedName = data.userName;
         });
+        
+        if($scope.ratedName=='user deleted'){
+            $scope.counter++;
+            if ($scope.counter < $scope.openGames.length) {
+                console.log('Counter für games: ' + $scope.counter);
+            } else {
+                window.location = "#/tab/home";
+            }
+        }
     });
 
-    //Doesn't work for now...why?!?
     if (stayInTouch == 'true') {
         $scope.userChoiceContact = {
             mode: true
@@ -168,7 +176,7 @@ angular.module('feedback', ['serverAPI'])
 
     $scope.notContacted = function () {
         //stayInTouch=1: keep contact; stayInTouch=0: no further contact
-        serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, 0, $scope.openGames[$scope.counter].gameId, sendStayInTouch, function (data) {
+        serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, 0, $scope.openGames[$scope.counter].gameId, 0, function (data) {
             console.log('No Contact, Score=0: ' + data);
 
             $scope.counter++;
