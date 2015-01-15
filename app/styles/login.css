@@ -1,9 +1,12 @@
+.scroll-content{
+  background-image: url(../img/IntroPic.jpg);
+}
+
 .full {
     position: absolute;
     margin-top: 0%;
     height: 100%;
     width: 100%;
-    background-image: url(../img/IntroPic.jpg);
     z-index: 1;
 }
 .box {

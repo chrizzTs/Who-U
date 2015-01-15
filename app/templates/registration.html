@@ -1,43 +1,52 @@
 <ion-view title="Registration" hide-nav-bar="true">
-    <div class="full">
-        <form name="regForm" class="regForm" novalidate>
-            <h1>Registration</h1>
-            <p>
-                <label class="item item-input">
-                    <input type="text" id="user" ng-model="user" placeholder="Enter user name" ng-minlength="5" required>
-                </label>
-                <span style="color:white" ng-show="showWarningUser">
+    <ion-content class="padding">
+        <div class="full">
+            <form name="regForm" class="regForm" novalidate>
+                <h1>Registration</h1>
+                <p>
+                    <label class="item item-input">
+                        <input type="text" id="user" ng-model="user" placeholder="Enter user name" ng-minlength="5" required>
+                    </label>
+                    <span style="color:white" ng-show="showWarningUser">
                             <span>User name needs at least 5 characters</span>
-                </span>
-            </p>
-            <p>
-                <label class="item item-input">
-                    <input type="password" id="password1" ng-model="password1" placeholder="Enter a password" ng-minlength="5" required>
-                </label>
-                <span style="color:white" ng-show="showWarningPW1">
+                    </span>
+                </p>
+                <p>
+                    <label class="item item-input">
+                        <input type="password" id="password1" ng-model="password1" placeholder="Enter a password" ng-minlength="5" required>
+                    </label>
+                    <span style="color:white" ng-show="showWarningPW1">
                             <span>Password needs at least 5 characters</span>
-                </span>
-            </p>
-            <p>
-                <label class="item item-input">
-                    <input type="password" id="password2" ng-model="password2" placeholder="Repeat password" required>
-                </label>
-                <span style="color:white" ng-show="showWarningPW2">
+                    </span>
+                </p>
+                <p>
+                    <label class="item item-input">
+                        <input type="password" id="password2" ng-model="password2" placeholder="Repeat password" required>
+                    </label>
+                    <span style="color:white" ng-show="showWarningPW2">
                             <span>Passwords are not identical</span>
-                </span>
-                <span style="color:white" ng-show="showWarningEmpty">
+                    </span>
+                    <span style="color:white" ng-show="showWarningEmpty">
                             <span>Second password is empty</span>
-                </span>
-            </p>
-            <p>
-                <label class="item item-input">
-                    <input type="email" id="EMail" ng-model="EMail" placeholder="Enter E-Mail address" ng-minlength="5" required>
-                </label>
-                <span style="color:white" ng-show="showWarningEMail">
+                    </span>
+                </p>
+                <p>
+                    <label class="item item-input">
+                        <input type="email" id="EMail" ng-model="EMail" placeholder="Enter E-Mail address" ng-minlength="5" required>
+                    </label>
+                    <span style="color:white" ng-show="showWarningEMail">
                             <span>This is no valid E-Mail</span>
-                </span>
-            </p>
-            <button class="button button-balanced" ng-click="submit()" type="submit">Register</button>
-        </form>
-    </div>
+                    </span>
+                </p>
+                <button class="button button-balanced" ng-click="submit()" type="submit">Register</button>
+            </form>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+    </ion-content>
 </ion-view>

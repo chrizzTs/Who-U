@@ -1,34 +1,36 @@
 <ion-view title="Login" hide-nav-bar="true">
-    <div class="full">
-        <div class="box">
-            <h1>Login</h1>
-            <form name="loginForm" id="loginForm" novalidate>
-                <label class="item item-input">
-                    <input name="name" class="name" type="email" placeholder="E-Mail" ng-model="EMail" required>
-                </label>
-                <label class="item item-input">
-                    <input name="password" class="email" type="password" placeholder="Password" ng-model="password" required>
-                </label>
-                <button class="button button-balanced" ng-click="submit()" type="submit">Login</button>
-            </form>
-            <button class="button button-positive" ng-click="facebookLogin()">
-                        Login with facebook
-                    </button>
-            <p>
-                Not a member?
-                <a href="#/registration">
-                    <button class="button button-positive">
-                        Sign Up!
-                    </button>
-                </a>
-            </p>
-            <p>
-                <div ng-show="loginFailed">
-                    <center style="color:white">
-                        E-Mail or password incorrect
-                    </center>
-                </div>
-            </p>
+    <ion-content class="padding">
+        <div class="full">
+            <div class="box">
+                <h1>Login</h1>
+                <form name="loginForm" id="loginForm" novalidate>
+                    <label class="item item-input">
+                        <input name="name" class="name" type="email" placeholder="E-Mail" ng-model="EMail" required>
+                    </label>
+                    <label class="item item-input">
+                        <input name="password" class="email" type="password" placeholder="Password" ng-model="password" required>
+                    </label>
+                    <button class="button button-balanced" ng-click="submit()" type="submit">Login</button>
+                </form>
+                <button class="button button-positive" ng-click="facebookLogin()">
+                    Login with facebook
+                </button>
+                <p>
+                    Not a member?
+                    <a href="#/registration">
+                        <button class="button button-positive">
+                            Sign Up!
+                        </button>
+                    </a>
+                </p>
+                <p>
+                    <div ng-show="loginFailed">
+                        <center style="color:white">
+                            E-Mail or password incorrect
+                        </center>
+                    </div>
+                </p>
+            </div>
         </div>
-    </div>
+    </ion-content>
 </ion-view>

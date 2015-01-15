@@ -1,3 +1,7 @@
+.scroll-content{
+  background-image: url(../img/IntroPic.jpg);
+}
+
 .regForm {
     margin-left: auto;
     margin-right: auto;
@@ -35,7 +39,6 @@
     margin-top: 0%;
     height: 100%;
     width: 100%;
-    background-image: url(../img/IntroPic.jpg);
     z-index: 1;
 }
 .regForm h1 {
