@@ -87,6 +87,11 @@ angular.module('settings', ['services'])
 
     $scope.logout = function () {
         var credentials = JSON.parse(window.localStorage.getItem('Credentials'));
+        var isFacebookUser = window.localStorage.getItem('facebook');
+        if (isFacebookUser){
+            openFB.logout(function (response) {
+                });
+        }
         if (credentials != null) {
             console.log(credentials.UID);
             if (credentials.UID != null && credentials.UID != '') {

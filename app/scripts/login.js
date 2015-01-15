@@ -67,7 +67,7 @@ angular.module('login', [])
                 console.log('Facebook login succeeded');
              //   console.log(response.grantedScopes);
                 $scope.goToHome();
-                $scope.closeLogin();
+
             } else {
                 alert('Facebook login failed');
             }

@@ -53,12 +53,38 @@ $scope.isFacebookUser = window.localStorage.getItem('Facebook');
        $scope.profilePicture = 'http://graph.facebook.com/' + $scope.user.id + '/picture?width=270&height=270';
 }
             });
-
+$scope.otherPlayerPictures = new Array();
+    
         serverAPI.getRecentEvents(UID, function (data) {
             if(typeof data==='object'){
                  $scope.events = data; 
             }
             console.log(data);    
+            for (var i = 0; i < data.length; i++){
+                var otherPlayerUid = data[i].userId;
+                serverAPI.getUserData(otherPlayerUid, function(data) {
+                console.log(data);
+                    var profilePhotoId = data.profilePhotoId;
+                    serverAPI.getPhoto(data.id, data.profilePhotoId, function(photoData){
+                        console.log(photoData);
+                        var entry;
+                        if(photoData == -8){
+                        entry = {
+                            'id': photoData.id,
+                            'picture': 'img/cover.png'
+                            
+                        }
+                        } else {
+                            entry = {
+                             'id': photoData.id,
+                             'picture': photoData.picture
+                            }
+                        }
+                        $scope.otherPlayerPictures.push(entry);
+                    })
+                })
+                
+            }
         });
 
         serverAPI.getGamesToRate(UID, getGamesToRate);
