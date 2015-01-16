@@ -46,7 +46,7 @@ angular.module('login', [])
                     window.localStorage.setItem('Credentials', JSON.stringify(data));
                     window.localStorage.setItem('visible', true);
                     window.localStorage.setItem('searchButton', 'true');
-                    window.localStorage.setItem('Facebook', false);
+                    window.localStorage.setItem('Facebook', 'false');
                     window.location = "#/tab/home";
                     services.initBackgroundGps();
                     services.startBackgroundGps();
@@ -67,6 +67,7 @@ angular.module('login', [])
                 console.log('Facebook login succeeded');
              //   console.log(response.grantedScopes);
                 $scope.goToHome();
+                
 
             } else {
                 alert('Facebook login failed');
@@ -79,10 +80,13 @@ angular.module('login', [])
      
      
      
+     
+     
          $scope.goToHome = function(){
                //Catch GeoData to initialize useres position and to grant access to GPS.
                 //Grap geoLocation
-                    
+          
+            
              openFB.api({
         path: '/me',
         params: {fields: 'id,name, first_name'},
@@ -90,9 +94,10 @@ angular.module('login', [])
             $scope.$apply(function() {
                 $scope.user = user;
                 window.localStorage.setItem('user', JSON.stringify(user));
-                window.localStorage.setItem('facebook', true);
+                window.localStorage.setItem('facebook', 'true');
                 console.log(user);
             });
+             
             serverAPI.loginWithMail($scope.user.id, 'facebook', function (data) {
                 if (data != '-3'){
                 console.log(data)
@@ -116,7 +121,9 @@ angular.module('login', [])
         error: function(error) {
             alert('Facebook error: ' + error.error_description);
         }
+                
     });
+             
          }
              
 

@@ -2,7 +2,7 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector) {
+    function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector, $http, base64) {
 
 
         cssInjector.removeAll();
@@ -23,7 +23,7 @@ angular.module('home', ['services'])
         $scope.text = 'Search';
 
         $scope.profilePhotoId, $scope.profilePicture;
-$scope.isFacebookUser = window.localStorage.getItem('Facebook');
+$scope.isFacebookUser = window.localStorage.getItem('facebook');
 
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
@@ -36,11 +36,13 @@ $scope.isFacebookUser = window.localStorage.getItem('Facebook');
             window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
             window.localStorage.setItem('myUsername', $scope.userName);
             //getProfile Picture
-            if ($scope.isFacebookUser == false) {
             serverAPI.getPhoto(UID, data.profilePhotoId, function (data) {
                 if(data == -8){
                     console.log("No image uploaden: set to avatar")
                     $scope.profilePicture = 'img/cover.png'
+                    if ($scope.isFacebookUser == 'true'){
+                        addFBProfilePicture();
+                    }
                 }else{
                       $scope.profilePicture = data.data;
                 }
@@ -48,10 +50,7 @@ $scope.isFacebookUser = window.localStorage.getItem('Facebook');
             });
         
 
-} else {
-    $scope.user = JSON.parse(window.localStorage.getItem('user'));
-       $scope.profilePicture = 'http://graph.facebook.com/' + $scope.user.id + '/picture?width=270&height=270';
-}
+
             });
 $scope.otherPlayerPictures = new Array();
     
@@ -96,6 +95,52 @@ $scope.otherPlayerPictures = new Array();
                 'message: ' + error.message + '\n');
         }
 
+    
+     
+        function addFBProfilePicture(){
+           openFB.api({
+        path: '/me/picture',
+        params: {
+            redirect: 'false',
+            width: '380',
+            height: '380',
+            fields: 'url'},
+        success: function(picture) {
+            $scope.$apply(function() {
+           
+        
+        var facebookprofilePhoto = new Image();
+    facebookprofilePhoto.setAttribute('width', '380');
+    facebookprofilePhoto.setAttribute('height', '380');
+    facebookprofilePhoto.setAttribute('crossorigin', 'anonymous');
+    facebookprofilePhoto.setAttribute('src', picture.data.url);
+    console.log(facebookprofilePhoto);
+    
+    var c = document.createElement('canvas');
+    c.setAttribute('width', '380');
+    c.setAttribute('height', '380');
+    var ctx = c.getContext("2d");
+    ctx.drawImage(facebookprofilePhoto, 10, 10, 380, 380);
+ var encodedImage = c.toDataURL('image/jpeg', 0.5);
+        console.log(encodedImage);
+            
+            serverAPI.saveNewPhoto(UID, encodedImage, function(data){
+                    $scope.profilePicture = encodedImage;
+                });
+            
+                 $scope.picture = picture;
+                console.log(picture);
+                window.localStorage.setItem('facebookProfilePicture', JSON.stringify(picture));
+            })
+            
+        },
+        error: function(error){
+            console.log(error.error_description);
+        }
+        })
+        }
+                      
+    
         function getGamesToRate(data) {
             //Check if there are any new feedback sheets availalbe
             if (data == -10) {} else {
