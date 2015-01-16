@@ -51,6 +51,11 @@ h1 {
   opacity: 0.8;
 }
 
+.hero-image {
+    position: absolute;
+    z-index: 1;
+}
+
 .hero-image > img {
   height: auto;
   width: 100%;
@@ -86,4 +91,24 @@ h1 {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 0.5em;
+}
+
+.image-icon {
+  font-size: 4em;
+  position: absolute;
+  right: 0.5em;
+  z-index: 3;
+    color: blue;
+}
+
+.ion-trash-a {
+    right: 0.5em;
+}
+
+.ion-star {
+  right: 1.5em;   
+}
+
+div.hero-icons {
+ background-color: white;   
 }

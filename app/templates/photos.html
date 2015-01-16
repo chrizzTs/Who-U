@@ -6,8 +6,14 @@
         <div id="gallery" ng-if="userHasPictures==true">
             <ion-scroll direction="x" class="wide-as-needed">
                 <div class="image-list"><img ng-repeat="img in images" ng-src="{{img.image}}" ng-click="setHero(img)"></div></ion-scroll>
-    <div class="hero-image"><img ng-src="{{selection}}"></div>
-            <button class="button button-full button-positive" ng-click="deletePhoto()">Delete Photo</button>
+    <div class="hero-image">
+        <div class="hero-icons">
+        <i class="image-icon icon ion-star"></i>
+        <i class="image-icon icon ion-trash-a" ng-click="deletePhoto()"></i>
+        </div>
+        <img ng-src="{{selection}}">
+            </div>
+     <!--       <button class="button button-full button-positive" ng-click="deletePhoto()">Delete Photo</button>-->
   </div>    
     <div ng-if="userHasPictures==false">You currently have no Pictures. Press the Plus in the upper right corner to load pictures for your profile</div>
         

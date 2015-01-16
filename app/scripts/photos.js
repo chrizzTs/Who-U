@@ -99,7 +99,12 @@ angular.module('photos', [])
 
       $scope.loaded = true;
 
+      $scope.setImageAsProfilePicture = function(){
+        serverAPI.updateProfilPhoto(UID, $scope.selectionPhotoId, function(data){})                   
     }
+      
+    }
+                        
                            
 
 ]);
