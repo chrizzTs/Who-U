@@ -2,7 +2,7 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector, $http, base64) {
+    function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector, $http) {
 
 
         cssInjector.removeAll();

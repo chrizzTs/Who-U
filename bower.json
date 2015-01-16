@@ -14,8 +14,6 @@
     "angular-elastic": "~2.4.2",
     "Autolinker": "https://github.com/gregjacobs/Autolinker.js",
     "Autolinker.js": "~0.15.2",
-    "angular-fblogin": "*",
-    "angular-openfb": "*",
     "openfb": "*"
   },
   "devDependencies": {
