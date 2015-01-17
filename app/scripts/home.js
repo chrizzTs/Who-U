@@ -20,13 +20,17 @@ angular.module('home', ['services'])
     // and signed request each expire
     var uid = response.authResponse.userID;
     var accessToken = response.authResponse.accessToken;
+      getUserData();
   } else if (response.status === 'unknown') {
     // the user is logged in to Facebook, 
     // but has not authenticated your app
       console.log('not authenticated');
-      $state.go('login');
+      services.loginToFacebook();
+      getUserData();
   }
  });
+    } else {
+      getUserData();   
     }
     
         //Init Data so User does not have to wait till callback
@@ -48,7 +52,9 @@ $scope.isFacebookUser = window.localStorage.getItem('facebook');
 
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+function getUserData(){
         serverAPI.getUserData(UID, function (data) {
+            console.log(UID);
             console.log(data);
             $scope.pushId = data.pushId;
             $scope.userName = data.userName;
@@ -73,6 +79,7 @@ $scope.isFacebookUser = window.localStorage.getItem('facebook');
 
 
             });
+};
 $scope.otherPlayerPictures = new Array();
     
         serverAPI.getRecentEvents(UID, function (data) {

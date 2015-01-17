@@ -62,6 +62,24 @@ services.factory('services', function ($window) {
 
             }
         },
+        
+        loginToFacebook: function() {
+               
+         openFB.login(
+        function(response) {
+            if (response.status === 'connected') {
+                console.log('Facebook login succeeded');
+             //   console.log(response.grantedScopes);
+                
+
+            } else {
+                alert('Facebook login failed');
+            }
+        },
+        {scope: 'email, user_photos',
+        return_scopes: true});
+        },
+        
         endBackgroundGps: function () {
             if (window.cordova) {
                 bgGeo.stop()
