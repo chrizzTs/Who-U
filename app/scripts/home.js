@@ -6,7 +6,28 @@ angular.module('home', ['services'])
 
 
         cssInjector.removeAll();
-       $scope.isFacebookUser = window.localStorage.getItem('Facebook');
+       $scope.isFacebookUser = window.localStorage.getItem('facebook');
+    
+    if ($scope.isFacebookUser == 'true'){
+    openFB.getLoginStatus(function(response) {
+        console.log(response.status);
+  if (response.status === 'connected') {
+      console.log('connected to Facebook');
+    // the user is logged in and has authenticated your
+    // app, and response.authResponse supplies
+    // the user's ID, a valid access token, a signed
+    // request, and the time the access token 
+    // and signed request each expire
+    var uid = response.authResponse.userID;
+    var accessToken = response.authResponse.accessToken;
+  } else if (response.status === 'unknown') {
+    // the user is logged in to Facebook, 
+    // but has not authenticated your app
+      console.log('not authenticated');
+      $state.go('login');
+  }
+ });
+    }
     
         //Init Data so User does not have to wait till callback
         $scope.coins = 0;
@@ -37,7 +58,7 @@ $scope.isFacebookUser = window.localStorage.getItem('facebook');
             window.localStorage.setItem('myUsername', $scope.userName);
             //getProfile Picture
             serverAPI.getPhoto(UID, data.profilePhotoId, function (data) {
-                if(data == -8){
+                if(data == -8){ 
                     console.log("No image uploaden: set to avatar")
                     $scope.profilePicture = 'img/cover.png'
                     if ($scope.isFacebookUser == 'true'){
@@ -115,15 +136,17 @@ $scope.otherPlayerPictures = new Array();
     facebookprofilePhoto.setAttribute('crossorigin', 'anonymous');
     facebookprofilePhoto.setAttribute('src', picture.data.url);
     console.log(facebookprofilePhoto);
-    
+    if(document.readyState === "complete") {
+  //Already loaded!
+        console.log('ready');
     var c = document.createElement('canvas');
     c.setAttribute('width', '380');
     c.setAttribute('height', '380');
+    }
     var ctx = c.getContext("2d");
     ctx.drawImage(facebookprofilePhoto, 10, 10, 380, 380);
  var encodedImage = c.toDataURL('image/jpeg', 0.5);
         console.log(encodedImage);
-            
             serverAPI.saveNewPhoto(UID, encodedImage, function(data){
                     $scope.profilePicture = encodedImage;
                 });
@@ -132,6 +155,7 @@ $scope.otherPlayerPictures = new Array();
                 console.log(picture);
                 window.localStorage.setItem('facebookProfilePicture', JSON.stringify(picture));
             })
+            
             
         },
         error: function(error){

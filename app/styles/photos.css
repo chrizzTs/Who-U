@@ -110,5 +110,10 @@ h1 {
 }
 
 div.hero-icons {
- background-color: white;   
+ background-color: white; 
+position: absolute;
+    right: 0.5em;
+    top: 0.5em;
+ width: 10em;
+    height: 4em;
 }

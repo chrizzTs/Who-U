@@ -73,7 +73,23 @@ angular.module('photos', [])
                       $scope.userHasPictures = 1;
           window.localStorage.setItem('userHasPictures', '1');
          $scope.images = JSON.parse(window.localStorage.getItem('userPhotos'));
-        $scope.selection = $scope.images[0].image;
+        $scope.selection = $scope.
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        images[0].image;
             $scope.selectionPhotoId = $scope.images[0].photoId;
         }
       })
