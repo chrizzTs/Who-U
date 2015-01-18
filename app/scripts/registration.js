@@ -3,6 +3,7 @@
 angular.module('registration', ['serverAPI'])
     .controller('regCtrl', function ($scope, serverAPI, cssInjector) {
 
+        cssInjector.removeAll();
         cssInjector.add('styles/registration.css');
 
         $scope.user;

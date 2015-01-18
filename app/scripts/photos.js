@@ -21,18 +21,20 @@ angular.module('photos', [])
     //initialize the selection photo and the selected photoId
     $scope.selection;
     $scope.selectionPhotoId = 0;
-
+    $scope.profilePhotoId;
     //initialize the array in which images of the user will be stored
     $scope.images = new Array();
 
     //get user ID from Server
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
 
+      
     $scope.photoIds = window.localStorage.getItem('photoIds');  
     //get User Data from Server. Everything depends on this data so every single method has to be written into the callback
     serverAPI.getUserData(UID, function(data) {
+        $scope.profilePhotoId = data.profilePhotoId;
       $scope.photoIds = window.localStorage.getItem('photoIds');
-
+     
       //check if the wished photos are already in localStorage.
     //  if (window.localStorage.getItem('userPhotos') === null) {
         //if server photoIds are newer than the localStorage photoIds, the photoIds are set to the ones from the server

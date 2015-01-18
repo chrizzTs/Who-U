@@ -8,6 +8,9 @@ angular.module('home', ['services'])
         cssInjector.removeAll();
        $scope.isFacebookUser = window.localStorage.getItem('facebook');
     
+    var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+    $scope.pushId, $scope.userName, $scope.coins, $scope.profilePhotoId;
+    
     if ($scope.isFacebookUser == 'true'){
     openFB.getLoginStatus(function(response) {
         console.log(response.status);
@@ -51,7 +54,7 @@ angular.module('home', ['services'])
 $scope.isFacebookUser = window.localStorage.getItem('facebook');
 
 
-        var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+        
 function getUserData(){
         serverAPI.getUserData(UID, function (data) {
             console.log(UID);

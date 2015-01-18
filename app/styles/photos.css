@@ -109,6 +109,14 @@ h1 {
   right: 1.5em;   
 }
 
+.blue-star {
+ color: 'blue'   
+}
+
+.yellow-star {
+ color: 'yellow'    
+}
+
 div.hero-icons {
  background-color: white; 
 position: absolute;
