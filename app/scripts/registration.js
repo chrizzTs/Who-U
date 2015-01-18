@@ -23,7 +23,8 @@ angular.module('registration', ['serverAPI'])
                         'longitude': geoData.coords.longitude,
                         'latitude': geoData.coords.latitude
                     }
-                    console.log('' + $scope.user + $scope.password1 + $scope.EMail + myPosition.longitude + myPosition.latitude)
+                    console.log('Daten die an den Server gehen:' + $scope.user + $scope.password1 + $scope.EMail + myPosition.longitude + myPosition.latitude);
+                    
                     serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail, myPosition.longitude, myPosition.latitude, function (data) {
                         console.log(data);
                         var storedCredentials

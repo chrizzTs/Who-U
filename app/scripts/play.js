@@ -113,11 +113,30 @@ angular.module('play', ['serverAPI'])
             window.localStorage.setItem('skipUser', 'false');
             serverAPI.skipUser(UID, GID, function (data) {
                 console.log('serverAPI.skipUser: ' + data);
+                //UID=data.UID;
+                //GID=data.gameId;
             });
+            
+            //Ganz elegant: diese Zeilen als eigene Funktion schreiben: ist sauberer und Code ist nicht doppelt.
+            /*serverAPI.getUserData(UID, function (data) {
+                $scope.photoIds = data.photoIds;
 
+                //loop for getting the image data of every photo
+                for (var i = 0; i < $scope.photoIds.length; i++) {
+                    serverAPI.getPhoto(UID, $scope.photoIds[i], function (data) {
+                        $scope.imageJson = data;
+                        
+                        //array of JSONs with the photoId and data is pushed into localStorage
+                        var entry = {
+                            "photoId": $scope.imageJson.id,
+                            "image": $scope.imageJson.data
+                        };
+                        $scope.slides.push(entry);
+                    })
+                    Alter und neuer Spieler haben zur Zeit noch die gleichen Aufgaben
+                }
+            })*/
         }
 
       }
-      ])
-
-;
+      ]);
