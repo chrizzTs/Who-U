@@ -70,7 +70,6 @@ clearInterval(retriveMessagesIntervall);
             message: localStorage['userMessage-' + $scope.toUser.id] || ''
         };
 
-        var messageCheckTimer;
 
         var viewScroll = $ionicScrollDelegate.$getByHandle('userMessageScroll');
         var footerBar; // gets set in $ionicView.enter
@@ -78,42 +77,32 @@ clearInterval(retriveMessagesIntervall);
         var txtInput; // 
 
         getMessages();
-        $scope.$on('$ionicView.enter', function () {
-            console.log('UserMessages $ionicView.enter');
 
-
-
-
-            $timeout(function () {
-                footerBar = document.body.querySelector('#userMessagesView .bar-footer');
-                scroller = document.body.querySelector('#userMessagesView .scroll-content');
-                txtInput = angular.element(footerBar.querySelector('textarea'));
-            }, 0);
-
-            messageCheckTimer = $interval(function () {
-                // here you could check for new messages if your app doesn't use push notifications or user disabled them
-            }, 20000);
-        });
-
+    
 
 
       
     //Init get messages  
     serverAPI.getPreviousMessages(UID,  $scope.toUser.id, function(messages){
               $scope.messages = messages;
-          $scope.doneLoading = true;
+                $scope.doneLoading = true;
+            $ionicScrollDelegate.scrollBottom();
               })
-                
-                
+      
   
       var retriveMessagesIntervall
       function getMessages(){
          retriveMessagesIntervall=  setInterval(function () {
             console.log("loading Messages")
           serverAPI.getPreviousMessages(UID,  $scope.toUser.id, function(messages){
-              $scope.messages = messages;
+              if($scope.messages.length < messages){
+                   $scope.messages = messages;
+                  $ionicScrollDelegate.scrollBottom();
+              }
+             
+              
+            
               })   
-          $ionicScrollDelegate.scrollBottom();
           }, 1000);
           
       }
@@ -130,39 +119,20 @@ clearInterval(retriveMessagesIntervall);
         $scope.sendMessage = function (sendMessageForm) {
             
             $scope.msgCount --;
-            keepKeyboardOpen();
-//            message.picture = $scope.user.picture;
 
             $scope.messages.push({'message':$scope.input.message, 'timeStamp': new Date(), 'userSent': UID});
             
-            console.log("UID" + $scope.user.id)
-            console.log("Message SENT ID" + $scope.user.id)
-
-            $timeout(function () {
-                keepKeyboardOpen();
-                viewScroll.scrollBottom(true);
-            }, 0);
-
-            
-            console.log("eigene UID:" + UID);
-            console.log("Partner UID" + $scope.toUser.id)
+            $ionicScrollDelegate.scrollBottom();
             
             serverAPI.sendMessage(UID,  $scope.toUser.id, $scope.input.message,  new Date(), function(result){
-                console.log("send Message Callback" + result);
+                if(result < 0){
+                    console.error("Erro sending Message: " + result)
+                }
             })
                  $scope.input.message = '';
-
-
         };
 
-        // this keeps the keyboard open on a device only after sending a message, it is non obtrusive
-        function keepKeyboardOpen() {
-            console.log('keepKeyboardOpen');
-            // txtInput.one('blur', function () {
-            //      console.log('textarea blur, focus back on it');
-            //                txtInput[0].focus();
-            //            });
-        }
+
 
         $scope.onMessageHold = function (e, itemIndex, message) {
             console.log('onMessageHold');
