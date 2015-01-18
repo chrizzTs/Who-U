@@ -35,6 +35,7 @@ angular.module('play', ['serverAPI'])
         $scope.slides = new Array();
 
         serverAPI.getUserData(window.localStorage.getItem('teammateUID'), function (data) {
+            console.log(data);
 
             $scope.photoIds = data.photoIds;
 
@@ -42,16 +43,11 @@ angular.module('play', ['serverAPI'])
             for (var i = 0; i < $scope.photoIds.length; i++) {
 
                 serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), $scope.photoIds[i], function (data) {
+                    console.log(data);
+                    var imageJson = data;
 
-                    $scope.imageJson = data;
 
-                    //array of JSONs with the photoId and data is pushed into localStorage
-                    var entry = {
-                        "photoId": $scope.imageJson.id,
-                        "image": $scope.imageJson.data
-                    };
-
-                    $scope.slides.push(entry);
+                    $scope.slides.push(imageJson);
                 })
             }
         })

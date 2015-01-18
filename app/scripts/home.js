@@ -9,7 +9,7 @@ angular.module('home', ['services'])
        $scope.isFacebookUser = window.localStorage.getItem('facebook');
     
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
-    $scope.pushId, $scope.userName, $scope.coins, $scope.profilePhotoId;
+    $scope.pushId, $scope.userName, $scope.coins, $scope.profilePhotoId, $scope.events, $scope.eventsWithPictures;
     
     if ($scope.isFacebookUser == 'true'){
     openFB.getLoginStatus(function(response) {
@@ -83,35 +83,55 @@ function getUserData(){
 
             });
 };
-$scope.otherPlayerPictures = new Array();
+$scope.eventsWithPictures = new Array();
     
         serverAPI.getRecentEvents(UID, function (data) {
             if(typeof data==='object'){
                  $scope.events = data; 
-            }
-            console.log(data);    
+                console.log(data);
+            }   
             for (var i = 0; i < data.length; i++){
+
                 var otherPlayerUid = data[i].userId;
                 serverAPI.getUserData(otherPlayerUid, function(data) {
-                console.log(data);
-                    var profilePhotoId = data.profilePhotoId;
-                    serverAPI.getPhoto(data.id, data.profilePhotoId, function(photoData){
-                        console.log(photoData);
-                        var entry;
-                        if(photoData == -8){
-                        entry = {
-                            'id': photoData.id,
-                            'picture': 'img/cover.png'
-                            
-                        }
-                        } else {
-                            entry = {
-                             'id': photoData.id,
-                             'picture': photoData.picture
+                    if (data.profilePhotoId < 0){
+                        var index;
+                         for (var j =0; j < $scope.events.length; j++){
+                            if ($scope.events[j].userId == data.id){
+                                index = j;
+                                console.log('index: ' + index);
                             }
                         }
-                        $scope.otherPlayerPictures.push(entry);
+                        var  entry = {
+                            'id': $scope.events[index].userId,
+                            'user': $scope.events[index].user,
+                            'picture': 'img/cover.png',
+                            'date': $scope.events[index].date
+                            
+                        }
+                        $scope.eventsWithPictures.push(entry);
+                    } else {
+                    serverAPI.getPhoto(data.id, data.profilePhotoId, function(photoData){
+                        console.log(photoData);
+                         var entry;
+                    
+                        var index = 0;
+                        for (var j =0; j < $scope.events.length; j++){
+                            if ($scope.events[j].userId == photoData.userId){
+                                index = j;
+                            }
+                        }
+                            entry = {
+                             'id': photoData.userId,
+                            'user': $scope.events[index].user,
+                             'picture': photoData.data,
+                                'date': $scope.events[index].date
+                            }
+                        
+                        $scope.eventsWithPictures.push(entry);
+                        console.log($scope.eventsWithPictures);
                     })
+                    }
                 })
                 
             }

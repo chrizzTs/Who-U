@@ -10,9 +10,9 @@
         </button>
 
         <ion-scroll direction='y' style="height: 500px">
-            <ul class="animate-repeat" ng-repeat="entry in events">
+            <ul class="animate-repeat" ng-repeat="entry in eventsWithPictures">
                 <li class="item item-avatar">
-                        <img src="img/cover.png">
+                        <img ng-src="{{entry.picture}}">
                         <h2>Played with {{entry.user}}</h2>
                         <p>{{entry.date | date : 'MMMM dd, yyyy'}}</p>
                 </li>
