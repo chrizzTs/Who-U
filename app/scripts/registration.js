@@ -10,6 +10,7 @@ angular.module('registration', ['serverAPI'])
         $scope.password1;
         $scope.password2;
         $scope.EMail;
+        $scope.EMailInUse=false;
 
         //Handling user submit
         $scope.submit = function () {
@@ -27,21 +28,28 @@ angular.module('registration', ['serverAPI'])
                     
                     serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail, myPosition.longitude, myPosition.latitude, function (data) {
                         console.log(data);
-                        var storedCredentials
-                        var newCredentials
-                        if ((storedCredentials = window.localStorage.getItem('Credentials')) != null) {
-                            storedCredentials = JSON.parse(storedCredentials)
-                            storedCredentials['UID'] = data
-                            storedCredentials['SessionKey'] = null
-                            newCredentials = storedCredentials
-                        } else {
-                            newCredentials = {
-                                'UID': data
+                        var check=parseInt(data);
+                        
+                        if(check==-2){
+                            $scope.EMailInUse=true;
+                        }else{
+                            var storedCredentials
+                            var newCredentials
+                            if ((storedCredentials = window.localStorage.getItem('Credentials')) != null) {
+                                storedCredentials = JSON.parse(storedCredentials)
+                                storedCredentials['UID'] = data
+                                storedCredentials['SessionKey'] = null
+                                newCredentials = storedCredentials
+                            } else {
+                                newCredentials = {
+                                    'UID': data
+                                }
                             }
+                            window.localStorage.setItem('Credentials', JSON.stringify(newCredentials));
+                            window.localStorage.setItem('visible', true);
+                            window.localStorage.setItem('saveData', 'true');
+                            window.location = "#/tab/home";
                         }
-                        window.localStorage.setItem('Credentials', JSON.stringify(newCredentials));
-                        window.localStorage.setItem('visible', true);
-                        window.location = "#/tab/home";
                     });
                 });
 
