@@ -6,16 +6,16 @@
         </div>
     </div>
     
-    <ion-content class="padding" >
+    <ion-content>
 
-        <i class="list" ng-repeat="partner in chatPartner" ng-if="doneLoading">
-            <i class="item item-avatar" ng-click="clicked({{partner}})">
+        <div class="list" ng-repeat="partner in chatPartner" ng-if="doneLoading">
+            <a class="item item-avatar" ng-click="clicked({{partner}})">
               
                 <img ng-src="{{partner.picture}}">
                 <h2>{{partner.name}}</h2>
                 <p>{{partner.message}}</p>
                 
-            </i>
-        </i>
+            </a>
+        </div>
     </ion-content>
 </ion-view>

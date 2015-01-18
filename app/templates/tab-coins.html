@@ -1,5 +1,5 @@
 <ion-view title="Coins">
-    <ion-content class="padding">
+    <ion-content>
         <div class=" row ">
             <div class="col col-50">Your current score is:</div>
             <div class="col col-50">
@@ -8,7 +8,7 @@
         </div>
         <div class="item item-divider "></div>
         <ul class="benefits ">
-            <div class="card ">
+       
                 <li ng-repeat="benefit in benefits | orderBy:orderProp">
                     <div class="item item-text-wrap ">
                         <div class="row ">
@@ -26,12 +26,8 @@
                     </div>
                     <br>
                 </li>
-            </div>
         </ul>
-        <div class="item item-divider "></div>
-        <center>
-            <br>
+
             <button class="button button-full button-positive ">Buy 40 more coins for €2,99</button>
-        </center>
     </ion-content>
 </ion-view>

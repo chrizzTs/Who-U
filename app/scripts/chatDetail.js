@@ -101,10 +101,11 @@ clearInterval(retriveMessagesIntervall);
     //Init get messages  
     serverAPI.getPreviousMessages(UID,  $scope.toUser.id, function(messages){
               $scope.messages = messages;
+          $scope.doneLoading = true;
               })
                 
                 
-    $scope.doneLoading = true;
+  
       var retriveMessagesIntervall
       function getMessages(){
          retriveMessagesIntervall=  setInterval(function () {

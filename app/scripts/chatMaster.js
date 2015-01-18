@@ -13,10 +13,11 @@ angular.module('chatMaster', ['chatDetail', 'serverAPI'])
     
 
     //Retrive all Users pictures 
-    getProfilePics = function (){
+    $rootScope.getMessages(function(){
+
     var loadingCounter = 0;
     for(var i = 0; i<$scope.chatPartner.length; i++){
-        if($scope.chatPartner[i].profilePhotoId){
+        if($scope.chatPartner[i].profilePhotoId < 0){
             $scope.chatPartner[i].picture = 'img/cover.png'
             loadingCounter++;
         }else{
@@ -36,13 +37,9 @@ angular.module('chatMaster', ['chatDetail', 'serverAPI'])
                 $scope.doneLoading = true;
                }
     }
-            }
-        
-          
-    
-
-
-    
+           
+    })         
+            
     //Redirects to chatDetail and passes all needed Chatinformation to chatDetail
     $scope.clicked = function (partner) {
         chatDetail.initChat(partner);

@@ -23,7 +23,9 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
     $rootScope.startMessageRetrivalTimer = function (){
         //Retrive new messages every 10 seconds
        setInterval(function(){
-    $rootScope.getMessages();
+    $rootScope.getMessages(function(){
+        
+    });
         
     }, 1000)
     }
@@ -35,13 +37,14 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
     
     $rootScope.chatPartner = new Array();
     var getMessagesLock = false;
-    $rootScope.getMessages = function (){
+    $rootScope.getMessages = function (callback){
     
     if(getMessagesLock){
         setTimeout(function(){
         $rootScope.getMessages();
 }, 200);
     }else{
+        
     $rootScope.getMessagesLock = true
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
     
@@ -74,9 +77,6 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
                         var x = $rootScope.chatPartner[j].id;
                         var y = usersCurrentlyPlayedWith[i];
                         
-                    console.log(x  + " vergleich " + y )
-                    console.log(x == y )
-
                         if(x == y){
                              $rootScope.chatPartner[j].message = message;
                         newPlayer= false;
@@ -93,8 +93,13 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
                                                 "profilePhotoId": userData.profilePhotoId});
                                     
                              
-                                i++;  
-                                getAllTeammateUserData();  
+                                i++; 
+                                if(i ==usersCurrentlyPlayedWith.length ){
+                                    callback('1')
+                                }else{
+                                    getAllTeammateUserData(); 
+                                }
+                                 
                              })
                         }
                 
