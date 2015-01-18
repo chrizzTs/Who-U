@@ -71,6 +71,9 @@
     "org.apache.cordova.inappbrowser",
     "http://github.com/phonegap-build/PushPlugin.git",
     "org.transistorsoft.cordova.background-geolocation",
-    "com.phonegap.plugins.pushplugin"
+    "com.phonegap.plugins.pushplugin",
+    "com.ionic.keyboard",
+    "org.apache.cordova.camera",
+    "https://github.com/phonegap-build/PushPlugin.git"
   ]
 }

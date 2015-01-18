@@ -9,6 +9,13 @@
                     <label class="item item-input">
                         <input name="password" class="email" type="password" placeholder="Password" ng-model="password" required>
                     </label>
+            
+                    <div ng-show="loginFailed">
+                        <center style="color:white">
+                            E-Mail or password incorrect
+                        </center>
+                    </div>
+                
                     <button class="button button-balanced" ng-click="submit()" type="submit">Login</button>
                 </form>
                 <button class="button button-positive" ng-click="facebookLogin()">
@@ -21,13 +28,6 @@
                             Sign Up!
                         </button>
                     </a>
-                </p>
-                <p>
-                    <div ng-show="loginFailed">
-                        <center style="color:white">
-                            E-Mail or password incorrect
-                        </center>
-                    </div>
                 </p>
             </div>
         </div>

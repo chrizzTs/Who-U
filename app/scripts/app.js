@@ -1,6 +1,6 @@
 angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map', 'coins', 'pictureTaker', 'feedback', 'photos', 'chatDetail'])
 
-.run(function ($ionicPlatform) {
+.run(function ($ionicPlatform, $rootScope, serverAPI) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -13,7 +13,112 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
         }
     });
     
+    
+    
+         /**********New ChatMessages****************/
+    
+    
+    
+    //Retriving function
+    $rootScope.startMessageRetrivalTimer = function (){
+        //Retrive new messages every 10 seconds
+       setInterval(function(){
+    $rootScope.getMessages();
+        
+    }, 1000)
+    }
+    
+    //Check if user is already logged in to start message retrival if so.
+    if(window.localStorage.getItem('Credentials') != null){
+     $rootScope.startMessageRetrivalTimer();   
+    }
+    
+    $rootScope.chatPartner = new Array();
+    var getMessagesLock = false;
+    $rootScope.getMessages = function (){
+    
+    if(getMessagesLock){
+        setTimeout(function(){
+        $rootScope.getMessages();
+}, 200);
+    }else{
+    $rootScope.getMessagesLock = true
+    var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+    
+    
+        serverAPI.getUsersCurrentlyPlayedWith(UID, function(usersCurrentlyPlayedWith){
+         var i = 0
+        getAllTeammateUserData();
+        function getAllTeammateUserData(){
+          
+            if(i<usersCurrentlyPlayedWith.length){
+                serverAPI.getPreviousMessages(UID, usersCurrentlyPlayedWith[i], function(messages){
+                    var msgCount = window.localStorage.getItem('msgCount'+usersCurrentlyPlayedWith[i])
+                    
+                    var message = ''
+                    if(messages.length>=1){
+                        message = messages[messages.length-1].message
+                     //New Message that has not been read yet.
+                    if(messages.length>msgCount && messages[messages.length-1].userSent != UID){
+                        $rootScope.emailIcon ="new"
+                        message = '●'+ message;
+                        console.log("new unread Message")
+                    }else{
+                        $rootScope.emailIcon=''
+                    }
+                    }
+                    
+                    //Update Array => not deleting otherwise picture cannot be injected later when needed
+                    var newPlayer =true;
+                    for(var j = 0; j<$rootScope.chatPartner.length;j++){
+                        var x = $rootScope.chatPartner[j].id;
+                        var y = usersCurrentlyPlayedWith[i];
+                        
+                    console.log(x  + " vergleich " + y )
+                    console.log(x == y )
+
+                        if(x == y){
+                             $rootScope.chatPartner[j].message = message;
+                        newPlayer= false;
+                        i++;  
+                        getAllTeammateUserData();  
+                        }
+                    }
+                    
+                            if(newPlayer){
+                             serverAPI.getUserData(usersCurrentlyPlayedWith[i], function(userData){
+                                 $rootScope.chatPartner.push({"id":usersCurrentlyPlayedWith[i],
+                                                "name": userData.userName,
+                                                "message": message,
+                                                "profilePhotoId": userData.profilePhotoId});
+                                    
+                             
+                                i++;  
+                                getAllTeammateUserData();  
+                             })
+                        }
+                
+  
+                })
+          
+                
+            }}
+               })
+        $rootScope.getMessagesLock = false
+        }
+        
+    }
+    
+    
+    
+/********END Chat Messages retrival *********/
+    
+
+    
+    
+    
    // OpenFB.init('339615032892277', 'https://www.facebook.com/connect/login_success.html');
+
 })
 
 
@@ -21,6 +126,10 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
 .config(function ($stateProvider, $urlRouterProvider, cssInjectorProvider, $compileProvider) {
 
     openFB.init({appId: '339615032892277'});
+    
+    
+  
+    
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
     // Set up the various states which the app can be in.
@@ -164,6 +273,10 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
 
 .controller('tabsCtrl',
     function ($state, $scope, $rootScope, services) {
+    $rootScope.$watch('emailIcon', function(){
+        $scope.emailIcon =$rootScope.emailIcon;
+    })
+    
     
      $rootScope.$watch('hideFooter', function (newValue, oldValue) {
          console.log("change hideStatus")

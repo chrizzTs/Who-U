@@ -54,10 +54,10 @@
 <form name="sendMessageForm" ng-submit="sendMessage(sendMessageForm)" novalidate>
     <ion-footer-bar class="bar-stable item-input-inset message-footer" keyboard-attach>
         <label class="item-input-wrapper">
-            <textarea msd-elastic ng-model="input.message" value="" placeholder="Send {{toUser.name}} a message..." required minlength="1" maxlength="1500">
+            <textarea msd-elastic ng-model="input.message" value="" placeholder="{{msgCount}} messages left ..." required minlength="1" maxlength="1500">
             </textarea>
         </label>
-        <button class="button-clear ion-ios-send" type="submit" ng-disabled="!input.message || input.message === ''">Send
+        <button class="button-clear ion-ios-send" type="submit" ng-disabled="!input.message || input.message === '' || msgCount == 0">Send
         </button>
     </ion-footer-bar>
 </form>

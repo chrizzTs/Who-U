@@ -11,8 +11,19 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         
       //scroll down to button
        $ionicScrollDelegate.scrollBottom();
+      
+
+      
+      //When leaving ChatDetail execute:
         $scope.$on("$destroy", function(){
+            //Display Footer for other websites
  $rootScope.hideFooter = false;
+            //Stop intervall to retrive messages
+clearInterval(retriveMessagesIntervall);
+            //Save message count to local storage to identivy unread messages
+            window.localStorage.setItem('msgCount'+$scope.toUser.id, $scope.messages.length)
+            //Update the new Message Status in the FooterBar 
+            $rootScope.getMessages();
 });
       
       
@@ -42,6 +53,16 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             picture: window.localStorage.getItem('myProfilePicture'),
             name: window.localStorage.getItem('myUsername')
         };
+      
+            //Find out how many messages are left to send:
+      serverAPI.getMessagesLeft(UID, $scope.toUser.id, function(msgCount){
+          if(msgCount >0){
+                  $scope.msgCount = msgCount;
+          }else{
+              console.error("Error receive messageCount: " + msgCount)
+          }
+      
+      })
       
 
         //Saving typed messages that have not been sent to local storage and to initialize them when the chat is reopened.
@@ -74,35 +95,8 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             }, 20000);
         });
 
-        $scope.$on('$ionicView.leave', function () {
-            console.log('leaving UserMessages view, destroying interval');
-            // Make sure that the interval is destroyed
-            if (angular.isDefined(messageCheckTimer)) {
-                $interval.cancel(messageCheckTimer);
-                messageCheckTimer = undefined;
-            }
-        });
-
-        $scope.$on('$ionicView.beforeLeave', function () {
-            if (!$scope.input.message || $scope.input.message === '') {
-                localStorage.removeItem('userMessage-' + $scope.toUser.id);
-            }
-        });
 
 
-        //Retrive Messages from Server
-//
-//     $scope.$watch('messages', function (newValue, oldValue) {
-//         console.log("change messages from undefined")
-//         
-//         
-//         if($scope.message != undefined ){
-//             console.log("messages is not undefined")
-//            $scope.doneLoading = true;
-//         }
-//      
-//        });
-//      
       
     //Init get messages  
     serverAPI.getPreviousMessages(UID,  $scope.toUser.id, function(messages){
@@ -133,7 +127,8 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
 
         //Send message to Server
         $scope.sendMessage = function (sendMessageForm) {
-         
+            
+            $scope.msgCount --;
             keepKeyboardOpen();
 //            message.picture = $scope.user.picture;
 
@@ -204,9 +199,6 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             if (!ta) return;
 
             var taHeight = ta[0].offsetHeight;
-            console.log('taHeight: ' + taHeight);
-
-
             if (!footerBar) return;
 
             var newFooterHeight = taHeight + 10;
@@ -217,11 +209,7 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         });
       
       
-      //End intervall to retrive new messages when leaving ChatDetail
-         $scope.$on("$destroy", function(){
-        clearInterval(retriveMessagesIntervall);
-    });
-
+   
 }])
 
 
