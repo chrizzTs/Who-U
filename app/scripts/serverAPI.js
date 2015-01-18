@@ -3,13 +3,10 @@ var module = angular.module('serverAPI', [])
 //Error codes:
 //OneNote
 
-//module.factory('APIServices', function ($http) {
-/*const http = require('http')
-const querystring = require('querystring')
-const request = require('request') */
-
+//const for the connection
 const host = 'https://whou.sabic.uberspace.de/api'
-const port = 443
+
+//consts describing the different paths
 const newUserPath = '/newUser'
 const loginWithMailPath = '/login/mail/'
 const loginWithSessionKeyPath = '/login/sessionkey'
@@ -38,9 +35,10 @@ const searchStartedPushPath = '/chat/searchStartedPush'
 const sendStandardMessagePath = '/chat/sendStandardMessage'
 const openSSEConnectionPath = '/chat/openSSEConnection'
 
-
+//the module that has to be included if an API has to be called
 module.factory('serverAPI', function ($http) {
     return {
+        //each method is built the same --> it takes a couple of necessary arguments and a callback, which is called as soon as the request is done. In the callback all error codes are handled.
         createNewUser: function (username, password, mail, longitude, latitude, callback) {
             var user = {
                 'username': username,
@@ -49,6 +47,8 @@ module.factory('serverAPI', function ($http) {
                 'longitude': longitude,
                 'latitude': latitude
             }
+
+            //For coomunication purposes we used the angularJS "$http" module.
             $http.post(host + newUserPath, user).success(callback).error(function (err) {
                 console.log(err)
             })
