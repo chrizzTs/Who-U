@@ -13,6 +13,8 @@ angular.module('photos', [])
 
     //remove all injected CSS Designs
     cssInjector.removeAll();
+      
+      $scope.profilePhotoIsShown = false;
 
     //default: user has no Pictures. Variable gets used to decide whether to display a gallery
     $scope.userHasPictures = false;
@@ -112,6 +114,7 @@ angular.module('photos', [])
     $scope.setHero = function(img) {
       $scope.selection = img.image;
       $scope.selectionPhotoId = img.photoId;
+      checkIfProfilePhotoIsShown();
     }
 
     $scope.userId = UID;
@@ -133,12 +136,19 @@ angular.module('photos', [])
     $scope.setImageAsProfilePicture = function() {
       console.log($scope.selectionPhotoId);
       serverAPI.updateProfilPhoto(UID, $scope.selectionPhotoId, function(data) {
-        console.log(data)
+        console.log(data);
+          if (data ==1){
+               window.location.reload(true);
+          }
       })
     }
+    
+ function checkIfProfilePhotoIsShown(){
+     if ($scope.selectionPhotoId == $scope.profilePhotoId)
+     {$scope.profilePhotoIsShown = true} else
+     {$scope.profilePhotoIsShown = false};
+ }
 
-  }
 
 
-
-]);
+  }]);

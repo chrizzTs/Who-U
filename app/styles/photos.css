@@ -98,11 +98,11 @@ h1 {
   position: absolute;
   right: 0.5em;
   z-index: 3;
-    color: blue;
 }
 
 .ion-trash-a {
     right: 0.5em;
+    color: blue;
 }
 
 .ion-star {
@@ -110,11 +110,11 @@ h1 {
 }
 
 .blue-star {
- color: 'blue'   
+ color: blue;   
 }
 
 .yellow-star {
- color: 'yellow'    
+ color: #FFCC00;    
 }
 
 div.hero-icons {

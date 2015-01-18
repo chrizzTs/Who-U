@@ -8,8 +8,8 @@
                 <div class="image-list"><img ng-repeat="img in images" ng-src="{{img.image}}" ng-click="setHero(img)"></div></ion-scroll>
     <div class="hero-image">
         <div class="hero-icons">
-        <i class="image-icon icon ion-star blue-star" ng-if="selectionPhotoId!=profilePhotoId" ng-click="setImageAsProfilePicture()"></i>
-        <i class="image-icon icon ion-star yellow-star" ng-if="selectionPhotoId==profilePhotoId"</i>
+        <i class="image-icon icon ion-star blue-star" ng-if="profilePhotoIsShown==false" ng-click="setImageAsProfilePicture()"></i>
+        <i class="image-icon icon ion-star yellow-star" ng-if="profilePhotoIsShown==true"></i>
         <i class="image-icon icon ion-trash-a" ng-click="deletePhoto()"></i>
         </div>
         <img ng-src="{{selection}}">
