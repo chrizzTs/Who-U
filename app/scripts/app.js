@@ -49,6 +49,9 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
         url: "/registration",
         templateUrl: "templates/registration.html",
         controller: 'regCtrl',
+        data: {
+            css: 'styles/registration.css'
+        }
     })
 
     // Each tab has its own nav history stack:
