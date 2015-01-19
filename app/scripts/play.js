@@ -2,8 +2,8 @@
 
 angular.module('play', ['serverAPI'])
 
-.controller('playCtrl', ['$scope', 'cssInjector', 'serverAPI', '$ionicPopup', '$state', 
-    function ($scope, cssInjector, serverAPI, $ionicPopup, $state) {
+.controller('playCtrl', ['$scope', 'cssInjector', 'serverAPI', '$ionicPopup', '$state', '$ionicSlideBoxDelegate',
+    function ($scope, cssInjector, serverAPI, $ionicPopup, $state, $ionicSlideBoxDelegate) {
 
         //add Styles
         cssInjector.removeAll();
@@ -44,6 +44,7 @@ angular.module('play', ['serverAPI'])
 
 
                     $scope.slides.push(imageJson);
+                    $ionicSlideBoxDelegate.update();
                 }) 
             } else {
             var counter =0;
@@ -60,7 +61,7 @@ angular.module('play', ['serverAPI'])
 
                     $scope.slides.push(imageJson);
                     if (counter == ($scope.photoIds.length-1)){
-                     $scope.repaint();
+                     $ionicSlideBoxDelegate.update();
                     }
                 })
             }
@@ -84,7 +85,7 @@ angular.module('play', ['serverAPI'])
 
             $scope.task = window.localStorage.getItem('task');
                
-            $scope.teammateUID = window.localStorage.getItem('teammateUID')
+            $scope.teammateUID = window.localStorage.getItem('teammateUID');
         };
         
 
@@ -107,7 +108,10 @@ angular.module('play', ['serverAPI'])
         $scope.fetchDataFromLocalStorage();
         $scope.checkEnumeration();
         $scope.loadImages();
-        //$scope.repaint();
+        $ionicSlideBoxDelegate.update();
+        document.getElementById('userPic').style.display = 'none';
+        document.getElementById('userPic').offsetHeight;
+            document.getElementById('userPic').style.display = 'block';
         //Handling the Push sending to other User. 
         $scope.pushToOtherUser = function () {
             $scope.buttonDisable = true;
