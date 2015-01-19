@@ -80,9 +80,6 @@ function getUserData(){
                 if(data == -8){ 
                     console.log("No image uploaden: set to avatar")
                     $scope.profilePicture = 'img/cover.png'
-                    if ($scope.isFacebookUser == 'true'){
-                        addFBProfilePicture();
-                    }
                 }else{
                       $scope.profilePicture = data.data;
                 }
@@ -172,53 +169,6 @@ $scope.eventsWithPictures = new Array();
 
     
      
-        function addFBProfilePicture(){
-           openFB.api({
-        path: '/me/picture',
-        params: {
-            redirect: 'false',
-            width: '380',
-            height: '380',
-            fields: 'url'},
-        success: function(picture) {
-            $scope.$apply(function() {
-           
-        
-        var facebookprofilePhoto = new Image();
-    facebookprofilePhoto.setAttribute('width', '380');
-    facebookprofilePhoto.setAttribute('height', '380');
-    facebookprofilePhoto.setAttribute('crossorigin', 'anonymous');
-    facebookprofilePhoto.setAttribute('src', picture.data.url);
-    console.log(facebookprofilePhoto);
-    if(document.readyState === "complete") {
-  //Already loaded!
-        console.log('ready');
-    var c = document.createElement('canvas');
-    c.setAttribute('width', '380');
-    c.setAttribute('height', '380');
-    }
-    var ctx = c.getContext("2d");
-    ctx.drawImage(facebookprofilePhoto, 10, 10, 380, 380);
- var encodedImage = c.toDataURL('image/jpeg', 0.5);
-        console.log(encodedImage);
-            serverAPI.saveNewPhoto(UID, encodedImage, function(data){
-                    $scope.profilePicture = encodedImage;
-                });
-            
-                 $scope.picture = picture;
-                console.log(picture);
-                window.localStorage.setItem('facebookProfilePicture', JSON.stringify(picture));
-            })
-            
-            
-        },
-        error: function(error){
-            console.log(error.error_description);
-        }
-        })
-        }
-                      
-    
         function getGamesToRate(data) {
             //Check if there are any new feedback sheets availalbe
             if (data == -10) {} else {

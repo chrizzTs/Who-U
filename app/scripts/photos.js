@@ -13,8 +13,9 @@ angular.module('photos', [])
 
     //remove all injected CSS Designs
     cssInjector.removeAll();
-      
-      $scope.profilePhotoIsShown = true;
+    cssInjector.add('styles/photos.css');
+    
+    $scope.profilePhotoIsShown = true;
 
     //default: user has no Pictures. Variable gets used to decide whether to display a gallery
     $scope.userHasPictures = false;
@@ -26,12 +27,54 @@ angular.module('photos', [])
     $scope.profilePhotoId = 0;
     //initialize the array in which images of the user will be stored
     $scope.images = new Array();
+    $scope.photoIds;
 
-    //get user ID from Server
-    var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
-
+    //get user ID from localStorage
+    var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;  
       
-    $scope.photoIds = window.localStorage.getItem('photoIds');  
+      loadImages();
+    
+    //if an image is clicked it gets displayed in big mode
+    $scope.setHero = function(img) {
+      $scope.selection = img.image;
+      $scope.selectionPhotoId = img.photoId;
+      checkIfProfilePhotoIsShown();
+    }
+
+    $scope.userId = UID;
+
+    $scope.loaded = false;
+
+    $scope.deletePhoto = function() {
+      console.log('userId: ' + $scope.userId);
+      console.log('selectionPhotoId: ' + $scope.selectionPhotoId);
+      serverAPI.deletePhoto($scope.userId, $scope.selectionPhotoId, function(data) {
+        console.log(data);
+           window.localStorage.setItem('userPhotos', null);
+       loadImages();
+      });
+    }
+
+    $scope.loaded = true;
+
+    $scope.setImageAsProfilePicture = function() {
+      console.log($scope.selectionPhotoId);
+      serverAPI.updateProfilPhoto(UID, $scope.selectionPhotoId, function(data) {
+        console.log(data);
+          if (data ==1){
+               loadImages();
+          }
+      })
+    }
+    
+ function checkIfProfilePhotoIsShown(){
+     if ($scope.selectionPhotoId == $scope.profilePhotoId)
+     {$scope.profilePhotoIsShown = true} else
+     {$scope.profilePhotoIsShown = false};
+ }
+      
+      function loadImages(){
+        $scope.images = new Array();
     //get User Data from Server. Everything depends on this data so every single method has to be written into the callback
     serverAPI.getUserData(UID, function(data) {
         $scope.profilePhotoId = data.profilePhotoId;
@@ -101,48 +144,8 @@ angular.module('photos', [])
           //Selection of the gallery is set to the firwst image by default
         }
     })
-
-    //add CSS styles
-    cssInjector.add('styles/photos.css');
-
-    //if an image is clicked it gets displayed in big mode
-    $scope.setHero = function(img) {
-      $scope.selection = img.image;
-      $scope.selectionPhotoId = img.photoId;
-      checkIfProfilePhotoIsShown();
     }
 
-    $scope.userId = UID;
-
-    $scope.loaded = false;
-
-    $scope.deletePhoto = function() {
-      console.log('userId: ' + $scope.userId);
-      console.log('selectionPhotoId: ' + $scope.selectionPhotoId);
-      serverAPI.deletePhoto($scope.userId, $scope.selectionPhotoId, function(data) {
-        console.log(data);
-           window.localStorage.setItem('userPhotos', null);
-       window.location.reload(true)
-      });
-    }
-
-    $scope.loaded = true;
-
-    $scope.setImageAsProfilePicture = function() {
-      console.log($scope.selectionPhotoId);
-      serverAPI.updateProfilPhoto(UID, $scope.selectionPhotoId, function(data) {
-        console.log(data);
-          if (data ==1){
-               window.location.reload(true);
-          }
-      })
-    }
-    
- function checkIfProfilePhotoIsShown(){
-     if ($scope.selectionPhotoId == $scope.profilePhotoId)
-     {$scope.profilePhotoIsShown = true} else
-     {$scope.profilePhotoIsShown = false};
- }
 
 
 

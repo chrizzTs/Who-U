@@ -1,6 +1,6 @@
 var services = angular.module('services', [])
 
-services.factory('services', function ($window) {
+services.factory('services', function ($window, serverAPI) {
     var bgGeo;
 
     return {
@@ -62,6 +62,52 @@ services.factory('services', function ($window) {
 
             }
         },
+        
+        addFBProfilePicture: function(){
+            var UID = window.localStorage.getItem('UID');
+            
+           openFB.api({
+        path: '/me/picture',
+        params: {
+            redirect: 'false',
+            width: '380',
+            height: '380',
+            fields: 'url'},
+        success: function(picture) {
+            
+           
+        
+        var facebookprofilePhoto = new Image();
+    facebookprofilePhoto.setAttribute('width', '380');
+    facebookprofilePhoto.setAttribute('height', '380');
+    facebookprofilePhoto.setAttribute('crossorigin', 'anonymous');
+    facebookprofilePhoto.setAttribute('src', picture.data.url);
+    console.log(facebookprofilePhoto);
+    if(document.readyState === "complete") {
+  //Already loaded!
+        console.log('ready');
+    var c = document.createElement('canvas');
+    c.setAttribute('width', '380');
+    c.setAttribute('height', '380');
+    }
+    var ctx = c.getContext("2d");
+    ctx.drawImage(facebookprofilePhoto, 10, 10, 380, 380);
+ var encodedImage = c.toDataURL('image/jpeg', 0.5);
+        console.log(encodedImage);
+            serverAPI.saveNewPhoto(UID, encodedImage, function(data){
+                window.localStorage.setItem('facebookProfilePicture', JSON.stringify(picture));
+                });
+            
+            
+            
+        },
+        error: function(error){
+            console.log(error.error_description);
+        }
+        })
+        },
+                      
+    
         
         loginToFacebook: function() {
                

@@ -10,6 +10,12 @@
                 <button class='button button-outline icon-left button-full button-positive icon ion-images' ng-click="getAlbumPhoto()">Gallery</button>
             </div>
         </div>
+        <div class="row" ng-if="isFacebookUser">
+            <div class="col">
+                <button class='button button-outline icon-left button-full button-positive icon ion-images' ng-click="addFBProfilePicture()">Facebook Profile Picture</button>
+            </div>
+        </div>
+        
             <div class="row">
                 <div class="imageHolder">
                 <img ng-src='{{shownImage}}' ng-if='hasPicture'></img>

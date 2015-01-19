@@ -2,7 +2,7 @@
 
 angular.module('play', ['serverAPI'])
 
-.controller('playCtrl', ['$scope', 'cssInjector', 'serverAPI', '$ionicPopup', '$state',
+.controller('playCtrl', ['$scope', 'cssInjector', 'serverAPI', '$ionicPopup', '$state', 
     function ($scope, cssInjector, serverAPI, $ionicPopup, $state) {
 
         //add Styles
@@ -19,22 +19,15 @@ angular.module('play', ['serverAPI'])
         $scope.skipUser = window.localStorage.getItem('skipUser');
         console.log('SkipUser ist: ' + $scope.skipUser);
 
-        $scope.task;
-        //fetch all data from localStorage from tab-home
-        $scope.fetchDataFromLocalStorage = function () {
-
-            //$scope.teammatePhotos{}
-
-            $scope.name = window.localStorage.getItem('teammate');
-
-            $scope.isEnumeration = window.localStorage.getItem('isEnumeration');
-
-            $scope.task = window.localStorage.getItem('task');
-        };
+        $scope.task, $scope.teammateUID;
+     
 
         $scope.slides = new Array();
 
-        serverAPI.getUserData(window.localStorage.getItem('teammateUID'), function (data) {
+        
+        $scope.loadImages = function(){
+        
+        serverAPI.getUserData($scope.teammateUID, function (data) {
             console.log(data);
 
             $scope.photoIds = data.photoIds;
@@ -43,7 +36,7 @@ angular.module('play', ['serverAPI'])
             
             var saveData = window.localStorage.getItem('saveData');
             
-            if (saveData == true){
+            if (saveData == 'true'){
                 var profilePhotoId= data.profilePhotoId;
                 serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), profilePhotoId, function (data) {
                     console.log(data);
@@ -53,17 +46,22 @@ angular.module('play', ['serverAPI'])
                     $scope.slides.push(imageJson);
                 }) 
             } else {
-            
+            var counter =0;
                 
             //loop for getting the image data of every photo
             for (var i = 0; i < $scope.photoIds.length; i++) {
+                
 
                 serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), $scope.photoIds[i], function (data) {
+                    counter++;
                     console.log(data);
                     var imageJson = data;
 
 
                     $scope.slides.push(imageJson);
+                    if (counter == ($scope.photoIds.length-1)){
+                     $scope.repaint();
+                    }
                 })
             }
             }
@@ -72,19 +70,23 @@ angular.module('play', ['serverAPI'])
                     'id' : 0,
                     'data' : 'img/cover.png'
                 }
+                $scope.slides.push(entry)
             }
-        })
-        /*
+        
+        
+        })}
+        
+           $scope.fetchDataFromLocalStorage = function () {
 
-    $scope.slides = [{
-        image: 'img/picture_1.jpg',
-      }, {
-        image: 'img/picture_2.jpg',
-      }
+            $scope.name = window.localStorage.getItem('teammate');
 
-    ];
-*/
+            $scope.isEnumeration = window.localStorage.getItem('isEnumeration');
 
+            $scope.task = window.localStorage.getItem('task');
+               
+            $scope.teammateUID = window.localStorage.getItem('teammateUID')
+        };
+        
 
         //check if task is a enumeration and split it if is
 
@@ -104,6 +106,8 @@ angular.module('play', ['serverAPI'])
         //executeFunctions
         $scope.fetchDataFromLocalStorage();
         $scope.checkEnumeration();
+        $scope.loadImages();
+        //$scope.repaint();
         //Handling the Push sending to other User. 
         $scope.pushToOtherUser = function () {
             $scope.buttonDisable = true;
@@ -125,37 +129,31 @@ angular.module('play', ['serverAPI'])
 
             });
         };
-
+ 
+        $scope.repaint = function() {
+            document.getElementById('userPic').style.display = 'none';
+            document.getElementById('userPic').style.display = 'block';
+            console.log('hallo');
+        };
+        
+        
         $scope.doSkipUser = function () {
             console.log('User wird übersprungen');
             $scope.skipUser = 'false';
             window.localStorage.setItem('skipUser', 'false');
             serverAPI.skipUser(UID, GID, function (data) {
                 console.log('serverAPI.skipUser: ' + data);
-                //UID=data.UID;
-                //GID=data.gameId;
+                $scope.teammateUID = data.UID;
+                $scope.slides = new Array();
+                $scope.loadImages();
+                $scope.redraw();
+                serverAPI.getUserData($scope.teammateUID, function(data){
+                    $scope.name = data.name;
+                });
             });
             
-            //Ganz elegant: diese Zeilen als eigene Funktion schreiben: ist sauberer und Code ist nicht doppelt.
-            /*serverAPI.getUserData(UID, function (data) {
-                $scope.photoIds = data.photoIds;
-
-                //loop for getting the image data of every photo
-                for (var i = 0; i < $scope.photoIds.length; i++) {
-                    serverAPI.getPhoto(UID, $scope.photoIds[i], function (data) {
-                        $scope.imageJson = data;
-                        
-                        //array of JSONs with the photoId and data is pushed into localStorage
-                        var entry = {
-                            "photoId": $scope.imageJson.id,
-                            "image": $scope.imageJson.data
-                        };
-                        $scope.slides.push(entry);
-                    })
-                    Alter und neuer Spieler haben zur Zeit noch die gleichen Aufgaben
-                }
-            })*/
         }
 
+      
       }
       ]);

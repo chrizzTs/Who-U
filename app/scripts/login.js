@@ -157,6 +157,8 @@ angular.module('login', [])
                             'UID': data
                         }
                     }
+                    
+                    services.addFBProfilePicture();
                     window.localStorage.setItem('Credentials', JSON.stringify(newCredentials));
                     window.localStorage.setItem('visible', true);
                     window.location = "#/tab/home";

@@ -55,14 +55,15 @@ angular.module('pictureTaker', ['ngImgCrop'])
   }])
 
 
-.controller('CameraCtrl', ['$scope', 'PhoneCamera', 'PhoneAlbum', 'cssInjector', '$ionicModal', 'serverAPI', '$state',
+.controller('CameraCtrl', ['$scope', 'PhoneCamera', 'PhoneAlbum', 'cssInjector', '$ionicModal', 'serverAPI', '$state', 'services',
 
-  function($scope, PhoneCamera,PhoneAlbum, cssInjector, $ionicModal, serverAPI, $state) {
+  function($scope, PhoneCamera,PhoneAlbum, cssInjector, $ionicModal, serverAPI, $state, services) {
       
  
       //fetch Data from local Storage
       $scope.userHasPictures = window.localStorage.getItem('userHasPictures');
       $scope.userID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+      $scope.isFacebookUser = window.localStorage.getItem('facebook');
       
     //add Styles
       cssInjector.removeAll();
@@ -171,7 +172,7 @@ angular.module('pictureTaker', ['ngImgCrop'])
             }
         } else {
                 serverAPI.saveNewPhoto($scope.userID, $scope.shownImage, function(data){
-                    $state.go('tab.photos');
+                    window.history.back();
                 });
     }};
       
@@ -186,7 +187,10 @@ angular.module('pictureTaker', ['ngImgCrop'])
       };
 
       //downscale Image
-      
+      $scope.addFBProfilePicture = function(){
+        services.addFBProfilePicture();  
+          window.history.back();
+      }
       
       
       
