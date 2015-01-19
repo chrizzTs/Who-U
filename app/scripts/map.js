@@ -15,32 +15,37 @@ angular.module('map', ['uiGmapgoogle-maps'])
 
 .controller('mapCtrl', function ($scope, uiGmapGoogleMapApi, uiGmapIsReady, cssInjector) {
 
-    //Map Styles hinzufügen
-    cssInjector.add('styles/map.css');
+        $scope.marker1, $scope.marker2;
 
-    //Directive needs to be ready to be used
-    // Do stuff with your $scope.
-    // Note: Some of the directives require at least something to be defined originally!
-    // e.g. $scope.markers = []
-
-    // uiGmapGoogleMapApi is a promise.
-    // The "then" callback function provides the google.maps object.
-
-    uiGmapGoogleMapApi.then(function (maps) {
-
-        //fetch data from local Storage from tab-home
+        //Map Styles hinzufügen
+        cssInjector.removeAll();
+        cssInjector.add('styles/map.css');
 
         $scope.myPosition = JSON.parse(window.localStorage.getItem("myPosition"));
 
         $scope.teammatePosition = JSON.parse(window.localStorage.getItem("teammatePosition"));
 
-        $scope.map = {
-            center: angular.copy($scope.myPosition),
-            zoom: 17
-        };
+        //Directive needs to be ready to be used
+        // Do stuff with your $scope.
+        // Note: Some of the directives require at least something to be defined originally!
+        // e.g. $scope.markers = []
+
+        // uiGmapGoogleMapApi is a promise.
+        // The "then" callback function provides the google.maps object.
+
+        uiGmapGoogleMapApi.then(function (maps) {
+
+            //fetch data from local Storage from tab-home
+
+
+
+
+            $scope.map = {
+                center: angular.copy($scope.myPosition),
+                zoom: 17
+            };
+
+
 
     });
-
-
-
 });

@@ -1,15 +1,25 @@
 'use strict'
 angular.module('home', ['services'])
 
+.run(function ($rootScope, serverAPI){
+   
+    
+    
+    })
+
 .controller('homeCtrl',
     function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector, $http) {
 
-
+         $rootScope.startMessageRetrivalTimer()
         cssInjector.removeAll();
        $scope.isFacebookUser = window.localStorage.getItem('facebook');
     
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
-    $scope.pushId, $scope.userName, $scope.coins, $scope.profilePhotoId, $scope.events, $scope.eventsWithPictures;
+
+    
+    
+ 
+    
     
     if ($scope.isFacebookUser == 'true'){
     openFB.getLoginStatus(function(response) {
@@ -87,19 +97,29 @@ $scope.eventsWithPictures = new Array();
     
         serverAPI.getRecentEvents(UID, function (data) {
             if(typeof data==='object'){
-                 $scope.events = data; 
-                console.log(data);
-            }   
-            for (var i = 0; i < data.length; i++){
+                 $scope.events = data;
+                getPicturesForRecentEvents();
+            } 
+            else{
+                console.error("Error loading RecentEvents: " + data)
+            }
+            
+            $scope.doneLoading = true;
+            });
+    
+    
+    function getPicturesForRecentEvents(){
+        
+        for (var i = 0; i < $scope.events.length; i++){
 
-                var otherPlayerUid = data[i].userId;
+                var otherPlayerUid = $scope.events[i].userId;
                 serverAPI.getUserData(otherPlayerUid, function(data) {
                     if (data.profilePhotoId < 0){
                         var index;
                          for (var j =0; j < $scope.events.length; j++){
                             if ($scope.events[j].userId == data.id){
                                 index = j;
-                                console.log('index: ' + index);
+                               
                             }
                         }
                         var  entry = {
@@ -135,7 +155,11 @@ $scope.eventsWithPictures = new Array();
                 })
                 
             }
-        });
+        
+        
+    }
+            
+        
 
         serverAPI.getGamesToRate(UID, getGamesToRate);
 
@@ -292,7 +316,12 @@ $scope.eventsWithPictures = new Array();
                         $state.go('tab.play-screen');
                         //Notify player that somebody is looking for him
                         serverAPI.pushSearchStarted(UID, function(result){
-                            console.log("Push started send to serve:" + result)
+                            if(result < 0){
+                                console.error ("Error pushSearchStarted: " + result)
+                            }else{
+                                console.log("Push started send to server")
+                            }
+                            
                         })
                     }
 
@@ -305,12 +334,16 @@ $scope.eventsWithPictures = new Array();
         PUSH-NOTIFICATION
                                 */
         
-    //Register Notification at Goolge Server only if it has not been registered yet.
-    if($scope.pushId != undefined){
-    enablePushNotification();
+    
+     $rootScope.disablePushNotification = function(){
+        window.plugins.pushNotification.unregister(function(){
+            console.log("Push service is disabled")
+        }, function(result){
+            console.error("Error - unable to disable pushservice: " + result)
+        })
     }
     
-    function enablePushNotification() {
+    $rootScope.enablePushNotification= function() {
             document.addEventListener("deviceready", function () {
                 var pushNotification = window.plugins.pushNotification.register(function(result){
                       console.log('Callback Success! Result = ' + result)
@@ -325,6 +358,11 @@ $scope.eventsWithPictures = new Array();
                                       
            , false)
         }
+    
+        //Register Notification at Goolge Server only if it has not been registered yet.
+    if(window.localStorage.getItem('pushId') == null){
+    $rootScope.enablePushNotification();
+    }
         
        window.onNotificationGCM = function (e) { 
            console.log(e)
@@ -335,16 +373,24 @@ $scope.eventsWithPictures = new Array();
                 {
                     console.log("Regid " + e.regid);
                     serverAPI.insertPushId(UID, e.regid, function(result){
-                        console.log("transmitted regid to Serve successfully")
+                        if(result<0){
+                            console.error("Error callback insertPushId: "+ result)
+                        }else{
+                            alert("insertedPush" + e.regid)
+                            window.localStorage.setItem('pushId', e.regid)
+                        }
                     })
                 }
             break;
  
             case 'message':
-            conso.log("is message")
+                alert("is message")
             if(e.payload.isMessage){
             $rootScope.toUser = e.payload.userId
-             $state.go('tab.chat-detail')  
+            alert(e.payload.userId);
+            $state.go('tab.chat-detail')  
+            }else{
+                alert(e.payload.message)
             }
             break;
  

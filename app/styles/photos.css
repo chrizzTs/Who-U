@@ -106,7 +106,17 @@ h1 {
 }
 
 .ion-star {
-  right: 1.5em;   
+  right: 2.5em;   
+}
+
+.small-plus {
+    right: 1.5em;
+    color: blue;
+}
+
+.big-plus {
+    font-size: 10em;
+    color: blue;
 }
 
 .blue-star {
@@ -122,6 +132,6 @@ div.hero-icons {
 position: absolute;
     right: 0.5em;
     top: 0.5em;
- width: 10em;
+ width: 14em;
     height: 4em;
 }

@@ -11,8 +11,19 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         
       //scroll down to button
        $ionicScrollDelegate.scrollBottom();
+      
+
+      
+      //When leaving ChatDetail execute:
         $scope.$on("$destroy", function(){
+            //Display Footer for other websites
  $rootScope.hideFooter = false;
+            //Stop intervall to retrive messages
+clearInterval(retriveMessagesIntervall);
+            //Save message count to local storage to identivy unread messages
+            window.localStorage.setItem('msgCount'+$scope.toUser.id, $scope.messages.length)
+            //Update the new Message Status in the FooterBar 
+            $rootScope.getMessages();
 });
       
       
@@ -43,13 +54,22 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             name: window.localStorage.getItem('myUsername')
         };
       
+            //Find out how many messages are left to send:
+      serverAPI.getMessagesLeft(UID, $scope.toUser.id, function(msgCount){
+          if(msgCount >0){
+                  $scope.msgCount = msgCount;
+          }else{
+              console.error("Error receive messageCount: " + msgCount)
+          }
+      
+      })
+      
 
         //Saving typed messages that have not been sent to local storage and to initialize them when the chat is reopened.
         $scope.input = {
             message: localStorage['userMessage-' + $scope.toUser.id] || ''
         };
 
-        var messageCheckTimer;
 
         var viewScroll = $ionicScrollDelegate.$getByHandle('userMessageScroll');
         var footerBar; // gets set in $ionicView.enter
@@ -57,68 +77,32 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         var txtInput; // 
 
         getMessages();
-        $scope.$on('$ionicView.enter', function () {
-            console.log('UserMessages $ionicView.enter');
+
+    
 
 
-
-
-            $timeout(function () {
-                footerBar = document.body.querySelector('#userMessagesView .bar-footer');
-                scroller = document.body.querySelector('#userMessagesView .scroll-content');
-                txtInput = angular.element(footerBar.querySelector('textarea'));
-            }, 0);
-
-            messageCheckTimer = $interval(function () {
-                // here you could check for new messages if your app doesn't use push notifications or user disabled them
-            }, 20000);
-        });
-
-        $scope.$on('$ionicView.leave', function () {
-            console.log('leaving UserMessages view, destroying interval');
-            // Make sure that the interval is destroyed
-            if (angular.isDefined(messageCheckTimer)) {
-                $interval.cancel(messageCheckTimer);
-                messageCheckTimer = undefined;
-            }
-        });
-
-        $scope.$on('$ionicView.beforeLeave', function () {
-            if (!$scope.input.message || $scope.input.message === '') {
-                localStorage.removeItem('userMessage-' + $scope.toUser.id);
-            }
-        });
-
-
-        //Retrive Messages from Server
-//
-//     $scope.$watch('messages', function (newValue, oldValue) {
-//         console.log("change messages from undefined")
-//         
-//         
-//         if($scope.message != undefined ){
-//             console.log("messages is not undefined")
-//            $scope.doneLoading = true;
-//         }
-//      
-//        });
-//      
       
     //Init get messages  
     serverAPI.getPreviousMessages(UID,  $scope.toUser.id, function(messages){
               $scope.messages = messages;
+                $scope.doneLoading = true;
+            $ionicScrollDelegate.scrollBottom();
               })
-                
-                
-    $scope.doneLoading = true;
+      
+  
       var retriveMessagesIntervall
       function getMessages(){
          retriveMessagesIntervall=  setInterval(function () {
             console.log("loading Messages")
           serverAPI.getPreviousMessages(UID,  $scope.toUser.id, function(messages){
-              $scope.messages = messages;
+              if($scope.messages.length < messages){
+                   $scope.messages = messages;
+                  $ionicScrollDelegate.scrollBottom();
+              }
+             
+              
+            
               })   
-          $ionicScrollDelegate.scrollBottom();
           }, 1000);
           
       }
@@ -133,40 +117,22 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
 
         //Send message to Server
         $scope.sendMessage = function (sendMessageForm) {
-         
-            keepKeyboardOpen();
-//            message.picture = $scope.user.picture;
+            
+            $scope.msgCount --;
 
             $scope.messages.push({'message':$scope.input.message, 'timeStamp': new Date(), 'userSent': UID});
             
-            console.log("UID" + $scope.user.id)
-            console.log("Message SENT ID" + $scope.user.id)
-
-            $timeout(function () {
-                keepKeyboardOpen();
-                viewScroll.scrollBottom(true);
-            }, 0);
-
-            
-            console.log("eigene UID:" + UID);
-            console.log("Partner UID" + $scope.toUser.id)
+            $ionicScrollDelegate.scrollBottom();
             
             serverAPI.sendMessage(UID,  $scope.toUser.id, $scope.input.message,  new Date(), function(result){
-                console.log("send Message Callback" + result);
+                if(result < 0){
+                    console.error("Erro sending Message: " + result)
+                }
             })
                  $scope.input.message = '';
-
-
         };
 
-        // this keeps the keyboard open on a device only after sending a message, it is non obtrusive
-        function keepKeyboardOpen() {
-            console.log('keepKeyboardOpen');
-            // txtInput.one('blur', function () {
-            //      console.log('textarea blur, focus back on it');
-            //                txtInput[0].focus();
-            //            });
-        }
+
 
         $scope.onMessageHold = function (e, itemIndex, message) {
             console.log('onMessageHold');
@@ -204,9 +170,6 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             if (!ta) return;
 
             var taHeight = ta[0].offsetHeight;
-            console.log('taHeight: ' + taHeight);
-
-
             if (!footerBar) return;
 
             var newFooterHeight = taHeight + 10;
@@ -217,11 +180,7 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         });
       
       
-      //End intervall to retrive new messages when leaving ChatDetail
-         $scope.$on("$destroy", function(){
-        clearInterval(retriveMessagesIntervall);
-    });
-
+   
 }])
 
 

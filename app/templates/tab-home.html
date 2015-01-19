@@ -1,4 +1,12 @@
 <ion-view title="Who-U">
+    
+        <div class="loader-center" ng-if="!doneLoading">
+        <div class="loader">
+            <i class="icon ion-loading-c"></i>
+        </div>
+    </div>
+
+    
     <ion-content class="padding">
         <a class="item item-thumbnail-left" ui-sref="tab.photos">
             <img ng-src="{{profilePicture}}">
@@ -9,7 +17,7 @@
             <i class='{{buttonType}}'></i>{{text}}
         </button>
 
-        <ion-scroll direction='y' style="height: 500px">
+        <ion-scroll direction='y' style="height: 500px" ng-if="doneLoading">
             <ul class="animate-repeat" ng-repeat="entry in eventsWithPictures">
                 <li class="item item-avatar">
                         <img ng-src="{{entry.picture}}">

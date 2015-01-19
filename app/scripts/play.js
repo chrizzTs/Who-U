@@ -39,6 +39,22 @@ angular.module('play', ['serverAPI'])
 
             $scope.photoIds = data.photoIds;
 
+            if ($scope.photoIds.length > 0){
+            
+            var saveData = window.localStorage.getItem('saveData');
+            
+            if (saveData == true){
+                var profilePhotoId= data.profilePhotoId;
+                serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), profilePhotoId, function (data) {
+                    console.log(data);
+                    var imageJson = data;
+
+
+                    $scope.slides.push(imageJson);
+                }) 
+            } else {
+            
+                
             //loop for getting the image data of every photo
             for (var i = 0; i < $scope.photoIds.length; i++) {
 
@@ -49,6 +65,13 @@ angular.module('play', ['serverAPI'])
 
                     $scope.slides.push(imageJson);
                 })
+            }
+            }
+            } else {
+                var entry = {
+                    'id' : 0,
+                    'data' : 'img/cover.png'
+                }
             }
         })
         /*

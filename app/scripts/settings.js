@@ -61,12 +61,13 @@ angular.module('settings', ['services'])
     };
 
     $scope.changePushNotifications = function () {
-        if (pushNotifications = 'true') {
-            //Code
+        if (pushNotifications = 'true') {    
+            $rootScope.disablePushNotification();
+            
             pushNotifications = 'false';
             window.localStorage.setItem('pushNotifications', 'false');
         } else if (pushNotifications = 'false') {
-            //Code
+            $rootScope.enablePushNotification()
             pushNotifications = 'true';
             window.localStorage.setItem('pushNotifications', 'true');
             console.log('Ya like us');

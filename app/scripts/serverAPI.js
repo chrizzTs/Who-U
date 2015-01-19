@@ -245,7 +245,7 @@ module.factory('serverAPI', function ($http) {
             var user = {
                 '_id': userId,
             }
-            console.log(user)
+            
             $http({
                 url: host + usersCurrentlyPlayedWithPath,
                 method: 'GET',

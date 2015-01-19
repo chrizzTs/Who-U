@@ -1,68 +1,45 @@
 angular.module('chatMaster', ['chatDetail', 'serverAPI'])
 
-.controller('chatMasterCtrl', function ($scope, serverAPI, $state, chatDetail, cssInjector) {
+.controller('chatMasterCtrl', function ($scope, $rootScope, serverAPI, $state, chatDetail, cssInjector) {
 
    cssInjector.removeAll();
 
+    $scope.doneLoading = true
     
     //Retrive Chatpartner from Server
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
-    $scope.chatPartner = new Array();
+    $scope.chatPartner = $rootScope.chatPartner;
     
-    //Retrive all Users that are available to Chat with
-    serverAPI.getUsersCurrentlyPlayedWith(UID, function(data){
     
-        //Retrive all UserData for each Player
-        for (var i= 0; i<data.length; i++){
-            serverAPI.getUserData(data[i], function(userData){
-            var picture;
-            var message;
-            //Retrive each Players profilePicture
-            serverAPI.getPhoto(userData.id, userData.profilePhotoId, function(photoData){
-    
-            //Retrive each Players previos messages to display the last messages
-            serverAPI.getPreviousMessages(UID, userData.id, function(messages){
-                //Check if any Messages have been exchanged before to display
-                if(messages.length>0){
-                     message = messages[messages.length-1].message 
-                }
-             
+
+    //Retrive all Users pictures 
+    $rootScope.getMessages(function(){
+
+    var loadingCounter = 0;
+    for(var i = 0; i<$scope.chatPartner.length; i++){
+        if($scope.chatPartner[i].profilePhotoId < 0){
+            $scope.chatPartner[i].picture = 'img/cover.png'
+            loadingCounter++;
+        }else{
             
-            
-            //Set avatar if no picture is availabe for the player
-            if(photoData == -8){
-                picture = 'img/cover.png'
+ 
+           serverAPI.getPhoto($scope.chatPartner[i].id, $scope.chatPartner[i].profilePhotoId, function(photoData){
+                if(typeof photoData === 'object'){
+               $scope.chatPartner[i].picture = photoData
             }else{
-                picture = photoData.data;
+                console.error("Error loading picture: " + photoData)
             }
-                var tempPlayer = {
-                    "id": userData.id,
-                    "name": userData.userName,
-                    "picture": picture,
-                    "message" : message
-                }
-                   $scope.chatPartner.push(tempPlayer);
-                
-                })
-                }
-                              )
-            }
-        )
-             $scope.doneLoading = true;
-    }
-
-    })
-    
-     for (var i= 0; i< $scope.chatPartner; i++){
-         console.log("start ForSchleife for ChatMessages")
-            serverAPI.getPreviousMessages(UID, $scope.chatPartner[i].id, function(messages){
-                console.log(messages)
-                $scope.chatPartner.id
+            
+            loadingCounter++;
             })
-     }
-         
-
-    
+                  }
+                    if(loadingCounter==$scope.chatPartner.length){
+                $scope.doneLoading = true;
+               }
+    }
+           
+    })         
+            
     //Redirects to chatDetail and passes all needed Chatinformation to chatDetail
     $scope.clicked = function (partner) {
         chatDetail.initChat(partner);

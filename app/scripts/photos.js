@@ -14,7 +14,7 @@ angular.module('photos', [])
     //remove all injected CSS Designs
     cssInjector.removeAll();
       
-      $scope.profilePhotoIsShown = false;
+      $scope.profilePhotoIsShown = true;
 
     //default: user has no Pictures. Variable gets used to decide whether to display a gallery
     $scope.userHasPictures = false;
@@ -23,7 +23,7 @@ angular.module('photos', [])
     //initialize the selection photo and the selected photoId
     $scope.selection;
     $scope.selectionPhotoId = 0;
-    $scope.profilePhotoId;
+    $scope.profilePhotoId = 0;
     //initialize the array in which images of the user will be stored
     $scope.images = new Array();
 
@@ -61,7 +61,8 @@ angular.module('photos', [])
               console.log('Already in localStorage: ' + $scope.localStorageImages[j].photoId);
                if (i== 0){
                    $scope.selection = $scope.images[0].image;
-                   $scope.selectionPhotoId = $scope.images[0].selectionPhotoId;
+                   $scope.selectionPhotoId = $scope.images[0].photoId;
+                   checkIfProfilePhotoIsShown();
               }
           }
         }
@@ -87,18 +88,12 @@ angular.module('photos', [])
               if (i== 0){
                    $scope.selection = $scope.images[0].image;
                   $scope.selectionPhotoId = $scope.images[0].selectionPhotoId;
+                  checkIfProfilePhotoIsShown();
               }
           });
          }
         }
-      /*} else {
 
-        $scope.userHasPictures = 1;
-        window.localStorage.setItem('userHasPictures', '1');
-        $scope.images = JSON.parse(window.localStorage.getItem('userPhotos'));
-        $scope.selection = $scope.images[0].image;
-        $scope.selectionPhotoId = $scope.images[0].photoId;
-      }*/
        //check if user has any Photos at all
         if ($scope.photoIds.length != 0) {
           $scope.userHasPictures = 1;
