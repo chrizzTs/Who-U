@@ -1,4 +1,4 @@
-<ion-view title="<i class='icon ion-chatbubble user-messages-top-icon'></i> {{toUser.name}}">
+<ion-view title="<i class='icon ion-chatbubble user-messages-top-icon'></i> {{toUser.username}}">
 
     <div class="loader-center" ng-if="!doneLoading">
         <div class="loader">
@@ -13,7 +13,7 @@
 
             <div ng-if="user.id !== message.userSent">
 
-                <img class="profile-pic left" ng-src="{{toUser.picture}}" onerror="onProfilePicError(this)" />
+                <img class="profile-pic left" ng-src="{{toUser.profilPhoto}}" onerror="onProfilePicError(this)" />
 
                 <div class="chat-bubble left">
 
@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="message-detail">
-                        <span class="bold">{{toUser.name}}</span>,
+                        <span class="bold">{{toUser.username}}</span>,
                         <span am-time-ago="message.timeStamp"></span>
                     </div>
 
@@ -30,7 +30,7 @@
 
             <div ng-if="user.id === message.userSent">
 
-                <img class="profile-pic right" ng-src="{{user.picture}}" onerror="onProfilePicError(this)" />
+                <img class="profile-pic right" ng-src="{{user.profilPhoto}}" onerror="onProfilePicError(this)" />
 
                 <div class="chat-bubble right">
 
@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="message-detail">
-                        <span class="bold">{{user.name}}</span>,
+                        <span class="bold">{{user.username}}</span>,
                         <span am-time-ago="message.timeStamp"></span>
                     </div>
 

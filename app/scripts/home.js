@@ -10,7 +10,7 @@ angular.module('home', ['services'])
 .controller('homeCtrl',
     function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector, $http) {
 
-         $rootScope.startMessageRetrivalTimer()
+        // $rootScope.startMessageRetrivalTimer()
         cssInjector.removeAll();
        $scope.isFacebookUser = window.localStorage.getItem('facebook');
     
@@ -49,18 +49,9 @@ angular.module('home', ['services'])
         //Init Data so User does not have to wait till callback
         $scope.coins = 0;
         $scope.profilePicture = 'img/cover.png'
-
-    
         $scope.buttonType = "icon ion-search";
-    
-        
-    
-
         $rootScope.buttonDisable;
-
         $scope.text = 'Search';
-
-        $scope.profilePhotoId, $scope.profilePicture;
 $scope.isFacebookUser = window.localStorage.getItem('facebook');
 
 
@@ -90,71 +81,29 @@ function getUserData(){
 
             });
 };
-$scope.eventsWithPictures = new Array();
+
     
         serverAPI.getRecentEvents(UID, function (data) {
             if(typeof data==='object'){
                  $scope.events = data;
-                getPicturesForRecentEvents();
+                
+                $scope.events.sort(function(a, b){
+                    return b.date - a.date}
+                                  );
             } 
             else{
                 console.error("Error loading RecentEvents: " + data)
             }
             
+            //Check if avata needs to be sent as profile Picture
+            for(var i= 0; i< $scope.events.length; i++){
+                if( $scope.events[i].profilPhoto == -1){
+                     $scope.events[i].profilPhoto = 'img/cover.png'
+                }
+            }
+            
             $scope.doneLoading = true;
             });
-    
-    
-    function getPicturesForRecentEvents(){
-        
-        for (var i = 0; i < $scope.events.length; i++){
-
-                var otherPlayerUid = $scope.events[i].userId;
-                serverAPI.getUserData(otherPlayerUid, function(data) {
-                    if (data.profilePhotoId < 0){
-                        var index;
-                         for (var j =0; j < $scope.events.length; j++){
-                            if ($scope.events[j].userId == data.id){
-                                index = j;
-                               
-                            }
-                        }
-                        var  entry = {
-                            'id': $scope.events[index].userId,
-                            'user': $scope.events[index].user,
-                            'picture': 'img/cover.png',
-                            'date': $scope.events[index].date
-                            
-                        }
-                        $scope.eventsWithPictures.push(entry);
-                    } else {
-                    serverAPI.getPhoto(data.id, data.profilePhotoId, function(photoData){
-                        console.log(photoData);
-                         var entry;
-                    
-                        var index = 0;
-                        for (var j =0; j < $scope.events.length; j++){
-                            if ($scope.events[j].userId == photoData.userId){
-                                index = j;
-                            }
-                        }
-                            entry = {
-                             'id': photoData.userId,
-                            'user': $scope.events[index].user,
-                             'picture': photoData.data,
-                                'date': $scope.events[index].date
-                            }
-                        
-                        $scope.eventsWithPictures.push(entry);
-                        console.log($scope.eventsWithPictures);
-                    })
-                    }
-                })
-                
-            }
-        
-        
-    }
             
         
 

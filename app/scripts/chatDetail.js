@@ -1,9 +1,8 @@
 var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'angularMoment'])
 
 
-.controller('chatDetailCtrl', ['$scope', '$rootScope', '$state',
-  '$stateParams', '$ionicActionSheet', '$ionicScrollDelegate', '$timeout', '$interval', 'cssInjector', 'serverAPI',
-  function ($scope, $rootScope, $state, $stateParams,
+.controller('chatDetailCtrl', 
+  function ($scope, $rootScope, $state, $stateParams, services,
         $ionicActionSheet, $ionicScrollDelegate, $timeout, $interval, cssInjector, serverAPI) {
 
         cssInjector.add('styles/chatDetail.css')
@@ -21,26 +20,16 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             //Stop intervall to retrive messages
 clearInterval(retriveMessagesIntervall);
             //Save message count to local storage to identivy unread messages
-            window.localStorage.setItem('msgCount'+$scope.toUser.id, $scope.messages.length)
+            window.localStorage.setItem('msgCount'+$scope.toUser._id, $scope.messages.length)
             //Update the new Message Status in the FooterBar 
-            $rootScope.getMessages();
+           // $rootScope.getMessages();
 });
       
       
         // Chatpartners User Data
-        $scope.toUser = $rootScope.toUser;
-      serverAPI.getUserData($scope.toUser.id, function(userData){
-          serverAPI.getPhoto($scope.toUser.id, userData.profilePhotoId, function(pic){
-              //No picture set => set to avatar  
-              if(pic ==-8){
-                    pic= 'img/cover.png'
-                }
-            
-               $scope.toUser.picture= pic
-               $scope.toUser.name = userData.userName
-               
-          })
-      })
+        $scope.messages=  $rootScope.toUser.messages
+        
+  
     
       
 
@@ -49,13 +38,13 @@ clearInterval(retriveMessagesIntervall);
         var pictue = window.localStorage.getItem('myProfilePicture')
       
         $scope.user = {
-            id: UID,
-            picture: window.localStorage.getItem('myProfilePicture'),
-            name: window.localStorage.getItem('myUsername')
+            _id: UID,
+            profilPhoto: window.localStorage.getItem('myProfilePicture'),
+            username: window.localStorage.getItem('myUsername')
         };
       
-            //Find out how many messages are left to send:
-      serverAPI.getMessagesLeft(UID, $scope.toUser.id, function(msgCount){
+    //Find out how many messages are left to send:
+      serverAPI.getMessagesLeft(UID, $scope.toUser._id, function(msgCount){
           if(msgCount >0){
                   $scope.msgCount = msgCount;
           }else{
@@ -67,7 +56,7 @@ clearInterval(retriveMessagesIntervall);
 
         //Saving typed messages that have not been sent to local storage and to initialize them when the chat is reopened.
         $scope.input = {
-            message: localStorage['userMessage-' + $scope.toUser.id] || ''
+            message: localStorage['userMessage-' + $scope.toUser._id] || ''
         };
 
 
@@ -76,43 +65,25 @@ clearInterval(retriveMessagesIntervall);
         var scroller;
         var txtInput; // 
 
-        getMessages();
+        
 
     
 
 
       
     //Init get messages  
-    serverAPI.getPreviousMessages(UID,  $scope.toUser.id, function(messages){
-              $scope.messages = messages;
-                $scope.doneLoading = true;
-            $ionicScrollDelegate.scrollBottom();
-              })
-      
+    services.getChatPartner(function(){
+        $scope.doneLoading = true;
+    })    
+    
   
-      var retriveMessagesIntervall
-      function getMessages(){
-         retriveMessagesIntervall=  setInterval(function () {
-            console.log("loading Messages")
-          serverAPI.getPreviousMessages(UID,  $scope.toUser.id, function(messages){
-              if($scope.messages.length < messages){
-                   $scope.messages = messages;
-                  $ionicScrollDelegate.scrollBottom();
-              }
-             
-              
-            
-              })   
-          }, 1000);
-          
-      }
       
 
 
         //Saving input Message to local Storage
         $scope.$watch('input.message', function (newValue, oldValue) {
             if (!newValue) newValue = '';
-            localStorage['userMessage-' + $scope.toUser.id] = newValue;
+            localStorage['userMessage-' + $scope.toUser._id] = newValue;
         });
 
         //Send message to Server
@@ -124,7 +95,7 @@ clearInterval(retriveMessagesIntervall);
             
             $ionicScrollDelegate.scrollBottom();
             
-            serverAPI.sendMessage(UID,  $scope.toUser.id, $scope.input.message,  new Date(), function(result){
+            serverAPI.sendMessage(UID,  $scope.toUser._id, $scope.input.message,  new Date(), function(result){
                 if(result < 0){
                     console.error("Erro sending Message: " + result)
                 }
@@ -181,7 +152,7 @@ clearInterval(retriveMessagesIntervall);
       
       
    
-}])
+})
 
 
 // fitlers

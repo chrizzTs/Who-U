@@ -1,6 +1,6 @@
 angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map', 'coins', 'pictureTaker', 'feedback', 'photos', 'chatDetail'])
 
-.run(function ($ionicPlatform, $rootScope, serverAPI) {
+.run(function ($ionicPlatform, $rootScope, serverAPI, services) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -17,103 +17,16 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
     
          /**********New ChatMessages****************/
     
-    
-    
-    //Retriving function
-    $rootScope.startMessageRetrivalTimer = function (){
-        //Retrive new messages every 10 seconds
-       setInterval(function(){
-    $rootScope.getMessages(function(){
-        
-    });
-        
-    }, 1000)
-    }
+
+
     
     //Check if user is already logged in to start message retrival if so.
+     $rootScope.chatPartner = new Array()
     if(window.localStorage.getItem('Credentials') != null){
-     $rootScope.startMessageRetrivalTimer();   
+        services.startChatPartnerRetrivalTimer();
+        services.startMessageRetrivalTimerSlow();
     }
-    
-    $rootScope.chatPartner = new Array();
-    var getMessagesLock = false;
-    $rootScope.getMessages = function (callback){
-    
-    if(getMessagesLock){
-        setTimeout(function(){
-        $rootScope.getMessages();
-}, 200);
-    }else{
-        
-    $rootScope.getMessagesLock = true
-    var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
-    
-    
-        serverAPI.getUsersCurrentlyPlayedWith(UID, function(usersCurrentlyPlayedWith){
-         var i = 0
-        getAllTeammateUserData();
-        function getAllTeammateUserData(){
-          
-            if(i<usersCurrentlyPlayedWith.length){
-                serverAPI.getPreviousMessages(UID, usersCurrentlyPlayedWith[i], function(messages){
-                    var msgCount = window.localStorage.getItem('msgCount'+usersCurrentlyPlayedWith[i])
-                    
-                    var message = ''
-                    if(messages.length>=1){
-                        message = messages[messages.length-1].message
-                     //New Message that has not been read yet.
-                    if(messages.length>msgCount && messages[messages.length-1].userSent != UID){
-                        $rootScope.emailIcon ="new"
-                        message = '●'+ message;
-                        console.log("new unread Message")
-                    }else{
-                        $rootScope.emailIcon=''
-                    }
-                    }
-                    
-                    //Update Array => not deleting otherwise picture cannot be injected later when needed
-                    var newPlayer =true;
-                    for(var j = 0; j<$rootScope.chatPartner.length;j++){
-                        var x = $rootScope.chatPartner[j].id;
-                        var y = usersCurrentlyPlayedWith[i];
-                        
-                        if(x == y){
-                             $rootScope.chatPartner[j].message = message;
-                        newPlayer= false;
-                        i++;  
-                        getAllTeammateUserData();  
-                        }
-                    }
-                    
-                            if(newPlayer){
-                             serverAPI.getUserData(usersCurrentlyPlayedWith[i], function(userData){
-                                 $rootScope.chatPartner.push({"id":usersCurrentlyPlayedWith[i],
-                                                "name": userData.userName,
-                                                "message": message,
-                                                "profilePhotoId": userData.profilePhotoId});
-                                    
-                             
-                                i++; 
-                                if(i ==usersCurrentlyPlayedWith.length ){
-                                    callback('1')
-                                }else{
-                                    getAllTeammateUserData(); 
-                                }
-                                 
-                             })
-                        }
-                
-  
-                })
-          
-                
-            }}
-               })
-        $rootScope.getMessagesLock = false
-        }
-        
-    }
-    
+ 
     
     
 /********END Chat Messages retrival *********/

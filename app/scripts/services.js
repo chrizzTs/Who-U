@@ -1,7 +1,11 @@
 var services = angular.module('services', [])
 
-services.factory('services', function ($window, serverAPI) {
+services.factory('services', function ($window, serverAPI, $rootScope) {
     var bgGeo;
+    var mailRetrivalTimerSlow;
+    var mailRetrivalTimerFast;
+    var chatPartnerRetrivalTimer;
+    
 
     return {
         startBackgroundGps: function () {
@@ -49,9 +53,9 @@ services.factory('services', function ($window, serverAPI) {
                         "X-Foo": "BAR"
                     },
                     desiredAccuracy: 10,
-                    stationaryRadius: 20,
+                    stationaryRadius: 30,
                     distanceFilter: 30,
-                    notificationTitle: 'Background tracking', // <-- android only, customize the title of the notification
+                    notificationTitle: 'WhoU tracking', // <-- android only, customize the title of the notification
                     notificationText: 'ENABLED', // <-- android only, customize the text of the notification
                     activityType: 'CLActivityTypeOther',
                     debug: false, // <-- enable this hear sounds for background-geolocation life-cycle.
@@ -131,8 +135,123 @@ services.factory('services', function ($window, serverAPI) {
                 bgGeo.stop()
             }
 
-        }
+        },
         
+        getChatPartner: function(callback){
+                var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
 
-    }
-})
+        serverAPI.getUsersCurrentlyPlayedWith(UID, function(usersCurrentlyPlayedWith){        
+        
+        var newUser= true;
+        for(var i = 0; i<usersCurrentlyPlayedWith.length; i++){
+            for(var j= 0; j<$rootScope.chatPartner.length; j++){
+                if($rootScope.chatPartner[j]._id== usersCurrentlyPlayedWith[i]._id){
+                    var messageTmp = $rootScope.chatPartner[j].message
+                    usersCurrentlyPlayedWith[i].message = messageTmp;
+                    $rootScope.chatPartner[j] = usersCurrentlyPlayedWith[i];
+                    newUser=false;
+                }
+            }
+            if(newUser){
+                $rootScope.chatPartner.push(usersCurrentlyPlayedWith[i]);
+            }
+        }
+    
+            //Set avatar if now picture is available
+            for(var i= 0; i< $rootScope.chatPartner.length; i++){
+                if( $rootScope.chatPartner[i].profilPhoto == -1){
+                     $rootScope.chatPartner[i].profilPhoto = 'img/cover.png'
+                }
+            }
+            
+            callback('1');
+            
+        })},
+        
+        
+        getMessages: function (callback){        
+
+    var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+      count =0
+    for(var i = 0; i<$rootScope.chatPartner.length; i++){
+         serverAPI.getPreviousMessages(UID, $rootScope.chatPartner[i]._id, function(messages){
+             
+                    var msgCount = window.localStorage.getItem('msgCount'+messages.otherUID)
+                    
+                    
+                    var message = ''
+                    if(messages.messages.length>=1){
+                        message = messages.messages[messages.messages.length-1].message
+                     //New Message that has not been read yet.
+                    if(messages.messages.length>msgCount && messages.messages[messages.messages.length-1].userSent != UID){
+                        $rootScope.emailIcon ="new"
+                        message = '●'+ message;
+                    }else{
+                        $rootScope.emailIcon=''
+                    }
+                    }
+             
+             //Save messsage to correct chatPartner
+             for(var j =0; j<$rootScope.chatPartner.length; j++){
+             if($rootScope.chatPartner[j]._id == messages.otherUser){
+                 $rootScope.chatPartner[j].messages = messages.messages;
+                 $rootScope.chatPartner[j].lastMessage = message;
+             }    
+             }
+             
+             count++;
+             if(count == $rootScope.chatPartner.length){
+                 callback('1');
+             }
+        
+    })}        
+
+    },
+        
+            endChatPartnerRetrivalTimer: function(){
+          clearInterval(chatPartnerRetrivalTimer)  
+        },
+    
+    startChatPartnerRetrivalTimer : function(){
+    var self = this;
+   self.getChatPartner(function(){
+       self.getMessages(function(){})
+   })
+    chatPartnerRetrivalTimer   = setInterval(function(){
+    self.getChatPartner(function(){
+        
+    })      
+    }, 30000)
+       },
+        
+    startMessageRetrivalTimerSlow : function(){
+    var self = this;
+   self.getMessages(function(){
+       //callback
+   })
+    mailRetrivalTimerSlow   = setInterval(function(){
+    self.getMessages(function(){
+        
+    })      
+    }, 5000)
+       },
+        
+        endMessageRetrivalTimerSlow: function(){
+          clearInterval(mailRetrivalTimerSlow)  
+        },
+            startMessageRetrivalTimerFast : function(){
+    var self = this;
+   self.getMessages(function(){
+       //callback
+   })
+    mailRetrivalTimerFast   = setInterval(function(){
+    self.getMessages(function(){
+        
+    })      
+    }, 1000)
+       },
+        
+        endMessageRetrivalTimerFast: function(){
+          clearInterval(mailRetrivalTimerFast)  
+        }
+} })
