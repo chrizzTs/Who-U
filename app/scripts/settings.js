@@ -112,6 +112,9 @@ angular.module('settings', ['services'])
             confirmPopup.then(function (res) {
                 if (res) {
                     console.log('Go to hell');
+                    serverAPI.deleteUser(UID, function(data){
+                        console.log('deleteUser '+data);
+                    });
                 }else{
                     console.log('Good choice');
                 }
