@@ -108,16 +108,19 @@ angular.module('play', ['serverAPI'])
         $scope.fetchDataFromLocalStorage();
         $scope.checkEnumeration();
         $scope.loadImages();
-        $ionicSlideBoxDelegate.update();
         document.getElementById('userPic').style.display = 'none';
         document.getElementById('userPic').offsetHeight;
             document.getElementById('userPic').style.display = 'block';
+        setTimeout(function(){
+      $ionicSlideBoxDelegate.update();
+  },1000);
         //Handling the Push sending to other User. 
         $scope.pushToOtherUser = function () {
             $scope.buttonDisable = true;
             serverAPI.pushStandardMessage(window.localStorage.getItem('teammateUID'), function (result) {
                 console.log("Callback PushToOtherUSer" + result)
             })
+            
 
         }
 

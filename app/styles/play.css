@@ -14,7 +14,7 @@ div.player-card .item{
 }
     
 div.player-card .slider{
-    height: 100% !important;
+    height: 100%;
     width: 100%;
 }
 
@@ -29,6 +29,9 @@ div.player-card img{
     margin-bottom: 0px;
 }
 
+.slider-slides{
+    width:   100% !important;
+}
 
 
 div.player-card h2 {
@@ -73,7 +76,7 @@ div.player-card h2 {
 
 .ion-slide {
 
-  height: 50% !important;
+  height: 50%;
 
   width: auto;
 
