@@ -15,6 +15,8 @@ angular.module('feedback', ['serverAPI'])
     $scope.question1;
     $scope.question2 = 0;
     $scope.question3 = 0;
+    $scope.buttonDisabled=true;
+    $scope.submitButtonText='Submit rating';
 
     $scope.openGames = [];
     serverAPI.getGamesToRate($scope.UID, function (data) {
@@ -22,6 +24,8 @@ angular.module('feedback', ['serverAPI'])
         for (var i = 0; i < data.length; i++) {
             $scope.openGames[i] = data[i];
         }
+        
+        $scope.notRatedGames=$scope.openGames.length;
 
         serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
             $scope.ratedName = data.userName;
@@ -131,8 +135,12 @@ angular.module('feedback', ['serverAPI'])
         }
     }
 
-    $scope.enableSubmit = function () {
-        if ($scope.question2 == 0 || $scope.question3 == 0) {
+    $scope.enableSubmit = function (x) {
+        if(x==0){    
+            if ($scope.question2 == 0 || $scope.question3 == 0) {
+                return true;
+            }
+        }else if(x==1){
             return true;
         }
     }
@@ -153,6 +161,8 @@ angular.module('feedback', ['serverAPI'])
         var scoreQuestion2 = parseInt($scope.question2);
         var scoreQuestion3 = parseInt($scope.question3);
         var finalScore = scoreQuestion1 + scoreQuestion2 + scoreQuestion3;
+        $scope.submitButtonText='Processing';
+        $scope.enableSubmit(1);
         console.log(finalScore);
 
         if (stayInTouch == 'true') {

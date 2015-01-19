@@ -2,7 +2,7 @@
     <ion-content class="padding">
         <div class="card">
             <h2>Rate your last game</h2>
-            <h5>You have {{notRatedGames}} feedbacks to submit</h5>
+            <h5>There are {{notRatedGames}} pending feedbacks</h5>
             <br>
             <h5>How did you like the game with <b>{{ratedName}}</b>?. Please provide feedback:</h5>
             <br>
@@ -46,8 +46,8 @@
                 <ion-toggle ng-model="userChoiceContact.mode" ng-change="changeUserChoiceContact()">
                     Stay in touch with<br>{{ratedName}}?
                 </ion-toggle>
-                <button class="button button-full button-positive" ng-click="evaluate()" ng-disabled="enableSubmit()">
-                    Submit Rating
+                <button class="button button-full button-positive" ng-click="evaluate()" ng-disabled="enableSubmit(0)">
+                    {{submitButtonText}}
                 </button>
             </div>
         </div>
