@@ -336,6 +336,7 @@ module.factory('serverAPI', function ($http) {
             $http.put(host + skipUserPath, skipUserRequest).success(callback).error(function (err) {
                 console.log(err)
             })
-        }
+        },
+        deleteUser: function (userId, callback) {}
     }
 })
