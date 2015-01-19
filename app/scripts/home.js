@@ -10,11 +10,14 @@ angular.module('home', ['services'])
 .controller('homeCtrl',
     function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector, $http) {
 
-        // $rootScope.startMessageRetrivalTimer()
         cssInjector.removeAll();
        $scope.isFacebookUser = window.localStorage.getItem('facebook');
     
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+    
+    //start Timer if user loggs in first time
+    services.startChatPartnerRetrivalTimer();
+    services.startMessageRetrivalTimerSlow();
 
     
     

@@ -8,28 +8,14 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         cssInjector.add('styles/chatDetail.css')
         $rootScope.hideFooter = true;
         
-      //scroll down to button
-       $ionicScrollDelegate.scrollBottom();
+        //Change intervall for retriving Messages to a faster intervall
+        services.endMessageRetrivalTimerSlow();
+        services.endMessageRetrivalTimerFast();
       
-
-      
-      //When leaving ChatDetail execute:
-        $scope.$on("$destroy", function(){
-            //Display Footer for other websites
- $rootScope.hideFooter = false;
-            //Stop intervall to retrive messages
-clearInterval(retriveMessagesIntervall);
-            //Save message count to local storage to identivy unread messages
-            window.localStorage.setItem('msgCount'+$scope.toUser._id, $scope.messages.length)
-            //Update the new Message Status in the FooterBar 
-           // $rootScope.getMessages();
-});
-      
-      
-        // Chatpartners User Data
         $scope.messages=  $rootScope.toUser.messages
         
-  
+        //scroll down to button
+       $ionicScrollDelegate.scrollBottom();
     
       
 
@@ -52,6 +38,18 @@ clearInterval(retriveMessagesIntervall);
           }
       
       })
+      
+            //When leaving ChatDetail execute:
+        $scope.$on("$destroy", function(){
+            //Display Footer for other websites
+ $rootScope.hideFooter = false;
+            //Change intervall to retrive messages to slower
+            services.endMessageRetrivalTimerFast();
+            services.startMessageRetrivalTimerSlow();
+            //Save message count to local storage to identivy unread messages
+            window.localStorage.setItem('msgCount'+$scope.toUser._id, $scope.messages.length)
+});
+      
       
 
         //Saving typed messages that have not been sent to local storage and to initialize them when the chat is reopened.

@@ -138,7 +138,7 @@ services.factory('services', function ($window, serverAPI, $rootScope) {
         },
         
         getChatPartner: function(callback){
-                var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+        var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
 
         serverAPI.getUsersCurrentlyPlayedWith(UID, function(usersCurrentlyPlayedWith){        
         
