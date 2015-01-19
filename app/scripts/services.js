@@ -146,8 +146,10 @@ services.factory('services', function ($window, serverAPI, $rootScope) {
         for(var i = 0; i<usersCurrentlyPlayedWith.length; i++){
             for(var j= 0; j<$rootScope.chatPartner.length; j++){
                 if($rootScope.chatPartner[j]._id== usersCurrentlyPlayedWith[i]._id){
-                    var messageTmp = $rootScope.chatPartner[j].message
-                    usersCurrentlyPlayedWith[i].message = messageTmp;
+                    var lastMessageTmp = $rootScope.chatPartner[j].lastMessage 
+                     var messagesTmp = $rootScope.chatPartner[j].messages
+                    usersCurrentlyPlayedWith[i].lastMessage = lastMessageTmp;
+                    usersCurrentlyPlayedWith[i].messages = messagesTmp;
                     $rootScope.chatPartner[j] = usersCurrentlyPlayedWith[i];
                     newUser=false;
                 }
@@ -176,7 +178,7 @@ services.factory('services', function ($window, serverAPI, $rootScope) {
     for(var i = 0; i<$rootScope.chatPartner.length; i++){
          serverAPI.getPreviousMessages(UID, $rootScope.chatPartner[i]._id, function(messages){
              
-                    var msgCount = window.localStorage.getItem('msgCount'+messages.otherUID)
+                    var msgCount = window.localStorage.getItem('msgCount'+messages.otherUser)
                     
                     
                     var message = ''
@@ -194,7 +196,7 @@ services.factory('services', function ($window, serverAPI, $rootScope) {
              //Save messsage to correct chatPartner
              for(var j =0; j<$rootScope.chatPartner.length; j++){
              if($rootScope.chatPartner[j]._id == messages.otherUser){
-                 $rootScope.chatPartner[j].messages = messages.messages;
+                 $rootScope.chatPartner[j].messages = messages;
                  $rootScope.chatPartner[j].lastMessage = message;
              }    
              }
@@ -202,6 +204,7 @@ services.factory('services', function ($window, serverAPI, $rootScope) {
              count++;
              if(count == $rootScope.chatPartner.length){
                  callback('1');
+                  $rootScope.doneLoading = true
              }
         
     })}        
@@ -217,11 +220,13 @@ services.factory('services', function ($window, serverAPI, $rootScope) {
    self.getChatPartner(function(){
        self.getMessages(function(){})
    })
+   
     chatPartnerRetrivalTimer   = setInterval(function(){
+    console.log("run ")
     self.getChatPartner(function(){
         
     })      
-    }, 30000)
+    }, 3000)
        },
         
     startMessageRetrivalTimerSlow : function(){
@@ -230,6 +235,7 @@ services.factory('services', function ($window, serverAPI, $rootScope) {
        //callback
    })
     mailRetrivalTimerSlow   = setInterval(function(){
+           console.log("slow ")
     self.getMessages(function(){
         
     })      
@@ -245,6 +251,7 @@ services.factory('services', function ($window, serverAPI, $rootScope) {
        //callback
    })
     mailRetrivalTimerFast   = setInterval(function(){
+           console.log("fast ")
     self.getMessages(function(){
         
     })      

@@ -1,13 +1,20 @@
 <ion-view title="Chat">
-
+   
+       <div class="loader-center" ng-if="!doneLoading">
+        <div class="loader">
+            <i class="icon ion-loading-c"></i>
+        </div>
+    </div>
     
     <ion-content>
 
-        <ul class="list" ng-repeat="partner in chatPartner">
-            <li class="item item-avatar" ng-click="clicked(partner)">
+        <ul class="animate-repeat" ng-repeat="partner in chatPartner">
+            <li class="item item-avatar" ng-click="clicked({{partner}})">
+              
                 <img ng-src="{{partner.profilPhoto}}">
                 <h2>{{partner.username}}</h2>
                 <p>{{partner.lastMessage}}</p>
+                
             </li>
         </ul>
     </ion-content>

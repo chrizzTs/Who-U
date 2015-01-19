@@ -96,6 +96,8 @@ function getUserData(){
             } 
             else{
                 console.error("Error loading RecentEvents: " + data)
+                $scope.doneLoading = true;
+                return;
             }
             
             //Check if avata needs to be sent as profile Picture

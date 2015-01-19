@@ -7,12 +7,13 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
 
         cssInjector.add('styles/chatDetail.css')
         $rootScope.hideFooter = true;
+    
+        $rootScope.toUser
         
         //Change intervall for retriving Messages to a faster intervall
         services.endMessageRetrivalTimerSlow();
-        services.endMessageRetrivalTimerFast();
+        services.startMessageRetrivalTimerFast();
       
-        $scope.messages=  $rootScope.toUser.messages
         
         //scroll down to button
        $ionicScrollDelegate.scrollBottom();
@@ -30,7 +31,7 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         };
       
     //Find out how many messages are left to send:
-      serverAPI.getMessagesLeft(UID, $scope.toUser._id, function(msgCount){
+      serverAPI.getMessagesLeft(UID, $rootScope.toUser._id, function(msgCount){
           if(msgCount >0){
                   $scope.msgCount = msgCount;
           }else{
@@ -47,7 +48,7 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             services.endMessageRetrivalTimerFast();
             services.startMessageRetrivalTimerSlow();
             //Save message count to local storage to identivy unread messages
-            window.localStorage.setItem('msgCount'+$scope.toUser._id, $scope.messages.length)
+            window.localStorage.setItem('msgCount'+$rootScope.toUser._id, $rootScope.toUser.messages.messages.length)
 });
       
       
@@ -81,7 +82,7 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         //Saving input Message to local Storage
         $scope.$watch('input.message', function (newValue, oldValue) {
             if (!newValue) newValue = '';
-            localStorage['userMessage-' + $scope.toUser._id] = newValue;
+            localStorage['userMessage-' + $rootScope.toUser._id] = newValue;
         });
 
         //Send message to Server
@@ -89,11 +90,11 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             
             $scope.msgCount --;
 
-            $scope.messages.push({'message':$scope.input.message, 'timeStamp': new Date(), 'userSent': UID});
+           $rootScope.toUser.messages.messages.push({'message':$scope.input.message, 'timeStamp': new Date(), 'userSent': UID});
             
             $ionicScrollDelegate.scrollBottom();
             
-            serverAPI.sendMessage(UID,  $scope.toUser._id, $scope.input.message,  new Date(), function(result){
+            serverAPI.sendMessage(UID,  $rootScope.toUser._id, $scope.input.message,  new Date(), function(result){
                 if(result < 0){
                     console.error("Erro sending Message: " + result)
                 }
@@ -120,7 +121,7 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
                         break;
                     case 1: // Delete
                         // no server side secrets here :~)
-                        $scope.messages.splice(itemIndex, 1);
+                        $rootScope.toUser.messages.messages.splice(itemIndex, 1);
                         $timeout(function () {
                             viewScroll.resize();
                         }, 0);
@@ -438,13 +439,3 @@ angular.module('monospaced.elastic', [])
     }
   ]);
 
-
-// Factory for ChatMaster to notify which Chat to load
-chatDetail.factory('chatDetail', function ($rootScope) {
-    return {
-        initChat: function (partner) {
-        $rootScope.toUser = partner
-        console.log(partner)
-        }
-    }
-})

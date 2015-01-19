@@ -98,13 +98,14 @@ angular.module('settings', ['services'])
             if (credentials.UID != null && credentials.UID != '') {
                 serverAPI.logout(credentials.UID, function (data) {
                     localStorage.clear();
-                    services.endChatPartnerRetrivalTimer()
-                    services.endMessageRetrivalTimerSlow()
-                    $rootScope.chatPartner = new Array()
                     window.location = '#/login';
                 });
             }
         }
+                            services.endChatPartnerRetrivalTimer()
+                    services.endMessageRetrivalTimerSlow()
+                    $rootScope.chatPartner = new Array()
+        
     };
     
     $scope.deleteAccount=function(){
