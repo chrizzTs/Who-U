@@ -1,6 +1,6 @@
 angular.module('settings', ['services'])
 
-.controller('settingsCtrl', function ($scope, serverAPI, services) {
+.controller('settingsCtrl', function ($scope, serverAPI, services, $ionicPopup) {
 
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
     $scope.visibleStatus;
@@ -103,4 +103,18 @@ angular.module('settings', ['services'])
             }
         }
     };
+    
+    $scope.deleteAccount=function(){
+        var confirmPopup = $ionicPopup.confirm({
+                title: 'Warning!',
+                template: 'Are you sure you want to delete your account?'
+            });
+            confirmPopup.then(function (res) {
+                if (res) {
+                    console.log('Go to hell');
+                }else{
+                    console.log('Good choice');
+                }
+            });   
+    }
 })
