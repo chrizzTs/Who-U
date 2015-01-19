@@ -47,7 +47,8 @@ angular.module('registration', ['serverAPI'])
                             }
                             window.localStorage.setItem('Credentials', JSON.stringify(newCredentials));
                             window.localStorage.setItem('visible', true);
-                            window.localStorage.setItem('saveData', 'true');
+                            window.localStorage.setItem('saveData', 'false');
+                            window.localStorage.setItem('pushNotifications', 'true');
                             window.location = "#/tab/home";
                         }
                     });
