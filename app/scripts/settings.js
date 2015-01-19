@@ -1,6 +1,6 @@
 angular.module('settings', ['services'])
 
-.controller('settingsCtrl', function ($scope, serverAPI, services, $ionicPopup) {
+.controller('settingsCtrl', function ($scope, serverAPI, services, $ionicPopup, $rootScope) {
 
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
     $scope.visibleStatus;
@@ -20,11 +20,11 @@ angular.module('settings', ['services'])
     }
 
     if (pushNotifications == 'true') {
-        $scope.pushNotificationStatus = {
+        $scope.pushNotificationsStatus = {
             mode: true
         };
     } else if (pushNotifications == 'false') {
-        $scope.pushNotificationStatus = {
+        $scope.pushNotificationsStatus = {
             mode: false
         };
     }
@@ -63,9 +63,9 @@ angular.module('settings', ['services'])
     $scope.changePushNotifications = function () {
         if (pushNotifications = 'true') {    
             $rootScope.disablePushNotification();
-            
             pushNotifications = 'false';
             window.localStorage.setItem('pushNotifications', 'false');
+            console.log('geht');
         } else if (pushNotifications = 'false') {
             $rootScope.enablePushNotification()
             pushNotifications = 'true';

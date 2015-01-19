@@ -140,16 +140,18 @@ angular.module('play', ['serverAPI'])
         $scope.doSkipUser = function () {
             console.log('User wird übersprungen');
             $scope.skipUser = 'false';
+            console.log('Skip user ist jetzt: '+$scope.skipUser);
             window.localStorage.setItem('skipUser', 'false');
             serverAPI.skipUser(UID, GID, function (data) {
-                console.log('serverAPI.skipUser: ' + data);
-                $scope.teammateUID = data.UID;
+                console.log(data);
+                $scope.teammateUID = data.otherUserId;
+                $scope.name = data.username;
                 $scope.slides = new Array();
                 $scope.loadImages();
-                $scope.redraw();
-                serverAPI.getUserData($scope.teammateUID, function(data){
+                //$scope.redraw();
+                /*serverAPI.getUserData($scope.teammateUID, function(data){
                     $scope.name = data.name;
-                });
+                });*/
             });
             
         }

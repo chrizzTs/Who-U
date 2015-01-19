@@ -1,6 +1,8 @@
 angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map', 'coins', 'pictureTaker', 'feedback', 'photos', 'chatDetail'])
 
 .run(function ($ionicPlatform, $rootScope, serverAPI) {
+    
+    
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -281,9 +283,12 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
 
 .controller('tabsCtrl',
     function ($state, $scope, $rootScope, services) {
-    $rootScope.$watch('emailIcon', function(){
+    
+    $rootScope.newMessages=true;
+    
+    /*$rootScope.$watch('emailIcon', function(){
         $scope.emailIcon =$rootScope.emailIcon;
-    })
+    })*/
     
     
      $rootScope.$watch('hideFooter', function (newValue, oldValue) {
