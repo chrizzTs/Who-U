@@ -2,7 +2,12 @@
     <ion-content class="padding">
         <div class="card">
             <h2>Rate your last game</h2>
-            <h5>There are {{notRatedGames}} pending feedbacks</h5>
+            <span ng-show="severalFeedbacks">
+                There are {{notRatedGames}} feedbacks to commit.
+            </span>
+            <span ng-show="singleFeedback">
+                There is 1 feedback to commit.
+            </span>
             <br>
             <h5>How did you like the game with <b>{{ratedName}}</b>?. Please provide feedback:</h5>
             <br>
@@ -10,7 +15,7 @@
             <br>
             <div ng-show="showChoice">
                 <div class="row">
-                    <div class="col col-50">Did <b>{{ratedName}}</b> contact you?</div>
+                    <div class="col col-50">Was there a contact with <b>{{ratedName}}</b>?</div>
                     <div class="col col-25">
                         <button class="button button-balanced" ng-click="contacted()">Yes</button>
                     </div>

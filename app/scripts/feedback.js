@@ -25,7 +25,17 @@ angular.module('feedback', ['serverAPI'])
             $scope.openGames[i] = data[i];
         }
         
+        $scope.severalFeedbacks;
+        $scope.singleFeedback;
         $scope.notRatedGames=$scope.openGames.length;
+        
+        if($scope.notRatedGames==1){
+            $scope.singleFeedback=true;
+            $scope.severalFeedbacks=false;
+        }else if($scope.notRatedGames>1){
+            $scope.singleFeedback=false;
+            $scope.severalFeedbacks=true;
+        }
 
         serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
             $scope.ratedName = data.userName;

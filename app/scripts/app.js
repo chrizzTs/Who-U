@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map', 'coins', 'pictureTaker', 'feedback', 'photos', 'chatDetail'])
+angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'chatMaster', 'registration', 'login', 'angular.css.injector', 'map', 'coins', 'pictureTaker', 'feedback', 'photos', 'chatDetail', 'buyMessages'])
 
 
 .run(function ($ionicPlatform, $rootScope, serverAPI, services) {
@@ -162,7 +162,10 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
         views: {
             'tab-coins': {
                 templateUrl: 'templates/tab-coins.html',
-                controller: 'coinsCtrl'
+                controller: 'coinsCtrl',
+                data: {
+                    css: 'styles/coins.css'
+            }
             }
         }
     })
@@ -184,7 +187,8 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
         data: {
             css: 'styles/feedback.css'
         }
-    });
+    })
+    
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('login');

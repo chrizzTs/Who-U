@@ -123,7 +123,7 @@ angular.module('settings', ['services'])
                     alert('Permissions revoked');
                 },
                 errorHandler);
-    }
+                }
     
                     
                     console.log('Go to hell');
