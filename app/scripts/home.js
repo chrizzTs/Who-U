@@ -1,12 +1,6 @@
 'use strict'
 angular.module('home', ['services'])
 
-.run(function ($rootScope, serverAPI){
-   
-    
-    
-    })
-
 .controller('homeCtrl',
     function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector, $http) {
 
@@ -143,18 +137,14 @@ function getUserData(){
 
         $scope.click = function () {
             $rootScope.buttonDisable=true;
-            $scope.text='Disabled for 10s';
+            $scope.text='Searching';
         
             $scope.enabler=$interval(function(){
                 $rootScope.buttonDisable=false;
                 $interval.cancel($scope.enabler);
-            }, 10000);
+            }, 180000000);
             
             console.log('Button disable: '+$scope.buttonDisable);
-
-            console.log($scope.text);
-            //$scope.text = 'Searching';
-            console.log($scope.text);
 
             console.log($scope.buttonType);
             $scope.buttonType = 'icon ion-loading-a';
