@@ -22,9 +22,10 @@ angular.module('map', ['uiGmapgoogle-maps'])
         cssInjector.add('styles/map.css');
 
         $scope.myPosition = JSON.parse(window.localStorage.getItem("myPosition"));
+        console.log($scope.myPosition);
 
         $scope.teammatePosition = JSON.parse(window.localStorage.getItem("teammatePosition"));
-
+        console.log($scope.teammatePosition);
         //Directive needs to be ready to be used
         // Do stuff with your $scope.
         // Note: Some of the directives require at least something to be defined originally!
@@ -41,7 +42,7 @@ angular.module('map', ['uiGmapgoogle-maps'])
 
 
             $scope.map = {
-                center: angular.copy($scope.myPosition),
+                center: angular.copy($scope.teammatePosition),
                 zoom: 17
             };
 

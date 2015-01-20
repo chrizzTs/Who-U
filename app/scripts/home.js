@@ -213,7 +213,7 @@ function getUserData(){
                         console.log(data)
                         var teammatePosition = {
                             'longitude': data.longitude,
-                            'latitude ': data.latitude
+                            'latitude': data.latitude
                         };
                         window.localStorage.setItem('teammatePosition', JSON.stringify(teammatePosition));
                         //TODO: data.fotoId => request foto from server
