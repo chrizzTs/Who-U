@@ -1,6 +1,6 @@
 angular.module('settings', ['services'])
 
-.controller('settingsCtrl', function ($scope, serverAPI, services, $ionicPopup, $rootScope, openFB) {
+.controller('settingsCtrl', function ($scope, serverAPI, services, $ionicPopup, $rootScope) {
 
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
     $scope.visibleStatus;
