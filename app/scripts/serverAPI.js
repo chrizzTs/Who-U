@@ -34,6 +34,7 @@ const sendMessagePath = '/chat/sendMessage'
 const searchStartedPushPath = '/chat/searchStartedPush'
 const sendStandardMessagePath = '/chat/sendStandardMessage'
 const openSSEConnectionPath = '/chat/openSSEConnection'
+const deleteUserPath = '/registration/delete'
 
 //the module that has to be included if an API has to be called
 module.factory('serverAPI', function ($http) {
@@ -245,7 +246,7 @@ module.factory('serverAPI', function ($http) {
             var user = {
                 '_id': userId,
             }
-            
+
             $http({
                 url: host + usersCurrentlyPlayedWithPath,
                 method: 'GET',
@@ -337,6 +338,20 @@ module.factory('serverAPI', function ($http) {
                 console.log(err)
             })
         },
-        deleteUser: function (userId, callback) {}
+
+        //Actually there was a problem using http.delete method with passing arguments. So we decided to use            //the get method instead
+        deleteUser: function (userId, callback) {
+            var user = {
+                '_id': userId
+            }
+            console.log('DELETED ' + userId)
+            $http({
+                url: host + deleteUserPath,
+                method: 'GET',
+                params: user
+            }).success(callback).error(function (err) {
+                console.log(err)
+            })
+        }
     }
 })
