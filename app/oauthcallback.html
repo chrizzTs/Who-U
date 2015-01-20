@@ -1,7 +1,9 @@
 <html>
 <body>
 <script>
+    alert('Some window is opening');
     window.opener.openFB.oauthCallback(window.location.href);
+    alert('Current window will now close');
     window.close();
 </script>
 </body>
