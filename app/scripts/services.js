@@ -142,6 +142,7 @@ services.factory('services', function ($window, serverAPI, $rootScope, $interval
 
         serverAPI.getUsersCurrentlyPlayedWith(UID, function(usersCurrentlyPlayedWith){        
         
+        if(typeof usersCurrentlyPlayedWith ==='object'){
         var newUser= true;
         for(var i = 0; i<usersCurrentlyPlayedWith.length; i++){
             for(var j= 0; j<$rootScope.chatPartner.length; j++){
@@ -168,7 +169,19 @@ services.factory('services', function ($window, serverAPI, $rootScope, $interval
             
             callback('1');
             
-        })},
+        }
+        else{
+            //If not ChatPartner is available => Set DoneLoading for ChatMaster because there is nothing to load
+            if(usersCurrentlyPlayedWith == -11){
+                $rootScope.doneLoading = true;
+            }else{
+               console.error("Error: getUsersCurrentlyPlayedWith() " + usersCurrentlyPlayedWith)   
+            }
+        
+                                             
+        
+        }
+                                              })},
         
         
         getMessages: function (callback){        

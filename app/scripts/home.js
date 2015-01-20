@@ -280,7 +280,6 @@ function getUserData(){
                         if(result<0){
                             console.error("Error callback insertPushId: "+ result)
                         }else{
-                            alert("insertedPush" + e.regid)
                             window.localStorage.setItem('pushId', e.regid)
                         }
                     })
