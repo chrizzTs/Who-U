@@ -1,6 +1,6 @@
 angular.module('settings', ['services'])
 
-.controller('settingsCtrl', function ($scope, serverAPI, services, $ionicPopup, $rootScope) {
+.controller('settingsCtrl', function ($scope, serverAPI, services, $ionicPopup, $rootScope, openFB) {
 
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
     $scope.visibleStatus;
@@ -115,6 +115,14 @@ angular.module('settings', ['services'])
             });
             confirmPopup.then(function (res) {
                 if (res) {
+                    if (window.localStorage.getItem('facebook')){
+                           openFB.revokePermissions(
+                function() {
+                    console.log('Permissions revoked');
+                },
+                errorHandler);
+    }
+                    }
                     console.log('Go to hell');
                     serverAPI.deleteUser(UID, function(data){
                         console.log('deleteUser '+data);
