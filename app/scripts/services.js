@@ -1,6 +1,6 @@
 var services = angular.module('services', [])
 
-services.factory('services', function ($window, serverAPI, $rootScope) {
+services.factory('services', function ($window, serverAPI, $rootScope, $interval) {
     var bgGeo;
     var mailRetrivalTimerSlow;
     var mailRetrivalTimerFast;
@@ -212,7 +212,8 @@ services.factory('services', function ($window, serverAPI, $rootScope) {
     },
         
             endChatPartnerRetrivalTimer: function(){
-          clearInterval(chatPartnerRetrivalTimer)  
+          $interval.cancel(chatPartnerRetrivalTimer)  
+          chatPartnerRetrivalTimer = undefined
         },
     
     startChatPartnerRetrivalTimer : function(){
@@ -220,13 +221,13 @@ services.factory('services', function ($window, serverAPI, $rootScope) {
    self.getChatPartner(function(){
        self.getMessages(function(){})
    })
-   
-    chatPartnerRetrivalTimer   = setInterval(function(){
-    console.log("run ")
+    
+    if(chatPartnerRetrivalTimer == undefined){
+    chatPartnerRetrivalTimer   = $interval(function(){
     self.getChatPartner(function(){
         
     })      
-    }, 3000)
+    }, 3000)}
        },
         
     startMessageRetrivalTimerSlow : function(){
@@ -234,24 +235,24 @@ services.factory('services', function ($window, serverAPI, $rootScope) {
    self.getMessages(function(){
        //callback
    })
-    mailRetrivalTimerSlow   = setInterval(function(){
-           console.log("slow ")
+   if(mailRetrivalTimerSlow == undefined){
+    mailRetrivalTimerSlow   = $interval(function(){
     self.getMessages(function(){
         
     })      
-    }, 5000)
+    }, 5000)}
        },
         
         endMessageRetrivalTimerSlow: function(){
-          clearInterval(mailRetrivalTimerSlow)  
+          $interval.cancel(mailRetrivalTimerSlow);
+            mailRetrivalTimerSlow = undefined
         },
             startMessageRetrivalTimerFast : function(){
     var self = this;
    self.getMessages(function(){
        //callback
    })
-    mailRetrivalTimerFast   = setInterval(function(){
-           console.log("fast ")
+    mailRetrivalTimerFast   = $interval(function(){
     self.getMessages(function(){
         
     })      
@@ -259,6 +260,7 @@ services.factory('services', function ($window, serverAPI, $rootScope) {
        },
         
         endMessageRetrivalTimerFast: function(){
-          clearInterval(mailRetrivalTimerFast)  
+          $interval.cancel(mailRetrivalTimerFast) 
+          mailRetrivalTimerFast = undefined
         }
 } })
