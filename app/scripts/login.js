@@ -30,7 +30,6 @@ angular.module('login', [])
                         services.startBackgroundGps();
                     }
                     window.localStorage.setItem('saveData', 'false');
-                    window.localStorage.setItem('searchButton', 'true');
                     window.localStorage.setItem('pushNotifications', 'true');
                     window.location = "#/tab/home";
                 })
@@ -47,7 +46,6 @@ angular.module('login', [])
                 if (data instanceof Object) {
                     window.localStorage.setItem('Credentials', JSON.stringify(data));
                     window.localStorage.setItem('visible', true);
-                    window.localStorage.setItem('searchButton', 'true');
                     window.localStorage.setItem('saveData', 'false');
                     window.localStorage.setItem('Facebook', 'false');
                     window.localStorage.setItem('pushNotifications', 'true');
@@ -109,7 +107,6 @@ angular.module('login', [])
                 if (data instanceof Object) {
                     window.localStorage.setItem('Credentials', JSON.stringify(data));
                     window.localStorage.setItem('visible', true);
-                    window.localStorage.setItem('searchButton', 'true');
                     window.localStorage.setItem('pushNotifications', 'true');
                     window.localStorage.setItem('saveData', 'false');
                     window.location = "#/tab/home";

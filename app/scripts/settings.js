@@ -8,6 +8,8 @@ angular.module('settings', ['services'])
     var visible = window.localStorage.getItem('visible');
     var pushNotifications = window.localStorage.getItem('pushNotifications');
     var saveData = window.localStorage.getItem('saveData');
+    
+    window.localStorage.setItem('disableSearchButton', 'false');
 
     if (visible == 'true') {
         $scope.visibleStatus = {
@@ -125,10 +127,10 @@ angular.module('settings', ['services'])
     
                     
                     console.log('Go to hell');
+                    $scope.logout();
                     serverAPI.deleteUser(UID, function(data){
                         console.log('deleteUser '+data);
                     });
-                    $scope.logout();
                     window.location = '#/login';
                 }else{
                     console.log('Good choice');
