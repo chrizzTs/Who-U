@@ -182,6 +182,7 @@ angular.module('feedback', ['serverAPI'])
                 window.location = "#/tab/home";
             }
         });
+        $scope.showChoice = 'true';
     }
 
     $scope.notContacted = function () {

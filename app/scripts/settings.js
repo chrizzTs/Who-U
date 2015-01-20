@@ -119,6 +119,8 @@ angular.module('settings', ['services'])
                     serverAPI.deleteUser(UID, function(data){
                         console.log('deleteUser '+data);
                     });
+                    $scope.logout();
+                    window.location = '#/login';
                 }else{
                     console.log('Good choice');
                 }
