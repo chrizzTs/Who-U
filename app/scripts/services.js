@@ -68,7 +68,6 @@ services.factory('services', function ($window, serverAPI, $rootScope, $interval
         },
         
         addFBProfilePicture: function(){
-            var UID = window.localStorage.getItem('UID');
             
            openFB.api({
         path: '/me/picture',
@@ -82,34 +81,40 @@ services.factory('services', function ($window, serverAPI, $rootScope, $interval
            
         
         var facebookprofilePhoto = new Image();
-    facebookprofilePhoto.setAttribute('width', '380');
-    facebookprofilePhoto.setAttribute('height', '380');
+facebookprofilePhoto.src = picture.data.url;
+    facebookprofilePhoto.width = 380;
+    facebookprofilePhoto.height = 380;
     facebookprofilePhoto.setAttribute('crossorigin', 'anonymous');
-    facebookprofilePhoto.setAttribute('src', picture.data.url);
+     facebookprofilePhoto.onload = function(){
     console.log(facebookprofilePhoto);
-    if(document.readyState === "complete") {
-  //Already loaded!
         console.log('ready');
     var c = document.createElement('canvas');
     c.setAttribute('width', '380');
     c.setAttribute('height', '380');
-    }
     var ctx = c.getContext("2d");
-    ctx.drawImage(facebookprofilePhoto, 10, 10, 380, 380);
+            ctx.fillStyle = "rgb(200,0,0)";
+    ctx.drawImage(facebookprofilePhoto, 0, 0, 380, 380);
  var encodedImage = c.toDataURL('image/jpeg', 0.5);
         console.log(encodedImage);
+         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+         console.log(UID);
             serverAPI.saveNewPhoto(UID, encodedImage, function(data){
-                window.localStorage.setItem('facebookProfilePicture', JSON.stringify(picture));
+                console.log(data);
+                window.history.back();
+                window.localStorage.setItem('facebookProfilePicture', JSON.stringify(data));
+                console.log('Facebook Photo saved');
+                //Facebook Photo saved
                 });
             
+             
             
-            
+        }
+    facebookprofilePhoto.src = picture.data.url;    
         },
         error: function(error){
             console.log(error.error_description);
         }
-        })
-        },
+        })},
                       
     
         

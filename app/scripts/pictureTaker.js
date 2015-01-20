@@ -188,9 +188,11 @@ angular.module('pictureTaker', ['ngImgCrop'])
 
       //downscale Image
       $scope.addFBProfilePicture = function(){
-        services.addFBProfilePicture();  
-          window.history.back();
-      }
+         services.addFBProfilePicture();
+        }
+  
+         
+      
       
       
       

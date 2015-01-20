@@ -86,10 +86,9 @@ angular.module('photos', [])
         $scope.photoIds = data.photoIds;
         window.localStorage.setItem('photoIds', $scope.photoIds);
 
-     
-
+        
         $scope.localStorageImages = JSON.parse(window.localStorage.getItem('userPhotos'));
-          
+        
         //loop for getting the image data of every photo
         for (var i = 0; i < data.photoIds.length; i++) {
 
