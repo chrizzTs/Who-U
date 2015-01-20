@@ -116,13 +116,14 @@ angular.module('settings', ['services'])
             confirmPopup.then(function (res) {
                 if (res) {
                     if (window.localStorage.getItem('facebook')){
-                           openFB.revokePermissions(
+                              openFB.revokePermissions(
                 function() {
-                    console.log('Permissions revoked');
+                    alert('Permissions revoked');
                 },
                 errorHandler);
     }
-                    }
+    
+                    
                     console.log('Go to hell');
                     serverAPI.deleteUser(UID, function(data){
                         console.log('deleteUser '+data);
