@@ -104,7 +104,7 @@ angular.module('settings', ['services'])
                 });
             }
         }
-                            services.endChatPartnerRetrivalTimer()
+                    services.endChatPartnerRetrivalTimer()
                     services.endMessageRetrivalTimerSlow()
                     $rootScope.chatPartner = new Array()
         
@@ -127,11 +127,12 @@ angular.module('settings', ['services'])
     
                     
                     console.log('Go to hell');
-                    $scope.logout();
                     serverAPI.deleteUser(UID, function(data){
                         console.log('deleteUser '+data);
+                        $scope.logout();
+                        window.location = '#/login';
                     });
-                    window.location = '#/login';
+                    
                 }else{
                     console.log('Good choice');
                 }
