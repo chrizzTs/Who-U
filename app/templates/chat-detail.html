@@ -1,4 +1,4 @@
-<ion-view title="<i class='icon ion-chatbubble user-messages-top-icon'></i> {{toUser.username}}">
+<ion-view title="<i class='icon ion-chatbubble user-messages-top-icon'></i> {{chatPartner[id].username}}">
 
     <div class="loader-center" ng-if="!doneLoading">
         <div class="loader">
@@ -9,11 +9,11 @@
     <ion-content has-bouncing="true" class="has-header has-footer" delegate-handle="userMessageScroll">
 
 
-        <div ng-repeat="message in toUser.messages.messages" class="message-wrapper" on-hold="onMessageHold($event, $index, message)">
+        <div ng-repeat="message in chatPartner[id].messages.messages" class="message-wrapper" on-hold="onMessageHold($event, $index, message)">
 
             <div ng-if="user._id !== message.userSent">
 
-                <img class="profile-pic left" ng-src="{{toUser.profilPhoto}}" onerror="onProfilePicError(this)" />
+                <img class="profile-pic left" ng-src="{{chatPartner[id].profilPhoto}}" onerror="onProfilePicError(this)" />
 
                 <div class="chat-bubble left">
 
@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="message-detail">
-                        <span class="bold">{{toUser.username}}</span>,
+                        <span class="bold">{{chatPartner[id].username}}</span>,
                         <span am-time-ago="message.timeStamp"></span>
                     </div>
 
@@ -30,7 +30,7 @@
 
             <div ng-if="user._id === message.userSent">
 
-                <img class="profile-pic right" ng-src="{{user.profilPhoto}}" onerror="onProfilePicError(this)" />
+                <img class="profile-pic right" ng-src="{{chatPartner[id].profilPhoto}}" onerror="onProfilePicError(this)" />
 
                 <div class="chat-bubble right">
 

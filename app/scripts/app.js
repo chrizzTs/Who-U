@@ -148,7 +148,7 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
     })
 
     .state('tab.chat-detail', {
-        url: '/chat-detail',
+        url: '/chat-detail/:id',
         views: {
             'tab-chat-master': {
                 templateUrl: 'templates/chat-detail.html',

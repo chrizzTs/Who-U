@@ -7,16 +7,15 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
 
         cssInjector.add('styles/chatDetail.css')
         $rootScope.hideFooter = true;
+
     
-        $rootScope.toUser
-        
         //Change intervall for retriving Messages to a faster intervall
         services.endMessageRetrivalTimerSlow();
         services.startMessageRetrivalTimerFast();
       
         
         //scroll down to button
-       $ionicScrollDelegate.scrollBottom();
+         $ionicScrollDelegate.scrollBottom();
     
       
 
@@ -31,8 +30,8 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         };
       
     //Find out how many messages are left to send:
-      serverAPI.getMessagesLeft(UID, $rootScope.toUser._id, function(msgCount){
-          if(msgCount >0){
+      serverAPI.getMessagesLeft(UID, $rootScope.chatPartner[$stateParams.id]._id, function(msgCount){
+          if(msgCount >=0){
                   $scope.msgCount = msgCount;
           }else{
               console.error("Error receive messageCount: " + msgCount)
@@ -48,14 +47,14 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             services.endMessageRetrivalTimerFast();
             services.startMessageRetrivalTimerSlow();
             //Save message count to local storage to identivy unread messages
-            window.localStorage.setItem('msgCount'+$rootScope.toUser._id, $rootScope.toUser.messages.messages.length)
+            window.localStorage.setItem('msgCount'+$rootScope.chatPartner[$stateParams.id]._id, $rootScope.chatPartner[$stateParams.id].messages.messages.length)
 });
       
       
 
         //Saving typed messages that have not been sent to local storage and to initialize them when the chat is reopened.
         $scope.input = {
-            message: localStorage['userMessage-' + $scope.toUser._id] || ''
+            message: localStorage['userMessage-' + $rootScope.chatPartner[$stateParams.id]._id] || ''
         };
 
 
@@ -67,8 +66,8 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         
 
     
-
-
+    
+    $scope.id = $stateParams.id;
       
     //Init get messages  
     services.getChatPartner(function(){
@@ -82,7 +81,7 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         //Saving input Message to local Storage
         $scope.$watch('input.message', function (newValue, oldValue) {
             if (!newValue) newValue = '';
-            localStorage['userMessage-' + $rootScope.toUser._id] = newValue;
+            localStorage['userMessage-' + $rootScope.chatPartner[$stateParams.id]._id] = newValue;
         });
 
         //Send message to Server
@@ -90,11 +89,11 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             
             $scope.msgCount --;
 
-           $rootScope.toUser.messages.messages.push({'message':$scope.input.message, 'timeStamp': new Date(), 'userSent': UID});
+           $rootScope.chatPartner[$stateParams.id].messages.messages.push({'message':$scope.input.message, 'timeStamp': new Date(), 'userSent': UID});
             
             $ionicScrollDelegate.scrollBottom();
             
-            serverAPI.sendMessage(UID,  $rootScope.toUser._id, $scope.input.message,  new Date(), function(result){
+            serverAPI.sendMessage(UID,  $rootScope.chatPartner[$stateParams.id]._id, $scope.input.message,  new Date(), function(result){
                 if(result < 0){
                     console.error("Erro sending Message: " + result)
                 }
@@ -121,7 +120,7 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
                         break;
                     case 1: // Delete
                         // no server side secrets here :~)
-                        $rootScope.toUser.messages.messages.splice(itemIndex, 1);
+                        $rootScope.chatPartner[$stateParams.id].messages.messages.splice(itemIndex, 1);
                         $timeout(function () {
                             viewScroll.resize();
                         }, 0);

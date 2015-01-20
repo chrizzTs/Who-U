@@ -9,10 +9,10 @@ angular.module('chatMaster', ['chatDetail', 'serverAPI'])
     
         for(var i= 0; i < $rootScope.chatPartner.length;i++){
             if($rootScope.chatPartner[i]._id == partner._id){
-                $rootScope.toUser = $rootScope.chatPartner[i]
+                window.location = '#/tab/chat-detail/'+i
             }
         }
-        $state.go('tab.chat-detail');
+      //  $state.go('tab.chat-detail');
     }
     
     cssInjector.removeAll();
