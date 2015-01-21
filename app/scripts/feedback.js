@@ -44,15 +44,6 @@ angular.module('feedback', ['serverAPI'])
                 $scope.ratedName = data.userName;
             }
         });
-        
-        if($scope.ratedName=='user deleted'){
-            $scope.counter++;
-            if ($scope.counter < $scope.openGames.length) {
-                console.log('Counter für games: ' + $scope.counter);
-            } else {
-                window.location = "#/tab/home";
-            }
-        }
     });
 
     if (stayInTouch == 'true') {
@@ -176,6 +167,7 @@ angular.module('feedback', ['serverAPI'])
         var scoreQuestion3 = parseInt($scope.question3);
         var finalScore = scoreQuestion1 + scoreQuestion2 + scoreQuestion3;
         $scope.submitButtonText='Processing';
+        //Button disable
         $scope.enableSubmit(1);
         $scope.showForm=false;
         console.log(finalScore);
@@ -193,19 +185,26 @@ angular.module('feedback', ['serverAPI'])
             $scope.counter++;
             if ($scope.counter < $scope.openGames.length) {
                 console.log('Counter für games: ' + $scope.counter);
+                
+                $scope.showChoice = 'true';
+        
+                serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
+                    if(data==-4){
+                        $scope.notContacted();
+                    }else{
+                        $scope.ratedName = data.userName;
+                    }   
+                });
+                
+                $scope.submitButtonText='Submit rating';
+                //Enable Button
+                //Sterne zurücksetzen
+                
             } else {
                 window.location = "#/tab/home";
             }
         });
-        $scope.showChoice = 'true';
         
-        serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
-            if(data==-4){
-                $scope.notContacted();
-            }else{
-                $scope.ratedName = data.userName;
-            }
-        });
         
     }
 
@@ -217,6 +216,20 @@ angular.module('feedback', ['serverAPI'])
             $scope.counter++;
             if ($scope.counter < $scope.openGames.length) {
                 console.log('Counter für games: ' + $scope.counter);
+                
+                $scope.showChoice = 'true';
+        
+                serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
+                    if(data==-4){
+                        $scope.notContacted();
+                    }else{
+                        $scope.ratedName = data.userName;
+                    }   
+                });
+                
+                //Enable Button
+                //Sterne zurücksetzen
+                
             } else {
                 window.location = "#/tab/home";
             }
