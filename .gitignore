@@ -11,6 +11,7 @@ platforms
 *.log
 *.DS_Store
 resources
+plugins/
 plugins
 app/scripts/config.js
 gruntfile.js
