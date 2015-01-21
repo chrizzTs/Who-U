@@ -8,7 +8,7 @@
     
     <ion-content>
 
-        <ul class="animate-repeat" ng-repeat="partner in chatPartner">
+        <ul class="animate-repeat" ng-repeat="partner in chatPartner | orderBy:messages.messages.UID:true">
             <li class="item item-avatar" ng-click="clicked({{partner}})">
               
                 <img ng-src="{{partner.profilPhoto}}">

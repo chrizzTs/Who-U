@@ -13,6 +13,7 @@ angular.module('home', ['services'])
     services.startChatPartnerRetrivalTimer();
     services.startMessageRetrivalTimerSlow();
 
+
     $scope.normalButton;
     $scope.counterButton;
     $scope.timeSearchButton = parseInt(window.localStorage.getItem('timeSearchButton'));
@@ -44,6 +45,7 @@ angular.module('home', ['services'])
             }
         }
         var counterSearchButton = $timeout($scope.searchButtonTimeout,0);
+
     
         $scope.stop = function(){
             $rootScope.buttonDisable=false;
@@ -256,79 +258,13 @@ function getUserData(){
         PUSH-NOTIFICATION
                                 */
         
-    
-     $rootScope.disablePushNotification = function(){
-          document.addEventListener("deviceready", function () {
-        window.plugins.pushNotification.unregister(function(){
-            console.log("Push service is disabled")
-        }, function(result){
-            console.error("Error - unable to disable pushservice: " + result)
-        })
-     })
-    }
-    
-    $rootScope.enablePushNotification= function() {
-            document.addEventListener("deviceready", function () {
-                var pushNotification = window.plugins.pushNotification.register(function(result){
-                      console.log('Callback Success! Result = ' + result)
-                }, function(error){
-            alert(error);
-                }, {
-                    "senderID": "168615009802",
-                    "ecb": "onNotificationGCM"
-                });
-          }
-                                      
-           , false)
-        }
-    
-        //Register Notification at Goolge Server only if it has not been registered yet.
+  //    //Register Notification at Goolge Server only if it has not been registered yet.
     if($rootScope.login == true &&  $rootScope.login != undefined){
-    $rootScope.enablePushNotification();
+            document.addEventListener("deviceready", function () {
+    services.enablePushNotification();
+            })
          $rootScope.login = false
     }
-        
-       window.onNotificationGCM = function (e) { 
-           console.log(e)
-                switch( e.event )
-        {
-            case 'registered':
-                if ( e.regid.length > 0 )
-                {
-                    console.log("Regid " + e.regid);
-                    serverAPI.insertPushId(UID, e.regid, function(result){
-                        if(result<0){
-                            console.error("Error callback insertPushId: "+ result)
-                        }else{
-                            window.localStorage.setItem('pushId', e.regid)
-                        }
-                    })
-                }
-            break;
- 
-            case 'message':
-            if(e.payload.isMessage){
-            $rootScope.toUser = e.payload.userId
-            alert(e.payload.userId);
-            $state.go('tab.chat-master')  
-            }else{
-                alert(e.payload.message)
-            }
-            break;
- 
-            case 'error':
-              alert('GCM error = '+e.msg);
-            break;
- 
-            default:
-              alert('An unknown GCM event has occurred');
-              break;
-        }
-         
-        }
-    
-    /*END PUSH NOTIFICATION */
-    
     
     
     })

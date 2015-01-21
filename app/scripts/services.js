@@ -1,11 +1,11 @@
 var services = angular.module('services', [])
 
-services.factory('services', function ($window, serverAPI, $rootScope, $interval) {
+services.factory('services', function ($window, serverAPI, $rootScope, $ionicPopup, $interval) {
     var bgGeo;
     var mailRetrivalTimerSlow;
     var mailRetrivalTimerFast;
     var chatPartnerRetrivalTimer;
-    
+    var pushNotification;
 
     return {
         startBackgroundGps: function () {
@@ -16,6 +16,7 @@ services.factory('services', function ($window, serverAPI, $rootScope, $interval
         },
 
         initBackgroundGps: function () {
+            var self = this
             //Check if it is running in the browser or on a phone (background geo catching can only be performed on the phone)
            document.addEventListener("deviceready", function () {
                 bgGeo = window.plugins.backgroundGeoLocation;
@@ -44,10 +45,12 @@ services.factory('services', function ($window, serverAPI, $rootScope, $interval
 
                 // BackgroundGeoLocation
                 bgGeo.configure(callbackFn, failureFn, {
-                    url: 'http://only.for.android.com/update_location.json', // <-- Android ONLY:  your server url to send locations to
+                    url: 'https://whou.sabic.uberspace.de/api/updateGPS', // <-- Android ONLY:  your server url to send locations to
                     params: {
-                        auth_token: 'user_secret_auth_token', //  <-- Android ONLY:  HTTP POST params sent to your server when persisting locations.
-                        foo: 'bar' //  <-- Android ONLY:  HTTP POST params sent to your server when persisting locations.
+                        _id: window.localStorage.getItem('Credentials').UID,
+                       longitude: location.longitude,
+                        latitude: location.latitude
+                        
                     },
                     headers: { // <-- Android ONLY:  Optional HTTP headers sent to your configured #url when persisting locations
                         "X-Foo": "BAR"
@@ -65,6 +68,8 @@ services.factory('services', function ($window, serverAPI, $rootScope, $interval
 
 
             })
+           //After BackgroundGPS is initialized start it
+           self.startBackgroundGps()
         },
         
         addFBProfilePicture: function(){
@@ -189,10 +194,13 @@ facebookprofilePhoto.src = picture.data.url;
                                               })},
         
         
-        getMessages: function (callback){        
+        getMessages: function (callback){  
+            
+        var mailCount = 0
 
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
       count =0
+
     for(var i = 0; i<$rootScope.chatPartner.length; i++){
          serverAPI.getPreviousMessages(UID, $rootScope.chatPartner[i]._id, function(messages){
              
@@ -204,10 +212,8 @@ facebookprofilePhoto.src = picture.data.url;
                         message = messages.messages[messages.messages.length-1].message
                      //New Message that has not been read yet.
                     if(messages.messages.length>msgCount && messages.messages[messages.messages.length-1].userSent != UID){
-                        $rootScope.emailIcon ="New"
+                       mailCount+= messages.messages.length - msgCount ;
                         message = '●'+ message;
-                    }else{
-                        $rootScope.emailIcon=''
                     }
                     }
              
@@ -221,11 +227,15 @@ facebookprofilePhoto.src = picture.data.url;
              
              count++;
              if(count == $rootScope.chatPartner.length){
-                 callback('1');
+                  $rootScope.newMailCount  = mailCount;
                   $rootScope.doneLoading = true
+                 callback('1');
+                 
              }
         
-    })}        
+    })}  
+    
+  
 
     },
         
@@ -280,5 +290,102 @@ facebookprofilePhoto.src = picture.data.url;
         endMessageRetrivalTimerFast: function(){
           $interval.cancel(mailRetrivalTimerFast) 
           mailRetrivalTimerFast = undefined
+        },
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+          
+    
+    disablePushNotification: function(){
+         document.addEventListener("deviceready", function () {
+             pushNotification.unregister(function(){
+                 console.log("Unregister PushNotification successfull")
+             }, function(error){
+                 console.error("Erro: Unregister PushNotification: " + error)
+             })
+             
+         })
+            },
+        
+         
+    enablePushNotification: function() {
+    pushNotification = window.plugins.pushNotification;
+    pushNotification.register(
+    function successHandler (result) {
+    console.log('result = ' + result);
+},
+    function errorHandler (error) {
+    console.err('error = ' + error);
+},
+    {
+        "senderID":"168615009802",
+        "ecb": 'onNotificationGCM'
+    })
+
         }
+            
+        
+        
 } })
+            
+    function onNotificationGCM (e) { 
+           console.log(e)
+                switch( e.event )
+        {
+            case 'registered':
+                if ( e.regid.length > 0 )
+                {
+                    console.log("Regid " + e.regid);
+                    serverAPI.insertPushId(UID, e.regid, function(result){
+                        if(result<0){
+                            console.error("Error callback insertPushId: "+ result)
+                        }else{
+                            window.localStorage.setItem('pushId', e.regid)
+                        }
+                    })
+                }
+            break;
+ 
+            case 'message':
+            if(e.payload.message == 'Be exited'){
+            $ionicPopup.alert({
+     title: 'Be excited!',
+     template: 'Someone is seaching for you'
+   })
+            }if( e.payload.message == 'Do something to help...'){
+                
+                $ionicPopup.alert({
+     title: 'You cannot be found!',
+     template: 'Do something to help...'
+   });
+                
+            }else{
+                
+             $ionicPopup.alert({
+     title: 'New Message',
+     template: e.payload.message
+   });
+                  
+            $state.go('tab.chat-master')      
+            }
+            break;
+ 
+            case 'error':
+              alert('GCM error = '+e.msg);
+            break;
+ 
+            default:
+              alert('An unknown GCM event has occurred');
+              break;
+        }
+         
+        }

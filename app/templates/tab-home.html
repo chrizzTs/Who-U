@@ -13,6 +13,7 @@
             <h2>{{userName}}</h2>
             <p>Coins: {{coins}}</p>
         </a>
+
         <div ng-show="normalButton">
             <button ng-click="click()" class="button button-full button-positive" ng-disabled="buttonDisable">
                 <i class='{{buttonType}}'></i>{{text}}
@@ -25,13 +26,14 @@
         </div>
         <ion-scroll direction='y' style="height: 500px" >
             <ul class="animate-repeat" ng-repeat="entry in events">
+
                 <li class="item item-avatar">
                         <img ng-src="{{entry.profilPhoto}}">
                         <h2>Played with {{entry.user}}</h2>
                         <p>{{entry.date | date : 'MMMM dd, yyyy'}}</p>
                 </li>
             </ul>
-        </ion-scroll>
+        <div>
 
     </ion-content>
 </ion-view>
