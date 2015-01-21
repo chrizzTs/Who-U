@@ -204,7 +204,7 @@ facebookprofilePhoto.src = picture.data.url;
                         message = messages.messages[messages.messages.length-1].message
                      //New Message that has not been read yet.
                     if(messages.messages.length>msgCount && messages.messages[messages.messages.length-1].userSent != UID){
-                        $rootScope.emailIcon ="New"
+                        $rootScope.emailIcon ="new"
                         message = '●'+ message;
                     }else{
                         $rootScope.emailIcon=''

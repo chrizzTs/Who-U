@@ -84,7 +84,7 @@ function getUserData(){
                     return b.date - a.date}
                                   );
             } 
-            else if(data){
+            else{
                 console.error("Error loading RecentEvents: " + data)
                 $scope.doneLoading = true;
                 return;
@@ -102,9 +102,20 @@ function getUserData(){
             
         
 
-        serverAPI.getGamesToRate(UID,  function getGamesToRate(data) {
+        serverAPI.getGamesToRate(UID, getGamesToRate);
+
+        //Request new feedback sheet from server to rate last plays (contat with new persons)
+
+        function onError(error) {
+            alert('code: ' + error.code + '\n' +
+                'message: ' + error.message + '\n');
+        }
+
+    
+     
+        function getGamesToRate(data) {
             //Check if there are any new feedback sheets availalbe
-            if (typeof data === 'object' ){
+            if (data == -10) {} else {
                 var alertPopup = $ionicPopup.alert({
                     title: 'Feedback',
                     template: 'There is a player that has not been rated yet. Please rate the player before you keep playing.'
@@ -116,11 +127,8 @@ function getUserData(){
                 });
 
 
-            }else if(data != -10){
-                
-                console.error("Error: getGamesToRate: " + data)
             }
-        });
+        };
 
 
         $scope.click = function () {
@@ -197,7 +205,7 @@ function getUserData(){
                         //TODO: data.fotoId => request foto from server
                         $state.go('tab.play-screen');
                         //Notify player that somebody is looking for him
-                        serverAPI.pushSearchStarted(data.otherUserId, function(result){
+                        serverAPI.pushSearchStarted(UID, function(result){
                             if(result < 0){
                                 console.error ("Error pushSearchStarted: " + result)
                             }else{
