@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('login', [])
-    .controller('loginCtrl', function ($scope, serverAPI, $location, cssInjector, services, $state) {
+    .controller('loginCtrl', function ($scope, serverAPI, $rootScope, $location, cssInjector, services, $state) {
         cssInjector.add("styles/login.css");
         $scope.EMail;
         $scope.password;
@@ -32,6 +32,7 @@ angular.module('login', [])
                     window.localStorage.setItem('saveData', 'false');
                     window.localStorage.setItem('pushNotifications', 'true');
                     window.location = "#/tab/home";
+                    $rootScope.login = true
                 })
         }
 
@@ -50,6 +51,7 @@ angular.module('login', [])
                     window.localStorage.setItem('Facebook', 'false');
                     window.localStorage.setItem('pushNotifications', 'true');
                     window.location = "#/tab/home";
+                     $rootScope.login = true
                     services.initBackgroundGps();
                     services.startBackgroundGps();
                 } else {
@@ -110,6 +112,7 @@ angular.module('login', [])
                     window.localStorage.setItem('pushNotifications', 'true');
                     window.localStorage.setItem('saveData', 'false');
                     window.location = "#/tab/home";
+                     $rootScope.login = true
                     services.initBackgroundGps();
                     services.startBackgroundGps();
                 } else {
@@ -163,6 +166,7 @@ angular.module('login', [])
                     window.localStorage.setItem('Credentials', JSON.stringify(newCredentials));
                     window.localStorage.setItem('visible', true);
                     window.location = "#/tab/home";
+                     $rootScope.login = true
                 });
             });
 

@@ -50,6 +50,7 @@ angular.module('registration', ['serverAPI'])
                             window.localStorage.setItem('saveData', 'false');
                             window.localStorage.setItem('pushNotifications', 'true');
                             window.location = "#/tab/home";
+                             $rootScope.login = true
                         }
                     });
                 });

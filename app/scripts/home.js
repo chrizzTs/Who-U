@@ -2,7 +2,7 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector, $http) {
+    function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector, $http, $stateParams) {
 
         cssInjector.removeAll();
        $scope.isFacebookUser = window.localStorage.getItem('facebook');
@@ -13,8 +13,7 @@ angular.module('home', ['services'])
     services.startChatPartnerRetrivalTimer();
     services.startMessageRetrivalTimerSlow();
 
-    
-    
+        
  
     
     
@@ -44,12 +43,9 @@ angular.module('home', ['services'])
     }
     
         //Init Data so User does not have to wait till callback
-        $scope.coins = 0;
-        $scope.profilePicture = 'img/cover.png'
-        $scope.buttonType = "icon ion-search";
-        $rootScope.buttonDisable;
-        $scope.text = 'Search';
-$scope.isFacebookUser = window.localStorage.getItem('facebook');
+        $rootScope.buttonType = "icon ion-search";
+        $rootScope.text = 'Search';
+        $rootScope.isFacebookUser = window.localStorage.getItem('facebook');
 
 
         
@@ -57,19 +53,19 @@ function getUserData(){
         serverAPI.getUserData(UID, function (data) {
             console.log(UID);
             console.log(data);
-            $scope.pushId = data.pushId;
-            $scope.userName = data.userName;
-            $scope.coins = data.coins;
-            $scope.profilePhotoId = data.profilePhotoId;
+            $rootScope.pushId = data.pushId;
+            $rootScope.userName = data.userName;
+            $rootScope.coins = data.coins;
+            $rootScope.profilePhotoId = data.profilePhotoId;
             window.localStorage.setItem('photoIds', JSON.stringify(data.photoIds));
             window.localStorage.setItem('myUsername', $scope.userName);
             //getProfile Picture
             serverAPI.getPhoto(UID, data.profilePhotoId, function (data) {
                 if(data == -8){ 
                     console.log("No image uploaden: set to avatar")
-                    $scope.profilePicture = 'img/cover.png'
+                    $rootScope.profilePicture = 'img/cover.png'
                 }else{
-                      $scope.profilePicture = data.data;
+                      $rootScope.profilePicture = data.data;
                 }
                 window.localStorage.setItem('myProfilePicture', $scope.profilePicture);
             });
@@ -82,9 +78,9 @@ function getUserData(){
     
         serverAPI.getRecentEvents(UID, function (data) {
             if(typeof data==='object'){
-                 $scope.events = data;
+                 $rootScope.events = data;
                 
-                $scope.events.sort(function(a, b){
+                $rootScope.events.sort(function(a, b){
                     return b.date - a.date}
                                   );
             } 
@@ -95,9 +91,9 @@ function getUserData(){
             }
             
             //Check if avata needs to be sent as profile Picture
-            for(var i= 0; i< $scope.events.length; i++){
-                if( $scope.events[i].profilPhoto == -1){
-                     $scope.events[i].profilPhoto = 'img/cover.png'
+            for(var i= 0; i< $rootScope.events.length; i++){
+                if( $rootScope.events[i].profilPhoto == -1){
+                     $rootScope.events[i].profilPhoto = 'img/cover.png'
                 }
             }
             
@@ -137,7 +133,7 @@ function getUserData(){
 
         $scope.click = function () {
             $rootScope.buttonDisable=true;
-            $scope.text='Searching';
+            $rootScope.text='Searching';
         
             $scope.enabler=$interval(function(){
                 $rootScope.buttonDisable=false;
@@ -147,7 +143,7 @@ function getUserData(){
             console.log('Button disable: '+$scope.buttonDisable);
 
             console.log($scope.buttonType);
-            $scope.buttonType = 'icon ion-loading-a';
+            $rootScope.buttonType = 'icon ion-loading-a';
 
 
 
@@ -188,10 +184,10 @@ function getUserData(){
                         });
 
                         //Reset Button to start state
-                        $scope.text = 'Search';
-                        $scope.buttonDisable = false;
+                        $rootScope.text = 'Search';
+                        $rootScope.buttonDisable = false;
                         window.localStorage.setItem('disableSearchButton', 'false');
-                        $scope.buttonType = "icon ion-search"
+                        $rootScope.buttonType = "icon ion-search"
 
                     } else {
                         window.localStorage.setItem('teammate', data.username);
@@ -230,11 +226,13 @@ function getUserData(){
         
     
      $rootScope.disablePushNotification = function(){
+          document.addEventListener("deviceready", function () {
         window.plugins.pushNotification.unregister(function(){
             console.log("Push service is disabled")
         }, function(result){
             console.error("Error - unable to disable pushservice: " + result)
         })
+     })
     }
     
     $rootScope.enablePushNotification= function() {
@@ -254,8 +252,9 @@ function getUserData(){
         }
     
         //Register Notification at Goolge Server only if it has not been registered yet.
-    if(window.localStorage.getItem('pushId') == null){
+    if($rootScope.login == true &&  $rootScope.login != undefined){
     $rootScope.enablePushNotification();
+         $rootScope.login = false
     }
         
        window.onNotificationGCM = function (e) { 
@@ -277,11 +276,10 @@ function getUserData(){
             break;
  
             case 'message':
-                alert("is message")
             if(e.payload.isMessage){
             $rootScope.toUser = e.payload.userId
             alert(e.payload.userId);
-            $state.go('tab.chat-detail')  
+            $state.go('tab.chat-master')  
             }else{
                 alert(e.payload.message)
             }
