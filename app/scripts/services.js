@@ -10,14 +10,14 @@ services.factory('services', function ($window, serverAPI, $rootScope, $interval
     return {
         startBackgroundGps: function () {
             //Check if it is running in the browser or on a phone (background geo catching can only be performed on the phone)
-            if (window.cordova) {
+            document.addEventListener("deviceready", function () {
                 bgGeo.start();
-            }
+            })
         },
 
         initBackgroundGps: function () {
             //Check if it is running in the browser or on a phone (background geo catching can only be performed on the phone)
-            if (window.cordova) {
+           document.addEventListener("deviceready", function () {
                 bgGeo = window.plugins.backgroundGeoLocation;
 
 
@@ -64,7 +64,7 @@ services.factory('services', function ($window, serverAPI, $rootScope, $interval
 
 
 
-            }
+            })
         },
         
         addFBProfilePicture: function(){
@@ -136,9 +136,9 @@ facebookprofilePhoto.src = picture.data.url;
         },
         
         endBackgroundGps: function () {
-            if (window.cordova) {
+           document.addEventListener("deviceready", function () {
                 bgGeo.stop()
-            }
+            })
 
         },
         
