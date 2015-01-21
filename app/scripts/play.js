@@ -22,7 +22,7 @@ angular.module('play', ['serverAPI'])
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         var GID = window.localStorage.getItem('gameId');
-
+        $scope.buttonDisable=false;
 
         //Init Data
 
@@ -125,7 +125,7 @@ angular.module('play', ['serverAPI'])
   },1000);
         //Handling the Push sending to other User. 
         $scope.pushToOtherUser = function () {
-            $scope.buttonDisable = true;
+        $scope.buttonDisable = true;
             serverAPI.pushStandardMessage(window.localStorage.getItem('teammateUID'), function (result) {
                 console.log("Callback PushToOtherUSer" + result)
             })
