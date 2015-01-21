@@ -11,6 +11,7 @@ platforms
 *.log
 *.DS_Store
 resources
+plugins
 
 app/scripts/config.js
 
