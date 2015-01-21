@@ -2,12 +2,23 @@
 
 angular.module('play', ['serverAPI'])
 
-.controller('playCtrl', ['$scope', 'cssInjector', 'serverAPI', '$ionicPopup', '$state', '$ionicSlideBoxDelegate',
-    function ($scope, cssInjector, serverAPI, $ionicPopup, $state, $ionicSlideBoxDelegate) {
+.controller('playCtrl', ['$scope', 'cssInjector', 'serverAPI', '$ionicPopup', '$state', '$ionicSlideBoxDelegate', '$ionicViewService', '$ionicPlatform',
+    function ($scope, cssInjector, serverAPI, $ionicPopup, $state, $ionicSlideBoxDelegate, $ionicViewService, $ionicPlatform) {
 
         //add Styles
         cssInjector.removeAll();
         cssInjector.add('styles/play.css');
+        
+        $ionicViewService.clearHistory();
+        console.log($ionicViewService._getHistory());
+        $ionicPlatform.onHardwareBackButton(function (event){
+            if ($ionicViewService._getHistory().cursor <= 1){
+                event.stopPropagation();
+            } else {
+                $ionicNavBarDelegate.back()
+            }
+        });
+            
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         var GID = window.localStorage.getItem('gameId');
