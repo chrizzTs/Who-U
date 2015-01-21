@@ -2,7 +2,7 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $rootScope, $interval, $location, $state, services, serverAPI, $ionicPopup, cssInjector, $http, $stateParams) {
+    function ($scope, $rootScope, $interval, $timeout, $location, $state, services, serverAPI, $ionicPopup, cssInjector, $http, $stateParams) {
 
         cssInjector.removeAll();
        $scope.isFacebookUser = window.localStorage.getItem('facebook');
@@ -130,9 +130,8 @@ function getUserData(){
             $scope.enabler=$interval(function(){
                 $rootScope.buttonDisable=false;
                 $interval.cancel($scope.enabler);
+                $scope.stop();
             }, 120000);
-            
-            console.log('Button disable: '+$scope.buttonDisable);
 
             console.log($scope.buttonType);
             $rootScope.buttonType = 'icon ion-loading-a';
@@ -172,7 +171,7 @@ function getUserData(){
                     if (data == -1) {
                         $ionicPopup.alert({
                             title: 'Too bad :(',
-                            template: 'Unfortunateley there are no other players around you. Try it some other time!'
+                            template: 'Unfortunateley there are no other players around you. Try it again later!'
                         });
 
                         //Reset Button to start state

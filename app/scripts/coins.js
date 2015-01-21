@@ -6,6 +6,9 @@ angular.module('coins', ['serverAPI'])
         cssInjector.add("styles/coins.css");
 
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+        $scope.purchaseSuccess = false;
+        $scope.showListMessagePopup;
+        $scope.showWarningMessagePopup;
 
         serverAPI.getUserData(UID, function (data) {
             $scope.coins = data.coins;
@@ -31,9 +34,9 @@ angular.module('coins', ['serverAPI'])
                 console.log('buyItem: '+data);
             });
             
-            console.log(UID+'<<<>>>'+choice);
             serverAPI.upgradeMessagesLeftCount(UID, choice, function(data){
                 console.log('upgradeMessages'+data);
+                $scope.purchaseSuccess=true;
             });
         }
 
@@ -69,6 +72,14 @@ angular.module('coins', ['serverAPI'])
 
                     console.log($rootScope.chatPartner);
                     $rootScope.chatPartner
+                    
+                    if($rootScope.chatPartner.length==0){
+                        $scope.showWarningMessagePopup=true;
+                        $scope.showListMessagePopup=false;
+                    }else{
+                        $scope.showWarningMessagePopup=false;
+                        $scope.showListMessagePopup=true;
+                    }
 
                     $scope.selectUsers = $ionicPopup.show({
                         templateUrl: '../templates/popupMessages.html',

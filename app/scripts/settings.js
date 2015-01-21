@@ -128,12 +128,12 @@ angular.module('settings', ['services'])
                 errorHandler);
                 }
     
-                    
                     console.log('Go to hell');
                     serverAPI.deleteUser(UID, function(data){
                         console.log('deleteUser '+data);
                         $scope.logout();
-                        window.location = '#/login';
+                        //Macht keinen Sinn, da Weiterleitung schon in Logout erfolgt
+                        //window.location = '#/login';
                     });
                     
                 }else{

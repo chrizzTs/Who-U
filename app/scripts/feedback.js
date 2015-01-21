@@ -38,7 +38,11 @@ angular.module('feedback', ['serverAPI'])
         }
 
         serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
-            $scope.ratedName = data.userName;
+            if(data==-4){
+                $scope.notContacted();
+            }else{
+                $scope.ratedName = data.userName;
+            }
         });
         
         if($scope.ratedName=='user deleted'){
@@ -173,6 +177,7 @@ angular.module('feedback', ['serverAPI'])
         var finalScore = scoreQuestion1 + scoreQuestion2 + scoreQuestion3;
         $scope.submitButtonText='Processing';
         $scope.enableSubmit(1);
+        $scope.showForm=false;
         console.log(finalScore);
 
         if (stayInTouch == 'true') {

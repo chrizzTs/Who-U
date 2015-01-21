@@ -62,7 +62,17 @@ angular.module('registration', ['serverAPI'])
 
         //Check if user name has at least 5 characters
         $scope.$watch('user', function () {
-            $scope.showWarningUser = $scope.user ? false : true;
+            //$scope.showWarningUser = $scope.user ? false : true;
+            var check = $scope.user.length;
+            console.log('check ist: '+check);
+            if(check < 5){
+                $scope.showWarningUser = true;
+                console.log('in der if');
+            }else{
+                $scope.showWarningUser = false;
+                console.log('in der else');
+            }
+            console.log($scope.user.length);
         });
 
         //Chek if PW1 is at least 5 characters
