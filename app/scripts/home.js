@@ -138,7 +138,7 @@ function getUserData(){
             $scope.enabler=$interval(function(){
                 $rootScope.buttonDisable=false;
                 $interval.cancel($scope.enabler);
-            }, 180000000);
+            }, 120000);
             
             console.log('Button disable: '+$scope.buttonDisable);
 

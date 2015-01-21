@@ -70,22 +70,14 @@ angular.module('coins', ['serverAPI'])
                     console.log($rootScope.chatPartner);
                     $rootScope.chatPartner
 
-                    var selectUsers = $ionicPopup.show({
+                    $scope.selectUsers = $ionicPopup.show({
                         templateUrl: '../templates/popupMessages.html',
-                        title: 'Select a user you want to chat with',
+                        //title: 'Select a user you want to chat with',
                         scope: $scope,
-                        buttons: [
-                           
-                            { text: '<b>OK</b>',
-                              type: 'button-positive',
-                              onTap: function(e) {
-                                  console.log('OK wurde ausgeführt');
-                               }
-                              },
-                             ]
+                        
                        });
 
-                       selectUsers.then(function(res) {
+                       $scope.selectUsers.then(function(res) {
                          console.log('Popup wurde ausgeführt!', res);
                        });
                 }
@@ -100,7 +92,10 @@ angular.module('coins', ['serverAPI'])
             
         }
         
-            
+        $scope.doneButton=function(){
+            console.log('in der Fkt');
+            $scope.selectUsers.close();
+        }
                         
         $scope.checkBudget = function (x) {
             if ($scope.coins >= x) {

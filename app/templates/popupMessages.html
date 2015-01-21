@@ -1,12 +1,15 @@
-<ion-content class="padding">
-    <div class="list">
-        <li ng-repeat="contact in chatPartner">
-            <div class="item item-button-right">
-                {{contact.username}}
-                <button class="button button-positive" ng-click="getPopupMessage(contact)">
-                    +25
-                </button>
-            </div>
-        </li>
-    </div>
-</ion-content>
+<ion-view>
+    <ion-content class="padding">
+        <div class="list">
+            <span ng-repeat="contact in chatPartner">
+                <div class="item item-button-right">
+                    {{contact.username}}
+                    <button class="button button-positive" ng-click="getPopupMessage(contact)">
+                        +25
+                    </button>
+                </div>
+            </span>
+        </div>
+        <button class="button button-positive button-full" ng-click="doneButton()">Done</button>
+    </ion-content>
+</ion-view>
