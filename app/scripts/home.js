@@ -232,7 +232,6 @@ function getUserData(){
                 var pushNotification = window.plugins.pushNotification.register(function(result){
                       console.log('Callback Success! Result = ' + result)
                 }, function(error){
-                              alert("ErrorHandler");
             alert(error);
                 }, {
                     "senderID": "168615009802",
