@@ -32,6 +32,35 @@ The pages that are injected in there always contain the same footer (only adjust
 The routing between different pages is performed by the angular framework. For more details see: http://ionicframework.com/docs/api/directive/ionNavView/
 
 The routing rules are managed by `scripts/app.js`
+The `app.js` controls which html template is called when the url changes and which javascript file is called for the template.
+
+
+**Html-Template:**
+The folder `templates` includes all html files that are called by the `app.js`.
+
+
+**Scripts**
+The folder `scripts` includes all javascripts. All templates have their own javascript file.
+The main function of the javascript files is to provide a controller for each template which handles the user's interaction with the UI. It modifies the UI according to the Users's actions.
+The files are usually structured like this:
+
+```javascript
+ angular.module('home', ['services'])
+
+.controller('homeCtrl',
+    function (services, serverAPI) {
+
+       $scope.isFacebookUser = window.localStorage.getItem('facebook');
+    
+    var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
+    
+    //start Timer if user loggs in first time
+    services.startChatPartnerRetrivalTimer();
+    services.startMessageRetrivalTimerSlow();
+    })
+```
+
+
 
 
  
