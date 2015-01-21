@@ -198,6 +198,15 @@ angular.module('feedback', ['serverAPI'])
             }
         });
         $scope.showChoice = 'true';
+        
+        serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
+            if(data==-4){
+                $scope.notContacted();
+            }else{
+                $scope.ratedName = data.userName;
+            }
+        });
+        
     }
 
     $scope.notContacted = function () {
