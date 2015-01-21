@@ -15,17 +15,13 @@
     </ion-tab>
 
     <!-- Chat Tab -->
-    <div class="messages" ng-if="newMessages==false" ng-style="{color: red}">
-        <ion-tab title="New Message" icon="ion-email"  href="#/tab/chat-master ">
+        <ion-tab title="{{emailIcon}} Message" icon="ion-email"  href="#/tab/chat-master ">
             <ion-nav-view name="tab-chat-master "></ion-nav-view>
         </ion-tab>
     </div>
     
-    <div class="newMessages" ng-if="newMessages==true">
-        <ion-tab title="Message" icon="ion-email"  href="#/tab/chat-master " style="color:red">
-            <ion-nav-view name="tab-chat-master "></ion-nav-view>
-        </ion-tab>
-    </div>
+
+
 
 
     <!-- Coins Tab -->
