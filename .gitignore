@@ -12,12 +12,6 @@ platforms
 *.DS_Store
 resources
 plugins
-
 app/scripts/config.js
-
-
 gruntfile.js
 
-gruntfile.js
-
-gruntfile.js
