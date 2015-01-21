@@ -23,6 +23,7 @@ angular.module('photos', [])
 
     //initialize the selection photo and the selected photoId
     $scope.selection;
+    $scope.doneLoading = false;
     $scope.selectionPhotoId = 0;
     $scope.profilePhotoId = 0;
     //initialize the array in which images of the user will be stored
@@ -52,6 +53,7 @@ angular.module('photos', [])
         console.log(data);
            window.localStorage.setItem('userPhotos', null);
        loadImages();
+          
       });
     }
 
@@ -122,8 +124,10 @@ angular.module('photos', [])
             };
 
             $scope.images.push(entry);
+              $scope.setHero($scope.images[0]);
             if (i == $scope.photoIds.length) {
               window.localStorage.setItem('userPhotos', JSON.stringify($scope.images));
+                $scope.doneLoading = true;
             }
             console.log('Loaded from Server:' + entry.photoId);
 

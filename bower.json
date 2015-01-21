@@ -14,7 +14,8 @@
     "angular-elastic": "~2.4.2",
     "Autolinker": "https://github.com/gregjacobs/Autolinker.js",
     "Autolinker.js": "~0.15.2",
-    "openfb": "*"
+    "openfb": "*",
+    "ionicons": "~2.0.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.17",
