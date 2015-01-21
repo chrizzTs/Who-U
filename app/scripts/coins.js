@@ -32,11 +32,14 @@ angular.module('coins', ['serverAPI'])
                     $scope.coins = data.coins;
                 });
                 console.log('buyItem: '+data);
+                var purchaseSuccess = $ionicPopup.alert({
+                    title: 'Success',
+                    template: 'Your purchase was successfull.'
+                });
             });
             
             serverAPI.upgradeMessagesLeftCount(UID, choice, function(data){
                 console.log('upgradeMessages'+data);
-                $scope.purchaseSuccess=true;
             });
         }
 
@@ -54,15 +57,29 @@ angular.module('coins', ['serverAPI'])
             if (x == 1) {
                 //Skip user
                 console.log('ID = 1');
-                window.localStorage.setItem('skipUser', 'true');
                 
-                //Checking if purchase is possible and updating the new coins value
-                if ($scope.coins >= price) {
-                    serverAPI.buyItem(UID, x, 1, function (data) {
-                        serverAPI.getUserData(UID, function (data) {
-                            $scope.coins = data.coins;
+                var checkPurchase=window.localStorage.getItem('skipUser');
+                
+                if(checkPurchase===null || checkPurchase=='true'){
+                    var warning = $ionicPopup.alert({
+                    title: 'Error',
+                    template: 'You alread bought this item. You first have to use it'
+                });
+                }else{
+                    window.localStorage.setItem('skipUser', 'true');
+
+                    //Checking if purchase is possible and updating the new coins value
+                    if ($scope.coins >= price) {
+                        serverAPI.buyItem(UID, x, 1, function (data) {
+                            serverAPI.getUserData(UID, function (data) {
+                                $scope.coins = data.coins;
+                                var purchaseSuccess = $ionicPopup.alert({
+                                    title: 'Success',
+                                    template: 'Your purchase was successfull.'
+                                });
+                            });
                         });
-                    });
+                    }
                 }
                 
             } else if (x == 2) {
@@ -99,6 +116,17 @@ angular.module('coins', ['serverAPI'])
             } else if (x == 4) {
                 //More poins per game
                 //Implementation of this feature is on server site. Identification via Benefit-ID
+                if ($scope.coins >= price) {
+                    serverAPI.buyItem(UID, x, 1, function (data) {
+                        serverAPI.getUserData(UID, function (data) {
+                            $scope.coins = data.coins;
+                            var purchaseSuccess = $ionicPopup.alert({
+                                title: 'Success',
+                                template: 'Your purchase was successfull.'
+                            });
+                        });
+                    });
+                }
             }
             
         }

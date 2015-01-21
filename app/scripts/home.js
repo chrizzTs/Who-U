@@ -28,21 +28,25 @@ angular.module('home', ['services'])
         $scope.normalButton=false;
         $scope.counterButton=true;
         
-        $scope.counter = 3;
+        //$scope.counter = 3;
         
         $scope.searchButtonTimeout = function(){
-            $scope.counter--;
+            //$scope.counter--;
             var remainingTime=$scope.timeSearchButton-Date.now();
             //window.localStorage.setItem('timeSearchButton', remainingTime);
+            
+            if(remainingTime<=0){
+                $scope.stop();
+            }else{
+                $scope.counter=Math.round(remainingTime/60000);
+            }
             
             //reduce counter after every minute (=60000ms)
             counterSearchButton = $timeout($scope.searchButtonTimeout,60000);
             
             //$rootScope.text='Disabled for {{counter}} minutes';
             
-            if(remainingTime<=0){
-                $scope.stop();
-            }
+            
         }
         var counterSearchButton = $timeout($scope.searchButtonTimeout,0);
 

@@ -6,15 +6,26 @@ angular.module('registration', ['serverAPI'])
         cssInjector.removeAll();
         cssInjector.add('styles/registration.css');
 
-        $scope.user;
-        $scope.password1;
-        $scope.password2;
-        $scope.EMail;
+        $scope.user='';
+        $scope.password1='';
+        $scope.password2='';
+        $scope.EMail='';
         $scope.EMailInUse=false;
+    
+        $scope.disabler=true;
+    
+        $scope.enableButton=function(){
+            if($scope.user.length>=5 && $scope.password1.length>=5 && $scope.password1==$scope.password2 && $scope.regForm.$valid==true){
+                $scope.disabler=false;
+            }else{
+                console.log('else');
+                $scope.disabler=true;
+            }
+        }
 
         //Handling user submit
         $scope.submit = function () {
-            if ($scope.password1 === $scope.password2) {
+            if ($scope.password1 == $scope.password2) {
                 console.log('Formular wurde abgeschickt');
                 //Catch GeoData to initialize useres position and to grant access to GPS.
                 //Grap geoLocation
@@ -62,31 +73,35 @@ angular.module('registration', ['serverAPI'])
 
         //Check if user name has at least 5 characters
         $scope.$watch('user', function () {
-            //$scope.showWarningUser = $scope.user ? false : true;
-            var check = $scope.user.length;
-            console.log('check ist: '+check);
-            if(check < 5){
+            $scope.showWarningUser = $scope.user ? false : true;
+            //console.log($scope.user);
+            $scope.enableButton();
+            //var check = $scope.user.length;
+            //console.log('check ist: '+check);
+            /*if($scope.user.length < 5){
                 $scope.showWarningUser = true;
                 console.log('in der if');
             }else{
                 $scope.showWarningUser = false;
                 console.log('in der else');
             }
-            console.log($scope.user.length);
+            console.log($scope.user.length);*/
         });
 
         //Chek if PW1 is at least 5 characters
         $scope.$watch('password1', function () {
             $scope.showWarningPW1 = $scope.password1 ? false : true;
+            $scope.enableButton();
         });
 
         //Check if user entered same PW two times
         $scope.$watch('password2', function () {
             if ($scope.password2 == $scope.password1) {
-                if ($scope.password2 == null) {
+                if ($scope.password2 == '') {
                     $scope.showWarningEmpty = true;
                 }
                 $scope.showWarningPW2 = false;
+                $scope.enableButton();
             } else {
                 console.log('Sind ungleich');
                 $scope.showWarningEmpty = false;
@@ -97,6 +112,7 @@ angular.module('registration', ['serverAPI'])
 
         $scope.$watch('EMail', function () {
             $scope.showWarningEMail = $scope.EMail ? false : true;
+            $scope.enableButton();
         });
 
     });

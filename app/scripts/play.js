@@ -150,19 +150,28 @@ angular.module('play', ['serverAPI'])
         
         $scope.doSkipUser = function () {
             console.log('User wird übersprungen');
-            $scope.skipUser = 'false';
-            console.log('Skip user ist jetzt: '+$scope.skipUser);
-            window.localStorage.setItem('skipUser', 'false');
             serverAPI.skipUser(UID, GID, function (data) {
                 console.log(data);
-                $scope.teammateUID = data.otherUserId;
-                $scope.name = data.username;
-                $scope.slides = new Array();
-                $scope.loadImages();
-                //$scope.redraw();
-                /*serverAPI.getUserData($scope.teammateUID, function(data){
-                    $scope.name = data.name;
-                });*/
+                if(data == -1 || data == -5){
+                    var alertPopup = $ionicPopup.alert({
+                       title: 'You\'r alone...',
+                       template: 'There are no other users around you, we could match with you. Sorry...'
+                     });
+                     alertPopup.then(function(res) {
+                        $state.go('tab.home');
+                     });
+                }else{
+                    $scope.teammateUID = data.otherUserId;
+                    $scope.name = data.username;
+                    $scope.slides = new Array();
+                    $scope.loadImages();
+                    $scope.skipUser = 'false';
+                    window.localStorage.setItem('skipUser', 'false');
+                    //$scope.redraw();
+                    /*serverAPI.getUserData($scope.teammateUID, function(data){
+                        $scope.name = data.name;
+                    });*/
+                }
             });
             
         }
