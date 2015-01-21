@@ -1,12 +1,13 @@
 <ion-view title="Your Photos" onLoad="onload()">
     
+    <ion-content>
             <div class="loader-center" ng-if="!doneLoading">
         <div class="loader">
             <i class="icon ion-loading-c"></i>
         </div>
     </div>
+    <div ng-if="doneLoading">
     
-    <ion-content>
         <div id="gallery" ng-if="userHasPictures==true">
             <ion-scroll direction="x" class="wide-as-needed">
                 <div class="image-list"><img ng-repeat="img in images" ng-src="{{img.image}}" ng-click="setHero(img)"></div></ion-scroll>
@@ -22,6 +23,6 @@
      <!--       <button class="button button-full button-positive" ng-click="deletePhoto()">Delete Photo</button>-->
   </div>    
     <div ng-if="userHasPictures==false"><i class="icon big-plus ion-plus-circled" ui-sref="tab.pictureTaker"></i></div>
-        
+        </div>
     </ion-content>
 </ion-view>

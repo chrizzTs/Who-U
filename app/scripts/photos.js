@@ -102,6 +102,10 @@ angular.module('photos', [])
               
               itemInLocalStorage = true;
               $scope.images.push($scope.localStorageImages[j]);
+               if (i == $scope.photoIds.length) {
+              window.localStorage.setItem('userPhotos', JSON.stringify($scope.images));
+                $scope.doneLoading = true;
+            }
               console.log('Already in localStorage: ' + $scope.localStorageImages[j].photoId);
                if (i== 0){
                    $scope.selection = $scope.images[0].image;
@@ -144,6 +148,7 @@ angular.module('photos', [])
         if ($scope.photoIds.length != 0) {
           $scope.userHasPictures = 1;
           window.localStorage.setItem('userHasPictures', '1');
+            $scope.doneLoading = true;
           //Selection of the gallery is set to the firwst image by default
         }
     })
