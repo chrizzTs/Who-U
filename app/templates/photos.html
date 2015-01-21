@@ -1,9 +1,16 @@
 <ion-view title="Your Photos">
+    
+            <div class="loader-center" ng-if="!doneLoading">
+        <div class="loader">
+            <i class="icon ion-loading-c"></i>
+        </div>
+    </div>
+    
     <ion-content>
         <div id="gallery" ng-if="userHasPictures==true">
             <ion-scroll direction="x" class="wide-as-needed">
                 <div class="image-list"><img ng-repeat="img in images" ng-src="{{img.image}}" ng-click="setHero(img)"></div></ion-scroll>
-    <div class="hero-image">
+    <div class="hero-image" ng-if='doneLoading'>
         <div class="hero-icons">
         <i class="image-icon icon ion-plus-circled small-plus" ui-sref="tab.pictureTaker"></i>
         <i class="image-icon icon ion-star blue-star" ng-if="profilePhotoIsShown==false" ng-click="setImageAsProfilePicture()"></i>

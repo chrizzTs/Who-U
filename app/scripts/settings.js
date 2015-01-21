@@ -64,8 +64,8 @@ angular.module('settings', ['services'])
 
     $scope.changePushNotifications = function () {
         if (pushNotifications = 'true') {    
-            $rootScope.disablePushNotification();
             pushNotifications = 'false';
+             $rootScope.disablePushNotification()
             window.localStorage.setItem('pushNotifications', 'false');
             console.log('geht');
         } else if (pushNotifications = 'false') {
@@ -109,6 +109,7 @@ angular.module('settings', ['services'])
                delete  $rootScope.userName
                 delete  $rootScope.coins
                 delete  $rootScope.events
+                delete  $rootScope.buttonDisable
         
     };
     
