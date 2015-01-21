@@ -52,6 +52,7 @@ angular.module('photos', [])
         console.log(data);
            window.localStorage.setItem('userPhotos', null);
        loadImages();
+          
       });
     }
 
@@ -122,6 +123,7 @@ angular.module('photos', [])
             };
 
             $scope.images.push(entry);
+              $scope.setHero($scope.images[0]);
             if (i == $scope.photoIds.length) {
               window.localStorage.setItem('userPhotos', JSON.stringify($scope.images));
             }

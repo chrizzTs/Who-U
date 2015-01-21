@@ -163,9 +163,7 @@ angular.module('login', [])
                     }
                     
                     services.addFBProfilePicture();
-                    window.localStorage.setItem('Credentials', JSON.stringify(newCredentials));
-                    window.localStorage.setItem('visible', true);
-                    window.location = "#/tab/home";
+                    $scope.goToHome();
                      $rootScope.login = true
                 });
             });
