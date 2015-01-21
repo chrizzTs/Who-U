@@ -12,7 +12,51 @@ angular.module('home', ['services'])
     //start Timer if user loggs in first time
     services.startChatPartnerRetrivalTimer();
     services.startMessageRetrivalTimerSlow();
+
+
+    $scope.normalButton;
+    $scope.counterButton;
+    $scope.timeSearchButton = parseInt(window.localStorage.getItem('timeSearchButton'));
     
+    if(isNaN($scope.timeSearchButton)){
+        //Var doesn't exist in local storage
+        $scope.normalButton=true;
+        $scope.counterButton=false;
+    }else{
+        console.log('in der else');
+        //Counter has the value of the diable timout for SearchButton in Minutes
+        $scope.normalButton=false;
+        $scope.counterButton=true;
+        
+        $scope.counter = 3;
+        
+        $scope.searchButtonTimeout = function(){
+            $scope.counter--;
+            var remainingTime=$scope.timeSearchButton-Date.now();
+            //window.localStorage.setItem('timeSearchButton', remainingTime);
+            
+            //reduce counter after every minute (=60000ms)
+            counterSearchButton = $timeout($scope.searchButtonTimeout,60000);
+            
+            //$rootScope.text='Disabled for {{counter}} minutes';
+            
+            if(remainingTime<=0){
+                $scope.stop();
+            }
+        }
+        var counterSearchButton = $timeout($scope.searchButtonTimeout,0);
+
+    
+        $scope.stop = function(){
+            $rootScope.buttonDisable=false;
+            $rootScope.text='Search';
+            $timeout.cancel(counterSearchButton);
+            $scope.normalButton=true;
+            $scope.counterButton=false;
+            localStorage.removeItem('timeSearchButton')
+        }
+        
+    }
     
     if ($scope.isFacebookUser == 'true'){
     openFB.getLoginStatus(function(response) {
@@ -121,14 +165,9 @@ function getUserData(){
 
 
         $scope.click = function () {
+            
             $rootScope.buttonDisable=true;
             $rootScope.text='Searching';
-        
-            $scope.enabler=$interval(function(){
-                $rootScope.buttonDisable=false;
-                $interval.cancel($scope.enabler);
-                $scope.stop();
-            }, 120000);
 
             console.log($scope.buttonType);
             $rootScope.buttonType = 'icon ion-loading-a';
@@ -191,6 +230,13 @@ function getUserData(){
                         };
                         window.localStorage.setItem('teammatePosition', JSON.stringify(teammatePosition));
                         //TODO: data.fotoId => request foto from server
+                        
+                        //Setting timestamp for search button
+                        var now = Date.now();
+                        var timeStamp = now + 120000;
+                        window.localStorage.setItem('timeSearchButton', timeStamp);
+                        
+                        
                         $state.go('tab.play-screen');
                         //Notify player that somebody is looking for him
                         serverAPI.pushSearchStarted(data.otherUserId, function(result){

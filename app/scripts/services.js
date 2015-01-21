@@ -194,11 +194,13 @@ facebookprofilePhoto.src = picture.data.url;
                                               })},
         
         
-        getMessages: function (callback){        
+        getMessages: function (callback){  
+            
+        var mailCount = 0
 
     var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
       count =0
-    var newMessage = false;
+
     for(var i = 0; i<$rootScope.chatPartner.length; i++){
          serverAPI.getPreviousMessages(UID, $rootScope.chatPartner[i]._id, function(messages){
              
@@ -210,7 +212,7 @@ facebookprofilePhoto.src = picture.data.url;
                         message = messages.messages[messages.messages.length-1].message
                      //New Message that has not been read yet.
                     if(messages.messages.length>msgCount && messages.messages[messages.messages.length-1].userSent != UID){
-                       newMessage=true;
+                       mailCount+= messages.messages.length - msgCount ;
                         message = '●'+ message;
                     }
                     }
@@ -225,11 +227,7 @@ facebookprofilePhoto.src = picture.data.url;
              
              count++;
              if(count == $rootScope.chatPartner.length){
-                   if(newMessage){
-        $rootScope.emailIcon ="New"
-    }else{
-        $rootScope.emailIcon =""
-    }
+                  $rootScope.newMailCount  = mailCount;
                   $rootScope.doneLoading = true
                  callback('1');
                  

@@ -110,6 +110,7 @@ angular.module('settings', ['services'])
                 delete  $rootScope.coins
                 delete  $rootScope.events
                 delete  $rootScope.buttonDisable
+                delete $rootScope.newMailCount
                 $rootScope.chatPartner = new Array()
         
     };
