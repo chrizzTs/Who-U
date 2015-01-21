@@ -100,12 +100,12 @@ h1 {
   z-index: 3;
 }
 
-.ion-trash-a {
+.ion-ios-trash-outline {
     right: 0.5em;
     color: blue;
 }
 
-.ion-star {
+.star {
   right: 2.5em;   
 }
 
@@ -127,10 +127,6 @@ h1 {
 
 .blue-star {
  color: blue;   
-}
-
-.yellow-star {
- color: #FFCC00;    
 }
 
 div.hero-icons {
