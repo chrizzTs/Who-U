@@ -12,9 +12,9 @@
       </div>
       <div id="userPic">
         <div class="item pic-item">
-          <ion-slide-box on-slide-changed="$ionicSlideBoxDelegate.update()">
+          <ion-slide-box>
 
-            <ion-slide ng-repeat="slide in slides" on-slide-changed="$ionicSlideBoxDelegate.update()">
+            <ion-slide ng-repeat="slide in slides">
 
                 <img class="hero-image" ng-src="{{slide.data}}"></img>
             </ion-slide>

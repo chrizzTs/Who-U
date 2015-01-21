@@ -56,13 +56,11 @@ angular.module('play', ['serverAPI'])
                 serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), $scope.photoIds[i], function (data) {
                     counter++;
                     console.log(data);
-                    var imageJson = data;
 
 
-                    $scope.slides.push(imageJson);
-                    if (counter == ($scope.photoIds.length-1)){
+                    $scope.slides.push(data);
                      $ionicSlideBoxDelegate.update();
-                    }
+                    
                 })
             }
             }
