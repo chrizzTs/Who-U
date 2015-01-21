@@ -14,8 +14,6 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         services.startMessageRetrivalTimerFast();
       
         
-        //scroll down to button
-         $ionicScrollDelegate.scrollBottom();
     
       
 

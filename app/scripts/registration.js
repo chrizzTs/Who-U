@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('registration', ['serverAPI'])
-    .controller('regCtrl', function ($scope, serverAPI, cssInjector) {
+    .controller('regCtrl', function ($scope, $rootScope, serverAPI, cssInjector) {
 
         cssInjector.removeAll();
         cssInjector.add('styles/registration.css');
