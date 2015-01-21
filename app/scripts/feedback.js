@@ -147,6 +147,8 @@ angular.module('feedback', ['serverAPI'])
             }
         }else if(x==1){
             return true;
+        }else if(x==2){
+            return false;
         }
     }
 
@@ -167,7 +169,6 @@ angular.module('feedback', ['serverAPI'])
         var scoreQuestion3 = parseInt($scope.question3);
         var finalScore = scoreQuestion1 + scoreQuestion2 + scoreQuestion3;
         $scope.submitButtonText='Processing';
-        //Button disable
         $scope.enableSubmit(1);
         $scope.showForm=false;
         console.log(finalScore);
@@ -197,8 +198,15 @@ angular.module('feedback', ['serverAPI'])
                 });
                 
                 $scope.submitButtonText='Submit rating';
-                //Enable Button
-                //Sterne zurücksetzen
+                $scope.enableSubmit(2);
+                
+                for (var i = 0; i < $scope.starsQuestion2.length; i++) {
+                    $scope.starsQuestion2[i].icon = 'ios7-star-outline';
+                }
+                
+                for (var i = 0; i < $scope.starsQuestion3.length; i++) {
+                    $scope.starsQuestion3[i].icon = 'ios7-star-outline';
+                }
                 
             } else {
                 window.location = "#/tab/home";
@@ -227,8 +235,16 @@ angular.module('feedback', ['serverAPI'])
                     }   
                 });
                 
-                //Enable Button
-                //Sterne zurücksetzen
+                $scope.submitButtonText='Submit rating';
+                $scope.enableSubmit(2);
+                
+                for (var i = 0; i < $scope.starsQuestion2.length; i++) {
+                    $scope.starsQuestion2[i].icon = 'ios7-star-outline';
+                }
+                
+                for (var i = 0; i < $scope.starsQuestion3.length; i++) {
+                    $scope.starsQuestion3[i].icon = 'ios7-star-outline';
+                }
                 
             } else {
                 window.location = "#/tab/home";
