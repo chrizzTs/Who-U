@@ -106,10 +106,11 @@ angular.module('settings', ['services'])
         }
                     services.endChatPartnerRetrivalTimer()
                     services.endMessageRetrivalTimerSlow()
-               delete  $rootScope.userName
+                delete  $rootScope.userName
                 delete  $rootScope.coins
                 delete  $rootScope.events
                 delete  $rootScope.buttonDisable
+                $rootScope.chatPartner = new Array()
         
     };
     

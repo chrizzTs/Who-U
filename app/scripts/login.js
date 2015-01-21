@@ -27,7 +27,6 @@ angular.module('login', [])
                     if (visible == null || visible == true) {
                         window.localStorage.setItem('visible', true);
                         services.initBackgroundGps();
-                        services.startBackgroundGps();
                     }
                     window.localStorage.setItem('saveData', 'false');
                     window.localStorage.setItem('pushNotifications', 'true');
@@ -53,7 +52,6 @@ angular.module('login', [])
                     window.location = "#/tab/home";
                      $rootScope.login = true
                     services.initBackgroundGps();
-                    services.startBackgroundGps();
                 } else {
                     $scope.loginFailed = true;
                 }
@@ -114,7 +112,7 @@ angular.module('login', [])
                     window.location = "#/tab/home";
                      $rootScope.login = true
                     services.initBackgroundGps();
-                    services.startBackgroundGps();
+
                 } else {
                     $scope.loginFailed = true;
                 }

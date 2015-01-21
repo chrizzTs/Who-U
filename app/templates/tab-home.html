@@ -17,15 +17,15 @@
             <i class='{{buttonType}}'></i>{{text}}
         </button>
 
-        <ion-scroll direction='y' style="height: 500px" >
-            <ul class="animate-repeat" ng-repeat="entry in events">
+        <div class='ion-scroll'>
+            <ul class="animate-repeat" ng-repeat="entry in events" ion-scroll>
                 <li class="item item-avatar">
                         <img ng-src="{{entry.profilPhoto}}">
                         <h2>Played with {{entry.user}}</h2>
                         <p>{{entry.date | date : 'MMMM dd, yyyy'}}</p>
                 </li>
             </ul>
-        </ion-scroll>
+        <div>
 
     </ion-content>
 </ion-view>
