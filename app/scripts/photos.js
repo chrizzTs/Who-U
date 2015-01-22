@@ -102,7 +102,7 @@ angular.module('photos', [])
               
               itemInLocalStorage = true;
               $scope.images.push($scope.localStorageImages[j]);
-               if (i == $scope.photoIds.length) {
+               if (i == ($scope.photoIds.length-1)) {
               window.localStorage.setItem('userPhotos', JSON.stringify($scope.images));
                 $scope.doneLoading = true;
             }
@@ -129,7 +129,7 @@ angular.module('photos', [])
 
             $scope.images.push(entry);
               $scope.setHero($scope.images[0]);
-            if (i == $scope.photoIds.length) {
+            if (i == ($scope.photoIds.length-1)) {
               window.localStorage.setItem('userPhotos', JSON.stringify($scope.images));
                 $scope.doneLoading = true;
             }
@@ -148,8 +148,9 @@ angular.module('photos', [])
         if ($scope.photoIds.length != 0) {
           $scope.userHasPictures = 1;
           window.localStorage.setItem('userHasPictures', '1');
-            $scope.doneLoading = true;
           //Selection of the gallery is set to the firwst image by default
+        } else {
+            $scope.doneLoading = true;
         }
     })
     }
