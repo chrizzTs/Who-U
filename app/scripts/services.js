@@ -142,7 +142,12 @@ facebookprofilePhoto.src = picture.data.url;
         
         endBackgroundGps: function () {
            document.addEventListener("deviceready", function () {
-                bgGeo.stop()
+               console.log("Background GPS stopped")
+                bgGeo.stop(function(){
+                   console.log("Background GPS stopped") 
+                }, function(error){
+                    console.error("Error: Stop geoLocation: " + error)
+                })
             })
 
         },
@@ -293,17 +298,7 @@ facebookprofilePhoto.src = picture.data.url;
         },
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-          
+     
     
     disablePushNotification: function(){
          document.addEventListener("deviceready", function () {
