@@ -60,6 +60,12 @@ The files are usually structured like this:
     })
 ```
 
+The `services.js` is a factory which includes all methods that needs to be called from different javascript files. 
+It can be called by services.Method() and then runs the method in the services.js
+
+and the `serverAPI.js` differ from the others.
+
+
 
 
 
