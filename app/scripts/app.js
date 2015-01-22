@@ -45,7 +45,8 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
 
 .config(function ($stateProvider, $urlRouterProvider, cssInjectorProvider, $compileProvider) {
 
-    openFB.init({appId: '339615032892277'});
+    openFB.init({appId: '339615032892277', tokenStore: window.localStorage});
+    
     
     
   

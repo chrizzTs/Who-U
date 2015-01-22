@@ -92,22 +92,20 @@ angular.module('photos', [])
         $scope.localStorageImages = JSON.parse(window.localStorage.getItem('userPhotos'));
         
         //loop for getting the image data of every photo
-        for (var i = 0; i < data.photoIds.length; i++) {
+        for ($scope.position = 0; $scope.position < $scope.photoIds.length; $scope.position++) {
 
         var itemInLocalStorage = false;
           //get the image data of every photo, everything has to be in the callback because it is dependend on the photo
             if ($scope.localStorageImages != null){
         for (var j = 0; j < $scope.localStorageImages.length; j++){
-          if ($scope.localStorageImages[j].photoId == data.photoIds[i]){
+          if ($scope.localStorageImages[j].photoId == $scope.photoIds[$scope.position]){
               
               itemInLocalStorage = true;
               $scope.images.push($scope.localStorageImages[j]);
-               if (i == ($scope.photoIds.length-1)) {
               window.localStorage.setItem('userPhotos', JSON.stringify($scope.images));
-                $scope.doneLoading = true;
-            }
+              $scope.doneLoading = true;
               console.log('Already in localStorage: ' + $scope.localStorageImages[j].photoId);
-               if (i== 0){
+               if ($scope.position== 0){
                    $scope.selection = $scope.images[0].image;
                    $scope.selectionPhotoId = $scope.images[0].photoId;
                    checkIfProfilePhotoIsShown();
@@ -116,7 +114,7 @@ angular.module('photos', [])
         }
             }
          if (itemInLocalStorage == false){
-          serverAPI.getPhoto(UID, $scope.photoIds[i], function(data) {
+          serverAPI.getPhoto(UID, $scope.photoIds[$scope.position], function(data) {
 
             $scope.imageJson = data;
 
@@ -129,13 +127,11 @@ angular.module('photos', [])
 
             $scope.images.push(entry);
               $scope.setHero($scope.images[0]);
-            if (i == ($scope.photoIds.length-1)) {
               window.localStorage.setItem('userPhotos', JSON.stringify($scope.images));
-                $scope.doneLoading = true;
-            }
+             $scope.doneLoading = true;  
             console.log('Loaded from Server:' + entry.photoId);
 
-              if (i== 0){
+              if ($scope.position== 0){
                    $scope.selection = $scope.images[0].image;
                   $scope.selectionPhotoId = $scope.images[0].selectionPhotoId;
                   checkIfProfilePhotoIsShown();
