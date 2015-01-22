@@ -313,6 +313,7 @@ facebookprofilePhoto.src = picture.data.url;
         
          
     enablePushNotification: function() {
+         document.addEventListener("deviceready", function () {
     pushNotification = window.plugins.pushNotification;
     pushNotification.register(
     function successHandler (result) {
@@ -325,7 +326,7 @@ facebookprofilePhoto.src = picture.data.url;
         "senderID":"168615009802",
         "ecb": 'onNotificationGCM'
     })
-
+    })
         }
             
         
