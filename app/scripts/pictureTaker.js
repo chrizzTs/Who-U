@@ -2,8 +2,17 @@
 
 angular.module('pictureTaker', ['ngImgCrop'])
 
+//=======Start: Config=========================
+
+
+.config(function($compileProvider) {
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|img|content):|data:image\//);
+  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|file|tel):/);
+})
+//======End: Config============================
+
 /*
-The follwing factories load pictures ansynchronously from the Camera or PhoneAlbum.
+The following factories load pictures ansynchronously from the Camera or PhoneAlbum.
 These interfaces to the functions of the device are implemented with the Cordova plugin: org.apache.cordova.camera
 They set the properties of the Camera or PhoneAlbum. They are saved in last block of the get Picture function
 
@@ -74,82 +83,76 @@ Options for the returned pictures:
 ])
 
 
-.controller('CameraCtrl', ['$scope', 'PhoneCamera', 'PhoneAlbum', 'cssInjector', '$ionicModal', 'serverAPI', '$state', 'services',
+.controller('CameraCtrl', ['$scope', 'PhoneCamera', 'PhoneAlbum', 'cssInjector', '$ionicModal', 'serverAPI', 'services',
 
-  function($scope, PhoneCamera, PhoneAlbum, cssInjector, $ionicModal, serverAPI, $state, services) {
+  function($scope, PhoneCamera, PhoneAlbum, cssInjector, $ionicModal, serverAPI, services) {
 
-
+      
+    //add Styles
+    cssInjector.removeAll();
+    cssInjector.add('styles/pictureTaker.css');  
+      
+    //=====Start: Initialization of Variables=================
+      
     //fetch Data from local Storage
-    $scope.userHasPictures = window.localStorage.getItem('userHasPictures');
     $scope.userID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
     $scope.isFacebookUser = window.localStorage.getItem('facebook');
 
-    //add Styles
-    cssInjector.removeAll();
-    cssInjector.add('styles/pictureTaker.css');
-
     //image cropping, initialize Variables
     //userImage is the variable used in the image Cropper, on wich cropping square is displayed
+      
+        //$scope.hasPicture. If this variable is true, the uploaded picture will be shown. Additionally all options to crop, delete or save the uploaded image will be display. In HTML this is implemented with ng-if
+    $scope.hasPicture = false;
+    //$scope.pictureCropped. This variable has to be true to be able to save Images, because only cropped Images
+    //can be uploaded.
+    $scope.pictureCropped = false;
+      
+      
     $scope.userImage = '';
     //croppedUserImage is the return of the imageCropper, the part of the picture in the square
     $scope.croppedUserImage = 'data:image/jpeg;base64,';
-    //check if user is cropping
-    $scope.isCurrentlyCropping = false;
-    //used to check if picture is cropped and user can save it therefor
-    $scope.pictureCropped = false;
     $scope.cropSpace = '';
-
-    // $scope.shownImage = '';
     $scope.newImage = 'data:image/jpeg;base64,';
 
+      
+    //===========End: Initialization of Variables========
+      
+    //===========Start: Upload Images====================
 
-    //initialize Source-Variable of Image
-    $scope.hasPicture = false;
-    $scope.pictureCropped = false;
-
-    //get a Photo of user's camera
+      
+    //get a Photo of user's camera. Uses PhoneCamera factory
     $scope.getCameraPhoto = function() {
       PhoneCamera.getPicture().then(function(imageURI) {
+        $scope.successfulGetPhoto(imageURI);
+      }, function(err) {
+        console.err(err);
+      });
+    };
+
+    //get a photo of user`s saved images. Uses PhoneAlbum factory
+    $scope.getAlbumPhoto = function() {
+      PhoneAlbum.getPicture().then(function(imageURI) {
+        $scope.successfulGetPhoto(imageURI);
+      }, function(err) {
+        console.err(err);
+      });
+    };
+
+    //Is called if an image is oploaded correctly
+    $scope.successfulGetPhoto = function(imageURI){
         $scope.userImage = 'data:image/jpeg;base64,' + imageURI;
         $scope.shownImage = 'data:image/jpeg;base64,' + imageURI;
         $scope.hasPicture = true;
         $scope.pictureCropped = false;
         $scope.startCropping();
-
-        console.log(imageURI);
-      }, function(err) {
-        console.err(err);
-        $scope.errorMessage = err;
-      });
-    };
-
-
-
-
-    $scope.getAlbumPhoto = function() {
-      PhoneAlbum.getPicture().then(function(imageURI) {
-        $scope.userImage = 'data:image/jpeg;base64,' + imageURI;
-        $scope.shownImage = 'data:image/jpeg;base64,' + imageURI;
-        $scope.hasPicture = true;
-        $scope.startCropping();
-      }, function(err) {
-        console.err(err);
-        $scope.errorMessage = err;
-      });
-    };
-
-
+    }
+    
+    //===========End: Upload Images====================
+      
+    //===========Start: Image Cropping=================
+    
     $scope.startCropping = function() {
-      $scope.isCurrentlyCropping = true;
       $scope.openModal();
-    };
-
-    $scope.endCropping = function() {
-      $scope.shownImage = $scope.newImage;
-      $scope.userImage = $scope.newImage;
-      $scope.isCurrentlyCropping = false;
-      $scope.pictureCropped = true;
-      $scope.closeModal();
     };
 
     $ionicModal.fromTemplateUrl('imageCrop', {
@@ -170,10 +173,38 @@ Options for the returned pictures:
     $scope.$on('$destroy', function() {
       $scope.modal.remove();
     });
+      
+      
+    //In $scope.endCropping the image is saved into $scope.shownImage, which is the image shown in the PictureTaker Page and which can be saved afterwards. The modal window is closed.
+    $scope.endCropping = function() {
+      $scope.shownImage = $scope.newImage;
+      $scope.userImage = $scope.newImage;
+      $scope.pictureCropped = true;
+      $scope.closeModal();
+    };
 
+    
+      
+    //$scope.changeImage checks whether there are any changes to the image and whether there is any image at all. If so, it is saved to $scope.newImage, which will later be the saved Image.
+    $scope.changeImage = function(dataUrl) {
+      if ((dataUrl !== 'data:image/jpeg;base64,') && (dataUrl !== $scope.userImage)) {
+        $scope.newImage = dataUrl;
+      }
+    };
+
+    //=======End: Image Cropping====================
+    //=======Start: Image Option Buttons============
+      
+    /*The three functions of $scope: saveImage(), discardImage() and addFBProfilePicture() allow the user to save an image, discard an image order add the user's Facebook Profile Picture to his account (only when logged in with Facebook).
+    -   saveImage uses the Server API "saveNewPhoto". For more Information look at the function in the Server documentation
+    -   discardImage just removes the image from §scope.shownImage and sets $scope.hasPicture to 'false'
+    -   addFBProfilePicture uses a function declared in 'Services.js'. Read the documentation of the this file for more information
+
+    */  
+      
     $scope.saveImage = function() {
       serverAPI.saveNewPhoto($scope.userID, $scope.shownImage, function(data) {
-        if (data === 1) {
+        if (data === '1') {
           window.history.back();
         } else {
           alert('Photo could not be saved');
@@ -186,24 +217,11 @@ Options for the returned pictures:
       $scope.shownImage = '';
     };
 
-    $scope.changeImage = function(dataUrl) {
-      if ((dataUrl !== 'data:image/jpeg;base64,') && (dataUrl !== $scope.userImage)) {
-        $scope.newImage = dataUrl;
-      }
-    };
 
     $scope.addFBProfilePicture = function() {
       services.addFBProfilePicture();
     };
   }
-])
+]);
 
-
-
-.config(function($compileProvider) {
-  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|img|content):|data:image\//);
-  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|file|tel):/);
-
-
-
-});
+    //=======End: Image Option Buttons=============

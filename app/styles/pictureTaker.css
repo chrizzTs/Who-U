@@ -3,6 +3,8 @@
     width: 100%;
 }
 
+/* imageHolder and the image within has to be set to a defined size. ngImgCrop will not function without a defined size */
+
 .imageHolder {
     height: 50%;
     width: 100%;
@@ -11,7 +13,7 @@
 
 
 .imageHolder > img {
-     text-align: center;
+    text-align: center;
     width: 90%;
     height: auto;
     margin-left: auto;
