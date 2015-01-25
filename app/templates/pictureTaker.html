@@ -1,6 +1,30 @@
 <ion-view title="New Photo">
     <ion-content class="padding">
+         <div class="row">
+                <div class="col">
+                    <button class='button button-outline button-full button-positive icon ion-scissors' ng-if='hasPicture' ng-click='startCropping()'>
+                        
+                    </button>
+                </div>
+                <div class="col">
+                    <button class='button button-outline button-full button-positive icon ion-close-circled' ng-if='hasPicture' ng-click="discardImage()">
+                    </button>
+                </div>
+                <div class="col">
+                    <button class='button button-outline button-full button-positive icon ion-checkmark' ng-disabled='pictureCropped==false' ng-if='hasPicture' ng-click="saveImage()">
+                    </button>
+                </div>
+
+        </div>
+        
         <div class="row">
+                <div class="imageHolder">
+                <img ng-src='{{shownImage}}' ng-if='hasPicture'></img>
+                </div>
+            </div>
+        
+        <div class="row">
+            
             <div class="col">
                 <button class='button button-outline icon-left button-full button-positive icon ion-camera' ng-click="getCameraPhoto()">
                     Take Photo
@@ -16,27 +40,7 @@
             </div>
         </div>
         
-            <div class="row">
-                <div class="imageHolder">
-                <img ng-src='{{shownImage}}' ng-if='hasPicture'></img>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <button class='button button-outline button-full button-positive icon ion-scissors' ng-if='hasPicture' ng-click='startCropping()'>
-                        
-                    </button>
-                </div>
-                <div class="col">
-                    <button class='button button-outline button-full button-positive icon ion-close-circled' ng-if='hasPicture' ng-click="discardImage()">
-                    </button>
-                </div>
-                <div class="col">
-                    <button class='button button-outline button-full button-positive icon ion-checkmark' ng-disabled='pictureCropped==false' ng-if='hasPicture' ng-click="saveImage()">
-                    </button>
-                </div>
-
-            </div>
+           
 
         </div>
 

@@ -66,6 +66,53 @@ It can be called by services.Method() and then runs the method in the services.j
 and the `serverAPI.js` differ from the others.
 
 
+**PictureTaker**
+
+Two factories load pictures ansynchronously from the Camera or PhoneAlbum.
+These interfaces to the functions of the device are implemented with the Cordova plugin: org.apache.cordova.camera.
+The options for the returned picture are saved in last block of the getPicture(options) function, which is a function of 
+Cordova Camera API
+
+Options for the returned pictures:
+-   quality is set to 50 to downscale the picture in order to be small enough for posting it to the server
+-   encodingtype is set to JPEG because JPEGs are very small and can be downcaled easily
+-   destinationtype is set to DATA_URL. Due to that photos are saved in a Base64 encoded URI, which can be sent as
+    a string to the server and received as a string
+-   sourceType is either set to CAMERA or SAVEDPHOTOALBUM depending on the factory
+-   correctOrientation is set to true, so that horizontal images are displayed horizontally and vertical images are 
+    displayed vertically
+
+This is the factory for the Camera API
+
+```javascript
+   .factory('PhoneCamera', ['$q',
+  function($q) {
+
+
+    return {
+      getPicture: function(options) {
+        var q = $q.defer();
+
+        navigator.camera.getPicture(function(result) {
+          // Do any magic you need
+          q.resolve(result);
+        }, function(err) {
+          q.reject(err);
+        }, {
+          quality: 50,
+          encodingType: Camera.EncodingType.JPEG,
+          destinationType: Camera.DestinationType.DATA_URL,
+          sourceType: Camera.PictureSourceType.CAMERA,
+          correctOrientation: true
+        });
+
+        return q.promise;
+
+      }
+    };
+  }
+])
+````
 
 
 

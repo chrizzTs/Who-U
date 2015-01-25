@@ -11,20 +11,29 @@ angular.module('photos', [])
 .controller('photosCtrl', ['$scope', 'cssInjector', 'serverAPI', '$state', '$window',
   function($scope, cssInjector, serverAPI, $state, $window) {
 
-    //remove all injected CSS Designs
+    //remove all injected CSS Designs and add new ones
     cssInjector.removeAll();
     cssInjector.add('styles/photos.css');
     
-    $scope.profilePhotoIsShown = true;
+    //doneLoading: only true if first photo has been received. If doneLoading == false, 
+    //a loading screen is shown to the user
+    $scope.doneLoading = false;  
 
     //default: user has no Pictures. Variable gets used to decide whether to display a gallery
     $scope.userHasPictures = false;
     window.localStorage.setItem('userHasPictures', '0');
 
+    //profilePhotoShown: Variable that indicates wether the profile Picture of user is shown in big mode
+    //if it is shown the star icon on the picture is filled blue, otherwise it is outlined
+    $scope.profilePhotoIsShown = true;
+
     //initialize the selection photo and the selected photoId
+    //selection: Data of the image that is shown big
+    //selectionPhotoId: Id of the image that is shown big
     $scope.selection;
-    $scope.doneLoading = false;
     $scope.selectionPhotoId = 0;
+      
+    
     $scope.profilePhotoId = 0;
     //initialize the array in which images of the user will be stored
     $scope.images = new Array();
