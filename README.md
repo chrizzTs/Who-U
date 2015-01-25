@@ -65,6 +65,51 @@ It can be called by services.Method() and then runs the method in the `services.
 
 and the `serverAPI.js` differ from the others.
 
+#Registration
+
+The registration page contains actually just a HTML-form, which collects userinput from textfields. From a technical standpoint there was no need to use a form. But from an UI-standpoint this enabled the use of the `$invalid`-variable. With an easy check in the associated CSS-Sheet a grafical animation - weather the form is correct or incorrect - could be displayed. Angular recognizes the state of `$invalid` and uses the matching CSS arguments; e.g.:
+````css
+.regForm.ng-invalid {
+    border: 10px solid rgba(255, 0, 0, .2);
+    -moz-box-shadow: 0 0 13px 3px rgba(255, 0, 0, .5);
+    -webkit-box-shadow: 0 0 13px 3px rgba(255, 0, 0, .5);
+    box-shadow: 0 0 13px 3px rgba(255, 0, 0, .5);
+}
+````
+
+As long as all required fields are not filled out in a proper way, the submit button is disabled. There is a special function in the controller for that purpose. This enables a content validation against mistakes, before the input is actually used. The use of `$watch`-variable provides the user instant feedback to the entered values. The function below responds with every change in the password input field to its status. With this the user is not required to press a button to get error notifications, which speeds up the registration process. Note: the `$scope.enableButton()`-function is just for checking, wether the form is correct; so the button is no enabled in the ``$watch``-function.
+
+````javascript
+$scope.$watch('password2', function () {
+            if ($scope.password2 == $scope.password1) {
+                if ($scope.password2 == '') {
+                    $scope.showWarningEmpty = true;
+                }
+                $scope.showWarningPW2 = false;
+                $scope.enableButton();
+            } else {
+                console.log('Sind ungleich');
+                $scope.showWarningEmpty = false;
+                $scope.showWarningPW2 = true;
+            }
+
+        });
+````
+
+As soon as the user presses the registration button, the registration process is started. First, the user has to be located. This is required due the fact that the database saves the position of every user. The more a freshly initialized user should be able to participate in a game.
+
+[Part Christian: geolocation]
+
+After the location all required data is sent to the server using:
+
+````javascript
+serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail, myPosition.longitude, myPosition.latitude, function (data) {
+...
+}
+````
+
+There is a lot of localstorage use in the callback, which is the reason it is not displayed above. Basically it is about storing all required values for a later use in the localstorage. These are: User ID, Credentials (required for a login without a password), visible status and pushnotification status. The use of all the variables will be explained in this documentation. After all values are stored, the user is redirected to the home tab. If the E-Mailadress, which was used, is already assigned to an account, or if (however) the passwords were not identical, some error messages appear on the HTML-site. Due the knowledge of the own password is critical for the further use of the app, there was so much effort in storing the correct passwords.
+
 #Facebook Integration
 
 **General configuration**
