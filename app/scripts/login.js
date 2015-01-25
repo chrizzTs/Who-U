@@ -47,7 +47,7 @@ angular.module('login', [])
                     window.localStorage.setItem('Credentials', JSON.stringify(data));
                     window.localStorage.setItem('visible', true);
                     window.localStorage.setItem('saveData', 'false');
-                    window.localStorage.setItem('Facebook', 'false');
+                    window.localStorage.setItem('facebook', 'false');
                     window.localStorage.setItem('pushNotifications', 'true');
                     window.location = "#/tab/home";
                      $rootScope.login = true
@@ -57,41 +57,39 @@ angular.module('login', [])
                 }
             })
         }
-
+//============Start: Facebook Integration=======================
+        
+//============Start: Facebook Login=============================
     
+    //$scope.facebookLogin tries to login to Facebook with the openFB API and if it succeds, executes the function $scope.goToHome(), which will take the user to the Home-Screen if he has been logged in to Facebook before. In the scope variable, permissions could be written, that need to be given from Facebook. The Facebook integration just needs the connection to Facebook and the Profile Picture of the user, which are both public so nothing has to be inserted here.
     
      $scope.facebookLogin = function () {
 
-        
          openFB.login(
         function(response) {
             if (response.status === 'connected') {
                 console.log('Facebook login succeeded');
-             //   console.log(response.grantedScopes);
                 $scope.goToHome();
-                
+
 
             } else {
                 alert('Facebook login failed');
             }
         },
-        {scope: 'email, user_photos',
+        {scope: '',
         return_scopes: true});
          
-     }
+    }
      
      
      
      
      
          $scope.goToHome = function(){
-               //Catch GeoData to initialize useres position and to grant access to GPS.
-                //Grap geoLocation
-          
             
              openFB.api({
         path: '/me',
-        params: {fields: 'id,name, first_name'},
+        params: {fields: 'id, first_name'},
         success: function(user) {
             $scope.$apply(function() {
                 $scope.user = user;
@@ -100,10 +98,14 @@ angular.module('login', [])
                 console.log(user);
             });
              
+            //E-Mail of Facebook users: Facebook ID
+            //Password of Facebook users: 'facebook'
             serverAPI.loginWithMail($scope.user.id, 'facebook', function (data) {
                 if (data != '-3'){
-                console.log(data)
-                var sessionKey = data //parseInt(data.substring(2))
+                //Case: Facebook user has been created yet
+                
+                //regular login process
+                var sessionKey = data 
                 if (data instanceof Object) {
                     window.localStorage.setItem('Credentials', JSON.stringify(data));
                     window.localStorage.setItem('visible', true);
@@ -116,7 +118,9 @@ angular.module('login', [])
                 } else {
                     $scope.loginFailed = true;
                 }
-                } else {
+                }
+                //Case: Facebook user is not created yet
+                else {
                     $scope.createFacebookUser();
                 }
             })
@@ -131,24 +135,28 @@ angular.module('login', [])
          }
              
 
-
-
-
+//====================End: Facebook Login=========================
+//==================Start: Create Facebook User===================
        
         $scope.createFacebookUser = function () {
-            console.log($scope.user.name);
-            console.log($scope.user.email);
-            console.log($scope.user.id);
+            
+            //Find out current Position
             var myPosition;
             var location = navigator.geolocation.getCurrentPosition(function (geoData) {
                 myPosition = {
                     'longitude': geoData.coords.longitude,
                     'latitude': geoData.coords.latitude
                 }
-                serverAPI.createNewUser($scope.user.first_name, 'facebook', $scope.user.id, myPosition.longitude, myPosition.latitude, function (data) {
+                
+                
+            serverAPI.createNewUser($scope.user.first_name, 'facebook', $scope.user.id, myPosition.longitude, myPosition.latitude, function (data) {
+                    //Add Facebook Profile Photo
+                    services.addFBProfilePicture();
+                
+                //Registration specific code. Copied from registration.js
                     console.log(data);
-                    var storedCredentials
-                    var newCredentials
+                    var storedCredentials;
+                    var newCredentials;
                     if ((storedCredentials = window.localStorage.getItem('Credentials')) != null) {
                         storedCredentials = JSON.parse(storedCredentials)
                         storedCredentials['UID'] = data
@@ -160,56 +168,15 @@ angular.module('login', [])
                         }
                     }
                     
-                    services.addFBProfilePicture();
+                    $rootScope.login = true
+                    
+                    //This time goToHome will be able to login the user and he continue to the Home-Screen.
                     $scope.goToHome();
-                     $rootScope.login = true
+                    
                 });
             });
-
-
-
-
         };
+});
 
-
-
-
-        $scope.facebookLogout = function () {
-            openFB.logout(
-                function (response) {
-                    alert('You are logged out');
-                })
-
-
-        }
-
-
-
-        /*
-
-    $scope.fbOptions = 
-        {fbId: '{339615032892277}',
-    permissions: 'email,user_photos',
-    fields: 'email,user_photos',
-    success: function (data) {
-        console.log('Basic public user data returned by Facebook', data);
-    },
-    error: function (error) {
-        console.log('An error occurred.', error);
-    }};
-
-
-
-        $.fblogin({
-    fbId: '{339615032892277}',
-    permissions: 'email,user_photos',
-    fields: 'email,user_photos',
-    success: function (data) {
-        console.log('Basic public user data returned by Facebook', data);
-    },
-    error: function (error) {
-        console.log('An error occurred.', error);
-    }
-});*/
-
-    });
+//============End: Create Facebook User=======================
+//============End: Facebook Integration=======================

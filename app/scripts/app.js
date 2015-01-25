@@ -32,19 +32,13 @@ angular.module('starter', ['ionic', 'ngAnimate', 'home', 'play', 'settings', 'ch
     
     
 /********END Chat Messages retrival *********/
-    
-
-    
-    
-    
-   // OpenFB.init('339615032892277', 'https://www.facebook.com/connect/login_success.html');
-
 })
 
 
 
 .config(function ($stateProvider, $urlRouterProvider, cssInjectorProvider, $compileProvider) {
 
+    //Initialize the Connection with Facebook
     openFB.init({appId: '339615032892277', tokenStore: window.localStorage});
     
     

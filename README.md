@@ -65,6 +65,143 @@ It can be called by services.Method() and then runs the method in the services.j
 
 and the `serverAPI.js` differ from the others.
 
+#Login with Facebook
+
+**General configuration**
+
+The app uses `openfb.js`. This is a microlibrary which integrates Javascript applications with Facebook. It was downloaded from https://github.com/ccoenraets/OpenFB. Therefor the Facebook SDK is not needed. 
+
+To start openFB and initialize the connection of the app with Facebook, the following line is added at the beginning of the Module 'Starter' in the .config to start directly when the app opens.
+
+````javascript
+    openFB.init({appId: '339615032892277', tokenStore: window.localStorage});
+````
+
+To make this connection possible the app has to be created on the official site 'developers.facebook.com'. On this website the site URL of this app has to be included at allowd Websites. In this case 'http://localhost:8100/' for both Site URL on Mobile Site URL. Client Oauth Login has to be activated and Valid Oauth redirect URLs have to be added. Valid OAuth Redirect URI's for this app are:
+-   http://localhost:8100/oauthcallback.html (Desktop Login)
+-   https://www.facebook.com/connect/login_success.html (Mobile/Cordova Login)
+
+**Facebook Login**
+
+Either Facebook Login and Registration are started with the 'Login with Facebook' button on the Login Page. 
+
+````html
+<button class="button button-positive" ng-click="facebookLogin()">
+Login with Facebook
+</button>
+````
+
+From there on the function facebook.login() in `login.js` is called. It tries to login to Facebook with the openFB API and if it succeds, executes the function $scope.goToHome(), which will take the user to the Home-Screen if he has been logged in to Facebook before. In the scope variable, permissions could be written, that need to be given from Facebook. The Facebook integration just needs the connection to Facebook, the name and the Profile Picture of the user, which are  public so nothing has to be inserted here.
+
+`````javascript
+ $scope.facebookLogin = function () {
+
+         openFB.login(
+        function(response) {
+            if (response.status === 'connected') {
+                console.log('Facebook login succeeded');
+                $scope.goToHome();
+
+
+            } else {
+                alert('Facebook login failed');
+            }
+        },
+        {scope: '',
+        return_scopes: true});
+         
+    }
+````
+
+First the user data of the Facebook account (ID, First name) are taken  and the JSON object 'user', in which this data is stored is added to $scope and localStorage for later usage. Additionally a localStorageItem 'facebook' is set to true, so that in the App, functions can evaluate if the user is a Facebook User and offer special services.
+
+````javascript
+  openFB.api({
+        path: '/me',
+        params: {fields: 'id, first_name'},
+        success: function(user) {
+            $scope.$apply(function() {
+                $scope.user = user;
+                window.localStorage.setItem('user', JSON.stringify(user));
+                window.localStorage.setItem('facebook', 'true');
+                console.log(user);
+            });
+````
+
+The callback does not end here, because the Facebook data is needed for the following Login. 
+
+Facebook users are registered in the App with their Facebook ID as E-Mail address and 'facebook' as their password. If another user knows the Facebook ID of the user and this scheme, he can still not login in with the account, because the app only allows E-Mail addresses with the sign '@' when logging in the regular way.
+
+The function $scope.goToHome() tries to login with the given ID and 'facebook' as the password. If it does not succed, a new Facebook User will be created ($scope.createFacebookUser();). If it is possible, all needed data is inserted to localStorage and the sessionKey is set. For further information to this process, look at the regular login process.
+
+````javascript
+serverAPI.loginWithMail($scope.user.id, 'facebook', function (data) {
+                if (data != '-3'){
+                //Case: Facebook user has been created yet
+                
+                //regular login process
+                var sessionKey = data 
+                if (data instanceof Object) {
+                    window.localStorage.setItem('Credentials', JSON.stringify(data));
+                    window.localStorage.setItem('visible', true);
+                    window.localStorage.setItem('pushNotifications', 'true');
+                    window.localStorage.setItem('saveData', 'false');
+                    window.location = "#/tab/home";
+                     $rootScope.login = true
+                    services.initBackgroundGps();
+
+                } else {
+                    $scope.loginFailed = true;
+                }
+                }
+                //Case: Facebook user is not created yet
+                else {
+                    $scope.createFacebookUser();
+                }
+            })
+````
+
+**Creating a new Facebook User**
+
+Facebook Users are created with the function $scope.createFacebookUser in `login.js`. 
+
+First, the Geoposition is taken from the user because it is needed for the registration. Then a new user is created with the Server API Method createNew User (look in Server Documentation for more information to this). A new user is created with
+    	-Username:  First name in Facebook
+        -Password:  'facebook'
+        -E-Mail:    Facebook ID
+        -Current Position
+
+First the Facebook Profile Photo is added to the account with the function services.addFBProfilePicture(); Look at the Services Documentation for more Information. 
+
+Then a few lines of registration specific code are executed. They are copied from registration.js so look there for more information. 
+
+At last $scope.goToHome() is executed again. This time it will be able to login the user and he continue to the Home-Screen.
+
+````javascript
+serverAPI.createNewUser($scope.user.first_name, 'facebook', $scope.user.id, myPosition.longitude, myPosition.latitude, function (data) {
+                    //Add Facebook Profile Photo
+                    services.addFBProfilePicture();
+                
+                //Registration specific code. Copied from registration.js
+                    console.log(data);
+                    var storedCredentials;
+                    var newCredentials;
+                    if ((storedCredentials = window.localStorage.getItem('Credentials')) != null) {
+                        storedCredentials = JSON.parse(storedCredentials)
+                        storedCredentials['UID'] = data
+                        storedCredentials['SessionKey'] = null
+                        newCredentials = storedCredentials
+                    } else {
+                        newCredentials = {
+                            'UID': data
+                        }
+                    }
+                    
+                    $rootScope.login = true
+                    $scope.goToHome();
+                    
+                });
+````
 
 #Uploading and Taking Pictures: PictureTaker Page
 
@@ -86,7 +223,7 @@ In the Configuration of the Angular Module the Sanitization Whitelist of images 
 .config(function($compileProvider) {
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|img|content):|data:image\//);
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|file|tel):/);
-});
+})
 ````
 
 **Factories for Camera API**

@@ -220,6 +220,7 @@ Options for the returned pictures:
 
     $scope.addFBProfilePicture = function() {
       services.addFBProfilePicture();
+      window.history.back();
     };
   }
 ]);
