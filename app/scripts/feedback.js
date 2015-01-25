@@ -1,6 +1,6 @@
 angular.module('feedback', ['serverAPI'])
 
-.controller('feedbackCtrl', function ($scope, cssInjector, serverAPI) {
+.controller('feedbackCtrl', function ($scope, $state, cssInjector, serverAPI) {
 
     cssInjector.add('styles/feedback.css');
 
@@ -21,30 +21,36 @@ angular.module('feedback', ['serverAPI'])
     $scope.openGames = [];
     serverAPI.getGamesToRate($scope.UID, function (data) {
         console.log(data);
-        for (var i = 0; i < data.length; i++) {
-            $scope.openGames[i] = data[i];
-        }
         
-        $scope.severalFeedbacks;
-        $scope.singleFeedback;
-        $scope.notRatedGames=$scope.openGames.length;
-        
-        if($scope.notRatedGames==1){
-            $scope.singleFeedback=true;
-            $scope.severalFeedbacks=false;
-        }else if($scope.notRatedGames>1){
-            $scope.singleFeedback=false;
-            $scope.severalFeedbacks=true;
-        }
-
-        serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
-            if(data==-4){
-                $scope.notContacted();
-            }else{
-                $scope.ratedName = data.userName;
+        if(data == -10){
+            $state.go('tab.home');
+        }else{
+            for (var i = 0; i < data.length; i++) {
+                $scope.openGames[i] = data[i];
             }
-        });
+
+            $scope.severalFeedbacks;
+            $scope.singleFeedback;
+            $scope.notRatedGames=$scope.openGames.length;
+
+            if($scope.notRatedGames==1){
+                $scope.singleFeedback=true;
+                $scope.severalFeedbacks=false;
+            }else if($scope.notRatedGames>1){
+                $scope.singleFeedback=false;
+                $scope.severalFeedbacks=true;
+            }
+
+            serverAPI.getUserData($scope.openGames[$scope.counter].otherPlayerId, function (data) {
+                if(data==-4){
+                    $scope.notContacted();
+                }else{
+                    $scope.ratedName = data.userName;
+                }
+            });
+        }
     });
+    
 
     if (stayInTouch == 'true') {
         $scope.userChoiceContact = {
