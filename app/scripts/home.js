@@ -38,11 +38,13 @@ angular.module('home', ['services'])
             if(remainingTime<=0){
                 $scope.stop();
             }else{
-                $scope.counter=Math.round(remainingTime/60000);
+                //Divided through 60,000ms, to get a result in minutes
+                //$scope.counter=Math.round(remainingTime/60000);
+                $scope.counter=parseInt(remainingTime/1000);
             }
             
-            //reduce counter after every minute (=60000ms)
-            counterSearchButton = $timeout($scope.searchButtonTimeout,60000);
+            //reduce counter after every 30s (=30,000)
+            counterSearchButton = $timeout($scope.searchButtonTimeout,1000);
             
             //$rootScope.text='Disabled for {{counter}} minutes';
             

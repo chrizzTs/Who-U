@@ -66,46 +66,46 @@ angular.module('feedback', ['serverAPI'])
         {
             id: 0,
             action: 'rateQuestion2(1)',
-            icon: 'ios7-star-outline'
+            icon: 'ion-ios-star-outline'
        }, {
             id: 1,
             action: 'rateQuestion2(2)',
-            icon: 'ios7-star-outline'
+            icon: 'ion-ios-star-outline'
        }, {
             id: 2,
             action: 'rateQuestion2(3)',
-            icon: 'ios7-star-outline'
+            icon: 'ion-ios-star-outline'
        }, {
             id: 3,
             action: 'rateQuestion2(4)',
-            icon: 'ios7-star-outline'
+            icon: 'ion-ios-star-outline'
        }, {
             id: 4,
             action: 'rateQuestion2(5)',
-            icon: 'ios7-star-outline'
+            icon: 'ion-ios-star-outline'
        }]
 
     $scope.starsQuestion3 = [
         {
             id: 0,
             action: 'rateQuestion3(1)',
-            icon: 'ios7-star-outline'
+            icon: 'ion-ios-star-outline'
        }, {
             id: 1,
             action: 'rateQuestion3(2)',
-            icon: 'ios7-star-outline'
+            icon: 'ion-ios-star-outline'
        }, {
             id: 2,
             action: 'rateQuestion3(3)',
-            icon: 'ios7-star-outline'
+            icon: 'ion-ios-star-outline'
        }, {
             id: 3,
             action: 'rateQuestion3(4)',
-            icon: 'ios7-star-outline'
+            icon: 'ion-ios-star-outline'
        }, {
             id: 4,
             action: 'rateQuestion3(5)',
-            icon: 'ios7-star-outline'
+            icon: 'ion-ios-star-outline'
        }]
 
     $scope.contacted = function () {
@@ -116,7 +116,7 @@ angular.module('feedback', ['serverAPI'])
 
     $scope.rateQuestion2 = function (x) {
         for (var i = 0; i < $scope.starsQuestion2.length; i++) {
-            $scope.starsQuestion2[i].icon = 'ios7-star-outline';
+            $scope.starsQuestion2[i].icon = 'ion-ios-star-outline';
         }
 
         $scope.question2 = x;
@@ -125,14 +125,14 @@ angular.module('feedback', ['serverAPI'])
 
         for (var i = 0; i < $scope.starsQuestion2.length; i++) {
             if ($scope.starsQuestion2[i].id <= selected) {
-                $scope.starsQuestion2[i].icon = 'ios7-star';
+                $scope.starsQuestion2[i].icon = 'ion-ios-star';
             }
         }
     }
 
     $scope.rateQuestion3 = function (x) {
         for (var i = 0; i < $scope.starsQuestion3.length; i++) {
-            $scope.starsQuestion3[i].icon = 'ios7-star-outline';
+            $scope.starsQuestion3[i].icon = 'ion-ios-star-outline';
         }
 
         $scope.question3 = x;
@@ -141,7 +141,7 @@ angular.module('feedback', ['serverAPI'])
 
         for (var i = 0; i < $scope.starsQuestion3.length; i++) {
             if ($scope.starsQuestion3[i].id <= selected) {
-                $scope.starsQuestion3[i].icon = 'ios7-star'
+                $scope.starsQuestion3[i].icon = 'ion-ios-star'
             }
         }
     }
@@ -207,11 +207,11 @@ angular.module('feedback', ['serverAPI'])
                 $scope.enableSubmit(2);
                 
                 for (var i = 0; i < $scope.starsQuestion2.length; i++) {
-                    $scope.starsQuestion2[i].icon = 'ios7-star-outline';
+                    $scope.starsQuestion2[i].icon = 'ion-ios-star-outline';
                 }
                 
                 for (var i = 0; i < $scope.starsQuestion3.length; i++) {
-                    $scope.starsQuestion3[i].icon = 'ios7-star-outline';
+                    $scope.starsQuestion3[i].icon = 'ion-ios-star-outline';
                 }
                 
             } else {
@@ -245,11 +245,11 @@ angular.module('feedback', ['serverAPI'])
                 $scope.enableSubmit(2);
                 
                 for (var i = 0; i < $scope.starsQuestion2.length; i++) {
-                    $scope.starsQuestion2[i].icon = 'ios7-star-outline';
+                    $scope.starsQuestion2[i].icon = 'ion-ios-star-outline';
                 }
                 
                 for (var i = 0; i < $scope.starsQuestion3.length; i++) {
-                    $scope.starsQuestion3[i].icon = 'ios7-star-outline';
+                    $scope.starsQuestion3[i].icon = 'ion-ios-star-outline';
                 }
                 
             } else {
