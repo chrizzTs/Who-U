@@ -61,11 +61,11 @@ The files are usually structured like this:
 ```
 
 The `services.js` is a factory which includes all methods that needs to be called from different javascript files. 
-It can be called by services.Method() and then runs the method in the services.js
+It can be called by services.Method() and then runs the method in the `services.js`
 
 and the `serverAPI.js` differ from the others.
 
-#Login with Facebook
+#Facebook Integration
 
 **General configuration**
 
@@ -173,7 +173,7 @@ First, the Geoposition is taken from the user because it is needed for the regis
 
 First the Facebook Profile Photo is added to the account with the function services.addFBProfilePicture(); Look at the Services Documentation for more Information. 
 
-Then a few lines of registration specific code are executed. They are copied from registration.js so look there for more information. 
+Then a few lines of registration specific code are executed. They are copied from `registration.js` so look there for more information. 
 
 At last $scope.goToHome() is executed again. This time it will be able to login the user and he continue to the Home-Screen.
 
@@ -211,9 +211,9 @@ All images have to be cropped and downscaled, because on the one hand users shou
 huge, detailed versions of pictures and on the other hand big picture files cannot be sent to the server
 in one POST.
 The structure, functions and style of the PictureTaker are stored in:
--   templates/pictureTaker.html
--   scripts/pictureTaker.js
--   styles/pictureTaker.css
+-   `templates/pictureTaker.html`
+-   `scripts/pictureTaker.js`
+-   `styles/pictureTaker.css`
 
 **Configuration**
 
@@ -449,7 +449,7 @@ In $scope.endCropping the image is saved into $scope.shownImage, which is the im
 The three functions of $scope: saveImage(), discardImage() and addFBProfilePicture() allow the user to save an image, discard an image order add the user's Facebook Profile Picture to his account (only when logged in with Facebook).
 -   saveImage uses the Server API "saveNewPhoto". For more Information look at the function in the Server documentation
 -   discardImage just removes the image from §scope.shownImage and sets $scope.hasPicture to 'false'
--   addFBProfilePicture uses a function declared in 'Services.js'. Read the documentation of the this file for more information
+-   addFBProfilePicture uses a function declared in `Services.js`. Read the documentation of the this file for more information
 
 
 
