@@ -70,9 +70,9 @@ angular.module('photos', [])
           var deleteIndex;
         
           //find out which image to delete
-          for (var i; i < $scope.images.length; i++){
-              if ($scope.images.id === $scope.selectionPhotoId){
-                  deleteIndex = i+1;
+          for (var i = 0; i < $scope.images.length; i++){
+              if ($scope.images[i].id === $scope.selectionPhotoId){
+                  deleteIndex = i;
               }
           }
           $scope.images.splice(deleteIndex,1);

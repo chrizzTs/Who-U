@@ -124,7 +124,6 @@ angular.module('settings', ['services'])
                     if (window.localStorage.getItem('facebook')){
                               openFB.revokePermissions(
                 function() {
-                    alert('Permissions revoked');
                 });
                 }
     
