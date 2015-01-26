@@ -125,8 +125,7 @@ angular.module('settings', ['services'])
                               openFB.revokePermissions(
                 function() {
                     alert('Permissions revoked');
-                },
-                errorHandler);
+                });
                 }
     
                     console.log('Go to hell');
