@@ -658,7 +658,7 @@ Pictures are deleted with the method '$scope.deletePhoto()'. It uses the Server 
           
       });
     }
-````javascript
+````
 
 To set an image as the profile Picture, the Server API function 'updateProfilPhoto' is called. The profilePicture is newely fetched from the server and again checked whether the profile Picture is currently shown. This time this validation will return true.
 
@@ -674,7 +674,7 @@ To set an image as the profile Picture, the Server API function 'updateProfilPho
           }
       })
     }
-````javascript
+````
 
 To check whether an image is the Profile Picture the method 'checkIfProfilePhotoIsShown()' is called. It compares '$scope.selectionPhotoId' to the Profile Picture ID. 
 
