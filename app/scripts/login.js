@@ -3,13 +3,22 @@
 angular.module('login', [])
     .controller('loginCtrl', function ($scope, serverAPI, $rootScope, $location, cssInjector, services, $state) {
         cssInjector.add("styles/login.css");
-        $scope.EMail;
-        $scope.password;
+        $scope.EMail='';
+        $scope.password='';
         $scope.user;
         $scope.email;
+        $scope.disabler;
         var credentials
         var sessionKey
         var userId
+        
+        $scope.$watch('password', function () {
+           if($scope.password.length >= 5 && $scope.loginForm.$valid==true){
+               $scope.disabler=false;
+           }else{
+               $scope.disabler=true;
+           }
+        });
 
         //Check if Credentials are in LocalStorage
         if ((credentials = window.localStorage['Credentials']) != null) {
