@@ -151,7 +151,21 @@ function getUserData(){
 
         serverAPI.getGamesToRate(UID,  function getGamesToRate(data) {
             //Check if there are any new feedback sheets availalbe
-            if (typeof data === 'object' ){
+            
+            if(data==-10){
+                //code?
+            }else{
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Feedback',
+                    template: 'There is a player that has not been rated yet. Please rate the player before you keep playing.'
+                });
+
+
+                alertPopup.then(function (res) {
+                    $state.go('feedback');
+                });
+            }
+            /*if (typeof data === 'object' ){
                 var alertPopup = $ionicPopup.alert({
                     title: 'Feedback',
                     template: 'There is a player that has not been rated yet. Please rate the player before you keep playing.'
@@ -166,7 +180,7 @@ function getUserData(){
             }else if(data != -10){
                 
                 console.error("Error: getGamesToRate: " + data)
-            }
+            }*/
         });
 
 
