@@ -115,6 +115,7 @@ There is a lot of localstorage use in the callback, which is the reason it is no
 The HTML-page of the login screen works pretty similar to the registration screen. This form does not change its color as response to the user's input. But there is also an AngularJS-vaidation in the background, which prevents the user from clicking the login button, without any credentials entered. This is implemented by the ``$watch`` function as well.
 
 As soon as the user enters the login page, a credential validation starts. In case the user was already signed in on the device, a credential is stored in the local storage. The credential is a session key, which is associated with the user on the server. This is nothing else than an automatic login, without the use of cookies. In case there is a session key, the user will immediately redirected to the home tab. The validation itself is pretty fast, which means the user shouldn't notice that the displayed screen is actually the login screen. If the controller can't find a session key, nothing happens and the user has to enter E-Mail and password. If the user presses the login button, a validation of the E-Mail address and the password will be executed on the server. In case of a positive response local storage variables will be set, in case they were undefined. If there are any entries in the local storage which correspond to the user's settings, the app pays respect to the user's choice and doesn't change the status. If there are no settings stored, the default values will be chosen. After the entering of local storage variables a session key will be stored, after that, the user will be redirected to the home screen.
+The fact that the login screen checks the stored credentials, make it to the default screen for error cases. If anything wents wrong during the routing, the user is redirected to the login screen. If the user still has stored credentials, the redirecting to the login screen is not noticed by the user.
 
 #Facebook Integration
 
@@ -688,6 +689,18 @@ function checkIfProfilePhotoIsShown(){
 #Coins and Benefits
 
 To make the game itself even more interesting and to provide some little extras to the players who do several games, it is possible to get coins through playing. (To get further information to the point system, go to chapter "Feedback".
+The benefits are retrieved from the server, which sends them as a JSON. They are stored locally and displayed in the HTML-file using `ng-repeat`. The buy procedure can distinguish between the benefits, by checking their ID, which is handed over to the procedure: 
+````html
+<button class="button button-full button-positive" ng-click="buy(benefit.id)" ng-disabled="checkBudget(benefit.price)">
+    Buy ({{benefit.price}} coins)
+</button>
+````
+As soon as the user clicks on the buy-button, the controller loads the right price from the mentioned array and executes the right code for every benefit, using an if-else-structure. In the following the code and functionallity of the benefits is explained.
+
+**Skip user**
+
+The skip user benefit makes it possible to skip the associated partner in the play screen, if the user wants to. 
+
 
 #Feedback after games
 
@@ -699,16 +712,17 @@ The HTML-code consists of three areas: first, a general part, which displays the
 <span ng-repeat="star in starsQuestion2">
     <i class="icon {{star.icon}}" ng-click="{{star.action}}"></i>
 </span>
+````
 ````javascript
 $scope.starsQuestion2 = [
-        {
-            id: 0,
-            action: 'rateQuestion2(1)',
-            icon: 'ion-ios-star-outline'
-       }, {
-       ...
-       }
-       ]
+    {
+        id: 0,
+        action: 'rateQuestion2(1)',
+        icon: 'ion-ios-star-outline'
+   }, {
+   ...
+   }
+]
 ````
 
 As soon as the user enters the feedback page, his ID is read from the local storage. After that a server method is called to check, if there are any open games available. This is necessary due the support of android devices, which have a back button. In case the user just was on the feedback page and presses this back button after the redirecting to the home tab, it would be possible to get to the feedback page, without any feedbacks. The result would be a loop of feedbacks, to no player. In case there are no feedbacks, the user is redirected to the home tab. In case there any feedbacks, the actual feedback process begins.
@@ -740,3 +754,38 @@ serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, finalS
 }
 ````
 Inside the callback a check regarding the next position in the player array is done. In case there is another player, the name will be updated, all stars will be set to their outline form. In case there is no remaining feedback, the player is redirected to the home tab. The counter of the other player will update automatically.
+
+#Settings
+
+Since there are different options the user can choose from there is a need for a settings tab, which allows to change the settings. The HTML-page consists of three toggle buttons (visible status, push notifications, load just one image - to enable a reduce of the used data amount) and two normal buttons (logout and delete account).
+
+As soon as the user enters the settings tab, the controller loads the settings values from the local storage and stores them into variables. This is necessary to display the position of the toggle button in the correct way. E.g.:
+````javascript
+var visible = window.localStorage.getItem('visible');
+...
+if (visible == 'true') {
+        $scope.visibleStatus = {
+            mode: true
+        };
+    } else if (visible == 'false') {
+        $scope.visibleStatus = {
+            mode: false
+        };
+    }
+````
+Every toggle button has its own function, which is activated, if status changes. These functions consist mostly of a simple if-else-structure. Both have inverted meanings, since the toggle button represents simple true or false meanings. E.g.:
+````javascript
+if (visible == 'true') {
+    visible = 'false';
+    services.endBackgroundGps();
+    serverAPI.changeModus(UID, 0, function (data) {
+        console.log(data)
+    });
+    window.localStorage.setItem('visible', 'false');
+} else {
+    ...
+    }
+````
+
+The buttons for the logout and the account deletion are similar. In the logout function the local storage is completly cleared and all root scope variables are deleted. A notice is sent to the server, to delete the stored credentials on the server. After that the user is redirected to the login screen.
+In case the user wants to delete the account, a popup appears. If the user confirms the choice, the account is deleted on the server. After that the logout session is executed.
