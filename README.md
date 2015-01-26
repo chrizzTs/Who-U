@@ -502,9 +502,7 @@ The three functions of $scope: saveImage(), discardImage() and addFBProfilePictu
 -   discardImage just removes the image from §scope.shownImage and sets $scope.hasPicture to 'false'
 -   addFBProfilePicture uses a function declared in `Services.js`. Read the documentation of the this file for more information
 
-#Coins and Benefits
 
-<<<<<<< HEAD
 #Photos Gallery
 
 On the screen "Your photos" photos of the user are shown, can be deleted, added or set as Profile Picture. If the user has no pictures at all, just a big plus sign is shown redirecting to the PictureTaker screen.
@@ -687,7 +685,8 @@ function checkIfProfilePhotoIsShown(){
      {$scope.profilePhotoIsShown = false};
  }
 ````
-=======
+#Coins and Benefits
+
 To make the game itself even more interesting and to provide some little extras to the players who do several games, it is possible to get coins through playing. (To get further information to the point system, go to chapter "Feedback".
 
 #Feedback after games
@@ -741,4 +740,3 @@ serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, finalS
 }
 ````
 Inside the callback a check regarding the next position in the player array is done. In case there is another player, the name will be updated, all stars will be set to their outline form. In case there is no remaining feedback, the player is redirected to the home tab. The counter of the other player will update automatically.
->>>>>>> origin/master
