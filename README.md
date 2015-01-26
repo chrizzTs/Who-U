@@ -497,5 +497,185 @@ The three functions of $scope: saveImage(), discardImage() and addFBProfilePictu
 -   addFBProfilePicture uses a function declared in `Services.js`. Read the documentation of the this file for more information
 
 
+#Photos Gallery
+
+On the screen "Your photos" photos of the user are shown, can be deleted, added or set as Profile Picture. If the user has no pictures at all, just a big plus sign is shown redirecting to the PictureTaker screen.
+
+**Structure**
+
+Thumbnail pictures are shown on the top of the screen, which can be scrolled horizontally. In the center of the screen a large version of always one picture is shown. To show a picture in large mode, the thumbnail has to be pressed. On the large version of the image, there are three icons
+-   Star: Indicates whether the current selected picture is the profile picture. Filled Blue: It is the profile picture. Outlined: It is not the profile picture. If pressed, the selected picture is set to profile picture. 
+-   Plus: Add a new picture to the profile
+-   Trash: Delete the current picture
+
+For the gallery the code snippet in http://codepen.io/mmmeff/pen/LERZVe was used. For horizontal Scrolling of the thumbnail pictures, the code snippet //http://codepen.io/calendee/pen/HIuft. Both were adjusted to the style and purpose of this app. 
 
 
+**Variables used with default values**
+
+````javascript
+    $scope.doneLoading = false; 
+````
+
+This indicates that no pictures have been loaded and shows a loading screen. When the first picture is loaded, the variable is set true and all received images appear. For more information on this procedure read the documentation of the Chat Screen. 
+
+````javascript
+    $scope.userHasPictures = false;
+    window.localStorage.setItem('userHasPictures', '0');
+````
+
+Variable that indicates whether the user has any pictures at all and if the gallery or big plus sign is shown.
+
+````javascript
+    $scope.profilePhotoIsShown = true;
+````
+
+This indicates whether the Profile Picture is shown. If it is shown, a  star on the big picture is filled blue.
+
+````javascript
+    $scope.selection;
+    $scope.selectionPhotoId = 0;
+````
+
+$scope.selection is the data of the image that is shown in large mode.
+$scope.selectionPhotoId is its ID. Both are changed when the user clicks on a thumbnail or deletes a photo. The knowledge of the current photoId is important for deleting specific images, setting them as profile picture or checking if they are the profile picture.
+
+
+**Function loadImages()**
+
+The function loadImages() loads all images from the server to the user. It saves all images into a JSON array named 'scope.images'. In every JSON in this arry, the ID of a picture and the data of the picture is stored. 
+
+To find out, which pictures a user has saved, the Server API Method "getUserData" is called. It gives the client an arry of Photo IDs saved and the ID of the Profile Picture of the user. Every further procedure have to be written into the callback, because they are dependent on this information.
+
+````javascript
+     serverAPI.getUserData(UID, function(data) {
+        $scope.profilePhotoId = data.profilePhotoId;
+        $scope.photoIds = window.localStorage.getItem('photoIds');
+````
+
+When all images have been loaded, they are stored in the localStorage as well, to reduce time and network usage when entering this screen again. To check whether the images are in localStorage already they are loaded from loalStorage first.
+
+````javascript
+            $scope.localStorageImages = JSON.parse(window.localStorage.getItem('userPhotos'));
+````
+
+A loop starts asking for every Photo ID, first the local Storage and if that is not successful, it asks the server. For checking, if it is in localStorage the method 'checkIfPhotoIsInLocalStorage()' is called. For asking the server the method 'getImageFromServer()' is called. For more information to these procedures look at the section of the methods. 
+
+````javascript
+    for ($scope.position = 0; $scope.position < $scope.photoIds.length; $scope.position++) {
+
+            $scope.itemInLocalStorage = false;
+            
+            //check if image is in localStrage
+            if ($scope.localStorageImages != null){
+                checkIfPhotoIsInLocalStorage();
+            }
+         if ($scope.itemInLocalStorage == false){
+             //image is not in localStorage, get it from the server
+            getImageFromServer();
+         }
+        }
+````
+
+Lastly there is a validation if the user has any pictures at all. If not, the loading process is already finished.
+
+````javascript
+ if ($scope.photoIds.length != 0) {
+          $scope.userHasPictures = 1;
+          window.localStorage.setItem('userHasPictures', '1');
+        } else {
+            $scope.doneLoading = true;
+        }
+````
+
+**Functions checkIfPhotoIsInLocalStorage() and getImageFromServer()**
+
+The functions checkIfPhotoIsInLocalStorage() and getImageFromServer() are similar to each other. They both load the a JSON containing the image and then save this entry into the $scope.images Array and localStorage. The second part is executed through the method 'saveEntryInImages(imageJson)'. 
+
+````javascript
+    function saveEntryInImages(imageJson){
+            var entry = {
+              'id': imageJson.id,
+              'data': imageJson.data
+            };
+
+          $scope.images.push(entry);
+              window.localStorage.setItem('userPhotos', JSON.stringify($scope.images));
+             $scope.doneLoading = true;  
+
+          if ($scope.selection === ''){
+              $scope.setHero(entry);
+          }
+          
+           if ($scope.images.length === $scope.photoIds.length){
+              $scope.images.sort(numSort);
+          }
+      }
+````
+
+The relevant data is taken from the JSON, stored into another JSON and inserted in the images Array and localStorage. The loading Process now has finished and images can be displayed. If no picture is displayed in large mode yet, the now loaded image is set as the selection photo. 
+
+'getImageFromServer()' executes the Server API function getPhoto to load the JSON:
+
+````javascript
+   function getImageFromServer(){
+                  serverAPI.getPhoto(UID, $scope.photoIds[$scope.position], function(data) {
+            console.log('Loaded from Server:' + data.id);
+            saveEntryInImages(data);
+          });
+      }
+````
+
+'checkIfPhotoIsInLocalStorage()' checks with a loop if the Picture ID requested is already in localStorage. If so, it sets the variable  '$scope.itemInLocalStorage' to true, so that the picture does not get loaded from the server. Afterwards it executes the 'saveEntryInImages' method.
+
+**Deleting Pictures and setting them as Profile Picture**
+Pictures are deleted with the method '$scope.deletePhoto()'. It uses the Server API function 'deletePhoto'. After that it finds out, which image was deleted and what the index in the $scope.images is. It deletes the picture with this index from the array.
+
+````javascript
+ $scope.deletePhoto = function() {
+      serverAPI.deletePhoto(UID, $scope.selectionPhotoId, function(data) {
+        console.log(data);
+          var deleteIndex;
+           //window.localStorage.setItem('userPhotos', null);
+          for (var i; i < $scope.images.length; i++){
+              if ($scope.images.id === $scope.selectionPhotoId){
+                  deleteIndex = i+1;
+              }
+          }
+          $scope.images.splice(deleteIndex,1);
+          if ($scope.images[0] !== null){
+          $scope.setHero($scope.images[0]);
+          } else {
+             $scope.userHasPictures = 0;
+          window.localStorage.setItem('userHasPictures', '0');
+          }
+          
+      });
+    }
+````javascript
+
+To set an image as the profile Picture, the Server API function 'updateProfilPhoto' is called. The profilePicture is newely fetched from the server and again checked whether the profile Picture is currently shown. This time this validation will return true.
+
+````javascript
+     $scope.setImageAsProfilePicture = function() {
+      serverAPI.updateProfilPhoto(UID, $scope.selectionPhotoId, function(data) {
+        console.log(data);
+          if (data ==1){
+               serverAPI.getUserData(UID, function(data) {
+            $scope.profilePhotoId = data.profilePhotoId;
+                   checkIfProfilePhotoIsShown();
+               });                   
+          }
+      })
+    }
+````javascript
+
+To check whether an image is the Profile Picture the method 'checkIfProfilePhotoIsShown()' is called. It compares '$scope.selectionPhotoId' to the Profile Picture ID. 
+
+````javascript
+function checkIfProfilePhotoIsShown(){
+     if ($scope.selectionPhotoId == $scope.profilePhotoId)
+     {$scope.profilePhotoIsShown = true} else
+     {$scope.profilePhotoIsShown = false};
+ }
+````

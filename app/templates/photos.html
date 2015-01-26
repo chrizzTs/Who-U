@@ -10,7 +10,7 @@
     
         <div id="gallery" ng-if="userHasPictures==true">
             <ion-scroll direction="x" class="wide-as-needed">
-                <div class="image-list"><img ng-repeat="img in images" ng-src="{{img.image}}" ng-click="setHero(img)"></div></ion-scroll>
+                <div class="image-list"><img ng-repeat="img in images" ng-src="{{img.data}}" ng-click="setHero(img)"></div></ion-scroll>
     <div class="hero-image" ng-if='doneLoading'>
         <div class="hero-icons">
         <i class="image-icon icon ion-ios-plus-outline small-plus" ui-sref="tab.pictureTaker"></i>
