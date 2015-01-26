@@ -110,6 +110,12 @@ serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail, myPosition.
 
 There is a lot of localstorage use in the callback, which is the reason it is not displayed above. Basically it is about storing all required values for a later use in the localstorage. These are: User ID, Credentials (required for a login without a password), visible status and pushnotification status. The use of all the variables will be explained in this documentation. After all values are stored, the user is redirected to the home tab. If the E-Mailadress, which was used, is already assigned to an account, or if (however) the passwords were not identical, some error messages appear on the HTML-site. Due the knowledge of the own password is critical for the further use of the app, there was so much effort in storing the correct passwords.
 
+#Login
+
+The HTML-page of the login screen works pretty similar to the registration screen. This form does not change its color as response to the user's input. But there is also an AngularJS-vaidation in the background, which prevents the user from clicking the login button, without any credentials entered. This is implemented by the ``$watch`` function as well.
+
+As soon as the user enters the login page, a credential validation starts. In case the user was already signed in on the device, a credential is stored in the local storage. The credential is a session key, which is associated with the user on the server. This is nothing else than an automatic login, without the use of cookies. In case there is a session key, the user will immediately redirected to the home tab. The validation itself is pretty fast, which means the user shouldn't notice that the displayed screen is actually the login screen. If the controller can't find a session key, nothing happens and the user has to enter E-Mail and password. If the user presses the login button, a validation of the E-Mail address and the password will be executed on the server. In case of a positive response local storage variables will be set, in case they were undefined. If there are any entries in the local storage which correspond to the user's settings, the app pays respect to the user's choice and doesn't change the status. If there are no settings stored, the default values will be chosen. After the entering of local storage variables a session key will be stored, after that, the user will be redirected to the home screen.
+
 #Facebook Integration
 
 **General configuration**
@@ -496,7 +502,9 @@ The three functions of $scope: saveImage(), discardImage() and addFBProfilePictu
 -   discardImage just removes the image from §scope.shownImage and sets $scope.hasPicture to 'false'
 -   addFBProfilePicture uses a function declared in `Services.js`. Read the documentation of the this file for more information
 
+#Coins and Benefits
 
+<<<<<<< HEAD
 #Photos Gallery
 
 On the screen "Your photos" photos of the user are shown, can be deleted, added or set as Profile Picture. If the user has no pictures at all, just a big plus sign is shown redirecting to the PictureTaker screen.
@@ -679,3 +687,58 @@ function checkIfProfilePhotoIsShown(){
      {$scope.profilePhotoIsShown = false};
  }
 ````
+=======
+To make the game itself even more interesting and to provide some little extras to the players who do several games, it is possible to get coins through playing. (To get further information to the point system, go to chapter "Feedback".
+
+#Feedback after games
+
+The actual process to gather coins - which makes it possible to buy benefits - is after a game. Every game has to be rated. Its rating is stored on the server. The home tab detects, whether there are not rated games and redirects the user to the feedback page. To gurantee fast feedbacks, the users have to choice to deny the redirect to the feedback page. Just a notice is displayed on the screen. Both players in a game have to rate each other, after a game. 
+
+The HTML-code consists of three areas: first, a general part, which displays the number of the not rated games and distinguish in its grammar between singluar and plural. Second, a basic question, if there was any contact between the two players (it could have happened that both players missed each other). Third, a simple to understand star rating, which is only displayed, if the user is claims to have contact with the other player. The star rating is implemented in javascript, using the ionicons icon set as graphical representation. The locial function of the stars is stored in a JSON, which is defined in the controller. The stars appear on the screen, using ``ng-repeat="..."``. E.g.:
+
+````html
+<span ng-repeat="star in starsQuestion2">
+    <i class="icon {{star.icon}}" ng-click="{{star.action}}"></i>
+</span>
+````javascript
+$scope.starsQuestion2 = [
+        {
+            id: 0,
+            action: 'rateQuestion2(1)',
+            icon: 'ion-ios-star-outline'
+       }, {
+       ...
+       }
+       ]
+````
+
+As soon as the user enters the feedback page, his ID is read from the local storage. After that a server method is called to check, if there are any open games available. This is necessary due the support of android devices, which have a back button. In case the user just was on the feedback page and presses this back button after the redirecting to the home tab, it would be possible to get to the feedback page, without any feedbacks. The result would be a loop of feedbacks, to no player. In case there are no feedbacks, the user is redirected to the home tab. In case there any feedbacks, the actual feedback process begins.
+
+First all feedbacks are stored in a local array. Afer that nothing happens, until the user claims to either have had contact with the menitoned person, or not. In case there was no contact, the whole process in aborted and the game is marked as rated on the server. The player doesn't get any points.
+If there was a contact, the contact question disappears. After that the only way out of the feedback process is rating the other player. After commiting that there was a contact, the other player automaticly gains five points. The rating of the following questiones ("Was the profile picture up to date?" and "How did you like the contact at all?") is implemented by the mentioned star rating. The questions can be answered through giving one to five stars. Every star symbolizes one point. This results in a maximum feedback value with 15 and a minumum value of seven, if there was a contact. Every star comes with its predefined function, like shown above. The used javascript code is pretty similar for both questiones:
+````javascript
+$scope.rateQuestion2 = function (x) {
+        for (var i = 0; i < $scope.starsQuestion2.length; i++) {
+            $scope.starsQuestion2[i].icon = 'ion-ios-star-outline';
+        }
+
+        $scope.question2 = x;
+        var selected = x - 1;
+
+        for (var i = 0; i < $scope.starsQuestion2.length; i++) {
+            if ($scope.starsQuestion2[i].id <= selected) {
+                $scope.starsQuestion2[i].icon = 'ion-ios-star';
+            }
+        }
+    }
+````
+Both loops are just for a resopnse to the user. The first one is for setting all stars to the outline mode, in case the user changes the rating for the question to a lower level, the second one is to replace all stars to the pressed one with filled ones. The current choice of the user is stored in a varible.
+
+After pressing the submit button, the evaluation starts. The user's rating is sent to the server:
+````javascript
+serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, finalScore, $scope.openGames[$scope.counter].gameId, sendStayInTouch, function (data) {
+...
+}
+````
+Inside the callback a check regarding the next position in the player array is done. In case there is another player, the name will be updated, all stars will be set to their outline form. In case there is no remaining feedback, the player is redirected to the home tab. The counter of the other player will update automatically.
+>>>>>>> origin/master

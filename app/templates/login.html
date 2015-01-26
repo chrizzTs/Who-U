@@ -3,9 +3,9 @@
         <div class="full">
             <div class="box">
                 <h1>Login</h1>
-                <form name="loginForm" id="loginForm" novalidate>
+                <form name="loginForm" novalidate>
                     <label class="item item-input">
-                        <input name="name" class="name" type="email" placeholder="E-Mail" ng-model="EMail" required>
+                        <input name="EMail" class="name" type="email" placeholder="E-Mail" ng-model="EMail" ng-minlength="5" required>
                     </label>
                     <label class="item item-input">
                         <input name="password" class="email" type="password" placeholder="Password" ng-model="password" required>
@@ -17,7 +17,7 @@
                         </center>
                     </div>
                 
-                    <button class="button button-balanced" ng-click="submit()" type="submit">Login</button>
+                    <button class="button button-balanced" ng-click="submit()" type="submit" ng-disabled="disabler">Login</button>
                 </form>
                 <button class="button button-positive" ng-click="facebookLogin()">
                     Login with Facebook
