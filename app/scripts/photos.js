@@ -100,6 +100,7 @@ angular.module('photos', [])
       })
     }
     
+//To check whether an image is the Profile Picture the method 'checkIfProfilePhotoIsShown()' is called. It compares '$scope.selectionPhotoId' to the Profile Picture ID. 
     function checkIfProfilePhotoIsShown(){
      if ($scope.selectionPhotoId == $scope.profilePhotoId)
      {$scope.profilePhotoIsShown = true} else

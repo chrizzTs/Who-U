@@ -74,6 +74,9 @@ services.factory('services', function ($window, serverAPI, $rootScope, $ionicPop
         
         addFBProfilePicture: function(){
             
+            
+        //get the Link to the facebook photo
+        //size: 380px x 380px
            openFB.api({
         path: '/me/picture',
         params: {
@@ -84,31 +87,27 @@ services.factory('services', function ($window, serverAPI, $rootScope, $ionicPop
         success: function(picture) {
             
            
-        
+        //Create a new image with the profile picture in it
         var facebookprofilePhoto = new Image();
 facebookprofilePhoto.src = picture.data.url;
     facebookprofilePhoto.width = 380;
     facebookprofilePhoto.height = 380;
     facebookprofilePhoto.setAttribute('crossorigin', 'anonymous');
+    
+    //draw the image on a canvas, which can consequently be saved into
+    //a data URL
      facebookprofilePhoto.onload = function(){
     console.log(facebookprofilePhoto);
-        console.log('ready');
-    var c = document.createElement('canvas');
-    c.setAttribute('width', '380');
-    c.setAttribute('height', '380');
-    var ctx = c.getContext("2d");
-            ctx.fillStyle = "rgb(200,0,0)";
-    ctx.drawImage(facebookprofilePhoto, 0, 0, 380, 380);
- var encodedImage = c.toDataURL('image/jpeg', 0.5);
-        console.log(encodedImage);
-         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
-         console.log(UID);
-            serverAPI.saveNewPhoto(UID, encodedImage, function(data){
-                console.log(data);
-                window.history.back();
+        var c = document.createElement('canvas');
+        c.setAttribute('width', '380');
+        c.setAttribute('height', '380');
+        var ctx = c.getContext("2d");
+        ctx.fillStyle = "rgb(200,0,0)";
+        ctx.drawImage(facebookprofilePhoto, 0, 0, 380, 380);
+        var encodedImage = c.toDataURL('image/jpeg', 0.5);
+        var UID =      JSON.parse(window.localStorage.getItem('Credentials')).UID;
+         serverAPI.saveNewPhoto(UID, encodedImage, function(data){
                 window.localStorage.setItem('facebookProfilePicture', JSON.stringify(data));
-                console.log('Facebook Photo saved');
-                //Facebook Photo saved
                 });
             
              

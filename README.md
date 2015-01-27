@@ -255,6 +255,44 @@ serverAPI.createNewUser($scope.user.first_name, 'facebook', $scope.user.id, myPo
                 });
 ````
 
+**Uploading the Profile Picture**
+
+The code for uploading the Facebook profile picture is written in the file `services.js`. The Profile Picture in Facebok is always public, so no special right has to be given for this method. First the Link to the picture is received with an API function of OpenFB.
+
+````javascript
+    openFB.api({
+        path: '/me/picture',
+        params: {
+            redirect: 'false',
+            width: '380',
+            height: '380',
+            fields: 'url'},
+        success: function(picture) {
+````
+
+Afterwards a new image variable is created with the profile picture as URL. This image is painted on a canvas, which can then be saved into a Data URL, thereby reducing the quality of the picture.
+
+
+````javascript
+  facebookprofilePhoto.onload = function(){
+    console.log(facebookprofilePhoto);
+        var c = document.createElement('canvas');
+        c.setAttribute('width', '380');
+        c.setAttribute('height', '380');
+        var ctx = c.getContext("2d");
+        ctx.fillStyle = "rgb(200,0,0)";
+        ctx.drawImage(facebookprofilePhoto, 0, 0, 380, 380);
+        var encodedImage = c.toDataURL('image/jpeg', 0.5);
+        var UID =      JSON.parse(window.localStorage.getItem('Credentials')).UID;
+         serverAPI.saveNewPhoto(UID, encodedImage, function(data){
+                window.localStorage.setItem('facebookProfilePicture', JSON.stringify(data));
+                });
+            
+             
+            
+        }
+    facebookprofilePhoto.src = picture.data.url;
+````
 #Uploading and Taking Pictures: PictureTaker Page
 
 The PictureTaker Page is designed to offer the user the ability to upload Pictures.
@@ -685,6 +723,7 @@ function checkIfProfilePhotoIsShown(){
      {$scope.profilePhotoIsShown = true} else
      {$scope.profilePhotoIsShown = false};
  }
+
 ````
 #Coins and Benefits
 
