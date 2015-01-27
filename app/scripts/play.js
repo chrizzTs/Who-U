@@ -22,9 +22,9 @@ angular.module('play', ['serverAPI'])
 
     
         //load Game Information
-        $scope.fetchDataFromLocalStorage();
-        $scope.checkEnumeration();
-        $scope.loadImages();
+        fetchDataFromLocalStorage();
+        checkEnumeration();
+        loadImages();
         setTimeout(function(){
       $ionicSlideBoxDelegate.update();
   },1000);
@@ -42,20 +42,16 @@ angular.module('play', ['serverAPI'])
         
 //===============End: Load Play Screen =============================
 //===============Start: Game Information Methods ====================
-        $scope.fetchDataFromLocalStorage = function () {
-
+      function fetchDataFromLocalStorage() {
             $scope.name = window.localStorage.getItem('teammate');
-
             $scope.isEnumeration = window.localStorage.getItem('isEnumeration');
-
             $scope.task = window.localStorage.getItem('task');
-               
             $scope.teammateUID = window.localStorage.getItem('teammateUID');
         };
         
            //check if task is a enumeration and split it if is
 
-        $scope.checkEnumeration = function () {
+        function checkEnumeration (){
             if ($scope.isEnumeration == 0) {
                 $scope.tasklines = $scope.task;
 
@@ -68,45 +64,38 @@ angular.module('play', ['serverAPI'])
 
         };
         
-        $scope.loadImages = function(){
+        function loadImages(){
         
         serverAPI.getUserData($scope.teammateUID, function (data) {
-            console.log(data);
-
             $scope.photoIds = data.photoIds;
 
             if ($scope.photoIds.length > 0){
             
             var saveData = window.localStorage.getItem('saveData');
-            
-            if (saveData == 'true'){
-                var profilePhotoId= data.profilePhotoId;
-                serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), profilePhotoId, function (data) {
+            var profilePhotoId= data.profilePhotoId;
+                serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), data.profilePhotoId, function (data) {
                     console.log(data);
                     var imageJson = data;
 
 
                     $scope.slides.push(imageJson);
                     $ionicSlideBoxDelegate.update();
-                }) 
-            } else {
-            var counter =0;
+                      
                 
-            //loop for getting the image data of every photo
-            for (var i = 0; i < $scope.photoIds.length; i++) {
-                
-
-                serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), $scope.photoIds[i], function (data) {
+                if (saveData==false){
+                for (var i = 0; i < $scope.photoIds.length; i++){
+               if (i != profilePhotoId){ serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), $scope.photoIds[i], function (data) {
+                    
                     counter++;
-                    console.log(data);
 
 
                     $scope.slides.push(data);
                      $ionicSlideBoxDelegate.update();
-                    
-                })
-            }
-            }
+                    })}
+                }
+                }}) 
+            
+            
             } else {
                 var entry = {
                     'id' : 0,
@@ -162,7 +151,7 @@ angular.module('play', ['serverAPI'])
                     $scope.teammateUID = data.otherUserId;
                     $scope.name = data.username;
                     $scope.slides = new Array();
-                    $scope.loadImages();
+                    loadImages();
                     $scope.skipUser = 'false';
                     window.localStorage.setItem('skipUser', 'false');
                     //$scope.redraw();
