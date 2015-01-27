@@ -61,7 +61,6 @@ angular.module('play', ['serverAPI'])
                 var enumerationLines = $scope.task.slice(index + 1, $scope.task.length);
                 $scope.enumeration = enumerationLines.split(';');
             }
-
         };
         
         function loadImages(){
@@ -73,7 +72,9 @@ angular.module('play', ['serverAPI'])
             
             var saveData = window.localStorage.getItem('saveData');
             var profilePhotoId= data.profilePhotoId;
-                serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), data.profilePhotoId, function (data) {
+               
+//Profile Picture is alway loaded first
+            serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), data.profilePhotoId, function (data) {
                     console.log(data);
                     var imageJson = data;
 
@@ -81,7 +82,7 @@ angular.module('play', ['serverAPI'])
                     $scope.slides.push(imageJson);
                     $ionicSlideBoxDelegate.update();
                       
-                
+                //only if reduced data mode is not enabled
                 if (saveData==false){
                 for (var i = 0; i < $scope.photoIds.length; i++){
                if (i != profilePhotoId){ serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), $scope.photoIds[i], function (data) {

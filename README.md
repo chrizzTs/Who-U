@@ -725,6 +725,95 @@ function checkIfProfilePhotoIsShown(){
  }
 
 ````
+
+#Play Screen
+
+The play screen is heart of the game. Information of the other player, game instructions and the possibity to see a map is located in it. The code of the play screen is located in the files:
+    -templates/play-screen.html
+    -scripts/play.js
+    -styles/play.css
+
+The script of the play screen first loads all data of the other player, then images of the other player and lastly adds the benefit 'Skip User', if availables. 
+
+All information on the page is inserted to an Ionic card. Images of the other player are inserted into Ionic Slides so they can be swiped through easily. On the buttons on the bottom, the user can either see a map of himself on the other player or send a message to other player, that he cannot find him.
+
+**Game Information Methods**
+
+The method fetchDataFromLocalStorage loads all needed data from the local Storage. On the Home Screen all data of the other player was already fetched from the server, so that it's loading will not take any time here.
+
+````javascript
+     function fetchDataFromLocalStorage() {
+            $scope.name = window.localStorage.getItem('teammate');
+            $scope.isEnumeration = window.localStorage.getItem('isEnumeration');
+            $scope.task = window.localStorage.getItem('task');
+            $scope.teammateUID = window.localStorage.getItem('teammateUID');
+        };
+````
+
+checkEnumeration() validates the type of game instructions sent from the server, which can be either a text or an enumeration. If an enumeration was sent, the String is parted into bullet points.
+
+````javascript
+     function checkEnumeration (){
+            if ($scope.isEnumeration == 0) {
+                $scope.tasklines = $scope.task;
+
+            } else if ($scope.isEnumeration == 1) {
+                var index = $scope.task.indexOf(';');
+                $scope.tasklineOne = $scope.task.slice(0, index);
+                var enumerationLines = $scope.task.slice(index + 1, $scope.task.length);
+                $scope.enumeration = enumerationLines.split(';');
+            }
+        };
+````
+
+loadImages() loads all images of the other player from the server. The mode of practice is very similar to the Photo Gallery, so most of its explanation can be found there. A special thing about this method is, that always the profile picture is displayed first, so players will recognize the people they played with in the Home Screen and Chat Screen. Another special thing is the possible setting 'Reduce Data'. If this setting is enabled the user should have not got to load all pictures of the other player. Just the profile picture gets displayed. Therefor this setting has to be requested (by checking the localStorage). If no picture is available, an avatar should be displayed.
+
+````javascript
+ function loadImages(){
+        
+        serverAPI.getUserData($scope.teammateUID, function (data) {
+            $scope.photoIds = data.photoIds;
+
+            if ($scope.photoIds.length > 0){
+            
+            var saveData = window.localStorage.getItem('saveData');
+            var profilePhotoId= data.profilePhotoId;
+               
+//Profile Picture is alway loaded first
+            serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), data.profilePhotoId, function (data) {
+                    console.log(data);
+                    var imageJson = data;
+
+
+                    $scope.slides.push(imageJson);
+                    $ionicSlideBoxDelegate.update();
+                      
+                //only if reduced data mode is not enabled
+                if (saveData==false){
+                for (var i = 0; i < $scope.photoIds.length; i++){
+               if (i != profilePhotoId){ serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), $scope.photoIds[i], function (data) {
+                    
+                    counter++;
+
+
+                    $scope.slides.push(data);
+                     $ionicSlideBoxDelegate.update();
+                    })}
+                }
+                }}) 
+            
+            
+            } else {
+                var entry = {
+                    'id' : 0,
+                    'data' : 'img/cover.png'
+                }
+                $scope.slides.push(entry)
+            }
+        
+        
+        })}
+````
 #Coins and Benefits
 
 To make the game itself even more interesting and to provide some little extras to the players who do several games, it is possible to get coins through playing. (To get further information to the point system, go to chapter "Feedback".

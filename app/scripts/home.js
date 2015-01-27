@@ -2,8 +2,9 @@
 angular.module('home', ['services'])
 
 .controller('homeCtrl',
-    function ($scope, $rootScope, $interval, $timeout, $location, $state, services, serverAPI, $ionicPopup, cssInjector, $http, $stateParams) {
+    function ($scope, $rootScope, $interval, $timeout, $location, $state, services, serverAPI, $ionicPopup, cssInjector, $http, $stateParams, $ionicViewService) {
 
+        $ionicViewService.clearHistory();
         cssInjector.removeAll();
        $scope.isFacebookUser = window.localStorage.getItem('facebook');
     
