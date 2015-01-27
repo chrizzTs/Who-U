@@ -18,7 +18,6 @@ angular.module('registration', ['serverAPI'])
             if($scope.user.length>=5 && $scope.password1.length>=5 && $scope.password1==$scope.password2 && $scope.regForm.$valid==true){
                 $scope.disabler=false;
             }else{
-                console.log('else');
                 $scope.disabler=true;
             }
         }
@@ -26,7 +25,7 @@ angular.module('registration', ['serverAPI'])
         //Handling user submit
         $scope.submit = function () {
             if ($scope.password1 == $scope.password2) {
-                console.log('Formular wurde abgeschickt');
+                
                 //Catch GeoData to initialize useres position and to grant access to GPS.
                 //Grap geoLocation
                 var myPosition;
@@ -35,10 +34,9 @@ angular.module('registration', ['serverAPI'])
                         'longitude': geoData.coords.longitude,
                         'latitude': geoData.coords.latitude
                     }
-                    console.log('Daten die an den Server gehen:' + $scope.user + $scope.password1 + $scope.EMail + myPosition.longitude + myPosition.latitude);
                     
                     serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail, myPosition.longitude, myPosition.latitude, function (data) {
-                        console.log(data);
+                        console.error(data);
                         var check=parseInt(data);
                         
                         if(check==-2){
@@ -66,9 +64,7 @@ angular.module('registration', ['serverAPI'])
                     });
                 });
 
-            } else {
-                console.log('Fehler bei den Passwörtern');
-            }
+            } 
         };
 
         //Check if user name has at least 5 characters
@@ -101,7 +97,6 @@ angular.module('registration', ['serverAPI'])
                 $scope.showWarningPW2 = false;
                 $scope.enableButton();
             } else {
-                console.log('Sind ungleich');
                 $scope.showWarningEmpty = false;
                 $scope.showWarningPW2 = true;
             }

@@ -24,14 +24,13 @@ angular.module('coins', ['serverAPI'])
     
         $scope.getPopupMessage=function(contact){
             var choice=contact._id;
-            console.log(choice);
             
             //BenefitID has to be 2 because the getPopupMessage is just called, if x is already 2
             serverAPI.buyItem(UID, 2, 1, function (data) {
                 serverAPI.getUserData(UID, function (data) {
                     $scope.coins = data.coins;
                 });
-                console.log('buyItem: '+data);
+                
                 var purchaseSuccess = $ionicPopup.alert({
                     title: 'Success',
                     template: 'Your purchase was successfull.'
@@ -39,7 +38,7 @@ angular.module('coins', ['serverAPI'])
             });
             
             serverAPI.upgradeMessagesLeftCount(UID, choice, function(data){
-                console.log('upgradeMessages'+data);
+                console.error('upgradeMessages'+data);
             });
         }
 
@@ -56,8 +55,6 @@ angular.module('coins', ['serverAPI'])
 
             if (x == 1) {
                 //Skip user
-                console.log('ID = 1');
-                
                 var checkPurchase=window.localStorage.getItem('skipUser');
                 
                 if(checkPurchase===null || checkPurchase=='true'){
@@ -84,10 +81,9 @@ angular.module('coins', ['serverAPI'])
                 
             } else if (x == 2) {
                 //More chat messages
-                
+                //More chat messages
                 if ($scope.coins >= price) {
 
-                    console.log($rootScope.chatPartner);
                     $rootScope.chatPartner
                     
                     if($rootScope.chatPartner.length==0){
@@ -103,10 +99,6 @@ angular.module('coins', ['serverAPI'])
                         //title: 'Select a user you want to chat with',
                         scope: $scope,
                         
-                       });
-
-                       $scope.selectUsers.then(function(res) {
-                         console.log('Popup wurde ausgeführt!', res);
                        });
                 }
                                             
@@ -132,7 +124,6 @@ angular.module('coins', ['serverAPI'])
         }
         
         $scope.doneButton=function(){
-            console.log('in der Fkt');
             $scope.selectUsers.close();
         }
                         

@@ -827,8 +827,65 @@ As soon as the user clicks on the buy-button, the controller loads the right pri
 
 **Skip user**
 
-The skip user benefit makes it possible to skip the associated partner in the play screen, if the user wants to. 
+The skip user benefit makes it possible to skip the associated partner in the play screen, if the searching user wants to. Before a purchase is done and the coins are subtracted from the user's budget, the controller checks, if the user already purchased this benefit. The check is possible, since the status of this benefit (used or unused) is stored in local storage. The budget of the user is stored on the server and is retrieved from it. In case the user didn't purchased the benefit, a server method is called:
+````javascript
+if ($scope.coins >= price) {
+    serverAPI.buyItem(UID, x, 1, function (data) {
+        serverAPI.getUserData(UID, function (data) {
+            $scope.coins = data.coins;
+            var purchaseSuccess = $ionicPopup.alert({
+                title: 'Success',
+                template: 'Your purchase was successfull.'
+            });
+        });
+    });
+}
+````
 
+To ensure that users can only skip players, using this benefit, a timer is implemented in the home tab. This timer disables the search button for a specific time, after the play button has been pressed. Otherwise the user could press the done button, end the game with the suggested player and could start a new game with a different player immediately. The disabled button displays the number of remaining seconds until the enablement. The enablement itself is done by `$timeout`:
+````javascript
+$scope.searchButtonTimeout = function(){
+    var remainingTime=$scope.timeSearchButton-Date.now();
+
+    if(remainingTime<=0){
+        $scope.stop();
+    }else{
+        $scope.counter=parseInt(remainingTime/1000);
+    }
+
+    counterSearchButton = $timeout($scope.searchButtonTimeout,1000);
+}
+
+var counterSearchButton = $timeout($scope.searchButtonTimeout,0);
+
+$scope.stop = function(){
+    $rootScope.buttonDisable=false;
+    $rootScope.text='Search';
+    $timeout.cancel(counterSearchButton);
+    $scope.normalButton=true;
+    $scope.counterButton=false;
+    localStorage.removeItem('timeSearchButton')
+}
+
+````
+`$scope.counter` is the representation of the remaining time on the button. Since `$timeout` is working in ms, an adjustment is necessary. The function will be executed every second. The remaining time is the difference between the time in the future in which the button will be enabled (30 minutes, a timestamp is set, as soon as the button is pressed) and the current time. There were some tests in which the controller tested e.g. every minute, but these failed significantly. The result was a way to long response, which led to a disablement, which was longer than it actually should. A test, if the time for the enablement has come every second is the best compromise, to ensure a precise message.
+
+**Buy more Messages**
+
+The app offers all users the functionality to send messages to each other. The standard count of messages is 30 to each user. To send more messages to this specific contact, an upgrade has to be bought. The message upgrade will effect both users and upgrade their message amount for their chat. The idea behind this system is that users have to play, to send more messages to each other.
+
+If the user buys this benefit, a `$ionicpopup` appears. This popup is actually a HTML-page, which is shown as popup. With this, the popup can use AngularJS and the Ionic Framework and is able to use `$scope`- and `$rootScope`-functions and variables.  The code for the HTML-page is written in a separate file:
+````javascript
+$scope.selectUsers = $ionicPopup.show({
+    templateUrl: '../templates/popupMessages.html',
+    scope: $scope,
+
+});
+The popup reads the possible chat contacts from `$rootScope.chatPartner` and displays them. If the user purchases messages, a buy procedure is called, which is pretty much like the one shown above.
+
+**More points per Game**
+
+This benefit speeds the process of increasing the coin budget. It will stay active for the next ten games. The implementation of this feature is on server side. The client does only the buy procedure. The server recognizes the specific action through the ID, which is send to the server.
 
 #Feedback after games
 

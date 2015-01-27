@@ -20,7 +20,6 @@ angular.module('feedback', ['serverAPI'])
 
     $scope.openGames = [];
     serverAPI.getGamesToRate($scope.UID, function (data) {
-        console.log(data);
         
         if(data == -10){
             $state.go('tab.home');
@@ -121,7 +120,6 @@ angular.module('feedback', ['serverAPI'])
 
         $scope.question2 = x;
         var selected = x - 1;
-        console.log($scope.question2);
 
         for (var i = 0; i < $scope.starsQuestion2.length; i++) {
             if ($scope.starsQuestion2[i].id <= selected) {
@@ -137,7 +135,6 @@ angular.module('feedback', ['serverAPI'])
 
         $scope.question3 = x;
         var selected = x - 1;
-        console.log($scope.question3);
 
         for (var i = 0; i < $scope.starsQuestion3.length; i++) {
             if ($scope.starsQuestion3[i].id <= selected) {
@@ -160,13 +157,10 @@ angular.module('feedback', ['serverAPI'])
 
     $scope.changeUserChoiceContact = function () {
         if (stayInTouch == 'true') {
-            console.log('user hat keinen Bock auf dich');
             stayInTouch = 'false';
         } else if (stayInTouch == 'false') {
-            console.log('user steht auf dich');
             stayInTouch = 'true';
         }
-
     }
 
     $scope.evaluate = function () {
@@ -177,7 +171,6 @@ angular.module('feedback', ['serverAPI'])
         $scope.submitButtonText='Processing';
         $scope.enableSubmit(1);
         $scope.showForm=false;
-        console.log(finalScore);
 
         if (stayInTouch == 'true') {
             sendStayInTouch = 1;
@@ -187,11 +180,10 @@ angular.module('feedback', ['serverAPI'])
 
         //stayInTouch=1: keep contact; stayInTouch=0: no further contact
         serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, finalScore, $scope.openGames[$scope.counter].gameId, sendStayInTouch, function (data) {
-            console.log('Insert new rating: ' + data);
+            console.error('Insert new rating: ' + data);
 
             $scope.counter++;
             if ($scope.counter < $scope.openGames.length) {
-                console.log('Counter für games: ' + $scope.counter);
                 
                 $scope.showChoice = 'true';
         
@@ -225,11 +217,10 @@ angular.module('feedback', ['serverAPI'])
     $scope.notContacted = function () {
         //stayInTouch=1: keep contact; stayInTouch=0: no further contact
         serverAPI.insertNewRating($scope.openGames[$scope.counter].otherPlayerId, 0, $scope.openGames[$scope.counter].gameId, 0, function (data) {
-            console.log('No Contact, Score=0: ' + data);
+            console.error('No Contact, Score=0: ' + data);
 
             $scope.counter++;
             if ($scope.counter < $scope.openGames.length) {
-                console.log('Counter für games: ' + $scope.counter);
                 
                 $scope.showChoice = 'true';
         

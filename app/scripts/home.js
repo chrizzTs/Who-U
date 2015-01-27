@@ -24,35 +24,23 @@ angular.module('home', ['services'])
         $scope.normalButton=true;
         $scope.counterButton=false;
     }else{
-        console.log('in der else');
         //Counter has the value of the diable timout for SearchButton in Minutes
         $scope.normalButton=false;
         $scope.counterButton=true;
         
-        //$scope.counter = 3;
-        
         $scope.searchButtonTimeout = function(){
-            //$scope.counter--;
             var remainingTime=$scope.timeSearchButton-Date.now();
-            //window.localStorage.setItem('timeSearchButton', remainingTime);
             
             if(remainingTime<=0){
                 $scope.stop();
             }else{
-                //Divided through 60,000ms, to get a result in minutes
-                //$scope.counter=Math.round(remainingTime/60000);
                 $scope.counter=parseInt(remainingTime/1000);
             }
             
-            //reduce counter after every 30s (=30,000)
+            //reduce counter after every second
             counterSearchButton = $timeout($scope.searchButtonTimeout,1000);
-            
-            //$rootScope.text='Disabled for {{counter}} minutes';
-            
-            
         }
         var counterSearchButton = $timeout($scope.searchButtonTimeout,0);
-
     
         $scope.stop = function(){
             $rootScope.buttonDisable=false;
@@ -153,20 +141,7 @@ function getUserData(){
         serverAPI.getGamesToRate(UID,  function getGamesToRate(data) {
             //Check if there are any new feedback sheets availalbe
             
-            if(data==-10){
-                //code?
-            }else{
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Feedback',
-                    template: 'There is a player that has not been rated yet. Please rate the player before you keep playing.'
-                });
-
-
-                alertPopup.then(function (res) {
-                    $state.go('feedback');
-                });
-            }
-            /*if (typeof data === 'object' ){
+            if (typeof data === 'object' ){
                 var alertPopup = $ionicPopup.alert({
                     title: 'Feedback',
                     template: 'There is a player that has not been rated yet. Please rate the player before you keep playing.'
@@ -181,7 +156,7 @@ function getUserData(){
             }else if(data != -10){
                 
                 console.error("Error: getGamesToRate: " + data)
-            }*/
+            }
         });
 
 

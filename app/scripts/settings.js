@@ -47,18 +47,16 @@ angular.module('settings', ['services'])
             visible = 'false';
             services.endBackgroundGps();
             serverAPI.changeModus(UID, 0, function (data) {
-                console.log(data)
+                console.error(data)
             });
             window.localStorage.setItem('visible', 'false');
-            console.log('You are invisible');
         } else {
             visible = 'true';
             services.startBackgroundGps();
             serverAPI.changeModus(UID, 1, function (data) {
-                console.log(data)
+                console.error(data)
             });
             window.localStorage.setItem('visible', 'true');
-            console.log('You are visible');
         }
     };
 
@@ -71,17 +69,14 @@ angular.module('settings', ['services'])
             services.enablePushNotification()
             pushNotifications = 'true';
             window.localStorage.setItem('pushNotifications', 'true');
-            console.log('Ya like us');
         }
     }
 
     $scope.changeLoadJustOneImage = function () {
         if (saveData == 'true') {
-            //Code
             saveData = 'false';
             window.localStorage.setItem('saveData', 'false');
         } else if (saveData == 'false') {
-            //Code
             saveData = 'true';
             window.localStorage.setItem('saveData', 'true');
         }
@@ -95,7 +90,6 @@ angular.module('settings', ['services'])
                 });
         }
         if (credentials != null) {
-            console.log(credentials.UID);
             if (credentials.UID != null && credentials.UID != '') {
                 serverAPI.logout(credentials.UID, function (data) {
                     localStorage.clear();
@@ -127,16 +121,10 @@ angular.module('settings', ['services'])
                 });
                 }
     
-                    console.log('Go to hell');
                     serverAPI.deleteUser(UID, function(data){
-                        console.log('deleteUser '+data);
                         $scope.logout();
-                        //Macht keinen Sinn, da Weiterleitung schon in Logout erfolgt
-                        //window.location = '#/login';
                     });
                     
-                }else{
-                    console.log('Good choice');
                 }
             });   
     }
