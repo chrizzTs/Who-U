@@ -218,11 +218,13 @@ function getUserData(){
                         window.localStorage.setItem('task', data.task);
                         window.localStorage.setItem('teammateUID', data.otherUserId);
                         window.localStorage.setItem('gameId', data.gameId);
+                        
                         //Setting timestamp for search button
                         var now = Date.now();
                         var timeStamp = now + 120000;
                         $scope.timeSearchButton = timeStamp;
                         window.localStorage.setItem('timeSearchButton', timeStamp);
+                        
                         console.log("Teammate Data")
                         console.log(data)
                         var teammatePosition = {
