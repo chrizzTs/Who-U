@@ -43,7 +43,8 @@ Options for the returned pictures:
           encodingType: Camera.EncodingType.JPEG,
           destinationType: Camera.DestinationType.DATA_URL,
           sourceType: Camera.PictureSourceType.CAMERA,
-          correctOrientation: true
+          correctOrientation: true,
+            saveToPhotoAlbum: true
         });
 
         return q.promise;
@@ -72,7 +73,9 @@ Options for the returned pictures:
           encodingType: Camera.EncodingType.JPEG,
           destinationType: Camera.DestinationType.DATA_URL,
           sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
-          correctOrientation: true
+          correctOrientation: true,
+            targetWith: 380,
+            saveToPhotoAlbum: true
         });
 
         return q.promise;
@@ -125,7 +128,7 @@ Options for the returned pictures:
       PhoneCamera.getPicture().then(function(imageURI) {
         $scope.successfulGetPhoto(imageURI);
       }, function(err) {
-        console.err(err);
+        console.log(err);
       });
     };
 
@@ -134,7 +137,7 @@ Options for the returned pictures:
       PhoneAlbum.getPicture().then(function(imageURI) {
         $scope.successfulGetPhoto(imageURI);
       }, function(err) {
-        console.err(err);
+        console.log(err);
       });
     };
 
