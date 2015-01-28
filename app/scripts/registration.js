@@ -25,7 +25,7 @@ angular.module('registration', ['serverAPI'])
         //Handling user submit
         $scope.submit = function () {
             if ($scope.password1 == $scope.password2) {
-                
+                $scope.disabler=true;
                 //Catch GeoData to initialize useres position and to grant access to GPS.
                 //Grap geoLocation
                 var myPosition;

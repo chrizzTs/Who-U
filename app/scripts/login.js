@@ -48,6 +48,7 @@ angular.module('login', [])
 
         //Method to be called when credentials are inserted
         $scope.submit = function () {
+            $scope.disabler=true;
             //Login requires callback
             serverAPI.loginWithMail($scope.EMail, $scope.password, function (data) {
                 console.error(data);
