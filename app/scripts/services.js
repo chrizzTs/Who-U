@@ -332,7 +332,10 @@ facebookprofilePhoto.src = picture.data.url;
         
 } })
             
-    function onNotificationGCM (e) { 
+    function onNotificationGCM (e) {
+        
+        //var $ionicPopup = angular.injector(['ng', '$ionicPopup' ]);
+        
            console.log(e)
                 switch( e.event )
         {
@@ -340,37 +343,32 @@ facebookprofilePhoto.src = picture.data.url;
                 if ( e.regid.length > 0 )
                 {
                     console.log("Regid " + e.regid);
+                    var serverAPI = angular.injector(['ng', 'serverAPI']).get("serverAPI");
+                    var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID
                     serverAPI.insertPushId(UID, e.regid, function(result){
-                        if(result<0){
-                            console.error("Error callback insertPushId: "+ result)
-                        }else{
-                            window.localStorage.setItem('pushId', e.regid)
-                        }
-                    })
+                    if(result < 0){
+                        console.error("Error serverAPI.insertPushId: " + result);
+                    }
+                    });
+                   
+                   
+         
                 }
             break;
  
             case 'message':
-            if(e.payload.message == 'Be exited'){
-            $ionicPopup.alert({
+            if(e.payload.message == 'Be excited'){
+        /*    $ionicPopup.alert({
      title: 'Be excited!',
      template: 'Someone is seaching for you'
-   })
+   }) */
             }if( e.payload.message == 'Do something to help...'){
                 
-                $ionicPopup.alert({
+       /*         $ionicPopup.alert({
      title: 'You cannot be found!',
      template: 'Do something to help...'
-   });
+   }); */
                 
-            }else{
-                
-             $ionicPopup.alert({
-     title: 'New Message',
-     template: e.payload.message
-   });
-                  
-            $state.go('tab.chat-master')      
             }
             break;
  

@@ -83,7 +83,7 @@ angular.module('play', ['serverAPI'])
                     $ionicSlideBoxDelegate.update();
                       
                 //only if reduced data mode is not enabled
-                if (saveData==false){
+                if (saveData=='false'){
                 for (var i = 0; i < $scope.photoIds.length; i++){
                if (i != profilePhotoId){ serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), $scope.photoIds[i], function (data) {
                     

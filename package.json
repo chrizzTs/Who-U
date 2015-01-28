@@ -74,7 +74,6 @@
     "com.ionic.keyboard",
     "org.apache.cordova.camera",
     "https://github.com/phonegap-build/PushPlugin.git",
-    "org.apache.cordova.inappbrowser",
-    "com.phonegap.plugins.PushPlugin"
+    "org.apache.cordova.inappbrowser"
   ]
 }

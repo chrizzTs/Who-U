@@ -159,8 +159,6 @@ angular.module('login', [])
                 
                 
             serverAPI.createNewUser($scope.user.first_name, 'facebook', $scope.user.id, myPosition.longitude, myPosition.latitude, function (data) {
-                    //Add Facebook Profile Photo
-                    services.addFBProfilePicture();
                 
                 //Registration specific code. Copied from registration.js
                     console.log(data);
@@ -178,6 +176,9 @@ angular.module('login', [])
                     }
                     
                     $rootScope.login = true
+                    
+                       //Add Facebook Profile Photo
+                    services.addFBProfilePicture();
                     
                     //This time goToHome will be able to login the user and he continue to the Home-Screen.
                     $scope.goToHome();

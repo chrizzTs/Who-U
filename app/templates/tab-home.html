@@ -27,7 +27,7 @@
         <ion-scroll direction='y' style="height: 500px" >
             <ul class="animate-repeat" ng-repeat="entry in events">
 
-                <li class="item item-avatar">
+                <li class="item item-avatar" ng-if="enry.date == null">
                         <img ng-src="{{entry.profilPhoto}}">
                         <h2>Played with {{entry.user}}</h2>
                         <p>{{entry.date | date : 'MMMM dd, yyyy'}}</p>
