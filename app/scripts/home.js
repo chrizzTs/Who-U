@@ -19,7 +19,7 @@ angular.module('home', ['services'])
     $scope.counterButton;
     $scope.timeSearchButton = parseInt(window.localStorage.getItem('timeSearchButton'));
     
-    if(isNaN($scope.timeSearchButton)){
+    if(isNaN($scope.timeSearchButton) || $scope.timerSearchButton < Date.now()){
         //Var doesn't exist in local storage
         $scope.normalButton=true;
         $scope.counterButton=false;
@@ -48,7 +48,7 @@ angular.module('home', ['services'])
             $timeout.cancel(counterSearchButton);
             $scope.normalButton=true;
             $scope.counterButton=false;
-            localStorage.removeItem('timeSearchButton')
+            //localStorage.removeItem('timeSearchButton')
         }
         
     }
@@ -218,6 +218,11 @@ function getUserData(){
                         window.localStorage.setItem('task', data.task);
                         window.localStorage.setItem('teammateUID', data.otherUserId);
                         window.localStorage.setItem('gameId', data.gameId);
+                        //Setting timestamp for search button
+                        var now = Date.now();
+                        var timeStamp = now + 120000;
+                        $scope.timeSearchButton = timeStamp;
+                        window.localStorage.setItem('timeSearchButton', timeStamp);
                         console.log("Teammate Data")
                         console.log(data)
                         var teammatePosition = {
@@ -227,10 +232,10 @@ function getUserData(){
                         window.localStorage.setItem('teammatePosition', JSON.stringify(teammatePosition));
                         //TODO: data.fotoId => request foto from server
                         
-                        //Setting timestamp for search button
+                        /*//Setting timestamp for search button
                         var now = Date.now();
                         var timeStamp = now + 120000;
-                        window.localStorage.setItem('timeSearchButton', timeStamp);
+                        window.localStorage.setItem('timeSearchButton', timeStamp);*/
                         
                         
                         $state.go('tab.play-screen');
