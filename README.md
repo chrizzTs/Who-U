@@ -4,7 +4,8 @@ Who-U is a social gaming app that brings straingers together.
 The app helps breaking the ice by giving a hook for a conversation or an activity.
 
 #Getting started
-This app is a cross-platform app build with phonegap and ionic.
+This app is a cross-platform app build with phonegap and ionic. This repository includes the client, whereas the needed Back-End is discribed ([ here] (https://github.com/Mats77/WhoU-Backend))
+
 It is build by using the yeoman generator:ionic ([click here for more information] (https://github.com/diegonetto/generator-ionic))
 This link describes how to run the app and how to install it on your phone/emulate it by using Grunt.
 
@@ -63,7 +64,7 @@ The files are usually structured like this:
 The `services.js` is a factory which includes all methods that needs to be called from different javascript files. 
 It can be called by services.Method() and then runs the method in the `services.js`
 
-and the `serverAPI.js` differ from the others.
+The the `serverAPI.js` is also a factory which can be called by serverAPI.Method()  which enables each controller to communicate to the Back-End Server.
 
 #Registration
 
