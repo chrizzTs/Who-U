@@ -32,7 +32,7 @@ The pages that are injected in there always contain the same footer (only adjust
 The routing between different pages is performed by the angular framework. For more details see: http://ionicframework.com/docs/api/directive/ionNavView/
 
 The routing rules are managed by `scripts/app.js`
-The `app.js` controls which html template is called when the url changes and which javascript file is called for the template.
+The `app.js` controls which html template is called when the url changes and which JavaScript file is called for the template.
 
 
 **Html-Template:**
@@ -40,8 +40,8 @@ The folder `templates` includes all html files that are called by the `app.js`.
 
 
 **Scripts**
-The folder `scripts` includes all javascripts. All templates have their own javascript file.
-The main function of the javascript files is to provide a controller for each template which handles the user's interaction with the UI. It modifies the UI according to the Users's actions.
+The folder `scripts` includes all JavaScripts. All templates have their own JavaScript file.
+The main function of the JavaScript files is to provide a controller for each template which handles the user's interaction with the UI. It modifies the UI according to the Users's actions.
 The files are usually structured like this:
 
 ```javascript
@@ -129,13 +129,13 @@ To start openFB and initialize the connection of the app with Facebook, the foll
     openFB.init({appId: '339615032892277', tokenStore: window.localStorage});
 ````
 
-To make this connection possible the app has to be created on the official site 'developers.facebook.com'. On this website the site URL of this app has to be included as an allowed Websites (in this case 'http://localhost:8100/' for both Site URL on Mobile Site URL). Client Oauth Login has to be activated and Valid Oauth redirect URLs have to be added. Valid OAuth Redirect URI's for this app are:
+To make this connection possible the app has to be created on the official site 'developers.facebook.com'. On this website the site URL of this app has to be included as an allowed Websites (in this case 'http://localhost:8100/' for both Site URL on Mobile Site URL). Client OAuth Login has to be activated and Valid OAuth redirect URLs have to be added. Valid OAuth Redirect URI's for this app are:
 -   http://localhost:8100/oauthcallback.html (Desktop Login)
 -   https://www.facebook.com/connect/login_success.html (Mobile/Cordova Login)
 
 **Facebook Login**
 
-Either Facebook Login and Registration are started with the 'Login with Facebook' button on the Login Page. 
+Both Facebook Login and Registration are started with the 'Login with Facebook' button on the Login Page. 
 
 ````html
 <button class="button button-positive" ng-click="facebookLogin()">
@@ -143,7 +143,7 @@ Login with Facebook
 </button>
 ````
 
-From there on the function facebook.login() in `login.js` is called. It tries to login to Facebook with the openFB API and if it succeds, executes the function $scope.goToHome(), which will take the user to the Home-Screen if he has been logged in to Facebook before. In the scope variable, permissions could be written, that need to be given from Facebook. The Facebook integration just needs the connection to Facebook, the name and the Profile Picture of the user, which are  public so nothing has to be inserted here.
+From there on the function facebook.login() in `login.js` is called. It tries to login to Facebook with the openFB API and if it succeeds, executes the function $scope.goToHome(), which will take the user to the Home-Screen if he has been logged in to Facebook before. In the scope variable, permissions could be written, that need to be given from Facebook. The Facebook integration just needs the connection to Facebook, the name and the Profile Picture of the user, which are  public so nothing has to be inserted here.
 
 `````javascript
  $scope.facebookLogin = function () {
@@ -184,7 +184,7 @@ The callback does not end here, because the Facebook data is needed for the foll
 
 Facebook users are registered in the App with their Facebook ID as E-Mail address and 'facebook' as their password. If another user knows the Facebook ID of the user and this scheme, he can still not login in with the account, because the app only allows E-Mail addresses with the sign '@' when logging in the regular way.
 
-The function $scope.goToHome() tries to login with the given ID and 'facebook' as the password. If it does not succed, a new Facebook User will be created ($scope.createFacebookUser();). If it is possible, all needed data is inserted to localStorage and the sessionKey is set. For further information to this process, look at the regular login process.
+The function $scope.goToHome() tries to login with the given ID and 'facebook' as the password. If it does not succeed, a new Facebook User will be created ($scope.createFacebookUser();). If it is possible, all needed data is inserted to localStorage and the sessionKey is set. For further information to this process, look at the regular login process.
 
 ````javascript
 serverAPI.loginWithMail($scope.user.id, 'facebook', function (data) {
@@ -218,10 +218,10 @@ serverAPI.loginWithMail($scope.user.id, 'facebook', function (data) {
 Facebook Users are created with the function $scope.createFacebookUser in `login.js`. 
 
 First, the Geoposition is taken from the user because it is needed for the registration. Then a new user is created with the Server API Method createNew User (look in Server Documentation for more information to this). A new user is created with
--Username:  First name in Facebook
--Password:  'facebook'
--E-Mail:    Facebook ID
--Current Position
+-   Username:  First name in Facebook
+-   Password:  'facebook'
+-   E-Mail:    Facebook ID
+-   Current Position
 
 First the Facebook Profile Photo is added to the account with the function services.addFBProfilePicture(); Look at the Services Documentation for more Information. 
 
@@ -257,7 +257,7 @@ serverAPI.createNewUser($scope.user.first_name, 'facebook', $scope.user.id, myPo
 
 **Uploading the Profile Picture**
 
-The code for uploading the Facebook profile picture is written in the file `services.js`. The Profile Picture in Facebok is always public, so no special right has to be given for this method. First the Link to the picture is received with an API function of OpenFB.
+The code for uploading the Facebook profile picture is written in the file `services.js`. The Profile Picture in Facebook is always public, so no special right has to be given for this method. First the Link to the picture is received with an API function of OpenFB.
 
 ````javascript
     openFB.api({
@@ -320,14 +320,14 @@ In the Configuration of the Angular Module the Sanitization Whitelist of images 
 
 Two factories load pictures ansynchronously from the Camera or PhoneAlbum.
 These interfaces to the functions of the device are implemented with the Cordova plugin: org.apache.cordova.camera.
-The options for the returned picture are saved in last block of the getPicture(options) function, which is a function of 
+The options for the returned picture are saved in the last block of the getPicture(options) function, which is a function of 
 Cordova Camera API
 
 Options for the returned pictures:
 -   quality is set to 50 to downscale the picture in order to be small enough for posting it to the server
--   encodingtype is set to JPEG because JPEGs are very small and can be downcaled easily
+-   encodingtype is set to JPEG because JPEGs are very small and can be downscaled easily
 -   destinationtype is set to DATA_URL. Due to that photos are saved in a Base64 encoded URI, which can be sent as
-    a string to the server and received as a string
+    a string to the server and received as a string.
 -   sourceType is either set to CAMERA or SAVEDPHOTOALBUM depending on the factory
 -   correctOrientation is set to true, so that horizontal images are displayed horizontally and vertical images are 
     displayed vertically
@@ -427,7 +427,7 @@ As an example the $scope.getCameraPhoto() method is shown here
 
 The method uses the described factories for downloading the images asynchronously. If the download succeeds, variables for the following pictureCropping are set. PictureCropped is set to false so that the user cannot save the image before cropping it. Afterwards the Cropping function starts.
 
-**Image Cropping
+**Image Cropping**
 
 For Image Cropping, the angular module "ngImgCrop" is used. The Github site for this module is: https://github.com/alexk111/ngImgCrop
 
@@ -483,7 +483,7 @@ It is embedded at the bottom of pictureTaker.html.
             </ion-content>
         </div>
     </script>
-````html
+````
 
 For Image Cropping it is important to set the original image to a defined size, absolute or relative. This is done with the following:
 
@@ -509,7 +509,7 @@ For Image Cropping it is important to set the original image to a defined size, 
 
 It uses the variables which have been explained in the Variables Part of this chapter.
 
-Important apart from these are the the three attributed of the img-crop element:
+Important apart from these are the three attributed of the img-crop element:
 -   area-type: is set to "square" to cut out a square part from the original image
 -   result-image-size: Is set to 360 to downscale the image but not too small to identify the user
 -   onChange: $dataURI object is given with the last cached cropped image. It is further processed in the changeImage function.
@@ -538,7 +538,7 @@ In $scope.endCropping the image is saved into $scope.shownImage, which is the im
 **Image Option Buttons**
 The three functions of $scope: saveImage(), discardImage() and addFBProfilePicture() allow the user to save an image, discard an image order add the user's Facebook Profile Picture to his account (only when logged in with Facebook).
 -   saveImage uses the Server API "saveNewPhoto". For more Information look at the function in the Server documentation
--   discardImage just removes the image from §scope.shownImage and sets $scope.hasPicture to 'false'
+-   discardImage just removes the image from $scope.shownImage and sets $scope.hasPicture to 'false'
 -   addFBProfilePicture uses a function declared in `Services.js`. Read the documentation of the this file for more information
 
 
@@ -588,9 +588,9 @@ $scope.selectionPhotoId is its ID. Both are changed when the user clicks on a th
 
 **Function loadImages()**
 
-The function loadImages() loads all images from the server to the user. It saves all images into a JSON array named 'scope.images'. In every JSON in this arry, the ID of a picture and the data of the picture is stored. 
+The function loadImages() loads all images from the server to the user. It saves all images into a JSON array named 'scope.images'. In every JSON in this array, the ID of a picture and the data of the picture is stored. 
 
-To find out, which pictures a user has saved, the Server API Method "getUserData" is called. It gives the client an arry of Photo IDs saved and the ID of the Profile Picture of the user. Every further procedure have to be written into the callback, because they are dependent on this information.
+To find out, which pictures a user has saved, the Server API Method "getUserData" is called. It gives the client an array of Photo IDs saved and the ID of the Profile Picture of the user. Every further procedure has to be written into the callback, because they are dependent on this information.
 
 ````javascript
      serverAPI.getUserData(UID, function(data) {
@@ -598,7 +598,7 @@ To find out, which pictures a user has saved, the Server API Method "getUserData
         $scope.photoIds = window.localStorage.getItem('photoIds');
 ````
 
-When all images have been loaded, they are stored in the localStorage as well, to reduce time and network usage when entering this screen again. To check whether the images are in localStorage already they are loaded from loalStorage first.
+When all images have been loaded, they are stored in the localStorage as well, to reduce time and network usage when entering this screen again. To check whether the images are in localStorage already, they are loaded from loalStorage first.
 
 ````javascript
             $scope.localStorageImages = JSON.parse(window.localStorage.getItem('userPhotos'));
@@ -635,7 +635,7 @@ Lastly there is a validation if the user has any pictures at all. If not, the lo
 
 **Functions checkIfPhotoIsInLocalStorage() and getImageFromServer()**
 
-The functions checkIfPhotoIsInLocalStorage() and getImageFromServer() are similar to each other. They both load the a JSON containing the image and then save this entry into the $scope.images Array and localStorage. The second part is executed through the method 'saveEntryInImages(imageJson)'. 
+The functions checkIfPhotoIsInLocalStorage() and getImageFromServer() are similar to each other. They both load a JSON containing the image and then save this entry into the $scope.images Array and localStorage. The second part is executed through the method 'saveEntryInImages(imageJson)'. 
 
 ````javascript
     function saveEntryInImages(imageJson){
@@ -699,7 +699,7 @@ Pictures are deleted with the method '$scope.deletePhoto()'. It uses the Server 
     }
 ````
 
-To set an image as the profile Picture, the Server API function 'updateProfilPhoto' is called. The profilePicture is newely fetched from the server and again checked whether the profile Picture is currently shown. This time this validation will return true.
+To set an image as the profile Picture, the Server API function 'updateProfilPhoto' is called. The profilePicture is fetched again from the server and again checked whether the profile Picture is currently shown. This time this validation will return true.
 
 ````javascript
      $scope.setImageAsProfilePicture = function() {
@@ -728,12 +728,12 @@ function checkIfProfilePhotoIsShown(){
 
 #Play Screen
 
-The play screen is heart of the game. Information of the other player, game instructions and the possibity to see a map is located in it. The code of the play screen is located in the files:
-    -templates/play-screen.html
-    -scripts/play.js
-    -styles/play.css
+The play screen is the heart of the game. Information of the other player, game instructions and the possibity to see a map is located in it. The code of the play screen is located in the files:
+-   templates/play-screen.html
+-   scripts/play.js
+-   styles/play.css
 
-The script of the play screen first loads all data of the other player, then images of the other player and lastly adds the benefit 'Skip User', if availables. 
+The script of the play screen first loads all data of the other player, then images of the other player and lastly adds the benefit 'Skip User', if available. 
 
 All information on the page is inserted to an Ionic card. Images of the other player are inserted into Ionic Slides so they can be swiped through easily. On the buttons on the bottom, the user can either see a map of himself on the other player or send a message to other player, that he cannot find him.
 
@@ -891,7 +891,7 @@ This benefit speeds the process of increasing the coin budget. It will stay acti
 
 The actual process to gather coins - which makes it possible to buy benefits - is after a game. Every game has to be rated. Its rating is stored on the server. The home tab detects, whether there are not rated games and redirects the user to the feedback page. To gurantee fast feedbacks, the users have to choice to deny the redirect to the feedback page. Just a notice is displayed on the screen. Both players in a game have to rate each other, after a game. 
 
-The HTML-code consists of three areas: first, a general part, which displays the number of the not rated games and distinguish in its grammar between singluar and plural. Second, a basic question, if there was any contact between the two players (it could have happened that both players missed each other). Third, a simple to understand star rating, which is only displayed, if the user is claims to have contact with the other player. The star rating is implemented in javascript, using the ionicons icon set as graphical representation. The locial function of the stars is stored in a JSON, which is defined in the controller. The stars appear on the screen, using ``ng-repeat="..."``. E.g.:
+The HTML-code consists of three areas: first, a general part, which displays the number of the not rated games and distinguish in its grammar between singluar and plural. Second, a basic question, if there was any contact between the two players (it could have happened that both players missed each other). Third, a simple to understand star rating, which is only displayed, if the user is claims to have contact with the other player. The star rating is implemented in JavaScript, using the ionicons icon set as graphical representation. The locial function of the stars is stored in a JSON, which is defined in the controller. The stars appear on the screen, using ``ng-repeat="..."``. E.g.:
 
 ````html
 <span ng-repeat="star in starsQuestion2">
@@ -913,7 +913,7 @@ $scope.starsQuestion2 = [
 As soon as the user enters the feedback page, his ID is read from the local storage. After that a server method is called to check, if there are any open games available. This is necessary due the support of android devices, which have a back button. In case the user just was on the feedback page and presses this back button after the redirecting to the home tab, it would be possible to get to the feedback page, without any feedbacks. The result would be a loop of feedbacks, to no player. In case there are no feedbacks, the user is redirected to the home tab. In case there any feedbacks, the actual feedback process begins.
 
 First all feedbacks are stored in a local array. Afer that nothing happens, until the user claims to either have had contact with the menitoned person, or not. In case there was no contact, the whole process in aborted and the game is marked as rated on the server. The player doesn't get any points.
-If there was a contact, the contact question disappears. After that the only way out of the feedback process is rating the other player. After commiting that there was a contact, the other player automaticly gains five points. The rating of the following questiones ("Was the profile picture up to date?" and "How did you like the contact at all?") is implemented by the mentioned star rating. The questions can be answered through giving one to five stars. Every star symbolizes one point. This results in a maximum feedback value with 15 and a minumum value of seven, if there was a contact. Every star comes with its predefined function, like shown above. The used javascript code is pretty similar for both questiones:
+If there was a contact, the contact question disappears. After that the only way out of the feedback process is rating the other player. After commiting that there was a contact, the other player automaticly gains five points. The rating of the following questiones ("Was the profile picture up to date?" and "How did you like the contact at all?") is implemented by the mentioned star rating. The questions can be answered through giving one to five stars. Every star symbolizes one point. This results in a maximum feedback value with 15 and a minumum value of seven, if there was a contact. Every star comes with its predefined function, like shown above. The used JavaScript code is pretty similar for both questiones:
 ````javascript
 $scope.rateQuestion2 = function (x) {
         for (var i = 0; i < $scope.starsQuestion2.length; i++) {
