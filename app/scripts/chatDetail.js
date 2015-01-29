@@ -1,54 +1,54 @@
 var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'angularMoment'])
 
 
-.controller('chatDetailCtrl', 
-  function ($scope, $rootScope, $state, $stateParams, services,
+.controller('chatDetailCtrl',
+    function ($scope, $rootScope, $state, $stateParams, services,
         $ionicActionSheet, $ionicScrollDelegate, $timeout, $interval, cssInjector, serverAPI) {
 
         cssInjector.add('styles/chatDetail.css')
         $rootScope.hideFooter = true;
 
-    
+
         //Change intervall for retriving Messages to a faster intervall
         services.endMessageRetrivalTimerSlow();
         services.startMessageRetrivalTimerFast();
-      
-        
-    
-      
+
+
+
+
 
         //My Own data
         var UID = JSON.parse(window.localStorage.getItem('Credentials')).UID;
         var pictue = window.localStorage.getItem('myProfilePicture')
-      
+
         $scope.user = {
             _id: UID,
             profilPhoto: window.localStorage.getItem('myProfilePicture'),
             username: window.localStorage.getItem('myUsername')
         };
-      
-    //Find out how many messages are left to send:
-      serverAPI.getMessagesLeft(UID, $rootScope.chatPartner[$stateParams.id]._id, function(msgCount){
-          if(msgCount >=0){
-                  $scope.msgCount = msgCount;
-          }else{
-              console.error("Error receive messageCount: " + msgCount)
-          }
-      
-      })
-      
-            //When leaving ChatDetail execute:
-        $scope.$on("$destroy", function(){
+
+        //Find out how many messages are left to send:
+        serverAPI.getMessagesLeft(UID, $rootScope.chatPartner[$stateParams.id]._id, function (msgCount) {
+            if (msgCount >= 0) {
+                $scope.msgCount = msgCount;
+            } else {
+                console.error("Error receive messageCount: " + msgCount)
+            }
+
+        })
+
+        //When leaving ChatDetail execute:
+        $scope.$on("$destroy", function () {
             //Display Footer for other websites
- $rootScope.hideFooter = false;
+            $rootScope.hideFooter = false;
             //Change intervall to retrive messages to slower
             services.endMessageRetrivalTimerFast();
             services.startMessageRetrivalTimerSlow();
             //Save message count to local storage to identivy unread messages
-            window.localStorage.setItem('msgCount'+$rootScope.chatPartner[$stateParams.id]._id, $rootScope.chatPartner[$stateParams.id].messages.messages.length)
-});
-      
-      
+            window.localStorage.setItem('msgCount' + $rootScope.chatPartner[$stateParams.id]._id, $rootScope.chatPartner[$stateParams.id].messages.messages.length)
+        });
+
+
 
         //Saving typed messages that have not been sent to local storage and to initialize them when the chat is reopened.
         $scope.input = {
@@ -61,19 +61,19 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
         var scroller;
         var txtInput; // 
 
-        
 
-    
-    
-    $scope.id = $stateParams.id;
-      
-    //Init get messages  
-    services.getChatPartner(function(){
-        $scope.doneLoading = true;
-    })    
-    
-  
-      
+
+
+
+        $scope.id = $stateParams.id;
+
+        //Init get messages  
+        services.getChatPartner(function () {
+            $scope.doneLoading = true;
+        })
+
+
+
 
 
         //Saving input Message to local Storage
@@ -84,19 +84,23 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
 
         //Send message to Server
         $scope.sendMessage = function (sendMessageForm) {
-            
-            $scope.msgCount --;
 
-           $rootScope.chatPartner[$stateParams.id].messages.messages.push({'message':$scope.input.message, 'timeStamp': new Date(), 'userSent': UID});
-            
+            $scope.msgCount--;
+
+            $rootScope.chatPartner[$stateParams.id].messages.messages.push({
+                'message': $scope.input.message,
+                'timeStamp': new Date(),
+                'userSent': UID
+            });
+
             $ionicScrollDelegate.scrollBottom();
-            
-            serverAPI.sendMessage(UID,  $rootScope.chatPartner[$stateParams.id]._id, $scope.input.message,  new Date(), function(result){
-                if(result < 0){
+
+            serverAPI.sendMessage(UID, $rootScope.chatPartner[$stateParams.id]._id, $scope.input.message, new Date(), function (result) {
+                if (result < 0) {
                     console.error("Erro sending Message: " + result)
                 }
             })
-                 $scope.input.message = '';
+            $scope.input.message = '';
         };
 
 
@@ -145,10 +149,10 @@ var chatDetail = angular.module('chatDetail', ['ionic', 'monospaced.elastic', 'a
             footerBar.style.height = newFooterHeight + 'px';
             scroller.style.bottom = newFooterHeight + 'px';
         });
-      
-      
-   
-})
+
+
+
+    })
 
 
 // fitlers
@@ -394,4 +398,3 @@ angular.module('monospaced.elastic', [])
         };
     }
   ]);
-

@@ -1,12 +1,12 @@
 <ion-view title="Who-U">
-    
-        <div class="loader-center" ng-if="!doneLoading">
+
+    <div class="loader-center" ng-if="!doneLoading">
         <div class="loader">
             <i class="icon ion-loading-c"></i>
         </div>
     </div>
 
-    
+
     <ion-content class="padding">
         <a class="item item-thumbnail-left" ui-sref="tab.photos">
             <img ng-src="{{profilePicture}}">
@@ -24,14 +24,14 @@
                 <i class='{{buttonType}}'></i>Disabled for {{counter}} seconds
             </button>
         </div>
-            <ul class="animate-repeat" ng-repeat="entry in events">
+        <ul class="animate-repeat" ng-repeat="entry in events">
 
-                <li class="item item-avatar" ng-if="enry.date == null">
-                        <img ng-src="{{entry.profilPhoto}}">
-                        <h2>Played with {{entry.user}}</h2>
-                        <p>{{entry.date | date : 'MMMM dd, yyyy'}}</p>
-                </li>
-            </ul>
+            <li class="item item-avatar" ng-if="enry.date == null">
+                <img ng-src="{{entry.profilPhoto}}">
+                <h2>Played with {{entry.user}}</h2>
+                <p>{{entry.date | date : 'MMMM dd, yyyy'}}</p>
+            </li>
+        </ul>
         <div>
 
     </ion-content>
