@@ -86,8 +86,6 @@ angular.module('play', ['serverAPI'])
                 if (saveData=='false'){
                 for (var i = 0; i < $scope.photoIds.length; i++){
                if (i != profilePhotoId){ serverAPI.getPhoto(window.localStorage.getItem('teammateUID'), $scope.photoIds[i], function (data) {
-                    
-                    counter++;
 
 
                     $scope.slides.push(data);

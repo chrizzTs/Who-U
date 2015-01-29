@@ -121,7 +121,7 @@ The fact that the login screen checks the stored credentials, make it to the def
 
 **General configuration**
 
-The app uses `openfb.js`. This is a microlibrary which integrates Javascript applications with Facebook. It was downloaded from https://github.com/ccoenraets/OpenFB. Therefor the Facebook SDK is not needed. 
+The app uses `openfb.js`. This is a microlibrary which integrates Javascript applications with Facebook. It was downloaded from https://github.com/ccoenraets/OpenFB. Therefore the Facebook SDK is not needed. 
 
 To start openFB and initialize the connection of the app with Facebook, the following line is added at the beginning of the Module 'Starter' in the .config to start directly when the app opens.
 
@@ -129,7 +129,7 @@ To start openFB and initialize the connection of the app with Facebook, the foll
     openFB.init({appId: '339615032892277', tokenStore: window.localStorage});
 ````
 
-To make this connection possible the app has to be created on the official site 'developers.facebook.com'. On this website the site URL of this app has to be included at allowd Websites. In this case 'http://localhost:8100/' for both Site URL on Mobile Site URL. Client Oauth Login has to be activated and Valid Oauth redirect URLs have to be added. Valid OAuth Redirect URI's for this app are:
+To make this connection possible the app has to be created on the official site 'developers.facebook.com'. On this website the site URL of this app has to be included as an allowed Websites (in this case 'http://localhost:8100/' for both Site URL on Mobile Site URL). Client Oauth Login has to be activated and Valid Oauth redirect URLs have to be added. Valid OAuth Redirect URI's for this app are:
 -   http://localhost:8100/oauthcallback.html (Desktop Login)
 -   https://www.facebook.com/connect/login_success.html (Mobile/Cordova Login)
 
@@ -218,10 +218,10 @@ serverAPI.loginWithMail($scope.user.id, 'facebook', function (data) {
 Facebook Users are created with the function $scope.createFacebookUser in `login.js`. 
 
 First, the Geoposition is taken from the user because it is needed for the registration. Then a new user is created with the Server API Method createNew User (look in Server Documentation for more information to this). A new user is created with
-    	-Username:  First name in Facebook
-        -Password:  'facebook'
-        -E-Mail:    Facebook ID
-        -Current Position
+-Username:  First name in Facebook
+-Password:  'facebook'
+-E-Mail:    Facebook ID
+-Current Position
 
 First the Facebook Profile Photo is added to the account with the function services.addFBProfilePicture(); Look at the Services Documentation for more Information. 
 
@@ -382,7 +382,7 @@ $scope.userImage = '';
     $scope.croppedUserImage = 'data:image/jpeg;base64,';
     //check if user is cropping
     $scope.isCurrentlyCropping = false;
-    //used to check if picture is cropped and user can save it therefor
+    //used to check if picture is cropped and user can save it therefore
     $scope.cropSpace = '';
     $scope.newImage = 'data:image/jpeg;base64,';
 ````
@@ -766,7 +766,7 @@ checkEnumeration() validates the type of game instructions sent from the server,
         };
 ````
 
-loadImages() loads all images of the other player from the server. The mode of practice is very similar to the Photo Gallery, so most of its explanation can be found there. A special thing about this method is, that always the profile picture is displayed first, so players will recognize the people they played with in the Home Screen and Chat Screen. Another special thing is the possible setting 'Reduce Data'. If this setting is enabled the user should have not got to load all pictures of the other player. Just the profile picture gets displayed. Therefor this setting has to be requested (by checking the localStorage). If no picture is available, an avatar should be displayed.
+loadImages() loads all images of the other player from the server. The mode of practice is very similar to the Photo Gallery, so most of its explanation can be found there. A special thing about this method is, that always the profile picture is displayed first, so players will recognize the people they played with in the Home Screen and Chat Screen. Another special thing is the possible setting 'Reduce Data'. If this setting is enabled the user should have not got to load all pictures of the other player. Just the profile picture gets displayed. Therefore this setting has to be requested (by checking the localStorage). If no picture is available, an avatar should be displayed.
 
 ````javascript
  function loadImages(){

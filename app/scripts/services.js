@@ -333,8 +333,8 @@ facebookprofilePhoto.src = picture.data.url;
 } })
             
     function onNotificationGCM (e) {
+    
         
-        //var $ionicPopup = angular.injector(['ng', '$ionicPopup' ]);
         
            console.log(e)
                 switch( e.event )
@@ -358,7 +358,7 @@ facebookprofilePhoto.src = picture.data.url;
  
             case 'message':
             if(e.payload.message == 'Be excited'){
-        /*    $ionicPopup.alert({
+          /* $ionicPopup.alert({
      title: 'Be excited!',
      template: 'Someone is seaching for you'
    }) */
