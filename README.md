@@ -97,11 +97,7 @@ $scope.$watch('password2', function () {
         });
 ````
 
-As soon as the user presses the registration button, the registration process is started. First, the user has to be located. This is required due the fact that the database saves the position of every user. The more a freshly initialized user should be able to participate in a game.
-
-[Part Christian: geolocation]
-
-After the location all required data is sent to the server using:
+As soon as the user presses the registration button, the registration process is started. First, the user has to be located. This is required due the fact that the database saves the position of every user. The more a freshly initialized user should be able to participate in a game. After the location all required data is sent to the server using:
 
 ````javascript
 serverAPI.createNewUser($scope.user, $scope.password1, $scope.EMail, myPosition.longitude, myPosition.latitude, function (data) {
