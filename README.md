@@ -1,5 +1,7 @@
 Who-U
 =====
+Link for presentation: http://slides.com/simon-graiff/whou#/
+=====
 Who-U is a social gaming app that brings straingers together. 
 The app helps breaking the ice by giving a hook for a conversation or an activity.
 
