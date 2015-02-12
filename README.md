@@ -1,8 +1,8 @@
 Who-U
 =====
-Link for presentation: http://slides.com/simon-graiff/whou#/
+Link for the presentation held in DHBW Mannheim: http://htmlpreview.github.io/?https://raw.githubusercontent.com/chrizzTs/Who-U/master/Presentation/slides-whou.html#/
 
-Who-U is a social gaming app that brings straingers together. 
+Who-U is a social gaming app that brings strangers together. 
 The app helps breaking the ice by giving a hook for a conversation or an activity.
 
 #Getting started
